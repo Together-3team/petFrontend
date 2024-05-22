@@ -1,10 +1,10 @@
-import { MouseEvent, useCallback, useRef, useState } from 'react';
+import { MouseEvent, useCallback, useRef } from 'react';
 
 export default function useDragScroll<T extends HTMLElement>() {
-  const scrollRef = useRef<T>(null);
-  const [isDrag, setIsDrag] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [startScroll, setStartScroll] = useState(0);
+  const containerRef = useRef<T>(null);
+  const isDragRef = useRef(false);
+  const startXRef = useRef(0);
+  const startScrollRef = useRef(0);
 
   const preventUnexpectedEffects = useCallback((e: Event) => {
     e.preventDefault();
@@ -14,26 +14,26 @@ export default function useDragScroll<T extends HTMLElement>() {
   const handleDragStart = (e: MouseEvent) => {
     e.preventDefault(); // 요소를 잡고 스크롤 할 때 요소가 드래그 앤 드롭 돼서 스크롤 되지 않는 현상 방지
 
-    if (!scrollRef.current) {
+    if (!containerRef.current) {
       return;
     }
 
-    setIsDrag(true);
-    setStartX(e.clientX + scrollRef.current.scrollLeft);
-    setStartScroll(scrollRef.current.scrollLeft);
+    isDragRef.current = true;
+    startXRef.current = e.clientX + containerRef.current.scrollLeft;
+    startScrollRef.current = containerRef.current.scrollLeft;
   };
 
   const handleDragEnd = () => {
-    if (!isDrag || !scrollRef.current) {
+    if (!isDragRef.current || !containerRef.current) {
       return;
     }
 
-    setIsDrag(false);
+    isDragRef.current = false;
 
-    const endScroll = scrollRef.current.scrollLeft;
+    const endScroll = containerRef.current.scrollLeft;
 
-    const childNodes = scrollRef.current.childNodes;
-    const dragDiff = Math.abs(startScroll - endScroll);
+    const childNodes = containerRef.current.childNodes;
+    const dragDiff = Math.abs(startScrollRef.current - endScroll);
 
     if (dragDiff > 5) {
       childNodes.forEach(child => {
@@ -50,15 +50,15 @@ export default function useDragScroll<T extends HTMLElement>() {
    * @todo 쓰로틀 or requestAnimationFrame 적용 필요
    */
   const handleDragMove = (e: MouseEvent) => {
-    if (!isDrag || !scrollRef.current) {
+    if (!isDragRef.current || !containerRef.current) {
       return;
     }
 
-    scrollRef.current.scrollLeft = startX - e.clientX;
+    containerRef.current.scrollLeft = startXRef.current - e.clientX;
   };
 
   return {
-    ref: scrollRef,
+    ref: containerRef,
     onMouseDown: handleDragStart,
     onMouseMove: handleDragMove,
     onMouseUp: handleDragEnd,
