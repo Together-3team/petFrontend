@@ -12,7 +12,7 @@ export default function useDragScroll<T extends HTMLElement>() {
   }, []);
 
   const handleDragStart = (e: MouseEvent) => {
-    e.preventDefault();
+    e.preventDefault(); // 요소를 잡고 스크롤 할 때 요소가 드래그 앤 드롭 돼서 스크롤 되지 않는 현상 방지
 
     if (!scrollRef.current) {
       return;
