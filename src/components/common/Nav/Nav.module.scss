@@ -1,6 +1,10 @@
 .container {
-  overflow-x: auto;
+  overflow-x: scroll;
   width: min(100%, 26.875rem);
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .nav {
