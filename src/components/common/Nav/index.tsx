@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
 import styles from './Nav.module.scss';
+import useDragScroll from '@/hooks/useDragScroll';
 
 const DUMMY_MENUS = [
   { id: 1, title: 'Home', url: '/' },
@@ -14,8 +15,10 @@ const DUMMY_MENUS = [
 ];
 
 export default function Nav() {
+  const dragScrollProps = useDragScroll<HTMLDivElement>();
+
   return (
-    <nav className={styles.container}>
+    <nav className={styles.container} {...dragScrollProps}>
       <ul className={styles.nav}>
         {DUMMY_MENUS.map(menu => (
           <li key={menu.id} className={styles.item}>
