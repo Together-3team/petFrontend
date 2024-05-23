@@ -2,9 +2,9 @@ import { MouseEvent, useCallback, useRef } from 'react';
 
 export default function useDragScroll<T extends HTMLElement>() {
   const containerRef = useRef<T>(null);
-  const isDragRef = useRef(false);
+  const isDraggingRef = useRef(false);
   const startXRef = useRef(0);
-  const startScrollRef = useRef(0);
+  const dragDiffRef = useRef(0);
 
   const preventUnexpectedEffects = useCallback((e: Event) => {
     e.preventDefault();
@@ -18,22 +18,19 @@ export default function useDragScroll<T extends HTMLElement>() {
       return;
     }
 
-    isDragRef.current = true;
+    isDraggingRef.current = true;
     startXRef.current = e.clientX + containerRef.current.scrollLeft;
-    startScrollRef.current = containerRef.current.scrollLeft;
+    dragDiffRef.current = 0;
   };
 
   const handleDragEnd = () => {
-    if (!isDragRef.current || !containerRef.current) {
+    if (!isDraggingRef.current || !containerRef.current) {
       return;
     }
 
-    isDragRef.current = false;
-
-    const endScroll = containerRef.current.scrollLeft;
-
+    isDraggingRef.current = false;
     const childNodes = containerRef.current.childNodes;
-    const dragDiff = Math.abs(startScrollRef.current - endScroll);
+    const dragDiff = dragDiffRef.current;
 
     if (dragDiff > 5) {
       childNodes.forEach(child => {
@@ -46,15 +43,14 @@ export default function useDragScroll<T extends HTMLElement>() {
     }
   };
 
-  /**
-   * @todo 쓰로틀 or requestAnimationFrame 적용 필요
-   */
   const handleDragMove = (e: MouseEvent) => {
-    if (!isDragRef.current || !containerRef.current) {
+    if (!isDraggingRef.current || !containerRef.current) {
       return;
     }
 
-    containerRef.current.scrollLeft = startXRef.current - e.clientX;
+    const scrollLeft = startXRef.current - e.clientX;
+    containerRef.current.scrollLeft = scrollLeft;
+    dragDiffRef.current += Math.abs(scrollLeft);
   };
 
   return {
