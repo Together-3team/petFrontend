@@ -1,8 +1,9 @@
-name: Vercel Fork Deploy
+name: Vercel Fork Deploy develop
 
 on:
   push:
-    branches: [develop]
+    branches:
+      - develop
 
 jobs:
   build:
@@ -19,7 +20,7 @@ jobs:
 
       - name: creates output
 
-        run: sh ./script/vercel-fork-build.sh
+        run: sh ./scripts/vercel-fork-build.sh
 
       - name: Pushes to another repository
 
