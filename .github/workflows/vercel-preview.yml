@@ -2,7 +2,9 @@ name: Vercel Preview
 
 on:
   pull_request:
-    branches: [develop]
+    branches:
+      - main
+      - develop
 
 jobs:
   vercel-preview:
