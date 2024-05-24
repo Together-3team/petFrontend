@@ -1,0 +1,36 @@
+.cart {
+  padding: 3rem;
+}
+
+.totalCheckbox {
+  display: flex;
+  gap: 0.8rem;
+  margin-bottom: 3rem;
+}
+
+.productImg {
+  width: 5.6rem;
+  height: 5.6rem;
+}
+
+.productBoxTop {
+  display: flex;
+  justify-content: space-between;
+}
+
+.productExplain {
+  display: flex;
+  margin: 1rem 1.5rem;
+  gap: 1rem;
+}
+
+.productTitle {
+  font-size: 1.4rem;
+  font-weight: 500;
+}
+
+.option {
+  font-size: 1.2rem;
+  color: #a7a7a7;
+  font-weight: 500;
+}
