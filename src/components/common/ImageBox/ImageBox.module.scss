@@ -1,0 +1,17 @@
+@layer components {
+  .imageBox {
+    position: relative;
+  }
+
+  .my {
+    width: 14.6rem;
+    height: 12.9rem;
+  }
+
+  .disabled {
+    position: absolute;
+    background-color: gray;
+    opacity: 50%;
+    z-index: 2;
+  }
+}
