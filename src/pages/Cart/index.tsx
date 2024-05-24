@@ -1,9 +1,19 @@
+import React, { useState } from 'react';
 import styles from './Cart.module.scss';
 import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
 export default function Cart() {
+  const [productNumber, setProductNumber] = useState(1);
+
+  const addProduct = () => {
+    setProductNumber(productNumber + 1);
+  };
+  const removeProduct = () => {
+    setProductNumber(productNumber - 1);
+  };
+
   return (
     <>
       <div className={styles.cart}>
@@ -29,6 +39,12 @@ export default function Cart() {
               <div className={styles.option}>강아지 독 리얼큐브 소고기 300g</div>
             </div>
           </div>
+          <div className={styles.counterButton}>
+            <button onClick={removeProduct}>-</button>
+            <input className={styles.productNumber} type="number" value={productNumber} readOnly />
+            <button onClick={addProduct}>+</button>
+          </div>
+          <div className={styles.productCost}>11800원</div>
         </div>
       </div>
     </>

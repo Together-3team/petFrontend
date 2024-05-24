@@ -34,3 +34,25 @@
   color: #a7a7a7;
   font-weight: 500;
 }
+
+.counterButton {
+  margin-left: 8rem;
+}
+
+.productNumber {
+  text-align: center;
+  width: 4.9rem;
+  border: none;
+  background-color: #efefef;
+}
+
+.productNumber:focus {
+  outline: none;
+}
+
+.productCost {
+  font-size: 1.8rem;
+  font-weight: 500;
+  margin-left: 8rem;
+  margin-top: 1.5rem;
+}
