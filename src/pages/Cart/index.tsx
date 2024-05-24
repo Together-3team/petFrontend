@@ -1,51 +1,31 @@
 import React, { useState } from 'react';
 import styles from './Cart.module.scss';
-import Image from 'next/image';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import Card from '@/components/cart/Card';
 
 export default function Cart() {
-  const [productNumber, setProductNumber] = useState(1);
+  // 더미 데이터
+  const products = [
+    { id: 1, productTitle: '강아지 간식 27종', option: '강아지 독 리얼큐브 소고기 300g', productCost: '11800원' },
+    { id: 2, productTitle: '강아지 간식 27종', option: '강아지 독 리얼큐브 소고기 500g', productCost: '20000원' },
+    { id: 3, productTitle: '고양이 간식 27종', option: '강아지 츄르 5스틱g', productCost: '11000원' },
+  ];
 
-  const addProduct = () => {
-    setProductNumber(productNumber + 1);
-  };
-  const removeProduct = () => {
-    setProductNumber(productNumber - 1);
-  };
-
+  console.log(products);
   return (
     <>
       <div className={styles.cart}>
         <div className={styles.totalCheckbox}>
           <input type="checkbox" name="totalCheck" />
-          <div className={styles.totalNumber}>전체 n개</div>
+          <div className={styles.totalNumber}>전체 {products.length}개</div>
         </div>
-        <div className={styles.oneCheckbox}>
-          <div className={styles.productBoxTop}>
-            <input type="checkbox" name="oneCheckbox" />
-            <FontAwesomeIcon icon={faXmark} />
-          </div>
-          <div className={styles.productExplain}>
-            <Image
-              className={styles.productImg}
-              width={56}
-              height={56}
-              src="/images/exampleProductImg.jpg"
-              alt="productImg"
-            />
-            <div>
-              <div className={styles.productTitle}>강아지 간식 27종</div>
-              <div className={styles.option}>강아지 독 리얼큐브 소고기 300g</div>
-            </div>
-          </div>
-          <div className={styles.counterButton}>
-            <button onClick={removeProduct}>-</button>
-            <input className={styles.productNumber} type="number" value={productNumber} readOnly />
-            <button onClick={addProduct}>+</button>
-          </div>
-          <div className={styles.productCost}>11800원</div>
-        </div>
+        {products?.map((product, index) => (
+          <Card
+            key={product.id}
+            productTitle={product.productTitle}
+            option={product.option}
+            productCost={product.productCost}
+          />
+        ))}
       </div>
     </>
   );
