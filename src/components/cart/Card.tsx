@@ -8,9 +8,11 @@ interface CardProps {
   productTitle: string;
   option: string;
   productCost: string;
+  isChecked: boolean;
+  onCheck: () => void;
 }
 
-export default function Card({ productTitle, option, productCost }: CardProps) {
+export default function Card({ productTitle, option, productCost, isChecked, onCheck }: CardProps) {
   const [productNumber, setProductNumber] = useState(1);
 
   const addProduct = () => {
@@ -27,7 +29,7 @@ export default function Card({ productTitle, option, productCost }: CardProps) {
     <>
       <div className={styles.oneCheckbox}>
         <div className={styles.productBoxTop}>
-          <input type="checkbox" name="oneCheckbox" />
+          <input type="checkbox" name="oneCheckbox" checked={isChecked} onChange={onCheck} />
           <FontAwesomeIcon icon={faXmark} />
         </div>
         <div className={styles.productExplain}>
