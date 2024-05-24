@@ -19,7 +19,7 @@ jobs:
 
       - name: creates output
 
-        run: sh ./build.sh
+        run: sh ./script/vercel-fork-build.sh
 
       - name: Pushes to another repository
 
