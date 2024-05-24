@@ -13,6 +13,7 @@ interface CardProps {
 }
 
 export default function Card({ productTitle, option, productCost, isChecked, onCheck }: CardProps) {
+  // 추후 백에서 장바구니에 담은 제품 갯수로 초기화하는 로직 추가
   const [productNumber, setProductNumber] = useState(1);
 
   const addProduct = () => {
@@ -20,8 +21,8 @@ export default function Card({ productTitle, option, productCost, isChecked, onC
   };
   const removeProduct = () => {
     setProductNumber(productNumber - 1);
-    if (productNumber <= 0) {
-      setProductNumber(0);
+    if (productNumber <= 1) {
+      setProductNumber(1);
     }
   };
 

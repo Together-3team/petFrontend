@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styles from './Cart.module.scss';
 import Card from '@/components/cart/Card';
-import { isSchema } from 'yup';
 
 export default function Cart() {
   // 더미 데이터
@@ -56,6 +55,32 @@ export default function Cart() {
             onCheck={() => handleProductCheck(product.id)}
           />
         ))}
+        <div className={styles.calculateContainer}>
+          <div className={styles.totalNumberTitle}>결제 상품 총 {products.length}개</div>
+          <div className={styles.individualCost}>
+            <div className={`${styles.pricePair} ${styles.gray}`}>
+              <div>원가</div>
+              <div>20000원</div>
+            </div>
+            <div className={styles.pricePair}>
+              <div>할인가</div>
+              <div>20000원</div>
+            </div>
+            <div className={styles.pricePair}>
+              <div>할인 금액</div>
+              <div>-0원</div>
+            </div>
+            <div className={styles.pricePair}>
+              <div>배송비</div>
+              <div>무료배송</div>
+            </div>
+          </div>
+          <div className={styles.line}></div>
+          <div className={styles.totalPrice}>
+            <div>총 결제 금액</div>
+            <div>20000원</div>
+          </div>
+        </div>
       </div>
     </>
   );
