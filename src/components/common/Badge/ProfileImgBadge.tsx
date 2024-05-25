@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import classNames from 'classnames/bind';
-import styles from './ProfileImaBadge.module.scss';
+import styles from './ProfileImgBadge.module.scss';
 
 interface ProfileImaBadgeProps {
   profileImage?: string;
