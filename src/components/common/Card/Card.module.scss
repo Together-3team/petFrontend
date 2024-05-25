@@ -1,3 +1,69 @@
-.tags {
+// 큰 카드에 사용하는 키프레임
+@keyframes move-big-words {
+  0% {
+    left: 0%;
+  }
+  100% {
+    left: calc(-1 * (var(--big-title-width) + 1rem));
+  }
+}
+
+//작은 카드에 사용하는 키프레임
+@keyframes move-small-words {
+  0% {
+    left: 0%;
+  }
+  100% {
+    left: calc(-1 * (var(--small-title-width) + 1rem));
+  }
+}
+
+.card {
+  text-decoration: none;
+  color: #000000;
+  display: inline-block;
+  overflow: hidden;
+}
+
+.cardImage {
+  position: relative;
+}
+
+.titleBox {
+  position: relative;
   display: flex;
+}
+
+.bigTitleInnerBox {
+  display: flex;
+  gap: 1rem;
+  position: absolute;
+  animation: move-big-words 5s linear infinite;
+}
+
+.smallTitleInnerBox {
+  display: flex;
+  gap: 1rem;
+  position: absolute;
+  animation: move-small-words 5s linear infinite;
+}
+
+.title {
+  float: left;
+  white-space: nowrap;
+}
+
+.originalPrice {
+  text-decoration: line-through;
+  margin: 0.4rem 0;
+}
+
+.discountedPrice {
+  display: flex;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+
+.discountRate {
+  color: #545454;
 }

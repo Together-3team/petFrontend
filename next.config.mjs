@@ -5,6 +5,15 @@ const nextConfig = {
     includePaths: ['styles'],
     additionalData: `@import "src/styles/globals.scss";`,
   },
+
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.chosun.com',
+      },
+    ],
+  },
 };
 
 export default nextConfig;
