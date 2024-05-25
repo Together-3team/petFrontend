@@ -57,7 +57,7 @@ export default function Card({ productInfo, wishList = false, direction = 'colum
         <div className={cx('titleBox')} style={{ height: size === 'big' ? '20px' : '12px' }}>
           <div className={cx(size === 'big' ? 'bigTitleInnerBox' : 'smallTitleInnerBox')}>
             <h3 className={cx('title')} ref={titleRef} style={{ fontSize: size === 'big' ? '14px' : '10px' }}>
-              {`${title}  `}
+              {title}
             </h3>
             <h3 className={cx('title')} style={{ fontSize: size === 'big' ? '14px' : '10px' }}>
               {title}
@@ -65,7 +65,7 @@ export default function Card({ productInfo, wishList = false, direction = 'colum
           </div>
         </div>
         <p className={cx('originalPrice')} style={{ fontSize: size === 'big' ? '12px' : '8px' }}>
-          {originalPrice}
+          {originalPrice}원
         </p>
         <div className={cx('discountedPrice')}>
           <p className={cx('discountRate')} style={{ fontSize: size === 'big' ? '16px' : '12px' }}>
@@ -76,7 +76,7 @@ export default function Card({ productInfo, wishList = false, direction = 'colum
           </p>
         </div>
         <div className={cx('star')}>
-          {/* <Image src={'/path/to/star-image.png'} alt="별" width={9.5} height={9.5} /> */}
+          <Image src={'/images/star.svg'} alt="별" width={9.5} height={9.5} />
           <p className={cx('starRating')} style={{ fontSize: size === 'big' ? '10px' : '8px' }}>
             {starRating}
           </p>

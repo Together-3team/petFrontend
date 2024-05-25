@@ -57,6 +57,8 @@
 .originalPrice {
   text-decoration: line-through;
   margin: 0.4rem 0;
+  font-weight: 500;
+  color: #beb9c6;
 }
 
 .discountedPrice {
@@ -67,4 +69,15 @@
 
 .discountRate {
   color: #545454;
+}
+
+.star {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0.4rem 0;
+}
+
+.starRating {
+  font-weight: 400;
 }
