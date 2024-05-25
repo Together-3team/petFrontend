@@ -1,4 +1,4 @@
-name: Vercel Fork Deploy develop
+name: Fork Deploy
 
 on:
   push:
