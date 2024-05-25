@@ -3,6 +3,7 @@ name: Vercel Fork Deploy develop
 on:
   push:
     branches:
+      - main
       - develop
 
 jobs:
@@ -12,7 +13,7 @@ jobs:
     container: pandoc/latex
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Install mustache (to update the date)
 
@@ -20,7 +21,13 @@ jobs:
 
       - name: creates output
 
-        run: sh ./scripts/vercel-fork-build.sh
+        run: sh ./scripts/fork-build.sh
+
+      - name: Determine target branch
+
+        id: determine_target_branch
+
+        run: echo "TARGET_BRANCH=${GITHUB_REF##*/}" >> $GITHUB_ENV
 
       - name: Pushes to another repository
 
@@ -42,7 +49,9 @@ jobs:
 
           commit-message: ${{ github.event.commits[0].message }}
 
-          target-branch: develop
+          target-branch: ${{ env.TARGET_BRANCH }}
+
+          create-target-branch-if-needed: true
 
       - name: Test get variable exported by push-to-another-repository
 
