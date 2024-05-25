@@ -47,11 +47,13 @@ export default function Card({ productInfo, wishList = false, direction = 'colum
 
   return (
     <Link href={`/product/${title}`} className={cx('card')} style={{ width: size === 'big' ? '140px' : '100px' }}>
-      <div className={cx('cardImage')}>
-        <Image src={thumbNailImage} alt={title} width={size === 'big' ? 140 : 100} height={100} />
+      <div
+        className={cx('cardImage')}
+        style={{ width: size === 'big' ? '140px' : '100px', height: size === 'big' ? '140px' : '100px' }}>
+        <Image src={thumbNailImage} alt={title} fill />
         {/* 찜하기 버튼 */}
       </div>
-      <div className={cx('cardContent')}>
+      <div className={cx('cardContent')} style={{ margin: size === 'big' ? '12px 0' : '4px 0' }}>
         <div className={cx('titleBox')} style={{ height: size === 'big' ? '20px' : '12px' }}>
           <div className={cx(size === 'big' ? 'bigTitleInnerBox' : 'smallTitleInnerBox')}>
             <h3 className={cx('title')} ref={titleRef} style={{ fontSize: size === 'big' ? '14px' : '10px' }}>
@@ -70,7 +72,7 @@ export default function Card({ productInfo, wishList = false, direction = 'colum
             {discountRate}%
           </p>
           <p className={cx('price')} style={{ fontSize: size === 'big' ? '16px' : '12px' }}>
-            {price}
+            {price}원
           </p>
         </div>
         <div className={cx('star')}>
