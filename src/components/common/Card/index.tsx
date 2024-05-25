@@ -82,8 +82,16 @@ export default function Card({ productInfo, wishList = false, direction = 'colum
           </p>
         </div>
         <div className={cx('tags')}>
-          {stock <= 10 && <Tag size={size === 'big' ? 'big' : 'small'}>재고 10개 미만</Tag>}
-          {reviewCount >= 100 && <Tag size={size === 'big' ? 'big' : 'small'}>리뷰 100개 이상</Tag>}
+          {stock <= 10 && (
+            <Tag size={size === 'big' ? 'big' : 'small'} type="stock">
+              10개 미만
+            </Tag>
+          )}
+          {reviewCount >= 100 && (
+            <Tag size={size === 'big' ? 'big' : 'small'} type="thumbs-up">
+              리뷰 100+
+            </Tag>
+          )}
         </div>
       </div>
     </Link>
