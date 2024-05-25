@@ -1,7 +1,7 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import InputLayout from '../common/Input/InputLayout';
+import Input from '../common/Input';
 
 interface NicknameInput {
   nickname: string;
@@ -26,13 +26,13 @@ export default function NicknameForm() {
   console.log(errors);
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <InputLayout
+      <Input
         id="nickname"
         type="text"
-        size="large"
+        size={'large'}
         label="닉네임"
         isError={errors.nickname && true}
-        labelStyle="label"
+        labelStyle={'label'}
         placeholder="닉네임을 입력해주세요"
         {...register('nickname')}
       />
