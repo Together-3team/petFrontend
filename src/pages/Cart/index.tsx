@@ -14,7 +14,7 @@ export default function Cart() {
   const [selectAll, setSelectAll] = useState(true); // 전체 체크 상태
 
   // selectAll 상태 반전
-  const handleSelectAll = () => {
+  function handleSelectAll() {
     setSelectAll(!selectAll);
 
     const updatedProducts = products.map(product => ({
@@ -23,10 +23,10 @@ export default function Cart() {
     }));
 
     setProducts(updatedProducts);
-  };
+  }
 
   // 개별 제품 체크박스 클릭 시 해당 제품 선택 상태 변경
-  const handleProductCheck = (id: number) => {
+  function handleProductCheck(id: number) {
     const updatedProducts = products.map(product =>
       product.id === id ? { ...product, isChecked: !product.isChecked } : product
     );
@@ -36,7 +36,7 @@ export default function Cart() {
     // 모든 제품의 선택 상태 확인
     const allChecked = updatedProducts.every(product => product.isChecked);
     setSelectAll(allChecked);
-  };
+  }
 
   return (
     <>

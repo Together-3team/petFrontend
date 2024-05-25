@@ -16,15 +16,15 @@ export default function Card({ productTitle, option, productCost, isChecked, onC
   // 추후 백에서 장바구니에 담은 제품 갯수로 초기화하는 로직 추가
   const [productNumber, setProductNumber] = useState(1);
 
-  const addProduct = () => {
+  function addProduct() {
     setProductNumber(productNumber + 1);
-  };
-  const removeProduct = () => {
+  }
+  function removeProduct() {
     setProductNumber(productNumber - 1);
     if (productNumber <= 1) {
       setProductNumber(1);
     }
-  };
+  }
 
   return (
     <>
