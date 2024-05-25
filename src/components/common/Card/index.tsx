@@ -75,7 +75,9 @@ export default function Card({ productInfo, wishList = false, direction = 'colum
         </div>
         <div className={cx('star')}>
           {/* <Image src={'/path/to/star-image.png'} alt="별" width={9.5} height={9.5} /> */}
-          <p className={cx('starRating')}>{starRating}</p>
+          <p className={cx('starRating')} style={{ fontSize: size === 'big' ? '10px' : '8px' }}>
+            {starRating}
+          </p>
         </div>
         <div className={cx('tags')}>
           {stock <= 10 && <Tag size={size === 'big' ? 'big' : 'small'}>재고 10개 미만</Tag>}
