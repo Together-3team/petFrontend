@@ -1,5 +1,11 @@
 import { useState } from 'react';
 
+export interface useModalProps {
+  modalOpen: boolean;
+  handleModalOpen: () => void;
+  handleModalClose: () => void;
+}
+
 export default function useModal() {
   const [modalOpen, setModalOpen] = useState(false);
 

@@ -1,11 +1,17 @@
 import { useState, useEffect } from 'react';
+import classNames from 'classnames/bind';
+import useModal from '@/hooks/useModal';
 import Input from '@/components/common/Input';
 import ModalPortal from '@/components/Portal';
-import BottomModal from '../../components/common/BottomModal';
+import BottomModal from '@/components/common/BottomModal';
 import Button from '@/components/common/Button';
+import styles from './My.module.scss';
+
+const cx = classNames.bind(styles);
 
 export default function My() {
   const [isClient, setIsClient] = useState(false);
+  const { modalOpen, handleModalOpen, handleModalClose } = useModal();
 
   useEffect(() => {
     setIsClient(true);
@@ -15,27 +21,24 @@ export default function My() {
     <>
       {isClient && (
         <ModalPortal>
-          <div
-            style={{
-              width: '100%',
-              height: '81.2rem',
-              paddingTop: '7rem',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '1rem',
-              alignItems: 'center',
-            }}>
+          <div className={cx('my')}>
             <Input id="이메일" type="email" label="이메일" size={'large'} background={'background'} placeholder=" " />
             <Input id="이름" type="text" label="이름" size={'large'} background={'background'} placeholder=" " />
-            <BottomModal>
-              <span>배송지를 삭제하시겠습니까?</span>
-              <div style={{ display: 'flex', gap: '1rem' }}>
-                <Button size="medium" backgroundColor="#FFFFFF" onClick={handleModalClose}>
-                  취소
-                </Button>
-                <Button size="medium" backgroundColor="#545454">
-                  삭제
-                </Button>
+            <BottomModal
+              className={cx('')}
+              modalOpen={modalOpen}
+              handleModalOpen={handleModalOpen}
+              handleModalClose={handleModalClose}>
+              <div className={cx('modalSize')}>
+                <span>배송지를 삭제하시겠습니까?</span>
+                <div className={cx('buttonArea')}>
+                  <Button size="medium" backgroundColor="#FFFFFF" onClick={handleModalClose}>
+                    취소
+                  </Button>
+                  <Button size="medium" backgroundColor="#545454">
+                    삭제
+                  </Button>
+                </div>
               </div>
             </BottomModal>
           </div>

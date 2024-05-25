@@ -1,13 +1,18 @@
-import { useState } from 'react';
-import useModal from '@/hooks/useModal';
 import classNames from 'classnames/bind';
-import ModalBase from '@/components/common/BottomModal/ModalBase';
+import { useModalProps } from '@/hooks/useModal';
+import ModalBase, { ModalProps } from '@/components/common/BottomModal/ModalBase';
 import styles from './BottomModal.module.scss';
+import { PropsWithChildren } from 'react';
 
 const cx = classNames.bind(styles);
 
-export default function BottomModal({ children }) {
-  const { modalOpen, handleModalOpen, handleModalClose } = useModal();
+export default function BottomModal({
+  modalOpen,
+  handleModalOpen,
+  handleModalClose,
+  className,
+  children,
+}: PropsWithChildren<useModalProps & ModalProps>) {
   return (
     <div
       className={cx('modalWrapper')}
@@ -16,14 +21,45 @@ export default function BottomModal({ children }) {
           handleModalClose();
         }
       }}>
-      <div onClick={handleModalOpen} style={{ cursor: 'pointer' }}>
-        모달 열기
-      </div>
+      <div onClick={handleModalOpen}>모달 열기</div>
       {modalOpen && (
-        <ModalBase size={''} onClose={handleModalClose}>
+        <ModalBase className={className} onClose={handleModalClose}>
           {children}
         </ModalBase>
       )}
     </div>
   );
+}
+
+{
+  /* 사용법
+1. 사용처에서 import useModal from '@/hooks/useModal';
+2. 사용처에서 import ModalPortal from '@/components/Portal';
+3.
+const [isClient, setIsClient] = useState(false);
+  const { modalOpen, handleModalOpen, handleModalClose } = useModal();
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  return (
+    <>
+      {isClient && (
+        <ModalPortal>
+        *모달 사용처 컴포넌트*
+            <BottomModal
+              className={cx('')}
+              modalOpen={modalOpen}
+              handleModalOpen={handleModalOpen}
+              handleModalClose={handleModalClose}>
+              *모달 내부 디자인 추가*
+            </BottomModal>
+        *모달 사용처 컴포넌트*
+        </ModalPortal>
+      )}
+    </>
+  );
+  사용 예시는 pages > text > my.tsx에서 확인할 수 있습니다.
+*/
 }
