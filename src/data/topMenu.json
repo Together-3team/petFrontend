@@ -1,0 +1,42 @@
+[
+  {
+    "id": "home",
+    "title": "Home",
+    "url": "/"
+  },
+  {
+    "id": "recommended",
+    "title": "추천상품",
+    "url": "/test/products/1"
+  },
+  {
+    "id": "hit",
+    "title": "인기상품",
+    "url": "/test/products/2"
+  },
+  {
+    "id": "category",
+    "title": "카테고리",
+    "url": "/test/products/3"
+  },
+  {
+    "id": "sample",
+    "title": "샘플",
+    "url": "/test/products/4"
+  },
+  {
+    "id": "secret",
+    "title": "비밀상점",
+    "url": "/test/products/5"
+  },
+  {
+    "id": "lowest",
+    "title": "최저가",
+    "url": "/test/products/6"
+  },
+  {
+    "id": "events",
+    "title": "이벤트",
+    "url": "/test/events"
+  }
+]
