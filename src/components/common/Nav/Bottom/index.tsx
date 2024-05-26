@@ -16,24 +16,37 @@ const MENUS = [
     id: 'home',
     title: '홈 페이지',
     url: '/',
+    matchedUrl: [
+      '/',
+      '/test/products/1',
+      '/test/products/2',
+      '/test/products/3',
+      '/test/products/4',
+      '/test/products/5',
+      '/test/products/6',
+      '/test/events',
+    ],
     Icon: <HomeIcon />,
   },
   {
     id: 'search',
     title: '검색 페이지',
     url: '/test/search',
+    matchedUrl: ['/test/search'],
     Icon: <SearchIcon />,
   },
   {
     id: 'liked',
     title: '찜 페이지',
     url: '/test/liked',
+    matchedUrl: ['/test/liked'],
     Icon: <HeartIcon className={cx('stroke')} />,
   },
   {
     id: 'my',
     title: '마이 페이지',
     url: '/test/my',
+    matchedUrl: ['/test/my'],
     Icon: <PersonIcon />,
   },
 ];
@@ -43,7 +56,7 @@ export default function NavBottom() {
   const { pathname, query } = router;
 
   const dynamicPath = getDynamicPath(pathname, query);
-  const matchedMenuData = MENUS.map(menu => ({ ...menu, isActive: dynamicPath === menu.url }));
+  const matchedMenuData = MENUS.map(menu => ({ ...menu, isActive: menu.matchedUrl.some(url => dynamicPath === url) }));
 
   return (
     <nav className={cx('nav')}>
