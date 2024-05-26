@@ -1,0 +1,95 @@
+.reviewBox {
+  max-width: 322px;
+  display: flex;
+  flex-direction: column;
+}
+
+.profileImg {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.text {
+  width: 100%;
+}
+
+.nicknameAndTime {
+  display: flex;
+  justify-content: space-between;
+}
+
+.nickname {
+  color: #000;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 150%;
+  flex-shrink: 0;
+}
+
+.time {
+  color: #000;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 150%;
+  flex-shrink: 0;
+}
+
+.productDetail {
+  display: flex;
+  align-items: center;
+
+  p {
+    color: #a7a7a7;
+    font-family: Inter;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 150%;
+
+    &:nth-child(odd) {
+      border-right: 2px solid #a7a7a7;
+    }
+
+    &:nth-child(even) {
+      margin-left: 4px;
+    }
+  }
+
+  span {
+    color: #a7a7a7;
+    font-family: Inter;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 150%;
+    margin: 0 4px;
+  }
+}
+
+.ratingBox {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.ratingCount {
+  margin-left: 10px;
+  color: #000;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 150%; /* 21px */
+}
