@@ -1,0 +1,8 @@
+@layer components {
+  .footer {
+    background-color: #fff; /* colors 상수로 변경 예정 */
+    position: fixed;
+    bottom: 0;
+    z-index: 3; /* z-index 상수로 변경 예정 */
+  }
+}

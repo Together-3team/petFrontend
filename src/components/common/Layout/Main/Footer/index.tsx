@@ -1,8 +1,13 @@
+import classNames from 'classnames/bind';
+
 import NavBottom from '@/components/common/Nav/Bottom';
+import styles from './MainFooter.module.scss';
+
+const cx = classNames.bind(styles);
 
 export default function MainFooter() {
   return (
-    <footer>
+    <footer className={cx('footer')}>
       <NavBottom />
     </footer>
   );
