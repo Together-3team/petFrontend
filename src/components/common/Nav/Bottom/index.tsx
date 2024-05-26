@@ -1,3 +1,61 @@
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import classNames from 'classnames/bind';
+
+import styles from './NavBottom.module.scss';
+import getDynamicPath from '@/utils/getDynamicPath';
+import HomeIcon from '@/assets/svgs/home.svg';
+import SearchIcon from '@/assets/svgs/search-bold.svg';
+import HeartIcon from '@/assets/svgs/heart.svg';
+import PersonIcon from '@/assets/svgs/person.svg';
+
+const cx = classNames.bind(styles);
+
+const MENUS = [
+  {
+    id: 'home',
+    title: '홈 페이지',
+    url: '/',
+    Icon: <HomeIcon />,
+  },
+  {
+    id: 'search',
+    title: '검색 페이지',
+    url: '/test/search',
+    Icon: <SearchIcon />,
+  },
+  {
+    id: 'liked',
+    title: '찜 페이지',
+    url: '/test/liked',
+    Icon: <HeartIcon className={cx('stroke')} />,
+  },
+  {
+    id: 'my',
+    title: '마이 페이지',
+    url: '/test/my',
+    Icon: <PersonIcon />,
+  },
+];
+
 export default function NavBottom() {
-  return <div>NavBottom</div>;
+  const router = useRouter();
+  const { pathname, query } = router;
+
+  const dynamicPath = getDynamicPath(pathname, query);
+  const matchedMenuData = MENUS.map(menu => ({ ...menu, isActive: dynamicPath === menu.url }));
+
+  return (
+    <nav className={cx('nav')}>
+      <ul className={cx('container')}>
+        {matchedMenuData.map(menu => (
+          <li key={menu.id} className={cx('item', { active: menu.isActive })}>
+            <Link href={menu.url} className={cx('link')}>
+              {menu.Icon}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
 }
