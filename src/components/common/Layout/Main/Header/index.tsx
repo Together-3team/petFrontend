@@ -1,6 +1,6 @@
 import NavTop from '@/components/common/Nav/Top';
 
-export default function Header() {
+export default function MainHeader() {
   return (
     <header>
       <p>서비스 명</p>
