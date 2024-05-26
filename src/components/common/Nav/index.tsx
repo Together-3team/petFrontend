@@ -4,7 +4,7 @@ import classNames from 'classnames/bind';
 
 import styles from './Nav.module.scss';
 import useDragScroll from '@/hooks/useDragScroll';
-import menuData from '@/data/topMenu.json';
+import menusData from '@/data/topMenus.json';
 import getDynamicPath from '@/utils/getDynamicPath';
 import useScrollIntoViewWithPath from '@/hooks/useScrollIntoViewWithPath';
 
@@ -20,7 +20,7 @@ export default function Nav() {
     behavior: 'smooth',
     inline: 'center',
   });
-  const matchedMenuData = menuData.map(menu => ({ ...menu, isActive: dynamicPath === menu.url }));
+  const matchedMenuData = menusData.map(menu => ({ ...menu, isActive: dynamicPath === menu.url }));
 
   return (
     <nav className={cx('container')} {...dragScrollProps}>
