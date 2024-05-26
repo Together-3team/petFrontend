@@ -1,28 +1,40 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import classNames from 'classnames/bind';
 
 import styles from './Nav.module.scss';
 import useDragScroll from '@/hooks/useDragScroll';
+import menuData from '@/data/topMenu.json';
+import getDynamicPath from '@/utils/getDynamicPath';
+import useScrollIntoViewWithPath from '@/hooks/useScrollIntoViewWithPath';
 
-const DUMMY_MENUS = [
-  { id: 1, title: 'Home', url: '/' },
-  { id: 2, title: '인기상품', url: '/test/products/2' },
-  { id: 3, title: 'NEW신상', url: '/test/products/3' },
-  { id: 4, title: '특가상품', url: '/test/products/4' },
-  { id: 5, title: '샘플', url: '/test/products/5' },
-  { id: 6, title: '비밀상점', url: '/test/products/6' },
-  { id: 7, title: '최저가', url: '/test/products/7' },
-  { id: 8, title: '이벤트', url: '/test/events' },
-];
+const cx = classNames.bind(styles);
 
 export default function Nav() {
+  const router = useRouter();
+  const { pathname, query } = router;
+
+  const dynamicPath = getDynamicPath(pathname, query);
   const dragScrollProps = useDragScroll<HTMLDivElement>();
+  const { ref: linkRef } = useScrollIntoViewWithPath(dynamicPath, {
+    behavior: 'smooth',
+    inline: 'center',
+  });
+  const matchedMenuData = menuData.map(menu => ({ ...menu, isActive: dynamicPath === menu.url }));
 
   return (
-    <nav className={styles.container} {...dragScrollProps}>
-      <ul className={styles.nav}>
-        {DUMMY_MENUS.map(menu => (
-          <li key={menu.id} className={styles.item}>
-            <Link href={menu.url} className={styles.link}>
+    <nav className={cx('container')} {...dragScrollProps}>
+      <ul className={cx('nav')}>
+        {matchedMenuData.map(menu => (
+          <li key={menu.id} className={cx('item', { active: menu.isActive })}>
+            <Link
+              href={menu.url}
+              className={cx('link')}
+              ref={el => {
+                if (menu.isActive) {
+                  linkRef.current = el;
+                }
+              }}>
               {menu.title}
             </Link>
           </li>
