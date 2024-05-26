@@ -1,13 +1,21 @@
 import { PropsWithChildren } from 'react';
+import classNames from 'classnames/bind';
+
+import styles from './MainLayout.module.scss';
 import MainHeader from './Header';
 import MainFooter from './Footer';
 
+const cx = classNames.bind(styles);
+
 export default function MainLayout({ children }: PropsWithChildren) {
   return (
-    <>
-      <MainHeader />
-      {children}
-      <MainFooter />
-    </>
+    <div className={cx('layout')}>
+      <div className={cx('background')} />
+      <div className={cx('contents')}>
+        <MainHeader />
+        {children}
+        <MainFooter />
+      </div>
+    </div>
   );
 }
