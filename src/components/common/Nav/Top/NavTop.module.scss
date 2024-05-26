@@ -1,5 +1,5 @@
 @layer components {
-  .container {
+  .nav {
     overflow-x: auto;
     width: 36rem;
     height: 3.6rem;
@@ -9,7 +9,7 @@
     }
   }
 
-  .nav {
+  .container {
     display: flex;
     white-space: nowrap;
     height: 100%;

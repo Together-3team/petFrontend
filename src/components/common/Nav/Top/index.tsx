@@ -23,8 +23,8 @@ export default function NavTop() {
   const matchedMenuData = menusData.map(menu => ({ ...menu, isActive: dynamicPath === menu.url }));
 
   return (
-    <nav className={cx('container')} {...dragScrollProps}>
-      <ul className={cx('nav')}>
+    <nav className={cx('nav')} {...dragScrollProps}>
+      <ul className={cx('container')}>
         {matchedMenuData.map(menu => (
           <li key={menu.id} className={cx('item', { active: menu.isActive })}>
             <Link
