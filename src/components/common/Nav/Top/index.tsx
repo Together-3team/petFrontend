@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import classNames from 'classnames/bind';
 
-import styles from './Nav.module.scss';
+import styles from './NavTop.module.scss';
 import useDragScroll from '@/hooks/useDragScroll';
 import menusData from '@/data/topMenus.json';
 import getDynamicPath from '@/utils/getDynamicPath';
@@ -10,7 +10,7 @@ import useScrollIntoViewWithPath from '@/hooks/useScrollIntoViewWithPath';
 
 const cx = classNames.bind(styles);
 
-export default function Nav() {
+export default function NavTop() {
   const router = useRouter();
   const { pathname, query } = router;
 
