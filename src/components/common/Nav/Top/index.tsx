@@ -19,6 +19,7 @@ export default function NavTop() {
   const { ref: linkRef } = useScrollIntoViewWithPath(dynamicPath, {
     behavior: 'smooth',
     inline: 'center',
+    block: 'nearest',
   });
   const matchedMenuData = menusData.map(menu => ({ ...menu, isActive: dynamicPath === menu.url }));
 
