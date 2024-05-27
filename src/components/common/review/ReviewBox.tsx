@@ -1,35 +1,31 @@
-import Image from 'next/image';
+// import Image from 'next/image'; 리뷰 이미지 넣을 수 있는 기능 추가되면 넣을게요 !
 import ProfileImgBadge from '../Badge/ProfileImgBadge';
 import StarRating from './StarRating';
 import Textarea from './Textarea';
+import formatDate from '@/utils/formatDate';
 import styles from './ReviewBox.module.scss';
 
 export default function ReviewBox() {
   const testData = {
-    nickname: '뽀수니',
+    nickname: '서리핑',
     option: '소고기맛',
     quantity: 3,
     rating: 4,
-    description: '강아지가 너무 좋아해요~~ 입맛까다로운 우리집 치와와도 잘 먹네요 ^^ 강추!!합니다~~',
+    description:
+      '설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워',
     createdAt: '2024-05-24T14:35:22.000Z',
   };
 
-  const date = new Date(testData.createdAt);
-
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
-  const day = String(date.getDate()).padStart(2, '0'); // 일
-
-  const formattedDate = `${year}.${month}.${day}`;
+  const formattedDate = formatDate(testData.createdAt);
 
   return (
     <div className={styles.reviewBox}>
       <div className={styles.userInfo}>
         <ProfileImgBadge className={styles.profileImg} />
-        <div className={styles.text}>
-          <div className={styles.nicknameAndTime}>
+        <div className={styles.userInfoDetail}>
+          <div className={styles.nicknameAndDate}>
             <p className={styles.nickname}>{testData.nickname}</p>
-            <p className={styles.time}>{formattedDate}</p>
+            <p className={styles.date}>{formattedDate}</p>
           </div>
           <div className={styles.productDetail}>
             <p>
@@ -50,13 +46,3 @@ export default function ReviewBox() {
     </div>
   );
 }
-
-// 고유ID
-// 상품참조키
-// 사용자참조키
-
-// 별점 rating
-// 리뷰이미지 reveiwImages
-// 설명 description
-// 삭제여부 isDeleted
-// 생성일 createdAt
