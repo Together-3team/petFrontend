@@ -4,7 +4,7 @@ import classNames from 'classnames/bind';
 
 import styles from './Card.module.scss';
 import Tag from '../Tag';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 type ProductInfo = {
   title: string;
@@ -31,22 +31,30 @@ export default function Card({ productInfo, wishList = false, direction = 'colum
 
   const titleRef = useRef<HTMLDivElement | null>(null);
 
+  const [titleInnerBoxClassName, setTitleInnerBoxClassName] = useState('');
   useEffect(() => {
     const titleElement = titleRef.current;
     if (titleElement) {
       const titleWidth = titleElement.offsetWidth;
-      // const titleWidthPercentage = (titleWidth / document.documentElement.clientWidth) * 100;
-      if (size === 'big') {
+      if (size === 'big' && titleWidth > 140 && direction === 'column') {
         document.documentElement.style.setProperty('--big-title-width', `${titleWidth}px`);
+        setTitleInnerBoxClassName('bigTitleInnerBox');
       }
-      if (size === 'small') {
+      if (size === 'small' && titleWidth > 100 && direction === 'column') {
         document.documentElement.style.setProperty('--small-title-width', `${titleWidth}px`);
+        setTitleInnerBoxClassName('smallTitleInnerBox');
       }
     }
   }, []);
 
   return (
-    <Link href={`/product/${title}`} className={cx('card')} style={{ width: size === 'big' ? '140px' : '100px' }}>
+    <Link
+      href={`/product/${title}`}
+      className={cx('card')}
+      style={{
+        flexDirection: direction === 'column' ? 'column' : 'row',
+        width: size === 'big' ? '140px' : direction === 'row' ? '300px' : '100px',
+      }}>
       <div
         className={cx('cardImage')}
         style={{ width: size === 'big' ? '140px' : '100px', height: size === 'big' ? '140px' : '100px' }}>
@@ -55,13 +63,15 @@ export default function Card({ productInfo, wishList = false, direction = 'colum
       </div>
       <div className={cx('cardContent')} style={{ margin: size === 'big' ? '12px 0' : '4px 0' }}>
         <div className={cx('titleBox')} style={{ height: size === 'big' ? '20px' : '12px' }}>
-          <div className={cx(size === 'big' ? 'bigTitleInnerBox' : 'smallTitleInnerBox')}>
+          <div className={cx(titleInnerBoxClassName)}>
             <h3 className={cx('title')} ref={titleRef} style={{ fontSize: size === 'big' ? '14px' : '10px' }}>
               {title}
             </h3>
-            <h3 className={cx('title')} style={{ fontSize: size === 'big' ? '14px' : '10px' }}>
-              {title}
-            </h3>
+            {titleInnerBoxClassName && direction === 'column' && (
+              <h3 className={cx('title')} style={{ fontSize: size === 'big' ? '14px' : '10px' }}>
+                {title}
+              </h3>
+            )}
           </div>
         </div>
         <p className={cx('originalPrice')} style={{ fontSize: size === 'big' ? '12px' : '8px' }}>
@@ -81,18 +91,20 @@ export default function Card({ productInfo, wishList = false, direction = 'colum
             {starRating}
           </p>
         </div>
-        <div className={cx('tags')}>
-          {stock <= 10 && (
-            <Tag size={size === 'big' ? 'big' : 'small'} type="stock">
-              10개 미만
-            </Tag>
-          )}
-          {reviewCount >= 100 && (
-            <Tag size={size === 'big' ? 'big' : 'small'} type="thumbs-up">
-              리뷰 100+
-            </Tag>
-          )}
-        </div>
+        {direction === 'column' && (
+          <div className={cx('tags')}>
+            {stock <= 10 && (
+              <Tag size={size === 'big' ? 'big' : 'small'} type="stock">
+                10개 미만
+              </Tag>
+            )}
+            {reviewCount >= 100 && (
+              <Tag size={size === 'big' ? 'big' : 'small'} type="thumbs-up">
+                리뷰 100+
+              </Tag>
+            )}
+          </div>
+        )}
       </div>
     </Link>
   );
