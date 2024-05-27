@@ -1,11 +1,12 @@
 import Card from '@/components/common/Card';
 import styles from './Card.module.scss';
+import rectangle from '@/assets/svgs/rectangle.svg';
 
 export default function CardPage() {
   const productList = {
     id: 1,
     title: '진짜 육포',
-    thumbNailImage: '/images/rectangle.svg',
+    thumbNailImage: rectangle,
     originalPrice: 12000,
     discountRate: 10,
     price: 10800,
@@ -16,7 +17,7 @@ export default function CardPage() {
   const productList2 = {
     id: 2,
     title: '진짜 육포입니다람쥐이이이이이이이이이',
-    thumbNailImage: '/images/rectangle.svg',
+    thumbNailImage: rectangle,
     originalPrice: 12000,
     discountRate: 10,
     price: 10800,
@@ -27,7 +28,7 @@ export default function CardPage() {
   const productList3 = {
     id: 3,
     title: '진짜 육포입니다람쥐이이이이이이이이이',
-    thumbNailImage: '/images/rectangle.svg',
+    thumbNailImage: rectangle,
     originalPrice: 12000,
     discountRate: 10,
     price: 10800,

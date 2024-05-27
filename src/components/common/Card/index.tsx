@@ -1,10 +1,11 @@
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import classNames from 'classnames/bind';
 
-import styles from './Card.module.scss';
 import Tag from '../Tag';
-import { useEffect, useRef, useState } from 'react';
+import star from '@/assets/svgs/star.svg';
+import styles from './Card.module.scss';
 
 type ProductInfo = {
   id: number;
@@ -28,6 +29,9 @@ type CardProps = {
 };
 
 const cx = classNames.bind(styles);
+
+// direction="row"는 꼭 size="small"과 함께 사용
+// option은 string으로 받는 것으로 생각 ex) 닭고기/ 가슴살
 
 export default function Card({ productInfo, wishList = false, direction = 'column', size = 'big' }: CardProps) {
   const {
@@ -69,7 +73,6 @@ export default function Card({ productInfo, wishList = false, direction = 'colum
         flexDirection: direction === 'column' ? 'column' : 'row',
         gap: direction === 'column' ? '0' : '12px',
         width: size === 'big' ? '140px' : direction === 'row' ? '100%' : '100px',
-        padding: direction === 'row' ? '24px' : '0',
       }}>
       <div
         className={cx('cardImage')}
@@ -81,7 +84,9 @@ export default function Card({ productInfo, wishList = false, direction = 'colum
         <Image src={thumbNailImage} alt={title} fill />
         {/* 찜하기 버튼 */}
       </div>
-      <div className={cx('cardContent')} style={{ margin: size === 'big' ? '12px 0' : '4px 0' }}>
+      <div
+        className={cx('cardContent')}
+        style={{ margin: direction === 'column' ? (size === 'big' ? '12px 0' : '4px 0') : '12px 0 4px' }}>
         <div
           className={cx('titleBox')}
           style={{
@@ -95,7 +100,7 @@ export default function Card({ productInfo, wishList = false, direction = 'colum
                 fontSize: size === 'big' || direction === 'row' ? '14px' : '10px',
                 textOverflow: direction === 'column' ? '' : 'ellipsis',
                 overflow: direction === 'column' ? '' : 'hidden',
-                width: '100%',
+                width: direction === 'column' ? '' : '100%',
               }}>
               {title}
             </div>
@@ -116,20 +121,22 @@ export default function Card({ productInfo, wishList = false, direction = 'colum
             {option}|{quantity}개
           </p>
         )}
-        <p className={cx('originalPrice')} style={{ fontSize: size === 'big' ? '12px' : '8px' }}>
+        <p className={cx('originalPrice')} style={{ fontSize: size === 'big' || direction === 'row' ? '12px' : '8px' }}>
           {originalPrice}원
         </p>
         <div className={cx('discountedPrice')}>
-          <p className={cx('discountRate')} style={{ fontSize: size === 'big' ? '16px' : '12px' }}>
+          <p
+            className={cx('discountRate')}
+            style={{ fontSize: size === 'big' || direction === 'row' ? '16px' : '12px' }}>
             {discountRate}%
           </p>
-          <p className={cx('price')} style={{ fontSize: size === 'big' ? '16px' : '12px' }}>
+          <p className={cx('price')} style={{ fontSize: size === 'big' || direction === 'row' ? '16px' : '12px' }}>
             {price}원
           </p>
         </div>
         {direction === 'column' && starRating !== null && starRating !== undefined && (
           <div className={cx('star')}>
-            <Image src={'/images/star.svg'} alt="별" width={9.5} height={9.5} />
+            <Image src={star} alt="별" width={9.5} height={9.5} />
             <p className={cx('starRating')} style={{ fontSize: size === 'big' ? '10px' : '8px' }}>
               {starRating}
             </p>
@@ -147,7 +154,7 @@ export default function Card({ productInfo, wishList = false, direction = 'colum
                 </Tag>
               )}
               {reviewCount >= 100 && (
-                <Tag size={size === 'big' ? 'big' : 'small'} type="thumbs-up">
+                <Tag size={size === 'big' ? 'big' : 'small'} type="thumbsUp">
                   리뷰 100+
                 </Tag>
               )}

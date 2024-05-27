@@ -1,11 +1,13 @@
 import Image from 'next/image';
 import styles from './Tag.module.scss';
+import stock from '@/assets/svgs/stock.svg';
+import thumbsUp from '@/assets/svgs/thumbs-up.svg';
 
 type TagProps = {
   children: React.ReactNode;
   color?: string;
   size: 'small' | 'big';
-  type?: 'stock' | 'thumbs-up';
+  type?: 'stock' | 'thumbsUp';
 };
 
 function Tag({ children, color, size, type }: TagProps) {
@@ -15,7 +17,12 @@ function Tag({ children, color, size, type }: TagProps) {
       data-status="item"
       style={{ background: `${color}`, fontSize: size === 'big' ? '10px' : '8px' }}>
       {type && (
-        <Image src={`/images/${type}.svg`} alt={type} width={size === 'big' ? 8 : 6} height={size === 'big' ? 8 : 6} />
+        <Image
+          src={type === 'stock' ? stock : thumbsUp}
+          alt={type}
+          width={size === 'big' ? 8 : 6}
+          height={size === 'big' ? 8 : 6}
+        />
       )}
       {children}
     </div>
