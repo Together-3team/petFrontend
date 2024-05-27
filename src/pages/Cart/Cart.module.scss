@@ -1,0 +1,42 @@
+.cart {
+  padding: 3rem;
+}
+
+.totalCheckbox {
+  display: flex;
+  gap: 0.8rem;
+  margin-bottom: 3rem;
+}
+
+.totalNumberTitle {
+  margin: 1.5rem 0;
+  font-size: 1.4rem;
+}
+
+.pricePair {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  font-size: 1.4rem;
+}
+
+.gray {
+  color: #a7a7a7;
+}
+
+.line {
+  width: 100%;
+  height: 0.15rem;
+  background-color: #000000;
+}
+
+.totalPrice {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.noProduct {
+  display: flex;
+  justify-content: center;
+}
