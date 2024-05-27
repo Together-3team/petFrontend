@@ -9,12 +9,20 @@ interface CardProps {
   option: string;
   productCost: string;
   isChecked: boolean;
+  productNumber: number;
   onCheck: () => void;
 }
 
-export default function Card({ productTitle, option, productCost, isChecked, onCheck }: CardProps) {
+export default function Card({
+  productTitle,
+  option,
+  productCost,
+  isChecked,
+  productNumber: initialProductNumber,
+  onCheck,
+}: CardProps) {
   // 추후 백에서 장바구니에 담은 제품 갯수로 초기화하는 로직 추가
-  const [productNumber, setProductNumber] = useState(1);
+  const [productNumber, setProductNumber] = useState(initialProductNumber);
 
   function addProduct() {
     setProductNumber(productNumber + 1);
