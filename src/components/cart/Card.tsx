@@ -10,6 +10,7 @@ interface CardProps {
   productCost: number;
   isChecked: boolean;
   productNumber: number;
+  imageUrl: string;
   onCheck: () => void;
 }
 
@@ -19,6 +20,7 @@ export default function Card({
   productCost,
   isChecked,
   productNumber: initialProductNumber,
+  imageUrl,
   onCheck,
 }: CardProps) {
   // 추후 백에서 장바구니에 담은 제품 갯수로 초기화하는 로직 추가
@@ -42,13 +44,7 @@ export default function Card({
           <FontAwesomeIcon icon={faXmark} />
         </div>
         <div className={styles.productExplain}>
-          <Image
-            className={styles.productImg}
-            width={56}
-            height={56}
-            src="/images/exampleProductImg.jpg"
-            alt="productImg"
-          />
+          <Image className={styles.productImg} width={56} height={56} src={imageUrl} alt="productImg" />
           <div>
             <div className={styles.productTitle}>{productTitle}</div>
             <div className={styles.option}>{option}</div>
