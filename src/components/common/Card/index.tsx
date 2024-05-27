@@ -63,7 +63,7 @@ export default function Card({ productInfo, wishList = false, direction = 'colum
         setTitleInnerBoxClassName('smallTitleInnerBox');
       }
     }
-  }, []);
+  }, [direction, size]);
 
   return (
     <Link
@@ -82,7 +82,7 @@ export default function Card({ productInfo, wishList = false, direction = 'colum
           height: size === 'big' ? '140px' : '100px',
           flexShrink: '0',
         }}>
-        <Image src={thumbNailImage} alt={title} fill priority />
+        <Image src={thumbNailImage} alt={title} fill blurDataURL={'@/assets/svgs/rectangle.svg'} placeholder="blur" />
         {/* 찜하기 버튼 */}
       </div>
       <div
