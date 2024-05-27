@@ -1,0 +1,29 @@
+@layer components {
+  .modalBase {
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    position: fixed;
+    bottom: 0;
+  }
+
+  .modalContent {
+    width: 100%;
+    padding: 6rem 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #ffffff;
+    border-radius: 1.2rem 1.2rem 0rem 0rem;
+    box-shadow: 0rem 0.4rem 1.9rem 0rem rgba(0, 0, 0, 0.25);
+  }
+
+  .modalWrapper {
+    width: 100%;
+    height: 100%;
+  }
+}
