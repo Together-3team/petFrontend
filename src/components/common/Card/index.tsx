@@ -69,6 +69,7 @@ export default function Card({ productInfo, wishList = false, direction = 'colum
     <Link
       href={`/product/${title}`}
       className={cx('card')}
+      as="image"
       style={{
         flexDirection: direction === 'column' ? 'column' : 'row',
         gap: direction === 'column' ? '0' : '12px',
@@ -81,7 +82,7 @@ export default function Card({ productInfo, wishList = false, direction = 'colum
           height: size === 'big' ? '140px' : '100px',
           flexShrink: '0',
         }}>
-        <Image src={thumbNailImage} alt={title} fill />
+        <Image src={thumbNailImage} alt={title} fill priority />
         {/* 찜하기 버튼 */}
       </div>
       <div
@@ -98,9 +99,9 @@ export default function Card({ productInfo, wishList = false, direction = 'colum
               ref={titleRef}
               style={{
                 fontSize: size === 'big' || direction === 'row' ? '14px' : '10px',
-                textOverflow: direction === 'column' ? '' : 'ellipsis',
-                overflow: direction === 'column' ? '' : 'hidden',
-                width: direction === 'column' ? '' : '100%',
+                textOverflow: direction === 'column' ? 'none' : 'ellipsis',
+                overflow: direction === 'column' ? 'none' : 'hidden',
+                width: direction === 'column' ? 'none' : '100%',
               }}>
               {title}
             </div>
