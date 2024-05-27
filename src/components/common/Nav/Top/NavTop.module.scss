@@ -1,0 +1,43 @@
+@layer components {
+  .nav {
+    overflow-x: auto;
+    width: 36rem;
+    height: 3.6rem;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .container {
+    display: flex;
+    white-space: nowrap;
+    height: 100%;
+    cursor: pointer;
+    gap: 0.9rem;
+  }
+
+  .item {
+    text-align: center;
+    min-width: 7.25rem;
+    width: 100%;
+    height: 100%;
+
+    &.active {
+      border-bottom: 0.2rem solid #fe5a65;
+
+      & .link {
+        color: #111;
+      }
+    }
+  }
+
+  .link {
+    display: block;
+    color: #b5b9c6;
+    font-size: 1.4rem;
+    line-height: 1.8rem;
+    height: 100%;
+    padding: 0.8rem;
+  }
+}

@@ -1,5 +1,7 @@
 import { NextPageContext } from 'next';
 
+import MainLayout from '@/components/common/Layout/Main';
+
 type ProductDetailPageProps = {
   productId: string;
 };
@@ -17,3 +19,7 @@ export async function getServerSideProps(context: NextPageContext) {
     },
   };
 }
+
+ProductDetailPage.getLayout = function getLayout(page: React.ReactElement) {
+  return <MainLayout>{page}</MainLayout>;
+};
