@@ -9,21 +9,21 @@ export default function Cart() {
       id: 1,
       productTitle: '강아지 간식 27종',
       option: '강아지 독 리얼큐브 소고기 300g',
-      productCost: '11800원',
+      productCost: 11800,
       productNumber: 2,
     },
     {
       id: 2,
       productTitle: '강아지 간식 27종',
       option: '강아지 독 리얼큐브 소고기 500g',
-      productCost: '20000원',
+      productCost: 20000,
       productNumber: 3,
     },
     {
       id: 3,
       productTitle: '고양이 간식 27종',
       option: '강아지 츄르 5스틱g',
-      productCost: '11000원',
+      productCost: 11000,
       productNumber: 10,
     },
   ];
@@ -56,6 +56,17 @@ export default function Cart() {
     setSelectAll(allChecked);
   }
 
+  // 선택한 제품의 총 가격 계산
+  function calculateTotalPrice() {
+    return products
+      .filter(product => product.isChecked)
+      .reduce((total, product) => {
+        return total + product.productCost * product.productNumber;
+      }, 0);
+  }
+
+  const totalPrice = calculateTotalPrice();
+
   return (
     <>
       <div className={styles.cart}>
@@ -79,11 +90,11 @@ export default function Cart() {
           <div className={styles.individualCost}>
             <div className={`${styles.pricePair} ${styles.gray}`}>
               <div>원가</div>
-              <div>20000원</div>
+              <div>{totalPrice}원</div>
             </div>
             <div className={styles.pricePair}>
               <div>할인가</div>
-              <div>20000원</div>
+              <div>{totalPrice}원</div>
             </div>
             <div className={styles.pricePair}>
               <div>할인 금액</div>
@@ -97,7 +108,7 @@ export default function Cart() {
           <div className={styles.line}></div>
           <div className={styles.totalPrice}>
             <div>총 결제 금액</div>
-            <div>20000원</div>
+            <div>{totalPrice}원</div>
           </div>
         </div>
       </div>

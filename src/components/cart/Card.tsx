@@ -7,7 +7,7 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 interface CardProps {
   productTitle: string;
   option: string;
-  productCost: string;
+  productCost: number;
   isChecked: boolean;
   productNumber: number;
   onCheck: () => void;
@@ -59,7 +59,7 @@ export default function Card({
           <input className={styles.productNumber} type="number" value={productNumber} readOnly />
           <button onClick={addProduct}>+</button>
         </div>
-        <div className={styles.productCost}>{productCost}</div>
+        <div className={styles.productCost}>{productCost}원</div>
         <div className={styles.line}></div>
       </div>
     </>
