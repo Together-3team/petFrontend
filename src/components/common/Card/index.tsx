@@ -20,16 +20,6 @@ type ProductInfo = {
   quantity?: number;
 };
 
-// type CartProductInfo = {
-//   productId: number;
-//   title: string;
-//   thumbNailImage: string;
-//   option: string;
-//   originalPrice: number;
-//   discountRate: number;
-//   price: number;
-// };
-
 type CardProps = {
   productInfo: ProductInfo;
   wishList?: boolean;
@@ -78,22 +68,44 @@ export default function Card({ productInfo, wishList = false, direction = 'colum
       style={{
         flexDirection: direction === 'column' ? 'column' : 'row',
         gap: direction === 'column' ? '0' : '12px',
-        width: size === 'big' ? '140px' : direction === 'row' ? '300px' : '100px',
+        width: size === 'big' ? '140px' : direction === 'row' ? '100%' : '100px',
+        padding: direction === 'row' ? '24px' : '0',
       }}>
       <div
         className={cx('cardImage')}
-        style={{ width: size === 'big' ? '140px' : '100px', height: size === 'big' ? '140px' : '100px' }}>
+        style={{
+          width: size === 'big' ? '140px' : '100px',
+          height: size === 'big' ? '140px' : '100px',
+          flexShrink: '0',
+        }}>
         <Image src={thumbNailImage} alt={title} fill />
         {/* 찜하기 버튼 */}
       </div>
       <div className={cx('cardContent')} style={{ margin: size === 'big' ? '12px 0' : '4px 0' }}>
-        <div className={cx('titleBox')} style={{ height: size === 'big' ? '20px' : '12px' }}>
+        <div
+          className={cx('titleBox')}
+          style={{
+            height: size === 'big' || direction === 'row' ? '20px' : '12px',
+          }}>
           <div className={cx(titleInnerBoxClassName)}>
-            <h3 className={cx('title')} ref={titleRef} style={{ fontSize: size === 'big' ? '14px' : '10px' }}>
+            <div
+              className={cx('title')}
+              ref={titleRef}
+              style={{
+                fontSize: size === 'big' || direction === 'row' ? '14px' : '10px',
+                textOverflow: direction === 'column' ? '' : 'ellipsis',
+                overflow: direction === 'column' ? '' : 'hidden',
+                width: '100%',
+              }}>
               {title}
-            </h3>
+            </div>
             {titleInnerBoxClassName && direction === 'column' && (
-              <h3 className={cx('title')} style={{ fontSize: size === 'big' ? '14px' : '10px' }}>
+              <h3
+                className={cx('title')}
+                style={{
+                  fontSize: size === 'big' ? '14px' : '10px',
+                  whiteSpace: direction === 'column' ? 'nowrap' : '',
+                }}>
                 {title}
               </h3>
             )}

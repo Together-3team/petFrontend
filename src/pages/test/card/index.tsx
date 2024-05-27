@@ -5,8 +5,7 @@ export default function CardPage() {
   const productList = {
     id: 1,
     title: '진짜 육포',
-    thumbNailImage:
-      'https://images.chosun.com/resizer/n1Uq1hPup9kGjjjffEdLd_Wuyaw=/464x0/smart/cloudfront-ap-northeast-1.images.arcpublishing.com/chosun/NFEJHXFOLTGNUBBT3NZIUBVJ4A.jpg',
+    thumbNailImage: '/images/rectangle.svg',
     originalPrice: 12000,
     discountRate: 10,
     price: 10800,
@@ -17,8 +16,7 @@ export default function CardPage() {
   const productList2 = {
     id: 2,
     title: '진짜 육포입니다람쥐이이이이이이이이이',
-    thumbNailImage:
-      'https://images.chosun.com/resizer/n1Uq1hPup9kGjjjffEdLd_Wuyaw=/464x0/smart/cloudfront-ap-northeast-1.images.arcpublishing.com/chosun/NFEJHXFOLTGNUBBT3NZIUBVJ4A.jpg',
+    thumbNailImage: '/images/rectangle.svg',
     originalPrice: 12000,
     discountRate: 10,
     price: 10800,
@@ -29,8 +27,7 @@ export default function CardPage() {
   const productList3 = {
     id: 3,
     title: '진짜 육포입니다람쥐이이이이이이이이이',
-    thumbNailImage:
-      'https://images.chosun.com/resizer/n1Uq1hPup9kGjjjffEdLd_Wuyaw=/464x0/smart/cloudfront-ap-northeast-1.images.arcpublishing.com/chosun/NFEJHXFOLTGNUBBT3NZIUBVJ4A.jpg',
+    thumbNailImage: '/images/rectangle.svg',
     originalPrice: 12000,
     discountRate: 10,
     price: 10800,
