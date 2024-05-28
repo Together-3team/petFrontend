@@ -52,6 +52,7 @@ export default function Card({ productInfo, wishList = false, direction = 'colum
   const [titleInnerBoxClassName, setTitleInnerBoxClassName] = useState('');
   const [titleWidth, setTitleWidth] = useState(0);
 
+  //title이 큰 카드, 작은 카드 각각의 너비를 초과하면 글씨가 흐르도록 함
   useEffect(() => {
     const titleElement = titleRef.current;
     if (titleElement) {
@@ -67,6 +68,7 @@ export default function Card({ productInfo, wishList = false, direction = 'colum
     }
   }, [direction, size]);
 
+  //카드 각각에서 글씨가 흐르는 시간을 같게 조정
   const animationDuration = titleWidth / 50;
 
   return (
