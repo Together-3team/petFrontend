@@ -17,6 +17,7 @@ function Tag({ children, color, size, type }: TagProps) {
       data-status="item"
       style={{
         background: `${color}`,
+        color: type === 'stock' ? '#FE5A65' : '#34BACC',
         fontSize: size === 'big' ? '10px' : '8px',
         padding: size === 'big' ? '3.5px 5px' : '3.5px',
       }}>

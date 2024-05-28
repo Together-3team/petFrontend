@@ -165,14 +165,14 @@ export default function Card({ productInfo, wishList = false, direction = 'colum
           stock !== undefined &&
           reviewCount !== null &&
           reviewCount !== undefined && (
-            <div className={cx('tags')}>
+            <div className={cx('tags')} style={{ gap: size === 'big' ? '4px' : '0' }}>
               {stock <= 10 && (
-                <Tag size={size === 'big' ? 'big' : 'small'} type="stock">
+                <Tag size={size === 'big' ? 'big' : 'small'} type="stock" color="#FFF3F3">
                   10개 미만
                 </Tag>
               )}
               {reviewCount >= 100 && (
-                <Tag size={size === 'big' ? 'big' : 'small'} type="thumbsUp">
+                <Tag size={size === 'big' ? 'big' : 'small'} type="thumbsUp" color="#E5FAFC">
                   리뷰 100+
                 </Tag>
               )}
