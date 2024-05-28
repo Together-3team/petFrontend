@@ -1,4 +1,4 @@
-export const KAKAO_CLIENT_ID = process.env.NEXT_PUBLIC_REST_API_KEY;
+export const KAKAO_CLIENT_ID = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
 export const GOOGLE_CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
 export const REDIRECT_URL = process.env.NEXT_PUBLIC_REDIRECT_URL;
 
