@@ -2,10 +2,24 @@
   padding: 3rem;
 }
 
+.checkbox {
+  accent-color: #fe5a65;
+}
+
+.totalCheckboxContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
 .totalCheckbox {
   display: flex;
   gap: 0.8rem;
   margin-bottom: 3rem;
+  color: #73798d;
+}
+
+.faTrash {
+  color: #b5b9c6;
 }
 
 .noProduct {

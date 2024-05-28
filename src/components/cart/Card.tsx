@@ -40,7 +40,13 @@ export default function Card({
     <>
       <div className={styles.oneCheckbox}>
         <div className={styles.productBoxTop}>
-          <input type="checkbox" name="oneCheckbox" checked={isChecked} onChange={onCheck} />
+          <input
+            type="checkbox"
+            name="oneCheckbox"
+            checked={isChecked}
+            className={styles.checkbox}
+            onChange={onCheck}
+          />
           <FontAwesomeIcon icon={faXmark} />
         </div>
         <div className={styles.productExplain}>
@@ -48,14 +54,26 @@ export default function Card({
           <div>
             <div className={styles.productTitle}>{productTitle}</div>
             <div className={styles.option}>{option}</div>
+            <div className={styles.moneyContainerRight}>
+              <div className={styles.productCost}>{productCost}원</div>
+              <div className={styles.realPrice}>
+                <div className={styles.discountRate}>41%</div>
+                <div className={styles.realMoney}>17700원</div>
+              </div>
+            </div>
           </div>
         </div>
-        <div className={styles.counterButton}>
-          <button onClick={removeProduct}>-</button>
-          <input className={styles.productNumber} type="number" value={productNumber} readOnly />
-          <button onClick={addProduct}>+</button>
+        <div className={styles.moneyContainer}>
+          <div className={styles.counterButton}>
+            <button className={styles.plusminus} onClick={removeProduct}>
+              -
+            </button>
+            <input className={styles.productNumber} type="number" value={productNumber} readOnly />
+            <button className={styles.plusminus} onClick={addProduct}>
+              +
+            </button>
+          </div>
         </div>
-        <div className={styles.productCost}>{productCost}원</div>
         <div className={styles.line}></div>
       </div>
     </>

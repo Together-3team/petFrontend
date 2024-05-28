@@ -2,6 +2,8 @@ import { useState } from 'react';
 import styles from './Cart.module.scss';
 import Card from '@/components/cart/Card';
 import TotalPay from '@/components/cart/TotalPay';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 export default function Cart() {
   // 더미 데이터
@@ -99,9 +101,18 @@ export default function Cart() {
       <div className={styles.cart}>
         {products.length > 0 ? (
           <>
-            <div className={styles.totalCheckbox}>
-              <input type="checkbox" name="totalCheck" checked={selectAll} onChange={handleSelectAll} />
-              <div className={styles.totalNumber}>전체 {products.length}개</div>
+            <div className={styles.totalCheckboxContainer}>
+              <div className={styles.totalCheckbox}>
+                <input
+                  type="checkbox"
+                  name="totalCheck"
+                  checked={selectAll}
+                  className={styles.checkbox}
+                  onChange={handleSelectAll}
+                />
+                <div className={styles.totalNumber}>전체 {products.length}개</div>
+              </div>
+              <FontAwesomeIcon icon={faTrash} className={styles.faTrash} />
             </div>
             {products.map((product, index) => (
               <Card
