@@ -9,13 +9,10 @@ const cx = classNames.bind(styles);
 
 export default function MainLayout({ children }: PropsWithChildren) {
   return (
-    <div className={cx('layout')}>
-      <div className={cx('background')} />
-      <div className={cx('contents')}>
-        <MainHeader />
-        {children}
-        <MainFooter />
-      </div>
+    <div className={cx('contents')}>
+      <MainHeader />
+      {children}
+      {/* <MainFooter /> */}
     </div>
   );
 }
