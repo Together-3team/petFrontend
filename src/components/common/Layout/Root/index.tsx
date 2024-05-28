@@ -2,7 +2,7 @@ import { PropsWithChildren } from 'react';
 import classNames from 'classnames/bind';
 
 import styles from './RootLayout.module.scss';
-import MainFooter from '../Main/Footer';
+import LogoIcon from '@/assets/svgs/heart.svg';
 
 const cx = classNames.bind(styles);
 
@@ -10,11 +10,21 @@ export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <div className={cx('container')}>
       <div className={cx('background')} />
-      <div className={cx('home')}></div>
-      <div className={cx('contents')}>
-        <div className={cx('main')}>{children}</div>
-        <MainFooter />
+      <div className={cx('heroContainer')}>
+        {/* hero 내용 분리 예정 */}
+        <div className={cx('hero')}>
+          <header>
+            {/* 로고 이미지로 대체 예정 */}
+            <LogoIcon />
+            <p>반려동물 용품</p>
+            <p>공구로 더 저렴하게!</p>
+          </header>
+          <footer>
+            <button type="button">친구에게도 알려주기</button>
+          </footer>
+        </div>
       </div>
+      <div className={cx('contents')}>{children}</div>
     </div>
   );
 }

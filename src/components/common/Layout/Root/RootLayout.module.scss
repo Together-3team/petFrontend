@@ -4,10 +4,7 @@
     justify-content: center;
 
     @include desktop {
-      gap: 100px;
-      // height: 100vh;
-      // width: 100vw;
-      // overflow: auto;
+      display: block;
     }
   }
 
@@ -23,13 +20,14 @@
     z-index: $z-index-home-background;
   }
 
-  .home {
+  .heroContainer {
+    $size-home: 50rem;
+
     display: none;
+    border: 0.1rem solid $color-pink-main;
     position: fixed;
-    left: calc(-50rem + 50vw);
-    color: $color-pink-main;
-    border: 1px solid $color-pink-main;
-    width: 300px;
+    left: calc((-1 * $size-home) + 50vw);
+    width: $size-home;
     height: 100vh;
 
     @include desktop {
@@ -37,15 +35,27 @@
     }
   }
 
-  .contents {
-    width: 36rem;
-    height: 100vh;
-    // background-color: #fff; /* colors 상수로 변경 예정 */
-    // padding: 2rem 1.6rem;
+  .hero {
+    display: flex;
+    border: 0.1rem solid $color-blue;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 40rem;
+    height: 100%;
   }
 
-  .main {
-    background-color: #fff; /* colors 상수로 변경 예정 */
+  .contents {
+    background-color: $color-white;
+    display: flex;
+    flex-direction: column;
+    max-width: $size-mobile-max;
+    min-height: 100vh;
     padding: 2rem 1.6rem;
+
+    @include desktop {
+      position: relative;
+      left: 50vw;
+    }
   }
 }
