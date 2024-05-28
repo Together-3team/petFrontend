@@ -1,26 +1,51 @@
 @layer components {
-  .background {
-    background-color: #e5fafc; /* colors 상수로 변경 예정 */
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    inset: 0;
+  .container {
+    display: flex;
+    justify-content: center;
+
+    @include desktop {
+      gap: 100px;
+      // height: 100vh;
+      // width: 100vw;
+      // overflow: auto;
+    }
   }
 
-  .hero {
-    border: 0.1rem solid black;
+  .background {
+    background-color: $color-pink-light;
     position: fixed;
-    left: calc(-36rem + 50vh);
-    width: 36rem;
+    top: 0;
+    left: 0;
+    width: 100%;
     height: 100%;
+    transform: translateZ(0); // fixed 요소의 잔상 이슈 해결
+    will-change: transform; // 브라우저 최적화
+    z-index: $z-index-home-background;
+  }
+
+  .home {
+    display: none;
+    position: fixed;
+    left: calc(-50rem + 50vw);
+    color: $color-pink-main;
+    border: 1px solid $color-pink-main;
+    width: 300px;
+    height: 100vh;
+
+    @include desktop {
+      display: block;
+    }
   }
 
   .contents {
-    background-color: #fff; /* colors 상수로 변경 예정 */
-    position: relative;
-    left: 50vw;
     width: 36rem;
-    min-height: 100vh;
+    height: 100vh;
+    // background-color: #fff; /* colors 상수로 변경 예정 */
+    // padding: 2rem 1.6rem;
+  }
+
+  .main {
+    background-color: #fff; /* colors 상수로 변경 예정 */
     padding: 2rem 1.6rem;
   }
 }
