@@ -8,7 +8,9 @@ const cx = classNames.bind(styles);
 export default function MainFooter() {
   return (
     <footer className={cx('footer')}>
-      <NavBottom />
+      <div className={cx('bottomNav')}>
+        <NavBottom />
+      </div>
     </footer>
   );
 }

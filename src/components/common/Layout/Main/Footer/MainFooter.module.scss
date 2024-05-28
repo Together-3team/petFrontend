@@ -1,8 +1,16 @@
 @layer components {
   .footer {
-    background-color: #fff; /* colors 상수로 변경 예정 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .bottomNav {
+    background-color: $color-white;
     position: fixed;
     bottom: 0;
-    z-index: 3; /* z-index 상수로 변경 예정 */
+    z-index: $z-index-bottom-nav;
+    max-width: $size-mobile-max;
+    width: 100%;
   }
 }
