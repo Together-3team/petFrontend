@@ -20,9 +20,11 @@ export default function Button({ size, children, backgroundColor, onClick }: But
 
   return (
     <>
-      <button className={className} onClick={onClick}>
-        {children}
-      </button>
+      <div className={styles.buttonContainer}>
+        <button className={className} onClick={onClick}>
+          {children}
+        </button>
+      </div>
     </>
   );
 }

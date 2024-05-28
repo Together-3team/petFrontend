@@ -2,6 +2,7 @@ import { useState } from 'react';
 import styles from './Cart.module.scss';
 import Card from '@/components/cart/Card';
 import TotalPay from '@/components/cart/TotalPay';
+import Button from '@/components/common/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
@@ -28,6 +29,15 @@ export default function Cart() {
     },
     {
       id: 3,
+      productTitle: '고양이 간식 27종',
+      option: '강아지 츄르 5스틱g',
+      productCost: 10000,
+      originalCost: 11000,
+      productNumber: 10,
+      imageUrl: '/images/exampleProductImg.jpg',
+    },
+    {
+      id: 4,
       productTitle: '고양이 간식 27종',
       option: '강아지 츄르 5스틱g',
       productCost: 10000,
@@ -132,6 +142,14 @@ export default function Cart() {
         ) : (
           <p className={styles.noProduct}>아직 담은 상품이 없어요</p>
         )}
+      </div>
+      <div className={styles.bottomNavCart}>
+        <Button size="large" backgroundColor="#fe5a65">
+          {totalPrice}원 주문하기
+        </Button>
+        <div className={styles.howMuchMinus}>
+          지금 구매하면 <span className={styles.pink}>-{totalOriginalPrice - totalPrice}원&nbsp;</span>할인돼요
+        </div>
       </div>
     </>
   );
