@@ -1,20 +1,9 @@
-// 큰 카드에 사용하는 키프레임
-@keyframes move-big-words {
+@keyframes move-words {
   0% {
     left: 0%;
   }
   100% {
-    left: calc(-1 * (var(--big-title-width) + 1rem));
-  }
-}
-
-//작은 카드에 사용하는 키프레임
-@keyframes move-small-words {
-  0% {
-    left: 0%;
-  }
-  100% {
-    left: calc(-1 * (var(--small-title-width) + 1rem));
+    left: calc(-1 * (var(--title-width) + 1rem));
   }
 }
 
@@ -41,18 +30,11 @@
   position: relative;
 }
 
-.bigTitleInnerBox {
+.titleInnerBox {
   display: flex;
   gap: 1rem;
   position: absolute;
-  animation: move-big-words 5s linear infinite;
-}
-
-.smallTitleInnerBox {
-  display: flex;
-  gap: 1rem;
-  position: absolute;
-  animation: move-small-words 5s linear infinite;
+  animation: move-words var(--animation-duration) linear infinite;
 }
 
 .title {

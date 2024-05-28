@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
 import classNames from 'classnames/bind';
 
 import Tag from '../Tag';
-import star from '@/assets/svgs/star.svg';
+import StarIcon from '@/assets/svgs/star.svg';
 import styles from './Card.module.scss';
 
 type ProductInfo = {
@@ -47,34 +47,42 @@ export default function Card({ productInfo, wishList = false, direction = 'colum
     quantity,
   } = productInfo;
 
+  // title 길이에 따라 흐르게 할지말지 정한다.
   const titleRef = useRef<HTMLDivElement | null>(null);
-
   const [titleInnerBoxClassName, setTitleInnerBoxClassName] = useState('');
+  const [titleWidth, setTitleWidth] = useState(0);
+
   useEffect(() => {
     const titleElement = titleRef.current;
     if (titleElement) {
       const titleWidth = titleElement.offsetWidth;
       if (size === 'big' && titleWidth > 140 && direction === 'column') {
-        document.documentElement.style.setProperty('--big-title-width', `${titleWidth}px`);
-        setTitleInnerBoxClassName('bigTitleInnerBox');
+        setTitleInnerBoxClassName('titleInnerBox');
+        setTitleWidth(titleWidth);
       }
       if (size === 'small' && titleWidth > 100 && direction === 'column') {
-        document.documentElement.style.setProperty('--small-title-width', `${titleWidth}px`);
-        setTitleInnerBoxClassName('smallTitleInnerBox');
+        setTitleInnerBoxClassName('titleInnerBox');
+        setTitleWidth(titleWidth);
       }
     }
   }, [direction, size]);
+
+  const animationDuration = titleWidth / 50;
 
   return (
     <Link
       href={`/product/${title}`}
       className={cx('card')}
       as="image"
-      style={{
-        flexDirection: direction === 'column' ? 'column' : 'row',
-        gap: direction === 'column' ? '0' : '12px',
-        width: size === 'big' ? '140px' : direction === 'row' ? '100%' : '100px',
-      }}>
+      style={
+        {
+          '--title-width': `${titleWidth}px`,
+          '--animation-duration': `${animationDuration}s`,
+          flexDirection: direction === 'column' ? 'column' : 'row',
+          gap: direction === 'column' ? '0' : '12px',
+          width: size === 'big' ? '140px' : direction === 'row' ? '100%' : '100px',
+        } as React.CSSProperties
+      }>
       <div
         className={cx('cardImage')}
         style={{
@@ -82,7 +90,14 @@ export default function Card({ productInfo, wishList = false, direction = 'colum
           height: size === 'big' ? '140px' : '100px',
           flexShrink: '0',
         }}>
-        <Image src={thumbNailImage} alt={title} fill blurDataURL={'@/assets/svgs/rectangle.svg'} placeholder="blur" />
+        <Image
+          src={thumbNailImage}
+          alt={title}
+          fill
+          blurDataURL={'@/assets/svgs/rectangle.svg'}
+          placeholder="blur"
+          sizes={size === 'big' ? '(max-width: 140px) 100vw, 140px' : '(max-width: 100px) 100vw, 100px'}
+        />
         {/* 찜하기 버튼 */}
       </div>
       <div
@@ -137,7 +152,7 @@ export default function Card({ productInfo, wishList = false, direction = 'colum
         </div>
         {direction === 'column' && starRating !== null && starRating !== undefined && (
           <div className={cx('star')}>
-            <Image src={star} alt="별" width={9.5} height={9.5} />
+            <StarIcon alt="별" width={9.5} height={9.5} />
             <p className={cx('starRating')} style={{ fontSize: size === 'big' ? '10px' : '8px' }}>
               {starRating}
             </p>
