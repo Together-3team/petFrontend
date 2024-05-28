@@ -1,22 +1,8 @@
-%reviewBoxBlackStyle {
-  color: #000;
-  font-size: 14px;
-  font-style: normal;
-  line-height: 150%;
-}
-
-%reviewBoxGrayStyle {
-  color: #a7a7a7;
-  font-size: 12px;
-  font-style: normal;
-  line-height: 150%;
-}
-
-.reviewBox {
+.reviewBoxLayout {
   max-width: 36rem;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.6rem;
 }
 
 .profileImg {
@@ -28,11 +14,14 @@
 .userInfo {
   display: flex;
   align-items: center;
-  gap: 1.4rem;
+  gap: 1.6rem;
 }
 
 .userInfoDetail {
+  display: flex;
+  flex-direction: column;
   width: 100%;
+  gap: 0.8rem;
 }
 
 .nicknameAndDate {
@@ -41,15 +30,19 @@
 }
 
 .nickname {
-  @extend %reviewBoxBlackStyle;
-
-  font-weight: 600;
+  color: $color-black;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 2rem;
 }
 
 .date {
-  @extend %reviewBoxBlackStyle;
-
-  font-weight: 500;
+  color: $color-black;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1.6rem;
 }
 
 .productDetail {
@@ -57,23 +50,19 @@
   align-items: center;
 
   p {
-    @extend %reviewBoxGrayStyle;
-
+    color: $color-gray-500;
+    font-size: 13px;
+    font-style: normal;
     font-weight: 600;
-
-    &:nth-child(odd) {
-      border-right: 2px solid #a7a7a7;
-    }
-
-    &:nth-child(even) {
-      margin-left: 0.4rem;
-    }
+    line-height: 1.6rem;
   }
 
   span {
-    @extend %reviewBoxGrayStyle;
-
-    font-weight: 500;
+    color: $color-gray-500;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.6rem;
     margin: 0 0.4rem;
   }
 }
@@ -84,8 +73,10 @@
 }
 
 .ratingCount {
-  @extend %reviewBoxBlackStyle;
-
+  color: $color-gray-800;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.6rem;
   margin-left: 1rem;
-  font-weight: 500;
 }

@@ -8,7 +8,7 @@ import styles from './ReviewBox.module.scss';
 export default function ReviewBox() {
   const testData = {
     nickname: '서리핑',
-    option: '소고기맛',
+    option: '소고기맛/선물포장',
     quantity: 3,
     rating: 4,
     description:
@@ -19,7 +19,7 @@ export default function ReviewBox() {
   const formattedDate = formatDate(testData.createdAt);
 
   return (
-    <div className={styles.reviewBox}>
+    <div className={styles.reviewBoxLayout}>
       <div className={styles.userInfo}>
         <ProfileImgBadge className={styles.profileImg} />
         <div className={styles.userInfoDetail}>
@@ -29,10 +29,10 @@ export default function ReviewBox() {
           </div>
           <div className={styles.productDetail}>
             <p>
-              옵션<span>{testData.option}</span>
-            </p>
-            <p>
-              수량<span>{testData.quantity}개</span>
+              옵션
+              <span>
+                {testData.option} | {testData.quantity}개
+              </span>
             </p>
           </div>
         </div>
