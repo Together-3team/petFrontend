@@ -42,7 +42,7 @@ export default function ReviewBox() {
         <p className={styles.ratingCount}>{testData.rating}.0</p>
       </div>
       {/* <Image /> 리뷰 이미지 넣을 수 있는 기능 추가되면 넣을게요 ! */}
-      <Textarea disabled value={testData.description} />
+      <Textarea disabled value={testData.description} className={styles.description} />
     </div>
   );
 }
