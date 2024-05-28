@@ -1,3 +1,9 @@
+import KakaoLogin from './KakaoLogin';
+
 export default function Login() {
-  return <div>Login</div>;
+  return (
+    <div>
+      <KakaoLogin />
+    </div>
+  );
 }
