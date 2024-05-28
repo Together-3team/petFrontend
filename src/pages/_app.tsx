@@ -4,6 +4,7 @@ import Head from 'next/head';
 import { ReactElement, ReactNode } from 'react';
 
 import '@/styles/reset.scss';
+import RootLayout from '@/components/common/Layout/Root';
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -21,7 +22,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
       <Head>
         <title>3 team</title>
       </Head>
-      {getLayout(<Component {...pageProps} />)}
+      <RootLayout>{getLayout(<Component {...pageProps} />)}</RootLayout>
     </>
   );
 }
