@@ -120,6 +120,7 @@ export default function Cart() {
                 productTitle={product.productTitle}
                 option={product.option}
                 productCost={product.productCost}
+                originalCost={product.originalCost}
                 isChecked={product.isChecked}
                 productNumber={product.productNumber}
                 imageUrl={product.imageUrl}

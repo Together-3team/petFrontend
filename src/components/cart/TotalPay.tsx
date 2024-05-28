@@ -8,7 +8,6 @@ interface TotalPayProps {
 
 export default function TotalPay({ totalPrice, totalOriginalPrice, productCount }: TotalPayProps) {
   const discountAmount = totalOriginalPrice - totalPrice;
-  const discountRate = (discountAmount / totalOriginalPrice) * 100;
 
   return (
     <>

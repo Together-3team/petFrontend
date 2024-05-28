@@ -8,6 +8,7 @@ interface CardProps {
   productTitle: string;
   option: string;
   productCost: number;
+  originalCost: number;
   isChecked: boolean;
   productNumber: number;
   imageUrl: string;
@@ -18,6 +19,7 @@ export default function Card({
   productTitle,
   option,
   productCost,
+  originalCost,
   isChecked,
   productNumber: initialProductNumber,
   imageUrl,
@@ -25,6 +27,9 @@ export default function Card({
 }: CardProps) {
   // 추후 백에서 장바구니에 담은 제품 갯수로 초기화하는 로직 추가
   const [productNumber, setProductNumber] = useState(initialProductNumber);
+
+  const discountAmount = originalCost - productCost;
+  const discountRate = (discountAmount / originalCost) * 100;
 
   function addProduct() {
     setProductNumber(productNumber + 1);
@@ -55,10 +60,10 @@ export default function Card({
             <div className={styles.productTitle}>{productTitle}</div>
             <div className={styles.option}>{option}</div>
             <div className={styles.moneyContainerRight}>
-              <div className={styles.productCost}>{productCost}원</div>
+              <div className={styles.productCost}>{originalCost}원</div>
               <div className={styles.realPrice}>
-                <div className={styles.discountRate}>41%</div>
-                <div className={styles.realMoney}>17700원</div>
+                <div className={styles.discountRate}>{discountRate.toFixed(0)}%</div>
+                <div className={styles.realMoney}>{productCost}원</div>
               </div>
             </div>
           </div>
