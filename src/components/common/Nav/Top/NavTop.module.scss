@@ -24,17 +24,17 @@
     height: 100%;
 
     &.active {
-      border-bottom: 0.2rem solid #fe5a65;
+      border-bottom: 0.2rem solid $color-pink-main;
 
       & .link {
-        color: #111;
+        color: $color-black;
       }
     }
   }
 
   .link {
     display: block;
-    color: #b5b9c6;
+    color: $color-gray-400;
     font-size: 1.4rem;
     font-weight: 600;
     line-height: 1.8rem;
