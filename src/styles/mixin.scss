@@ -1,0 +1,15 @@
+@mixin modal-shadow() {
+  box-shadow: 0rem 0.4rem 2rem 0rem rgba(0, 0, 0, 0.08);
+}
+
+@mixin icon-shadow() {
+  box-shadow: 0rem 0.1rem 0.2rem 0rem rgba(0, 0, 0, 0.1);
+}
+
+@mixin drawer-shadow() {
+  box-shadow: 0rem -0.4rem 3rem 0rem rgba(0, 0, 0, 0.1);
+}
+
+@mixin nav-shadow() {
+  box-shadow: 0rem -0.4rem 2rem 0rem rgba(0, 0, 0, 0.08);
+}

@@ -70,6 +70,10 @@
 
   /* custom reset */
 
+  * {
+    font-family: 'SUIT Variable';
+  }
+
   html {
     /* 62.5% of 16px browser font size is 10px */
     /* 16px * 0.625 = 10px */
@@ -79,5 +83,10 @@
   body {
     /* 1.6 * 10px = 16px */
     font-size: 1.6rem;
+  }
+
+  a {
+    text-decoration: none;
+    color: black;
   }
 }
