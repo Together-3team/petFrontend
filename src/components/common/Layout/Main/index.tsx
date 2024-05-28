@@ -12,7 +12,7 @@ export default function MainLayout({ children }: PropsWithChildren) {
     <div className={cx('contents')}>
       <MainHeader />
       {children}
-      {/* <MainFooter /> */}
+      <MainFooter />
     </div>
   );
 }
