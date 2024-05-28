@@ -24,7 +24,9 @@ export default function RootLayout({ children }: PropsWithChildren) {
           </footer>
         </div>
       </div>
-      <div className={cx('contents')}>{children}</div>
+      <div className={cx('main')}>
+        <div className={cx('contents')}>{children}</div>
+      </div>
     </div>
   );
 }

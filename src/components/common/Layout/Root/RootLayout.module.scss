@@ -45,17 +45,22 @@
     height: 100%;
   }
 
-  .contents {
-    background-color: $color-white;
-    display: flex;
-    flex-direction: column;
+  .main {
     max-width: $size-mobile-max;
-    min-height: 100vh;
-    padding: 2rem 1.6rem;
+    width: 100%;
 
     @include desktop {
       position: relative;
       left: 50vw;
     }
+  }
+
+  .contents {
+    background-color: $color-white;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 100vh;
+    padding: 2rem 1.6rem;
   }
 }
