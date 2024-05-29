@@ -1,0 +1,32 @@
+.totalNumberTitle {
+  margin: 1.5rem 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.pricePair {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  font-size: 1.4rem;
+}
+
+.pink {
+  color: $color-pink-main;
+}
+
+.gray {
+  color: $color-gray-400;
+}
+
+.line {
+  width: 100%;
+  height: 0.15rem;
+  background-color: $color-black;
+}
+
+.totalPrice {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
