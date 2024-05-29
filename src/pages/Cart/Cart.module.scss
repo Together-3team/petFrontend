@@ -4,7 +4,7 @@
 }
 
 .checkbox {
-  accent-color: #fe5a65;
+  accent-color: $color-pink-main;
 }
 
 .totalCheckboxContainer {
@@ -16,11 +16,11 @@
   display: flex;
   gap: 0.8rem;
   margin-bottom: 3rem;
-  color: #73798d;
+  color: $color-gray-600;
 }
 
 .faTrash {
-  color: #b5b9c6;
+  color: $color-gray-400;
 }
 
 .noProduct {
@@ -35,7 +35,7 @@
   bottom: 0;
   left: 0;
   box-shadow: 0px -4px 20px 0px rgba(0, 0, 0, 0.08);
-  background-color: #ffffff;
+  background-color: $color-white;
   padding: 2rem;
   position: fixed;
   // width: 36rem;
@@ -49,5 +49,5 @@
 }
 
 .pink {
-  color: #fe5a65;
+  color: $color-pink-main;
 }

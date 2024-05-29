@@ -10,7 +10,7 @@
 }
 
 .checkbox {
-  accent-color: #fe5a65;
+  accent-color: $color-pink-main;
 }
 
 .productExplain {
@@ -26,7 +26,7 @@
 
 .option {
   font-size: 1.2rem;
-  color: #a7a7a7;
+  color: $color-gray-500;
   font-weight: 500;
 }
 
@@ -47,14 +47,14 @@
   border: none;
   width: 2.4rem;
   height: 2.4rem;
-  background-color: #f9fafc;
+  background-color: $color-gray-50;
 }
 
 .productNumber {
   text-align: center;
   width: 3.2rem;
   height: 2.4rem;
-  border: 0.1rem solid #cfd3db;
+  border: 0.1rem solid $color-gray-300;
   border-radius: 0.6rem;
 }
 
@@ -65,7 +65,7 @@
 .productCost {
   font-size: 1.2rem;
   font-weight: 400;
-  color: #b5b9c6;
+  color: $color-gray-400;
   text-decoration: line-through;
 }
 
@@ -76,7 +76,7 @@
 }
 
 .discountRate {
-  color: #fe5a65;
+  color: $color-pink-main;
   font-weight: 600;
 }
 
@@ -88,6 +88,6 @@
 .line {
   width: 100%;
   height: 0.1rem;
-  background-color: #d9d9d9;
+  background-color: $color-gray-100;
   margin: 1rem 0;
 }

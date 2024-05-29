@@ -1,8 +1,7 @@
 .button {
-  border: 1px solid #000;
   height: 4rem;
   font-weight: 500;
-  border: none;
+
   border-radius: 0.8rem;
 }
 
@@ -22,20 +21,24 @@
 }
 
 .backgroundBlack {
-  background-color: #373c49;
-  color: #ffffff;
+  background-color: $color-gray-800;
+  color: $color-white;
+  border: none;
 }
 
 .backgroundGray {
-  background-color: #cfd3db;
-  color: #ffffff;
+  background-color: $color-gray-300;
+  color: $color-white;
+  border: none;
 }
 
 .backgroundPink {
-  background-color: #fe5a65;
-  color: #ffffff;
+  background-color: $color-pink-main;
+  color: $color-white;
+  border: none;
 }
 
 .backgroundWhite {
-  background-color: #ffffff;
+  background-color: $color-white;
+  border: 1px solid $color-black;
 }

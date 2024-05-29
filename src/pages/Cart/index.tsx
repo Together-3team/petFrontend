@@ -155,7 +155,7 @@ export default function Cart() {
         )}
       </div>
       <div className={styles.bottomNavCart}>
-        <Button size="large" backgroundColor="#fe5a65">
+        <Button size="large" backgroundColor="$color-pink-main">
           {totalPrice}원 주문하기
         </Button>
         <div className={styles.howMuchMinus}>
