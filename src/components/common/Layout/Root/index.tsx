@@ -9,7 +9,7 @@ const cx = classNames.bind(styles);
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <div className={cx('container')}>
-      <div className={cx('background')} />
+      <div className={cx('homeBackground')} />
       <div className={cx('heroContainer')}>
         {/* hero 내용 분리 예정 */}
         <div className={cx('hero')}>
@@ -25,6 +25,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
         </div>
       </div>
       <div className={cx('main')}>
+        <div className={cx('appBackground')} />
         <div className={cx('contents')}>{children}</div>
         <div id="rootModal"></div>
       </div>

@@ -8,7 +8,7 @@
     }
   }
 
-  .background {
+  .homeBackground {
     background-color: $color-pink-light;
     position: fixed;
     top: 0;
@@ -43,6 +43,16 @@
     align-items: center;
     max-width: 40rem;
     height: 100%;
+  }
+
+  .appBackground {
+    background-color: $color-white;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    max-width: $size-mobile-max;
+    height: 100%;
+    z-index: $z-index-app-background;
   }
 
   .main {
