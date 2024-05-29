@@ -3,20 +3,28 @@ import styles from './Button.module.scss';
 interface ButtonProps {
   size: 'large' | 'medium';
   children?: React.ReactNode;
-  backgroundColor: '#545454' | '#FFFFFF';
+  backgroundColor: '$color-gray-800' | '$color-gray-300' | '$color-pink-main' | '$color-white';
   onClick?: () => void;
 }
 
 export default function Button({ size, children, backgroundColor, onClick }: ButtonProps) {
   const sizeClass = styles[size];
-  const backgroundClass = backgroundColor === '#545454' ? styles.backgroundBlack : styles.backgroundWhite;
+  const backgroundColorMap: { [key: string]: string } = {
+    '$color-gray-800': styles.backgroundBlack,
+    '$color-gray-300': styles.backgroundGray,
+    '$color-pink-main': styles.backgroundPink,
+    '$color-white': styles.backgroundWhite,
+  };
+  const backgroundClass = backgroundColorMap[backgroundColor] || '';
   const className = `${styles.button} ${sizeClass} ${backgroundClass}`;
 
   return (
     <>
-      <button className={className} onClick={onClick}>
-        {children}
-      </button>
+      <div className={styles.buttonContainer}>
+        <button className={className} onClick={onClick}>
+          {children}
+        </button>
+      </div>
     </>
   );
 }
