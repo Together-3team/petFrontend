@@ -1,10 +1,14 @@
-@keyframes move-words {
-  0% {
-    left: 0%;
+@mixin move-words($duration) {
+  @keyframes move-words {
+    0% {
+      left: 0%;
+    }
+    100% {
+      left: calc(-1 * (var(--title-width) + 1rem));
+    }
   }
-  100% {
-    left: calc(-1 * (var(--title-width) + 1rem));
-  }
+
+  animation: move-words $duration linear infinite;
 }
 
 .card {
@@ -35,7 +39,7 @@
   display: flex;
   gap: 1rem;
   position: absolute;
-  animation: move-words var(--animation-duration) linear infinite;
+  @include move-words(var(--animation-duration));
 }
 
 .title {
