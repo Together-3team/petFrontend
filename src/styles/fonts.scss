@@ -1,6 +1,93 @@
+/* 폰트 적용 */
 @font-face {
   font-family: 'SUIT Variable';
   font-weight: 100 900;
   font-display: swap;
   src: url('../fonts/SUIT-Variable.woff2') format('woff2-variations');
+}
+
+/* 폰트 스타일 */
+/*
+  사용)
+  .example {
+    @include font-body3;
+
+    color: $color-black;
+  }
+*/
+@mixin font-headline1 {
+  font-size: 2rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 2.8rem; /* 140% */
+}
+
+@mixin font-headline2 {
+  font-size: 1.8rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 2.4rem; /* 133.333% */
+}
+
+@mixin font-headline3 {
+  font-size: 1.4rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 2rem; /* 142.857% */
+}
+
+@mixin font-body1 {
+  font-size: 1.4rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1.8rem; /* 128.571% */
+}
+
+@mixin font-body2 {
+  font-size: 1.4rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.8rem; /* 128.571% */
+}
+
+@mixin font-body3 {
+  font-size: 1.3rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1.6rem; /* 123.077% */
+}
+
+@mixin font-body4 {
+  font-size: 1.3rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.6rem; /* 123.077% */
+}
+
+@mixin font-body5 {
+  font-size: 1.2rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.6rem; /* 133.333% */
+}
+
+@mixin font-body6 {
+  font-size: 1.2rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.6rem; /* 133.333% */
+}
+
+@mixin font-caption1 {
+  font-size: 1.1rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.4rem; /* 127.273% */
+}
+
+@mixin font-caption2 {
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1.2rem; /* 120% */
 }

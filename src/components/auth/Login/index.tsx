@@ -1,3 +1,11 @@
+import GoogleLogin from './GoogleLogin';
+import KakaoLogin from './KakaoLogin';
+
 export default function Login() {
-  return <div>Login</div>;
+  return (
+    <div>
+      <GoogleLogin />
+      <KakaoLogin />
+    </div>
+  );
 }
