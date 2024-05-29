@@ -63,9 +63,4 @@
     min-height: 100vh;
     padding: 2rem 1.6rem;
   }
-
-  .rootModal {
-    @include modal-base;
-    z-index: $z-index-modal;
-  }
 }
