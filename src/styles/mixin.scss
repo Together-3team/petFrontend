@@ -47,3 +47,21 @@
 @mixin nav-shadow() {
   box-shadow: 0rem -0.4rem 2rem 0rem rgba(0, 0, 0, 0.08);
 }
+
+/*
+  modal
+
+  사용)
+  .example {
+    @include modal-base;
+  }
+*/
+@mixin modal-base() {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  max-width: $size-mobile-max;
+  @include desktop {
+    left: 50vw;
+  }
+}

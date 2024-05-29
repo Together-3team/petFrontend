@@ -26,6 +26,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
       </div>
       <div className={cx('main')}>
         <div className={cx('contents')}>{children}</div>
+        <div id="rootModal" className={cx('rootModal')}></div>
       </div>
     </div>
   );
