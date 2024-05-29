@@ -16,7 +16,7 @@ type ProductInfo = {
   price: number;
   starRating?: number;
   reviewCount?: number;
-  stock?: number;
+  stock: number;
   option?: string;
   quantity?: number;
 };
@@ -41,7 +41,7 @@ export default function Card({ productInfo, wishList = false, direction = 'colum
     discountRate,
     price,
     starRating,
-    reviewCount,
+    reviewCount = 0,
     stock,
     option,
     quantity,
@@ -57,11 +57,11 @@ export default function Card({ productInfo, wishList = false, direction = 'colum
     const titleElement = titleRef.current;
     if (titleElement) {
       const titleWidth = titleElement.offsetWidth;
-      if (size === 'big' && titleWidth > 140 && direction === 'column') {
+      if (size === 'big' && stock > 0 && titleWidth > 140 && direction === 'column') {
         setTitleInnerBoxClassName('titleInnerBox');
         setTitleWidth(titleWidth);
       }
-      if (size === 'small' && titleWidth > 100 && direction === 'column') {
+      if (size === 'small' && stock > 0 && titleWidth > 100 && direction === 'column') {
         setTitleInnerBoxClassName('titleInnerBox');
         setTitleWidth(titleWidth);
       }
@@ -116,13 +116,14 @@ export default function Card({ productInfo, wishList = false, direction = 'colum
               ref={titleRef}
               style={{
                 fontSize: size === 'big' || direction === 'row' ? '14px' : '10px',
-                textOverflow: direction === 'column' ? 'none' : 'ellipsis',
-                overflow: direction === 'column' ? 'none' : 'hidden',
-                width: direction === 'column' ? 'none' : '100%',
+                textOverflow: direction === 'column' && stock > 0 ? 'none' : 'ellipsis',
+                overflow: direction === 'column' && stock > 0 ? 'none' : 'hidden',
+                width: direction === 'column' && stock > 0 ? 'none' : '100%',
+                color: stock > 0 ? 'black' : '#B5B9C6',
               }}>
               {title}
             </div>
-            {titleInnerBoxClassName && direction === 'column' && (
+            {titleInnerBoxClassName && direction === 'column' && stock > 0 && (
               <h3
                 className={cx('title')}
                 style={{
@@ -139,19 +140,26 @@ export default function Card({ productInfo, wishList = false, direction = 'colum
             {option}|{quantity}개
           </p>
         )}
-        <p className={cx('originalPrice')} style={{ fontSize: size === 'big' || direction === 'row' ? '12px' : '8px' }}>
-          {originalPrice}원
-        </p>
-        <div className={cx('discountedPrice')}>
+        {stock === 0 && <p className={cx('outOfStock')}>품절된 상품이에요</p>}
+        {stock > 0 && (
           <p
-            className={cx('discountRate')}
-            style={{ fontSize: size === 'big' || direction === 'row' ? '16px' : '12px' }}>
-            {discountRate}%
+            className={cx('originalPrice')}
+            style={{ fontSize: size === 'big' || direction === 'row' ? '12px' : '8px' }}>
+            {originalPrice}원
           </p>
-          <p className={cx('price')} style={{ fontSize: size === 'big' || direction === 'row' ? '16px' : '12px' }}>
-            {price}원
-          </p>
-        </div>
+        )}
+        {stock > 0 && (
+          <div className={cx('discountedPrice')}>
+            <p
+              className={cx('discountRate')}
+              style={{ fontSize: size === 'big' || direction === 'row' ? '16px' : '12px' }}>
+              {discountRate}%
+            </p>
+            <p className={cx('price')} style={{ fontSize: size === 'big' || direction === 'row' ? '16px' : '12px' }}>
+              {price}원
+            </p>
+          </div>
+        )}
         {direction === 'column' && starRating !== null && starRating !== undefined && (
           <div className={cx('star')}>
             <StarIcon alt="별" width={9.5} height={9.5} />
@@ -160,24 +168,20 @@ export default function Card({ productInfo, wishList = false, direction = 'colum
             </p>
           </div>
         )}
-        {direction === 'column' &&
-          stock !== null &&
-          stock !== undefined &&
-          reviewCount !== null &&
-          reviewCount !== undefined && (
-            <div className={cx('tags')} style={{ gap: size === 'big' ? '4px' : '0' }}>
-              {stock <= 10 && (
-                <Tag size={size === 'big' ? 'big' : 'small'} type="stock" color="#FFF3F3">
-                  10개 미만
-                </Tag>
-              )}
-              {reviewCount >= 100 && (
-                <Tag size={size === 'big' ? 'big' : 'small'} type="thumbsUp" color="#E5FAFC">
-                  리뷰 100+
-                </Tag>
-              )}
-            </div>
-          )}
+        {direction === 'column' && stock > 0 && (
+          <div className={cx('tags')} style={{ gap: size === 'big' ? '4px' : '0' }}>
+            {stock <= 10 && (
+              <Tag size={size === 'big' ? 'big' : 'small'} type="stock" color="#FFF3F3">
+                10개 미만
+              </Tag>
+            )}
+            {reviewCount >= 100 && (
+              <Tag size={size === 'big' ? 'big' : 'small'} type="thumbsUp" color="#E5FAFC">
+                리뷰 100+
+              </Tag>
+            )}
+          </div>
+        )}
       </div>
     </Link>
   );
