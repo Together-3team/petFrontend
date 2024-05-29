@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import classNames from 'classnames/bind';
-import defaultProfileImg from '@/assets/svgs/defaultProfileImg.svg';
+import defaultProfileImg from '@/assets/images/defaultProfileImg.png';
 import styles from './ProfileImgBadge.module.scss';
 
 interface ProfileImaBadgeProps {
