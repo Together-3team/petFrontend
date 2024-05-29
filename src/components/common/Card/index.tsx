@@ -76,21 +76,15 @@ export default function Card({ productInfo, wishList = false, direction = 'colum
       href={`/product/${title}`}
       className={cx('card')}
       as="image"
+      data-direction={direction}
+      data-size={size}
       style={
         {
           '--title-width': `${titleWidth}px`,
           '--animation-duration': `${animationDuration}s`,
-          flexDirection: direction === 'column' ? 'column' : 'row',
-          gap: direction === 'column' ? '0' : '12px',
-          width: size === 'big' ? '140px' : direction === 'row' ? '100%' : '100px',
         } as React.CSSProperties
       }>
-      <div
-        className={cx('cardImage')}
-        style={{
-          width: size === 'big' ? '140px' : '100px',
-          height: size === 'big' ? '140px' : '100px',
-        }}>
+      <div className={cx('cardImage')} data-direction={direction} data-size={size}>
         <Image
           src={thumbNailImage}
           alt={title}
@@ -101,34 +95,14 @@ export default function Card({ productInfo, wishList = false, direction = 'colum
         />
         {/* 찜하기 버튼 */}
       </div>
-      <div
-        className={cx('cardContent')}
-        style={{ margin: direction === 'column' ? (size === 'big' ? '12px 0' : '4px 0') : '12px 0 4px' }}>
-        <div
-          className={cx('titleBox')}
-          style={{
-            height: size === 'big' || direction === 'row' ? '20px' : '12px',
-          }}>
+      <div className={cx('cardContent')} data-direction={direction} data-size={size}>
+        <div className={cx('titleBox')} data-direction={direction} data-size={size}>
           <div className={cx(titleInnerBoxClassName)}>
-            <div
-              className={cx('title')}
-              ref={titleRef}
-              style={{
-                fontSize: size === 'big' || direction === 'row' ? '14px' : '10px',
-                textOverflow: direction === 'column' && stock > 0 ? 'none' : 'ellipsis',
-                overflow: direction === 'column' && stock > 0 ? 'none' : 'hidden',
-                width: direction === 'column' && stock > 0 ? 'none' : '100%',
-                color: stock > 0 ? 'black' : '#B5B9C6',
-              }}>
+            <div className={cx('title')} ref={titleRef} data-stock={stock} data-direction={direction} data-size={size}>
               {title}
             </div>
             {titleInnerBoxClassName && direction === 'column' && stock > 0 && (
-              <h3
-                className={cx('title')}
-                style={{
-                  fontSize: size === 'big' ? '14px' : '10px',
-                  whiteSpace: direction === 'column' ? 'nowrap' : '',
-                }}>
+              <h3 className={cx('secondTitle')} data-direction={direction} data-size={size}>
                 {title}
               </h3>
             )}
@@ -141,20 +115,16 @@ export default function Card({ productInfo, wishList = false, direction = 'colum
         )}
         {stock === 0 && <p className={cx('outOfStock')}>품절된 상품이에요</p>}
         {stock > 0 && (
-          <p
-            className={cx('originalPrice')}
-            style={{ fontSize: size === 'big' || direction === 'row' ? '12px' : '8px' }}>
+          <p className={cx('originalPrice')} data-direction={direction} data-size={size}>
             {originalPrice}원
           </p>
         )}
         {stock > 0 && (
           <div className={cx('discountedPrice')}>
-            <p
-              className={cx('discountRate')}
-              style={{ fontSize: size === 'big' || direction === 'row' ? '16px' : '12px' }}>
+            <p className={cx('discountRate')} data-direction={direction} data-size={size}>
               {discountRate}%
             </p>
-            <p className={cx('price')} style={{ fontSize: size === 'big' || direction === 'row' ? '16px' : '12px' }}>
+            <p className={cx('price')} data-direction={direction} data-size={size}>
               {price}원
             </p>
           </div>
@@ -162,13 +132,13 @@ export default function Card({ productInfo, wishList = false, direction = 'colum
         {direction === 'column' && starRating !== null && starRating !== undefined && (
           <div className={cx('star')}>
             <StarIcon alt="별" width={9.5} height={9.5} />
-            <p className={cx('starRating')} style={{ fontSize: size === 'big' ? '10px' : '8px' }}>
+            <p className={cx('starRating')} data-size={size}>
               {starRating}
             </p>
           </div>
         )}
         {direction === 'column' && stock > 0 && (
-          <div className={cx('tags')} style={{ gap: size === 'big' ? '4px' : '0' }}>
+          <div className={cx('tags')} data-size={size}>
             {stock <= 10 && (
               <Tag size={size === 'big' ? 'big' : 'small'} type="stock" color="#FFF3F3">
                 10개 미만

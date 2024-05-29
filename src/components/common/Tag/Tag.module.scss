@@ -5,7 +5,21 @@
   background: #f9f9f9;
   height: 2rem;
   border-radius: 4.375rem;
-  font-size: 1rem;
+  font-size: 0.8rem;
   color: #a7a7a7;
   gap: 0.4rem;
+  padding: 0.35rem;
+
+  &[data-size='big'] {
+    font-size: 1rem;
+    padding: 0.35rem 0.5rem;
+  }
+
+  &[type='stock'] {
+    color: #fe5a65;
+  }
+
+  &[type='thumbsUp'] {
+    color: #34bacc;
+  }
 }

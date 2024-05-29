@@ -18,12 +18,10 @@ function Tag({ children, color, size, type }: TagProps) {
   return (
     <div
       className={cx('tag')}
-      data-status="item"
+      data-size={size}
+      data-type={type}
       style={{
         background: `${color}`,
-        color: type === 'stock' ? '#FE5A65' : '#34BACC',
-        fontSize: size === 'big' ? '10px' : '8px',
-        padding: size === 'big' ? '3.5px 5px' : '3.5px',
       }}>
       {type === 'stock' && (
         <Stock alt={type} width={size === 'big' ? 8 : 6} height={size === 'big' ? 8 : 6} viewBox="0 0 12 12" />
