@@ -3,6 +3,7 @@ import styles from './Cart.module.scss';
 import Card from '@/components/cart/Card';
 import TotalPay from '@/components/cart/TotalPay';
 import Button from '@/components/common/Button';
+import exampleProductImg from '@/assets/exampleProductImg.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
@@ -16,7 +17,7 @@ export default function Cart() {
       productCost: 10000, // 판매가
       originalCost: 11800, // 원가
       productNumber: 2,
-      imageUrl: '/images/exampleProductImg.jpg',
+      imageUrl: exampleProductImg,
     },
     {
       id: 2,
@@ -25,7 +26,7 @@ export default function Cart() {
       productCost: 15000,
       originalCost: 20000,
       productNumber: 3,
-      imageUrl: '/images/exampleProductImg.jpg',
+      imageUrl: exampleProductImg,
     },
     {
       id: 3,
@@ -34,7 +35,7 @@ export default function Cart() {
       productCost: 10000,
       originalCost: 11000,
       productNumber: 10,
-      imageUrl: '/images/exampleProductImg.jpg',
+      imageUrl: exampleProductImg,
     },
     {
       id: 4,
@@ -43,7 +44,7 @@ export default function Cart() {
       productCost: 10000,
       originalCost: 11000,
       productNumber: 10,
-      imageUrl: '/images/exampleProductImg.jpg',
+      imageUrl: exampleProductImg,
     },
   ];
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from './Card.module.scss';
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
@@ -11,7 +11,7 @@ interface CardProps {
   originalCost: number;
   isChecked: boolean;
   productNumber: number;
-  imageUrl: string;
+  imageUrl: string | StaticImageData;
   onCheck: () => void;
   onQuantityChange: (newQuantity: number) => void;
 }
@@ -32,16 +32,6 @@ export default function Card({
 
   const discountAmount = originalCost - productCost;
   const discountRate = (discountAmount / originalCost) * 100;
-
-  // function addProduct() {
-  //   setProductNumber(productNumber + 1);
-  // }
-  // function removeProduct() {
-  //   setProductNumber(productNumber - 1);
-  //   if (productNumber <= 1) {
-  //     setProductNumber(1);
-  //   }
-  // }
 
   function addProduct() {
     const newQuantity = productNumber + 1;
