@@ -13,6 +13,7 @@ interface CardProps {
   productNumber: number;
   imageUrl: string;
   onCheck: () => void;
+  onQuantityChange: (newQuantity: number) => void;
 }
 
 export default function Card({
@@ -24,6 +25,7 @@ export default function Card({
   productNumber: initialProductNumber,
   imageUrl,
   onCheck,
+  onQuantityChange,
 }: CardProps) {
   // 추후 백에서 장바구니에 담은 제품 갯수로 초기화하는 로직 추가
   const [productNumber, setProductNumber] = useState(initialProductNumber);
@@ -31,14 +33,25 @@ export default function Card({
   const discountAmount = originalCost - productCost;
   const discountRate = (discountAmount / originalCost) * 100;
 
+  // function addProduct() {
+  //   setProductNumber(productNumber + 1);
+  // }
+  // function removeProduct() {
+  //   setProductNumber(productNumber - 1);
+  //   if (productNumber <= 1) {
+  //     setProductNumber(1);
+  //   }
+  // }
+
   function addProduct() {
-    setProductNumber(productNumber + 1);
+    const newQuantity = productNumber + 1;
+    setProductNumber(newQuantity);
+    onQuantityChange(newQuantity);
   }
   function removeProduct() {
-    setProductNumber(productNumber - 1);
-    if (productNumber <= 1) {
-      setProductNumber(1);
-    }
+    const newQuantity = productNumber > 1 ? productNumber - 1 : 1;
+    setProductNumber(newQuantity);
+    onQuantityChange(newQuantity);
   }
 
   return (

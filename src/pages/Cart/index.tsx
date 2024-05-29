@@ -84,6 +84,15 @@ export default function Cart() {
     setSelectAll(allChecked);
   }
 
+  // 수량 변경 시 제품 수량 업데이트
+  function handleProductQuantityChange(id: number, newQuantity: number) {
+    const updatedProducts = products.map(product =>
+      product.id === id ? { ...product, productNumber: newQuantity } : product
+    );
+
+    setProducts(updatedProducts);
+  }
+
   // 선택한 제품의 총 원가 게산
   function calculateTotalOriginalPrice() {
     return products
@@ -135,6 +144,7 @@ export default function Cart() {
                 productNumber={product.productNumber}
                 imageUrl={product.imageUrl}
                 onCheck={() => handleProductCheck(product.id)}
+                onQuantityChange={(newQuantity: number) => handleProductQuantityChange(product.id, newQuantity)}
               />
             ))}
             <TotalPay totalPrice={totalPrice} totalOriginalPrice={totalOriginalPrice} productCount={productCount} />
