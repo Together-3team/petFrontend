@@ -11,7 +11,7 @@ export default function GoogleLogin() {
     <Link href={GOOGLE_AUTH_URL}>
       <div className={cx('googleButton')}>
         <GoogleLogo />
-        <div>Google로 계속하기</div>
+        <span>Google로 계속하기</span>
       </div>
     </Link>
   );
