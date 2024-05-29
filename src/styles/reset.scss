@@ -70,14 +70,12 @@
 
   /* custom reset */
 
-  * {
-    font-family: 'SUIT Variable';
-  }
-
   html {
     /* 62.5% of 16px browser font size is 10px */
     /* 16px * 0.625 = 10px */
     font-size: 62.5%;
+    font-family: 'SUIT Variable';
+    color: $color-black;
   }
 
   body {
@@ -87,6 +85,5 @@
 
   a {
     text-decoration: none;
-    color: black;
   }
 }
