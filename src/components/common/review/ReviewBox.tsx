@@ -28,9 +28,9 @@ export default function ReviewBox() {
             <p className={styles.date}>{formattedDate}</p>
           </div>
           <div className={styles.productDetail}>
-            <p>
+            <p className={styles.option}>
               옵션
-              <span>
+              <span className={styles.optionDetail}>
                 {testData.option} | {testData.quantity}개
               </span>
             </p>
