@@ -1,7 +1,9 @@
 import Image from 'next/image';
-import styles from './Tag.module.scss';
+import classNames from 'classnames/bind';
+
 import Stock from '@/assets/svgs/stock.svg';
 import ThumbsUp from '@/assets/svgs/thumbs-up.svg';
+import styles from './Tag.module.scss';
 
 type TagProps = {
   children: React.ReactNode;
@@ -10,10 +12,12 @@ type TagProps = {
   type?: 'stock' | 'thumbsUp';
 };
 
+const cx = classNames.bind(styles);
+
 function Tag({ children, color, size, type }: TagProps) {
   return (
     <div
-      className={styles.tag}
+      className={cx('tag')}
       data-status="item"
       style={{
         background: `${color}`,

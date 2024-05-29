@@ -7,7 +7,7 @@ import Tag from '../Tag';
 import StarIcon from '@/assets/svgs/star.svg';
 import styles from './Card.module.scss';
 
-type ProductInfo = {
+interface ProductInfo {
   id: number;
   title: string;
   thumbNailImage: string;
@@ -19,14 +19,14 @@ type ProductInfo = {
   stock: number;
   option?: string;
   quantity?: number;
-};
+}
 
-type CardProps = {
+interface CardProps {
   productInfo: ProductInfo;
   wishList?: boolean;
   direction?: 'column' | 'row';
   size: 'big' | 'small';
-};
+}
 
 const cx = classNames.bind(styles);
 
@@ -90,7 +90,6 @@ export default function Card({ productInfo, wishList = false, direction = 'colum
         style={{
           width: size === 'big' ? '140px' : '100px',
           height: size === 'big' ? '140px' : '100px',
-          flexShrink: '0',
         }}>
         <Image
           src={thumbNailImage}
