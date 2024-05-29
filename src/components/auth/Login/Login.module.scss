@@ -6,11 +6,27 @@
     align-items: center;
     gap: 0.8rem;
     border-radius: 1.2rem;
-    background: #fee500;
+    background: $color-star-yellow;
     cursor: pointer;
 
     span {
-      @include font-headline3;
+      @include font-body1;
+      color: $color-black;
+    }
+  }
+
+  .googleButton {
+    display: flex;
+    width: 30rem;
+    padding: 0rem 0.8rem;
+    align-items: center;
+    gap: 0.8rem;
+    border-radius: 1.2rem;
+    background: $color-white;
+    cursor: pointer;
+
+    span {
+      @include font-body1;
       color: $color-black;
     }
   }
