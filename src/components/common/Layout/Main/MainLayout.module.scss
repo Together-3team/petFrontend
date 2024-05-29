@@ -1,6 +1,26 @@
 @layer components {
   .contents {
-    // background-color: #fff; /* colors 상수로 변경 예정 */
-    // padding: 2rem 1.6rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .main {
+    position: relative;
+  }
+
+  .relativeBox {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    max-width: $size-mobile-max;
+  }
+
+  .topButton {
+    position: absolute;
+    bottom: 11rem;
+    right: 4rem;
+    z-index: 5;
   }
 }
