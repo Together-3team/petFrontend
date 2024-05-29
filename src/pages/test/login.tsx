@@ -1,9 +1,9 @@
-import KakaoLogin from '@/components/auth/Login/KakaoLogin';
+import Login from '@/components/auth/Login';
 
-export default function Login() {
+export default function LoginPage() {
   return (
     <>
-      <KakaoLogin />
+      <Login />
     </>
   );
 }
