@@ -1,0 +1,22 @@
+@layer components {
+  .myPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 14.4rem;
+    padding-bottom: 18.4rem;
+    padding-left: auto;
+    padding-right: auto;
+  }
+
+  .myTitle {
+    @include font-headline2;
+    text-align: center;
+    padding-bottom: 4.4rem;
+  }
+
+  .notRegister {
+    color: $color-gray-400;
+    @include font-body4;
+  }
+}
