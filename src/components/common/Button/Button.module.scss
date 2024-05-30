@@ -1,13 +1,19 @@
 .button {
-  border: 1px solid #000;
-  height: 40px;
+  height: 4rem;
   font-weight: 500;
+
+  border-radius: 0.8rem;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .large {
-  width: 327px;
-
-  font-size: 14px;
+  width: 30rem;
+  font-size: 1.4rem;
 }
 
 .medium {
@@ -15,10 +21,24 @@
 }
 
 .backgroundBlack {
-  background-color: #545454;
-  color: #ffffff;
+  background-color: $color-gray-800;
+  color: $color-white;
+  border: none;
+}
+
+.backgroundGray {
+  background-color: $color-gray-300;
+  color: $color-white;
+  border: none;
+}
+
+.backgroundPink {
+  background-color: $color-pink-main;
+  color: $color-white;
+  border: none;
 }
 
 .backgroundWhite {
-  background-color: #ffffff;
+  background-color: $color-white;
+  border: 1px solid $color-black;
 }

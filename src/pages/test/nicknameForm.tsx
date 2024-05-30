@@ -1,4 +1,4 @@
-import NicknameForm from '@/components/my/NicknameForm';
+import NicknameForm from '@/components/auth/NicknameForm';
 
 export default function nicknameForm() {
   return <NicknameForm />;

@@ -1,0 +1,91 @@
+.reviewBoxLayout {
+  max-width: 36rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+.profileImg {
+  width: 4.2rem;
+  height: 4.2rem;
+  flex-shrink: 0;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+}
+
+.userInfoDetail {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 0.8rem;
+}
+
+.nicknameAndDate {
+  display: flex;
+  justify-content: space-between;
+}
+
+.nickname {
+  color: $color-black;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 2rem;
+}
+
+.date {
+  color: $color-black;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1.6rem;
+}
+
+.productDetail {
+  display: flex;
+  align-items: center;
+
+  .option {
+    color: $color-gray-500;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1.6rem;
+  }
+
+  .optionDetail {
+    color: $color-gray-500;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.6rem;
+    margin: 0 0.4rem;
+  }
+}
+
+.ratingBox {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.ratingCount {
+  color: $color-gray-800;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.6rem;
+  margin-left: 1rem;
+}
+
+.description {
+  color: $color-black;
+  font-family: Inter;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 150%;
+}
