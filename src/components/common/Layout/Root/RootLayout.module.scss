@@ -1,0 +1,76 @@
+@layer components {
+  .container {
+    display: flex;
+    justify-content: center;
+
+    @include desktop {
+      display: block;
+    }
+  }
+
+  .homeBackground {
+    background-color: $color-pink-light;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    // transform: translateZ(0); // fixed 요소의 잔상 이슈 해결
+    // will-change: transform; // 브라우저 최적화
+    z-index: $z-index-home-background;
+  }
+
+  .heroContainer {
+    $size-home: 50rem;
+
+    display: none;
+    border: 0.1rem solid $color-pink-main;
+    position: fixed;
+    left: calc((-1 * $size-home) + 50vw);
+    width: $size-home;
+    height: 100vh;
+
+    @include desktop {
+      display: block;
+    }
+  }
+
+  .hero {
+    display: flex;
+    border: 0.1rem solid $color-blue;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 40rem;
+    height: 100%;
+  }
+
+  .appBackground {
+    background-color: $color-white;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    max-width: $size-mobile-max;
+    height: 100%;
+    z-index: $z-index-app-background;
+  }
+
+  .main {
+    max-width: $size-mobile-max;
+    width: 100%;
+
+    @include desktop {
+      position: relative;
+      left: 50vw;
+    }
+  }
+
+  .contents {
+    background-color: $color-white;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 100vh;
+    padding: 2rem 1.6rem;
+  }
+}

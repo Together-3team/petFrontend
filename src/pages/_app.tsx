@@ -6,6 +6,7 @@ import { HydrationBoundary, QueryClient, QueryClientProvider } from '@tanstack/r
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import '@/styles/reset.scss';
+import RootLayout from '@/components/common/Layout/Root';
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -26,7 +27,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
       </Head>
       <QueryClientProvider client={queryClient}>
         <HydrationBoundary state={pageProps.dehydratedState}>
-          {getLayout(<Component {...pageProps} />)}
+          <RootLayout>{getLayout(<Component {...pageProps} />)}</RootLayout>
           <ReactQueryDevtools initialIsOpen={false} />
         </HydrationBoundary>
       </QueryClientProvider>

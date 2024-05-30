@@ -1,3 +1,37 @@
+/*
+  media
+
+  사용)
+  .example {
+    
+    @include desktop {
+      width: 46rem;
+      height: 46rem;
+    }
+
+  }
+*/
+
+@mixin desktop {
+  @media (min-width: 1024px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: 768px) {
+    @content;
+  }
+}
+
+/*
+  shadow
+
+  사용)
+  .example {
+    @include modal-shadow;
+  }
+*/
 @mixin modal-shadow() {
   box-shadow: 0rem 0.4rem 2rem 0rem rgba(0, 0, 0, 0.08);
 }
@@ -12,4 +46,22 @@
 
 @mixin nav-shadow() {
   box-shadow: 0rem -0.4rem 2rem 0rem rgba(0, 0, 0, 0.08);
+}
+
+/*
+  modal
+
+  사용)
+  .example {
+    @include modal-base;
+  }
+*/
+@mixin modal-base() {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  max-width: $size-mobile-max;
+  @include desktop {
+    left: 50vw;
+  }
 }
