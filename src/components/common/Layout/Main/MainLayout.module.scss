@@ -1,0 +1,28 @@
+@layer components {
+  .contents {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .main {
+    position: relative;
+  }
+
+  .fixedContainer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    max-width: $size-mobile-max;
+  }
+
+  .fixedBox {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    position: absolute;
+    bottom: 9.6rem;
+    right: 1.6rem;
+  }
+}
