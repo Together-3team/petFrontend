@@ -11,12 +11,14 @@ const cx = classNames.bind(styles);
 
 interface FormProps {
   nickname: string;
-  phoneNumber: number;
+  phoneNumber: string;
 }
 
 const formSchema = Yup.object().shape({
   nickname: Yup.string().trim().max(30, '닉네임을 30자 이내로 입력해주세요').required('닉네임을 입력해주세요'),
-  phoneNumber: Yup.number().required('연락처를 입력해주세요'),
+  phoneNumber: Yup.string()
+    .matches(/^\d{3}-\d{3,4}-\d{4}$/, '연락처를 000-0000-0000 형식에 맞게 입력해주세요')
+    .required('연락처를 입력해주세요'),
 });
 
 export default function SignupForm() {
@@ -62,8 +64,8 @@ export default function SignupForm() {
           label="연락처"
           isError={errors.phoneNumber && true}
           labelStyle={'label'}
-          placeholder="연락처를 입력해주세요"
-          {...register}
+          placeholder="000-0000-0000"
+          {...register('phoneNumber')}
         />
         {errors.phoneNumber && <p style={{ color: 'red' }}>{errors.phoneNumber.message}</p>}
       </div>
