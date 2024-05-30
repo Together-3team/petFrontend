@@ -12,6 +12,6 @@ permissions:
     mode: 755
 hooks:
   AfterInstall:
-    - location: deploy.sh
+    - location: scripts/aws-deploy.sh
       timeout: 300
       runas: root
