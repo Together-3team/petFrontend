@@ -1,6 +1,7 @@
 .productImg {
-  width: 5.6rem;
-  height: 5.6rem;
+  width: 8rem;
+  height: 8rem;
+  border-radius: 0.8rem;
 }
 
 .productBoxTop {
@@ -8,32 +9,53 @@
   justify-content: space-between;
 }
 
+.checkbox {
+  accent-color: $color-pink-main;
+}
+
 .productExplain {
   display: flex;
   margin: 1rem 1.5rem;
-  gap: 1rem;
+  gap: 1.2rem;
 }
 
 .productTitle {
   font-size: 1.4rem;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .option {
   font-size: 1.2rem;
-  color: #a7a7a7;
+  color: $color-gray-500;
   font-weight: 500;
 }
 
+.moneyContainerRight {
+  margin-top: 0.2rem;
+}
+
+.moneyContainer {
+  display: flex;
+  gap: 1.2rem;
+}
+
 .counterButton {
-  margin-left: 8rem;
+  margin-left: 1.5rem;
+}
+
+.plusminus {
+  border: none;
+  width: 2.4rem;
+  height: 2.4rem;
+  background-color: $color-gray-50;
 }
 
 .productNumber {
   text-align: center;
-  width: 4.9rem;
-  border: none;
-  background-color: #efefef;
+  width: 3.2rem;
+  height: 2.4rem;
+  border: 0.1rem solid $color-gray-300;
+  border-radius: 0.6rem;
 }
 
 .productNumber:focus {
@@ -41,15 +63,31 @@
 }
 
 .productCost {
-  font-size: 1.8rem;
-  font-weight: 500;
-  margin-left: 8rem;
-  margin-top: 1.5rem;
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: $color-gray-400;
+  text-decoration: line-through;
+}
+
+.realPrice {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.discountRate {
+  color: $color-pink-main;
+  font-weight: 600;
+}
+
+.realMoney {
+  font-size: 1.4rem;
+  font-weight: 600;
 }
 
 .line {
   width: 100%;
   height: 0.1rem;
-  background-color: #d9d9d9;
+  background-color: $color-gray-100;
   margin: 1rem 0;
 }
