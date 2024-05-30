@@ -1,14 +1,12 @@
 @layer components {
   .modalBase {
-    width: 100%;
-    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color: #ffffff;
-    position: fixed;
-    bottom: 0;
+    @include modal-base;
+    z-index: $z-index-modal;
   }
 
   .modalContent {

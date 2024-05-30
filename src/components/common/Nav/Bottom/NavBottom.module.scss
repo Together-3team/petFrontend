@@ -1,6 +1,7 @@
 @layer components {
   .nav {
-    width: 36rem;
+    @include nav-shadow;
+    width: 100%;
     padding: 2rem 0;
   }
 
@@ -19,11 +20,11 @@
 
     &.active {
       &:not(:has(.stroke)) path {
-        fill: #fe5a65;
+        fill: $color-pink-main;
       }
 
       & .stroke path {
-        stroke: #fe5a65;
+        stroke: $color-pink-main;
       }
     }
   }
