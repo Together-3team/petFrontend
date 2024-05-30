@@ -29,7 +29,7 @@ export default function NicknameForm() {
       <Input
         id="nickname"
         type="text"
-        size={'large'}
+        size="large"
         label="닉네임"
         isError={errors.nickname && true}
         labelStyle={'label'}
