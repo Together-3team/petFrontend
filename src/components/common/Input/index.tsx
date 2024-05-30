@@ -61,6 +61,7 @@ export default Input;
   기본: <Input id="" type="text" size={''} label=" " labelStyle="label" placeholder="" background={''} />;
   1. 닉네임 인풋
       <Input
+        id = ""
         type="text"
         size={'large'}
         label=" "
@@ -69,6 +70,7 @@ export default Input;
       />
   2.  사이즈 큰 검색 인풋
       <Input
+        id = ""
         type="text"
         size={'mediumLarge'}
         border={'roundBorder'}
@@ -80,6 +82,7 @@ export default Input;
       />
   3. 사이즈 작은 검색 인풋
       <Input
+        id = ""
         type="text"
         size={'medium'}
         border={'roundBorder'}
