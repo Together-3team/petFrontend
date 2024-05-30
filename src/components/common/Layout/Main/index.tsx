@@ -9,8 +9,15 @@ export default function MainLayout({ children }: PropsWithChildren) {
     <div className={styles.contents}>
       <MainHeader />
       <main className={styles.main}>{children}</main>
-      <div className={styles.relativeBox}>
-        <button className={styles.topButton}>top</button>
+      <div className={styles.fixedContainer}>
+        <div className={styles.fixedBox}>
+          <button type="button" onClick={() => alert('top')}>
+            top
+          </button>
+          <button type="button" onClick={() => alert('category')}>
+            category
+          </button>
+        </div>
       </div>
       <MainFooter />
     </div>

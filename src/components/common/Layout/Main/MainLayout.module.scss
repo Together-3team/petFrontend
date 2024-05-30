@@ -10,17 +10,19 @@
     position: relative;
   }
 
-  .relativeBox {
+  .fixedContainer {
     position: fixed;
     bottom: 0;
     width: 100%;
     max-width: $size-mobile-max;
   }
 
-  .topButton {
+  .fixedBox {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
     position: absolute;
-    bottom: 11rem;
-    right: 4rem;
-    z-index: 5;
+    bottom: 9.6rem;
+    right: 1.6rem;
   }
 }
