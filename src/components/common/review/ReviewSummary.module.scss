@@ -34,11 +34,17 @@
 .ratingBox {
   margin: 28px 0;
   display: flex;
+  justify-content: center;
   align-items: center;
 }
 
 .starRating {
-  // width: 136px;
+  gap: 4px;
+}
+
+.star {
+  width: 24px;
+  height: 24px;
 }
 
 .totalRating {
@@ -55,7 +61,7 @@
   margin-right: 8px;
 }
 
-.basicRating {
+.defaultRating {
   color: var(--Grayscale-Gray-600, #73798d);
 
   /* Body2 */
