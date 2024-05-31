@@ -1,6 +1,7 @@
 import Card from '@/components/common/Card';
 import styles from './Card.module.scss';
 import rectangleImg from '@/assets/images/rectangle.png';
+import Zzim from '@/components/common/Zzim';
 
 export default function CardPage() {
   const productList = {
@@ -77,7 +78,8 @@ export default function CardPage() {
     <div className={styles.cards}>
       <Card productInfo={productList} size="big" />
       <Card productInfo={productList} size="small" />
-      <Card productInfo={productList2} wishList={true} size="big" />
+      <Card productInfo={productList2} zzim={true} size="big" />
+      <Zzim color="gray" />
       <Card productInfo={productList3} direction="row" size="small" />
       <Card productInfo={productList6} direction="row" size="small" />
       <Card productInfo={productList4} size="big" />
