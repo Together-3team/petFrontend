@@ -12,7 +12,6 @@ interface ProductInfo {
   title: string;
   thumbNailImage: string;
   originalPrice: number;
-  discountRate: number;
   price: number;
   starRating?: number;
   reviewCount?: number;
@@ -38,7 +37,6 @@ export default function Card({ productInfo, wishList = false, direction = 'colum
     title,
     thumbNailImage,
     originalPrice,
-    discountRate,
     price,
     starRating,
     reviewCount = 0,
@@ -51,6 +49,8 @@ export default function Card({ productInfo, wishList = false, direction = 'colum
   const titleRef = useRef<HTMLDivElement | null>(null);
   const [titleInnerBoxClassName, setTitleInnerBoxClassName] = useState('');
   const [titleWidth, setTitleWidth] = useState(0);
+
+  const discountRate = Math.ceil((1 - price / originalPrice) * 100);
 
   //title이 큰 카드, 작은 카드 각각의 너비를 초과하면 글씨가 흐르도록 함
   useEffect(() => {
