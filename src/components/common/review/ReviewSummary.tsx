@@ -6,18 +6,18 @@ export default function ReviewSummary() {
   const totalReviewer = 180;
 
   return (
-    <div>
-      <div>
-        <p>리뷰</p>
-        <p>리뷰 개수</p>
+    <div className={styles.reviewSummaryLayout}>
+      <div className={styles.reviewTitleBox}>
+        <p className={styles.review}>리뷰</p>
+        <p className={styles.totalReview}>{totalReviewer}</p>
       </div>
-      <div>
-        <StarRating rating={rating} />
-        <p>
+      <div className={styles.ratingBox}>
+        <StarRating rating={rating} className={styles.starRating} />
+        <p className={styles.totalRating}>
           {rating}
-          <span>/ 5.0</span>
+          <span className={styles.basicRating}> / 5.0</span>
         </p>
-        <p>{`(${totalReviewer}명)`}</p>
+        <p className={styles.totalReviewer}>{`(${totalReviewer}명)`}</p>
       </div>
     </div>
   );
