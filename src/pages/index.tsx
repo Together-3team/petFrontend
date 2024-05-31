@@ -1,14 +1,10 @@
-import classNames from 'classnames/bind';
-
 import MainLayout from '@/components/common/Layout/Main';
 import styles from './HomePage.module.scss';
 
-const cx = classNames.bind(styles);
-
 export default function HomePage() {
   return (
-    <>
-      <div className={cx('test')}>
+    <div className={styles.container}>
+      <div className={styles.test}>
         <p>
           Ad occaecat officia dolor nulla labore. Eu qui in elit exercitation in nostrud non. Sint sit consequat aliquip
           aliqua. Sint laborum non aliquip adipisicing nisi deserunt pariatur reprehenderit esse elit eu non commodo
@@ -45,7 +41,7 @@ export default function HomePage() {
           sunt adipisicing incididunt enim Lorem qui esse ullamco ullamco officia. Qui et officia esse aute aliqua. Ad
           culpa deserunt minim enim consectetur aliqua aute nisi eiusmod.
         </p>
-        <div className={cx('divider')} />
+        <div className={styles.divider} />
         <p>
           Eiusmod cillum irure excepteur fugiat eiusmod officia in eu. Irure magna incididunt id do consequat
           consectetur anim qui ullamco enim elit. Amet pariatur nulla est Lorem. Anim non qui magna ea do laborum
@@ -89,7 +85,7 @@ export default function HomePage() {
           et.
         </p>
       </div>
-    </>
+    </div>
   );
 }
 
