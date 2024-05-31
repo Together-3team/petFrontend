@@ -2,10 +2,11 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import classNames from 'classnames/bind';
-import Input from '../../common/Input';
+import Input from '@/components/common/Input';
 import styles from './SignupForm.module.scss';
 import Button from '@/components/common/Button';
 import UserAgreement from './UserAgreement';
+import { FormEvent } from 'react';
 
 const cx = classNames.bind(styles);
 
@@ -45,6 +46,7 @@ export default function SignupForm() {
       marketingAgreement: false,
     },
   });
+
   const onSubmit: SubmitHandler<FormProps> = data => console.log(data);
   console.log(errors);
   console.log(onSubmit);

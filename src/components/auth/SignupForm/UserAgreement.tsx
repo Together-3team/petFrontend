@@ -1,8 +1,10 @@
-import { forwardRef } from 'react';
+import { FormEvent, forwardRef } from 'react';
 import Link from 'next/link';
+import { UseFormRegisterReturn, useFormContext } from 'react-hook-form';
 import classNames from 'classnames/bind';
 import styles from './UserAgreement.module.scss';
-import { UseFormRegisterReturn } from 'react-hook-form';
+
+const cx = classNames.bind(styles);
 
 interface UserAgreementProps {
   id: string;
@@ -11,23 +13,32 @@ interface UserAgreementProps {
   marketing: UseFormRegisterReturn<'marketingAgreement'>;
 }
 
-const cx = classNames.bind(styles);
-const type = 'checkbox';
-const UserAgreement = forwardRef<HTMLInputElement, UserAgreementProps>(function UserAgreement(
-  { id, service, privatePolicy, marketing },
-  ref
-) {
+const UserAgreement = forwardRef<HTMLInputElement, UserAgreementProps>(function UserAgreement({
+  id,
+  service,
+  privatePolicy,
+  marketing,
+}) {
+  const { setValue } = useFormContext();
+
+  const handleSelectAll = (e: FormEvent<HTMLInputElement>) => {
+    if (e.currentTarget.checked) {
+      setValue(`id.${UserAgreement}`, true);
+    } else {
+      setValue(`id.${UserAgreement}`, false);
+    }
+  };
   return (
     <div className={cx('userAgreement')}>
       <span className={cx('agreementTitle')}>이용약관</span>
       <div className={cx('allAgreement')}>
-        <input ref={ref} id={`${id}-all`} type={type} className={cx('checkBox')} value={'all'} />
+        <input id={`${id}-all`} type="checkbox" className={cx('checkBox')} value={'all'} onChange={handleSelectAll} />
         <span className={cx('allAgreementText')}>전체 동의</span>
       </div>
       <div>
         <div className={cx('agreementBox')}>
           <div className={cx('agreement')}>
-            <input id={`${id}-1`} type={type} className={cx('check')} {...service} />
+            <input id={`${id}-1`} type="checkbox" className={cx('check')} {...service} />
             <span className={cx('inputCenter')}>(필수) 서비스 이용약관 동의</span>
             <Link
               className={cx('detail')}
@@ -36,7 +47,7 @@ const UserAgreement = forwardRef<HTMLInputElement, UserAgreementProps>(function 
             </Link>
           </div>
           <div className={cx('agreement')}>
-            <input id={`${id}-2`} type={type} className={cx('check')} {...privatePolicy} />
+            <input id={`${id}-2`} type="checkbox" className={cx('check')} {...privatePolicy} />
             <span className={cx('inputCenter')}>(필수) 개인정보 수집 및 이용 동의</span>
             <Link
               className={cx('detail')}
@@ -45,7 +56,7 @@ const UserAgreement = forwardRef<HTMLInputElement, UserAgreementProps>(function 
             </Link>
           </div>
           <div className={cx('agreement')}>
-            <input id={`${id}-3`} type={type} className={cx('check')} {...marketing} />
+            <input id={`${id}-3`} type="checkbox" className={cx('check')} {...marketing} />
             <span className={cx('inputCenter')}>(선택) 광고성 정보 수신 전체 동의</span>
             <Link
               className={cx('detail')}
