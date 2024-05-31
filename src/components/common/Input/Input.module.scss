@@ -48,11 +48,13 @@
   }
 
   .error {
-    border: 0.1rem red solid;
+    border: 0.1rem $color-pink-main solid;
+    background-color: $color-pink-light;
+    color: $color-pink-main;
   }
 
   .errorText {
-    color: red;
+    color: $color-pink-main;
     font-size: 0.8rem;
     text-align: left;
   }

@@ -63,7 +63,7 @@ export default Input;
       <Input
         id = ""
         type="text"
-        size={'large'}
+        size="large"
         label=" "
         labelStyle={'label'}
         placeholder="닉네임을 입력해주세요"
@@ -72,7 +72,7 @@ export default Input;
       <Input
         id = ""
         type="text"
-        size={'mediumLarge'}
+        size="mediumLarge"
         border={'roundBorder'}
         label=" "
         labelStyle={'label'}
@@ -84,7 +84,7 @@ export default Input;
       <Input
         id = ""
         type="text"
-        size={'medium'}
+        size="medium"
         border={'roundBorder'}
         label=" "
         labelStyle={'label'}

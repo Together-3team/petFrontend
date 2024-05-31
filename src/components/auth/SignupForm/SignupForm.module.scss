@@ -24,6 +24,12 @@
     height: 3.2rem;
   }
 
+  .ageCheckInput {
+    width: 32.8rem;
+    display: flex;
+    align-items: center;
+  }
+
   .ageCheckText {
     @include font-body3;
   }
@@ -33,6 +39,17 @@
     height: 2rem;
     margin: 0.6rem;
     accent-color: $color-pink-main;
+  }
+
+  .errorText {
+    @include font-caption1;
+    color: $color-pink-main;
+    align-self: stretch;
+  }
+
+  .ageCheckErrorText {
+    padding-top: 0.8rem;
+    padding-left: 1rem;
   }
 
   .buttonArea {

@@ -1,7 +1,8 @@
-import { FormEvent, forwardRef } from 'react';
+import { ChangeEvent, FormEvent, forwardRef } from 'react';
 import Link from 'next/link';
-import { UseFormRegisterReturn, useFormContext } from 'react-hook-form';
+import { UseFormRegister, UseFormRegisterReturn, useFormContext } from 'react-hook-form';
 import classNames from 'classnames/bind';
+import { FormProps } from '.';
 import styles from './UserAgreement.module.scss';
 
 const cx = classNames.bind(styles);
@@ -21,18 +22,18 @@ const UserAgreement = forwardRef<HTMLInputElement, UserAgreementProps>(function 
 }) {
   const { setValue } = useFormContext();
 
-  const handleSelectAll = (e: FormEvent<HTMLInputElement>) => {
-    if (e.currentTarget.checked) {
-      setValue(`id.${UserAgreement}`, true);
-    } else {
-      setValue(`id.${UserAgreement}`, false);
-    }
-  };
+  function handleSelectAll(e: ChangeEvent<HTMLInputElement>) {
+    const isChecked = e.target.checked;
+    setValue(service.name, isChecked);
+    setValue(privatePolicy.name, isChecked);
+    setValue(marketing.name, isChecked);
+  }
+  // TODO: 전체 동의 구현
   return (
     <div className={cx('userAgreement')}>
       <span className={cx('agreementTitle')}>이용약관</span>
       <div className={cx('allAgreement')}>
-        <input id={`${id}-all`} type="checkbox" className={cx('checkBox')} value={'all'} onChange={handleSelectAll} />
+        <input id={`${id}-all`} type="checkbox" className={cx('checkBox')} onChange={handleSelectAll} />
         <span className={cx('allAgreementText')}>전체 동의</span>
       </div>
       <div>
