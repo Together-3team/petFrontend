@@ -23,11 +23,11 @@ const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   { label, isError, errorText, labelStyle, size, border, imageProps, background, ...rest },
   ref
 ) {
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+  function handleChange(event: ChangeEvent<HTMLInputElement>) {
     if (ref && 'current' in ref && ref.current) {
       ref.current.value = event.target.value;
     }
-  };
+  }
   return (
     <div className={cx('inputWithLabel')}>
       {label && <label className={cx(labelStyle)}>{label}</label>}
