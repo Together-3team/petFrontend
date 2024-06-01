@@ -4,7 +4,6 @@ import Head from 'next/head';
 import { ReactElement, ReactNode, useState } from 'react';
 import { HydrationBoundary, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { FormProvider, useForm } from 'react-hook-form';
 
 import '@/styles/reset.scss';
 import RootLayout from '@/components/common/Layout/Root';
@@ -20,7 +19,6 @@ type AppPropsWithLayout = AppProps & {
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? (page => page);
   const [queryClient] = useState(() => new QueryClient());
-  const methods = useForm();
 
   return (
     <>
@@ -28,12 +26,10 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
         <title>포잉마켓</title>
       </Head>
       <QueryClientProvider client={queryClient}>
-        <FormProvider {...methods}>
-          <HydrationBoundary state={pageProps.dehydratedState}>
-            <RootLayout>{getLayout(<Component {...pageProps} />)}</RootLayout>
-            <ReactQueryDevtools initialIsOpen={false} />
-          </HydrationBoundary>
-        </FormProvider>
+        <HydrationBoundary state={pageProps.dehydratedState}>
+          <RootLayout>{getLayout(<Component {...pageProps} />)}</RootLayout>
+          <ReactQueryDevtools initialIsOpen={false} />
+        </HydrationBoundary>
       </QueryClientProvider>
     </>
   );

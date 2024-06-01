@@ -1,10 +1,17 @@
+import { useFormContext } from 'react-hook-form';
+import { FormValues } from '@/components/auth/SignupForm';
 import styles from './CheckOnly.module.scss';
 
-export default function CheckOnly({ id }: { id: string }) {
+interface CheckOnlyProps {
+  name: string;
+}
+
+export default function CheckOnly({ name }: CheckOnlyProps) {
+  const { register } = useFormContext<FormValues>();
   return (
     <>
-      <label htmlFor={id} className={styles.checkboxLabel}>
-        <input id={id} type="checkbox" className={styles.checkboxInput} />
+      <label className={styles.checkboxLabel}>
+        <input type="checkbox" className={styles.checkboxInput} {...register(name)} />
         <div className={styles.checkIcon} />
       </label>
     </>
