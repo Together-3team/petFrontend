@@ -54,7 +54,7 @@ export default function SignupForm() {
 
   const onSubmit: SubmitHandler<FormProps> = data => console.log(data);
   console.log(errors);
-  console.log(onSubmit);
+
   return (
     <form className={cx('signupForm')} onSubmit={handleSubmit(onSubmit)}>
       <div className={cx('inputArea')}>

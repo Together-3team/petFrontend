@@ -1,10 +1,10 @@
-import Image, { ImageProps } from 'next/image';
+import Image, { ImageProps, StaticImageData } from 'next/image';
 import classNames from 'classnames/bind';
 import styles from './ImageBox.module.scss';
 
 interface ImageBox extends ImageProps {
   size: 'myPageFirstPhoto' | 'petPhoto' | 'welcomePetPhoto' | string;
-  src: string;
+  src: StaticImageData;
   alt: string;
   disabled?: boolean;
 }
@@ -24,7 +24,8 @@ export default function ImageBox({ size, src, alt, disabled, ...props }: ImageBo
 
 {
   /* 사용법
-  <ImageBox size={'my'} src="/images/search.svg" alt="검색 아이콘" disabled />
-  <ImageBox size={'my'} src="/images/search.svg" alt="검색 아이콘" />
+  import Sample from '@/assets/exampleProductImg.jpg';
+  <ImageBox size={'my'} src={Sample} alt="설이 이미지" disabled />
+  <ImageBox size={'my'} src={Sample} alt="설이 이미지" />
   */
 }

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { UseFormRegister, UseFormRegisterReturn, useFormContext } from 'react-hook-form';
 import classNames from 'classnames/bind';
 import { FormProps } from '.';
+import CheckOnly from '@/components/common/CheckOnly';
 import styles from './UserAgreement.module.scss';
 
 const cx = classNames.bind(styles);
@@ -39,7 +40,8 @@ const UserAgreement = forwardRef<HTMLInputElement, UserAgreementProps>(function 
       <div>
         <div className={cx('agreementBox')}>
           <div className={cx('agreement')}>
-            <input id={`${id}-1`} type="checkbox" className={cx('check')} {...service} />
+            <CheckOnly id="ageCheck" />
+            {/* <input id={`${id}-1`} type="checkbox" className={cx('check')} {...service} /> */}
             <span className={cx('inputCenter')}>(필수) 서비스 이용약관 동의</span>
             <Link
               className={cx('detail')}
