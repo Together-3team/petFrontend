@@ -20,7 +20,7 @@ interface InputProps {
 const cx = classNames.bind(styles);
 
 const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
-  { label, isError, errorText, labelStyle, size, border, imageProps, background, ...rest },
+  { id, label, isError, errorText, labelStyle, size, border, imageProps, background, ...rest },
   ref
 ) {
   function handleChange(event: ChangeEvent<HTMLInputElement>) {
@@ -30,7 +30,11 @@ const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   }
   return (
     <div className={cx('inputWithLabel')}>
-      {label && <label className={cx(labelStyle)}>{label}</label>}
+      {label && (
+        <label htmlFor={id} className={cx(labelStyle)}>
+          {label}
+        </label>
+      )}
       <div className={cx({ inputWithIcon: imageProps })}>
         <input
           ref={ref}

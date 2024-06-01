@@ -5,17 +5,17 @@ import classNames from 'classnames/bind';
 import Input from '@/components/common/Input';
 import Button from '@/components/common/Button';
 import UserAgreement from './UserAgreement';
-import formSchema from '@/utils/formSchema';
+import signupFormSchema from '@/utils/signupFormSchema';
 
 import styles from './SignupForm.module.scss';
 
 const cx = classNames.bind(styles);
 
-export type FormValues = Yup.InferType<typeof formSchema>;
+export type FormValues = Yup.InferType<typeof signupFormSchema>;
 
 export default function SignupForm() {
   const methods = useForm<FormValues>({
-    resolver: yupResolver(formSchema),
+    resolver: yupResolver(signupFormSchema),
   });
   const {
     formState: { errors },

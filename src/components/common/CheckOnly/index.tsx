@@ -3,7 +3,7 @@ import { FormValues } from '@/components/auth/SignupForm';
 import styles from './CheckOnly.module.scss';
 
 interface CheckOnlyProps {
-  name: string;
+  name: 'nickname' | 'phoneNumber' | 'ageCheck' | 'serviceAgreement' | 'privatePolicy' | 'marketingAgreement';
 }
 
 export default function CheckOnly({ name }: CheckOnlyProps) {
