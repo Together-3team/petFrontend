@@ -1,0 +1,7 @@
+.reviewContainer > :not(:last-child) {
+  border-top: 1px solid $color-gray-200;
+}
+
+.reviewBoxStyle {
+  padding: 16px;
+}
