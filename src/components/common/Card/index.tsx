@@ -9,7 +9,7 @@ import StarIcon from '@/assets/svgs/star.svg';
 import styles from './Card.module.scss';
 
 interface ProductInfo {
-  id: number;
+  productId: number;
   title: string;
   thumbNailImage: string;
   originalPrice: number;
@@ -24,6 +24,7 @@ interface ProductInfo {
 interface CardProps {
   productInfo: ProductInfo;
   zzim?: boolean;
+  userId: number;
   direction?: 'column' | 'row';
   size: 'big' | 'small';
 }
@@ -33,8 +34,9 @@ const cx = classNames.bind(styles);
 // direction="row"는 꼭 size="small"과 함께 사용
 // option은 string으로 받는 것으로 생각 ex) 닭고기/ 가슴살
 
-export default function Card({ productInfo, zzim = false, direction = 'column', size = 'big' }: CardProps) {
+export default function Card({ productInfo, zzim = false, userId, direction = 'column', size = 'big' }: CardProps) {
   const {
+    productId,
     title,
     thumbNailImage,
     originalPrice,
@@ -94,7 +96,7 @@ export default function Card({ productInfo, zzim = false, direction = 'column', 
           placeholder="blur"
           sizes={size === 'big' ? '(max-width: 140px) 100vw, 140px' : '(max-width: 100px) 100vw, 100px'}
         />
-        {zzim && <Zzim className={cx('zzim')} color="white" />}
+        {zzim && <Zzim className={cx('zzim')} color="white" productId={productId} userId={userId} />}
       </div>
       <div className={cx('cardContent')} data-direction={direction} data-size={size}>
         <div className={cx('titleBox')} data-direction={direction} data-size={size}>

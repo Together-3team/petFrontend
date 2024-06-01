@@ -9,11 +9,14 @@ import styles from './Zzim.module.scss';
 interface Zzim {
   className?: string;
   color: 'gray' | 'white';
+  userId: number;
+  productId: number;
 }
 
 const cx = classNames.bind(styles);
 
-export default function Zzim({ className, color }: Zzim) {
+//className에서 zzim 위치 조정
+export default function Zzim({ className, color, userId, productId }: Zzim) {
   const [isProductLikedByCurrentUser, setIsProductLikedByCurrentUser] = useState(true);
 
   const handleZzimClick = (e: MouseEvent<HTMLButtonElement>) => {
