@@ -11,7 +11,7 @@ export const getLikeStatus = async (productId: number, userId: number) => {
   }
 };
 
-export const likePost = async (productId: number, userId: number) => {
+export const likeProduct = async (productId: number, userId: number) => {
   const response = await axios.post(`/products/${productId}/likes/${userId}`);
 
   if (!(response.status >= 200 && response.status < 300)) {
@@ -19,7 +19,7 @@ export const likePost = async (productId: number, userId: number) => {
   }
 };
 
-export const unlikePost = async (productId: number, userId: number) => {
+export const unlikeProduct = async (productId: number, userId: number) => {
   const response = await axios.delete(`/products/${productId}/likes/${userId}`);
 
   if (!(response.status >= 200 && response.status < 300)) {
