@@ -2,12 +2,12 @@
   .contents {
     display: flex;
     flex-direction: column;
-    align-items: center;
     width: 100%;
   }
 
   .main {
     position: relative;
+    min-height: 100vh;
   }
 
   .fixedContainer {
