@@ -2,6 +2,7 @@ import ReviewBox from './ReviewBox';
 import ReviewSummary from './ReviewSummary';
 import styles from './HighlightReview.module.scss';
 import Button from '../Button';
+import Link from 'next/link';
 
 export default function HighlightReview() {
   const testData = [
@@ -45,7 +46,9 @@ export default function HighlightReview() {
           <ReviewBox key={data.id} reviewData={data} className={styles.reviewBoxStyle} />
         ))}
       </div>
-      <button>리뷰 전체보기</button>
+      <Link href={'/test/review'} className={styles.allReviewLinkBtn}>
+        리뷰 전체보기
+      </Link>
     </div>
   );
 }
