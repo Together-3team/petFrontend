@@ -1,42 +1,53 @@
 .cart {
   padding: 3rem;
+  padding-bottom: 11rem;
+}
+
+.checkbox {
+  accent-color: $color-pink-main;
+}
+
+.totalCheckboxContainer {
+  display: flex;
+  justify-content: space-between;
 }
 
 .totalCheckbox {
   display: flex;
   gap: 0.8rem;
   margin-bottom: 3rem;
+  color: $color-gray-600;
 }
 
-.totalNumberTitle {
-  margin: 1.5rem 0;
-  font-size: 1.4rem;
-}
-
-.pricePair {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1.5rem;
-  font-size: 1.4rem;
-}
-
-.gray {
-  color: #a7a7a7;
-}
-
-.line {
-  width: 100%;
-  height: 0.15rem;
-  background-color: #000000;
-}
-
-.totalPrice {
-  margin-top: 1rem;
-  display: flex;
-  justify-content: space-between;
+.faTrash {
+  color: $color-gray-400;
 }
 
 .noProduct {
   display: flex;
   justify-content: center;
+}
+
+.bottomNavCart {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  bottom: 0;
+  left: 0;
+  box-shadow: 0px -4px 20px 0px rgba(0, 0, 0, 0.08);
+  background-color: $color-white;
+  padding: 2rem;
+  position: fixed;
+  // width: 36rem;
+  width: 100%;
+  height: 9.4rem;
+}
+
+.howMuchMinus {
+  text-align: center;
+  font-size: 1.4rem;
+}
+
+.pink {
+  color: $color-pink-main;
 }
