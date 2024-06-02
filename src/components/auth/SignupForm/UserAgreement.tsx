@@ -1,6 +1,6 @@
-import { ChangeEvent, FormEvent, forwardRef } from 'react';
+import { ChangeEvent } from 'react';
 import Link from 'next/link';
-import { UseFormRegister, UseFormRegisterReturn, useFormContext } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import classNames from 'classnames/bind';
 import { FormValues } from '.';
 import CheckOnly from '@/components/common/CheckOnly';
@@ -9,7 +9,7 @@ import styles from './UserAgreement.module.scss';
 const cx = classNames.bind(styles);
 
 export default function UserAgreement() {
-  const { register, reset } = useFormContext<FormValues>();
+  const { reset } = useFormContext<FormValues>();
 
   function handleSelectAll(e: ChangeEvent<HTMLInputElement>) {
     const isChecked = e.target.checked;
@@ -23,7 +23,7 @@ export default function UserAgreement() {
       { keepDefaultValues: true }
     );
   }
-  // TODO: 전체 동의 구현
+
   return (
     <div className={cx('userAgreement')}>
       <span className={cx('agreementTitle')}>이용약관</span>
@@ -35,7 +35,6 @@ export default function UserAgreement() {
         <div className={cx('agreementBox')}>
           <div className={cx('agreement')}>
             <CheckOnly name={'serviceAgreement'} />
-            {/* <input type="checkbox" className={cx('check')} {...register('serviceAgreement')} /> */}
             <span className={cx('inputCenter')}>(필수) 서비스 이용약관 동의</span>
             <Link
               className={cx('detail')}
@@ -45,7 +44,6 @@ export default function UserAgreement() {
           </div>
           <div className={cx('agreement')}>
             <CheckOnly name={'privatePolicy'} />
-            {/* <input type="checkbox" className={cx('check')} {...register('privatePolicy')} /> */}
             <span className={cx('inputCenter')}>(필수) 개인정보 수집 및 이용 동의</span>
             <Link
               className={cx('detail')}
@@ -55,7 +53,6 @@ export default function UserAgreement() {
           </div>
           <div className={cx('agreement')}>
             <CheckOnly name={'marketingAgreement'} />
-            {/* <input type="checkbox" className={cx('check')} {...register('marketingAgreement')} /> */}
             <span className={cx('inputCenter')}>(선택) 광고성 정보 수신 전체 동의</span>
             <Link
               className={cx('detail')}
