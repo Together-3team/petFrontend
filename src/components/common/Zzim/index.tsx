@@ -1,13 +1,13 @@
 import { MouseEvent, useState } from 'react';
+import { useRouter } from 'next/router';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import classNames from 'classnames/bind';
 
+import { getLikeStatus, likeProduct, unlikeProduct } from '@/utils/zzim';
 import Sole from '@/assets/svgs/sole.svg';
 import RedSole from '@/assets/svgs/sole-red.svg';
 import GraySole from '@/assets/svgs/sole-gray.svg';
 import styles from './Zzim.module.scss';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getLikeStatus, likeProduct, unlikeProduct } from '@/utils/zzim';
-import { LargeNumberLike } from 'crypto';
 
 interface Zzim {
   className?: string;
@@ -27,6 +27,7 @@ const cx = classNames.bind(styles);
 //className에서 zzim 위치 조정
 export default function Zzim({ className, color, userId, productId }: Zzim) {
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   const { data: isProductLikedByCurrentUser } = useQuery({
     queryKey: ['likeStatus', productId, userId],
@@ -63,7 +64,8 @@ export default function Zzim({ className, color, userId, productId }: Zzim) {
   });
 
   const handleZzimButtonClick = (userAction: 'UNLIKE_PRODUCT' | 'LIKE_PRODUCT') => {
-    if (!userId) return; //로그인이 되어 있지 않으면 뮤테이션을 실행하지 않게 리턴한다.
+    //로그인이 되어 있지 않으면 현재 페이지의 url을 가지고 로그인 페이지로 이동한다.
+    if (!userId) router.push(`/login?redirect=${router.asPath}`);
     likesMutation.mutate({
       productId: productId,
       userId: userId,
