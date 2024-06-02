@@ -5,13 +5,14 @@ import useOutsideClick from '@/hooks/useOutsideClick';
 
 interface CategoryButtonProps {
   categories: string[];
+  initialActiveCategory: string;
   onClick: (category: string) => void;
 }
 
-export default function CategoryButton({ categories, onClick }: CategoryButtonProps) {
+export default function CategoryButton({ categories, initialActiveCategory, onClick }: CategoryButtonProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const uniqueCategories = Array.from(new Set(categories));
-  const [active, setActive] = useState(uniqueCategories[0]);
+  const uniqueCategories = Array.from(new Set([...categories, initialActiveCategory]));
+  const [activeCategory, setActiveCategory] = useState(initialActiveCategory);
 
   const containerRef = useRef<HTMLDivElement>(null);
   useOutsideClick(containerRef, () => setIsOpen(false));
@@ -22,7 +23,7 @@ export default function CategoryButton({ categories, onClick }: CategoryButtonPr
     }
 
     const nextCategory = e.target.dataset.category;
-    setActive(nextCategory);
+    setActiveCategory(nextCategory);
     setIsOpen(false);
     onClick(nextCategory);
   };
@@ -32,7 +33,7 @@ export default function CategoryButton({ categories, onClick }: CategoryButtonPr
       {isOpen && (
         <ul className={styles.categories} onClick={handleClick}>
           {uniqueCategories.map(category => {
-            if (category === active) {
+            if (category === activeCategory) {
               return;
             }
             return (
@@ -46,7 +47,7 @@ export default function CategoryButton({ categories, onClick }: CategoryButtonPr
         </ul>
       )}
       <button type="button" className={styles.toggler} onClick={() => setIsOpen(prev => !prev)}>
-        {active}
+        {activeCategory}
       </button>
     </div>
   );
