@@ -1,6 +1,7 @@
 import ReviewBox from './ReviewBox';
 import ReviewSummary from './ReviewSummary';
 import styles from './HighlightReview.module.scss';
+import Button from '../Button';
 
 export default function HighlightReview() {
   const testData = [
@@ -37,13 +38,14 @@ export default function HighlightReview() {
   ];
 
   return (
-    <>
+    <div className={styles.highlightReviewLayout}>
       <ReviewSummary />
       <div className={styles.reviewContainer}>
         {testData.map(data => (
           <ReviewBox key={data.id} reviewData={data} className={styles.reviewBoxStyle} />
         ))}
       </div>
-    </>
+      <button>리뷰 전체보기</button>
+    </div>
   );
 }
