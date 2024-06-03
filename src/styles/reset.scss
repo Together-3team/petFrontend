@@ -86,4 +86,10 @@
   a {
     text-decoration: none;
   }
+
+  button {
+    /* 모바일에서 버튼 누를 때 깜빡이는 현상 제거 */
+    -webkit-tap-highlight-color: transparent;
+    cursor: pointer;
+  }
 }
