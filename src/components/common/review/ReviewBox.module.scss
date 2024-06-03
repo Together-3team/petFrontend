@@ -1,5 +1,4 @@
 .reviewBoxLayout {
-  max-width: 36rem;
   display: flex;
   flex-direction: column;
   gap: 1.6rem;
@@ -30,19 +29,15 @@
 }
 
 .nickname {
+  @include font-headline3;
+
   color: $color-black;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 2rem;
 }
 
 .date {
+  @include font-body3;
+
   color: $color-black;
-  font-size: 13px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 1.6rem;
 }
 
 .productDetail {
@@ -50,19 +45,15 @@
   align-items: center;
 
   .option {
+    @include font-body3;
+
     color: $color-gray-500;
-    font-size: 13px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 1.6rem;
   }
 
   .optionDetail {
+    @include font-body4;
+
     color: $color-gray-500;
-    font-size: 13px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 1.6rem;
     margin: 0 0.4rem;
   }
 }
@@ -73,19 +64,13 @@
 }
 
 .ratingCount {
+  @include font-body6;
+
   color: $color-gray-800;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 1.6rem;
   margin-left: 1rem;
 }
 
 .description {
-  color: $color-black;
-  font-family: Inter;
-  font-size: 13px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 150%;
+  background-color: white;
+  padding: 0;
 }
