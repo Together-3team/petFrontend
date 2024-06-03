@@ -1,20 +1,29 @@
 .textareaStyle {
+  @include font-body6;
+
+  display: flex;
+  height: 12rem;
+  padding: 1.2rem;
+  align-items: flex-start;
+  gap: 0.8rem;
+  align-self: stretch;
   resize: none;
-  background-color: #f5f5f5;
-  border-color: white;
+  border: none;
+  border-radius: 0.8rem;
+  color: $color-black;
+  background: $color-gray-50;
 
   &:focus {
-    border-color: black;
     outline: none;
   }
 
   &:disabled {
-    background-color: white;
-    border-color: white;
     overflow: hidden;
   }
 
   &::placeholder {
-    color: #aeaeae;
+    @include font-body4;
+
+    color: $color-gray-400;
   }
 }
