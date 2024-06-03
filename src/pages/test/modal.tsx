@@ -17,7 +17,7 @@ export default function My() {
         <Input id="이름" type="text" label="이름" size={'large'} background={'background'} placeholder=" " />
         <div onClick={handleModalOpen}>모달 열기</div>
         <BottomShareModal
-          type="bottom"
+          //type="bottom"
           className={cx('')}
           modalOpen={modalOpen}
           handleModalOpen={handleModalOpen}
