@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import { useModalProps } from '@/hooks/useModal';
-import ModalBase, { ModalProps } from '@/components/common/Modal/BottomModal/ModalBase';
+import ModalBase, { ModalProps } from '@/components/common/Modal/BottomShareModal/ModalBase';
 import styles from './BottomModal.module.scss';
 import { PropsWithChildren } from 'react';
 
