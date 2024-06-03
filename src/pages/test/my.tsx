@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import useModal from '@/hooks/useModal';
 import Input from '@/components/common/Input';
-import BottomModal from '@/components/common/Modal/BottomModal';
+import BottomShareModal from '@/components/common/Modal/BottomShareModal';
 import Button from '@/components/common/Button';
 import styles from './My.module.scss';
 
@@ -16,7 +16,8 @@ export default function My() {
         <Input id="이메일" type="email" label="이메일" size={'large'} background={'background'} placeholder=" " />
         <Input id="이름" type="text" label="이름" size={'large'} background={'background'} placeholder=" " />
         <div onClick={handleModalOpen}>모달 열기</div>
-        <BottomModal
+        <BottomShareModal
+          type="bottom"
           className={cx('')}
           modalOpen={modalOpen}
           handleModalOpen={handleModalOpen}
@@ -32,7 +33,7 @@ export default function My() {
               </Button>
             </div>
           </div>
-        </BottomModal>
+        </BottomShareModal>
       </div>
     </>
   );
