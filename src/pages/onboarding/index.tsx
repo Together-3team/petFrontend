@@ -13,17 +13,17 @@ export default function Onboarding() {
       </span>
       <div>
         <div>
-          <ImageBox />
+          <ImageBox size="petPhoto" src="" alt="강아지 이미지" />
           <button>
             <span>강아지</span>
           </button>
         </div>
         <div>
-          <ImageBox />
+          <ImageBox size="petPhoto" src="" alt="고양이 이미지" />
           <button>고양이</button>
         </div>
       </div>
-      <Button size="medium" backgroundColor="$color-pink-main">
+      <Button size="mediumLarge" backgroundColor="$color-pink-main">
         다음
       </Button>
       <Link href="/">

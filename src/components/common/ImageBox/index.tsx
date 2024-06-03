@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 import styles from './ImageBox.module.scss';
 
 interface ImageBox extends ImageProps {
-  size: 'myPageFirstPhoto' | 'petPhoto' | 'welcomePetPhoto' | string;
+  size: 'myPageFirstPhoto' | 'petPhoto' | 'welcomePetPhoto';
   src: string;
   alt: string;
   disabled?: boolean;
