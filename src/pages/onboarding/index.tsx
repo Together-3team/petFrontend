@@ -8,11 +8,11 @@ export default function Onboarding() {
   //TODO: CheckOnly 컴포넌트 넣기
   return (
     <div className={styles.onboarding}>
-      <span className={styles.petChoiceText}>
+      <h1 className={styles.petChoiceText}>
         어서오세요!
         <br />
         어떤 반려동물과 함께하시나요?
-      </span>
+      </h1>
       <div className={styles.petChoice}>
         <div className={styles.petChoiceBox}>
           <ImageBox size="petPhoto" src={Image} alt="강아지 이미지" />
