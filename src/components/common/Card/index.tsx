@@ -69,7 +69,7 @@ export default function Card({ productInfo, zzim = false, userId, direction = 'c
         setTitleWidth(titleWidth);
       }
     }
-  }, [direction, size]);
+  }, [direction, size, stock]);
 
   //카드 각각에서 글씨가 흐르는 시간을 같게 조정
   const animationDuration = titleWidth / 50;
