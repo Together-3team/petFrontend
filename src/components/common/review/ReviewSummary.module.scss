@@ -1,0 +1,52 @@
+.reviewTitleBox {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.review {
+  @include font-headline2;
+
+  color: $color-black;
+}
+
+.totalReview {
+  @include font-headline2;
+
+  color: $color-gray-400;
+}
+
+.ratingBox {
+  margin: 2.8rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.starRating {
+  gap: 0.4rem;
+}
+
+.star {
+  width: 2.4rem;
+  height: 2.4rem;
+}
+
+.totalRating {
+  @include font-headline3;
+
+  color: $color-black;
+  margin: 0 0.8rem 0 1.2rem;
+}
+
+.defaultRating {
+  @include font-body2;
+
+  color: $color-gray-600;
+}
+
+.totalReviewer {
+  @include font-body4;
+
+  color: $color-gray-600;
+}
