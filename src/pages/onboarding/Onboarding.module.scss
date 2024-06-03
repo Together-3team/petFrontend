@@ -48,6 +48,25 @@
     border: 0.1rem solid $color-pink-main;
   }
 
+  .checkIcon {
+    width: 2rem;
+    height: 2rem;
+    margin-left: 0.6rem;
+    background: url('../../../src/assets/images/gray-check.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+
+  .checkboxInput:checked + .petChoiceButton .checkIcon {
+    width: 3.2rem;
+    height: 3.2rem;
+    background: url('../../../src/assets/images/pink-check.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+
   .laterChoice {
     @include laterText;
   }
@@ -58,6 +77,10 @@
     align-items: center;
     gap: 2.6rem;
     padding-top: 10.4rem;
+  }
+
+  .buttonText {
+    width: 5.6rem;
   }
 
   .welcomePage {
