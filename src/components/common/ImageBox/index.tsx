@@ -1,10 +1,10 @@
-import Image, { ImageProps } from 'next/image';
+import Image, { ImageProps, StaticImageData } from 'next/image';
 import classNames from 'classnames/bind';
 import styles from './ImageBox.module.scss';
 
 interface ImageBox extends ImageProps {
   size: 'myPageFirstPhoto' | 'petPhoto' | 'welcomePetPhoto';
-  src: string;
+  src: string | StaticImageData;
   alt: string;
   disabled?: boolean;
 }
