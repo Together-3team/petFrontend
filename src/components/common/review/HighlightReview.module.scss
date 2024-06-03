@@ -1,0 +1,48 @@
+.highlightReviewLayout {
+  padding: 2.8rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.reviewBoxStyle {
+  padding: 1.6rem 0;
+  border-top: 0.1rem solid $color-gray-200;
+}
+
+.allReviewLinkBtn {
+  @include font-headline3;
+
+  display: flex;
+  padding: 1.2rem 0;
+  justify-content: center;
+  align-items: center;
+  gap: 0.8rem;
+  align-self: stretch;
+  border-radius: 1.2rem;
+  border: 0.1rem solid $color-pink-main;
+  background: linear-gradient(180deg, #ff8c91 0%, #fe5a65 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.review {
+  @include font-headline2;
+
+  color: $color-black;
+}
+
+.noReview {
+  @include font-body5;
+
+  display: flex;
+  margin-top: 2rem;
+  padding: 3.2rem 0;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+  border-radius: 1.2rem;
+  background: $color-gray-50;
+  color: $color-gray-400;
+}
