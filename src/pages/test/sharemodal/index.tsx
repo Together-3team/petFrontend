@@ -3,11 +3,11 @@ import useModal from '@/hooks/useModal';
 import Input from '@/components/common/Input';
 import BottomShareModal from '@/components/common/Modal/BottomShareModal';
 import Button from '@/components/common/Button';
-import styles from './My.module.scss';
+import styles from './ShareModalPage.module.scss';
 
 const cx = classNames.bind(styles);
 
-export default function My() {
+export default function ShareModalPage() {
   const { modalOpen, handleModalOpen, handleModalClose } = useModal();
 
   return (
@@ -17,7 +17,7 @@ export default function My() {
         <Input id="이름" type="text" label="이름" size={'large'} background={'background'} placeholder=" " />
         <div onClick={handleModalOpen}>모달 열기</div>
         <BottomShareModal
-          type="bottom"
+          type="share"
           className={cx('')}
           modalOpen={modalOpen}
           handleModalOpen={handleModalOpen}
