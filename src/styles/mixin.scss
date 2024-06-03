@@ -65,3 +65,15 @@
     left: 50vw;
   }
 }
+
+@mixin share-modal-base() {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  margin: 0 auto;
+  height: 34.1rem;
+  width: 23rem;
+  max-width: $size-mobile-max;
+  border-radius: 1.6rem;
+}

@@ -1,14 +1,28 @@
 import classNames from 'classnames/bind';
 
-import MainLayout from '@/components/common/Layout/Main';
 import styles from './HomePage.module.scss';
+import MainLayout from '@/components/common/Layout/Main';
+import BannerCarousel from '@/components/common/Carousel/Banner';
 
-const cx = classNames.bind(styles);
+import banner1 from '@/assets/images/test-carousel1.jpg';
+import banner2 from '@/assets/images/test-carousel2.jpg';
+import banner3 from '@/assets/images/test-carousel3.jpg';
+import banner4 from '@/assets/images/test-carousel4.jpg';
+import banner5 from '@/assets/images/test-carousel5.jpg';
+
+const BANNER_IMAGES = [
+  { src: banner1.src, alt: '배너1' },
+  { src: banner2.src, alt: '배너2' },
+  { src: banner3.src, alt: '배너3' },
+  { src: banner4.src, alt: '배너4' },
+  { src: banner5.src, alt: '배너5' },
+];
 
 export default function HomePage() {
   return (
-    <>
-      <div className={cx('test')}>
+    <div className={styles.container}>
+      <BannerCarousel items={BANNER_IMAGES} />
+      <div className={styles.test}>
         <p>
           Ad occaecat officia dolor nulla labore. Eu qui in elit exercitation in nostrud non. Sint sit consequat aliquip
           aliqua. Sint laborum non aliquip adipisicing nisi deserunt pariatur reprehenderit esse elit eu non commodo
@@ -45,7 +59,7 @@ export default function HomePage() {
           sunt adipisicing incididunt enim Lorem qui esse ullamco ullamco officia. Qui et officia esse aute aliqua. Ad
           culpa deserunt minim enim consectetur aliqua aute nisi eiusmod.
         </p>
-        <div className={cx('divider')} />
+        <div className={styles.divider} />
         <p>
           Eiusmod cillum irure excepteur fugiat eiusmod officia in eu. Irure magna incididunt id do consequat
           consectetur anim qui ullamco enim elit. Amet pariatur nulla est Lorem. Anim non qui magna ea do laborum
@@ -89,7 +103,7 @@ export default function HomePage() {
           et.
         </p>
       </div>
-    </>
+    </div>
   );
 }
 

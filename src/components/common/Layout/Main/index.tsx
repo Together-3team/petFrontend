@@ -3,6 +3,9 @@ import { PropsWithChildren } from 'react';
 import styles from './MainLayout.module.scss';
 import MainHeader from './Header';
 import MainFooter from './Footer';
+import CategoryButton from '../../Button/Category';
+
+const CATEGORIES = ['전체', '강아지', '고양이'];
 
 export default function MainLayout({ children }: PropsWithChildren) {
   return (
@@ -14,9 +17,11 @@ export default function MainLayout({ children }: PropsWithChildren) {
           <button type="button" onClick={() => alert('top')}>
             top
           </button>
-          <button type="button" onClick={() => alert('category')}>
-            category
-          </button>
+          <CategoryButton
+            categories={CATEGORIES}
+            initialActiveCategory={CATEGORIES[0]}
+            onClick={category => console.log(category)}
+          />
         </div>
       </div>
       <MainFooter />

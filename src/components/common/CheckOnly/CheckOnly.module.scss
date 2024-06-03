@@ -1,0 +1,31 @@
+@layer components {
+  .checkboxLabel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.2rem;
+    height: 3.2rem;
+  }
+
+  .checkboxInput {
+    display: none;
+  }
+
+  .checkIcon {
+    width: 2rem;
+    height: 2rem;
+    background: url('../../../../public/images/gray-check.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+
+  .checkboxInput:checked + .checkIcon {
+    width: 3.2rem;
+    height: 3.2rem;
+    background: url('../../../../public/images/pink-check.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+}
