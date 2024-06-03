@@ -67,8 +67,18 @@
 }
 
 /* 로그인, 프로필 선택 등을 나중에 할 때 나타내는 TEXT 스타일 */
-
-@mixin laterText {
+@mixin laterText() {
   color: $color-gray-400;
   @include font-body4;
+}
+@mixin share-modal-base() {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  margin: 0 auto;
+  height: 34.1rem;
+  width: 23rem;
+  max-width: $size-mobile-max;
+  border-radius: 1.6rem;
 }
