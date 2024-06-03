@@ -5,9 +5,10 @@ interface ButtonProps {
   children?: React.ReactNode;
   backgroundColor: '$color-gray-800' | '$color-gray-300' | '$color-pink-main' | '$color-white';
   onClick?: () => void;
+  disabled?: boolean;
 }
 
-export default function Button({ size, children, backgroundColor, onClick }: ButtonProps) {
+export default function Button({ size, children, backgroundColor, onClick, disabled }: ButtonProps) {
   const sizeClass = styles[size];
   const backgroundColorMap: { [key: string]: string } = {
     '$color-gray-800': styles.backgroundBlack,
@@ -16,12 +17,13 @@ export default function Button({ size, children, backgroundColor, onClick }: But
     '$color-white': styles.backgroundWhite,
   };
   const backgroundClass = backgroundColorMap[backgroundColor] || '';
-  const className = `${styles.button} ${sizeClass} ${backgroundClass}`;
+  const disabledClass = disabled ? styles.disabled : '';
+  const className = `${styles.button} ${sizeClass} ${backgroundClass} ${disabledClass}`;
 
   return (
     <>
       <div className={styles.buttonContainer}>
-        <button className={className} onClick={onClick}>
+        <button className={className} onClick={onClick} disabled={disabled}>
           {children}
         </button>
       </div>

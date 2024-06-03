@@ -103,7 +103,7 @@ export default function Payment({ productCount }: PaymentProps) {
             </div>
           </div>
           <div className={styles.paymentButton}>
-            <Button size="large" backgroundColor="$color-pink-main" onClick={handlePayment}>
+            <Button size="large" backgroundColor="$color-pink-main" onClick={handlePayment} disabled={!checkboxChecked}>
               주문하기
             </Button>
           </div>
