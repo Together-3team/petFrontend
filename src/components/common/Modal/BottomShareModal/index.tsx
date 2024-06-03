@@ -40,6 +40,7 @@ export default function BottomShareModal({
   return (
     <>
             <BottomShareModal
+              type='bottom' 또는 type='share'
               className={cx('')}
               modalOpen={modalOpen}
               handleModalOpen={handleModalOpen}
