@@ -1,3 +1,26 @@
-.profileImgStyle {
+%profileImgBadgeStyle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
   border-radius: 50%;
+  background: $color-gray-50;
+  position: relative;
+  overflow: hidden;
+}
+
+.small {
+  @extend %profileImgBadgeStyle;
+
+  width: 4.4rem;
+  height: 4.4rem;
+  padding: auto;
+}
+
+.large {
+  @extend %profileImgBadgeStyle;
+
+  width: 6.4rem;
+  height: 6.4rem;
+  padding: 1.7rem 1.8rem;
 }
