@@ -23,11 +23,11 @@ const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   { id, label, isError, errorText, labelStyle, size, border, imageProps, background, ...rest },
   ref
 ) {
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+  function handleChange(event: ChangeEvent<HTMLInputElement>) {
     if (ref && 'current' in ref && ref.current) {
       ref.current.value = event.target.value;
     }
-  };
+  }
   return (
     <div className={cx('inputWithLabel')}>
       {label && (
@@ -35,7 +35,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
           {label}
         </label>
       )}
-      <div className={cx('inputWithIcon', size)}>
+      <div className={cx({ inputWithIcon: imageProps })}>
         <input
           ref={ref}
           className={cx(border, { error: isError }, size, background)}
@@ -65,18 +65,18 @@ export default Input;
   기본: <Input id="" type="text" size={''} label=" " labelStyle="label" placeholder="" background={''} />;
   1. 닉네임 인풋
       <Input
-        id=""
+        id = ""
         type="text"
-        size={'large'}
+        size="large"
         label=" "
         labelStyle={'label'}
         placeholder="닉네임을 입력해주세요"
       />
   2.  사이즈 큰 검색 인풋
       <Input
-        id=""
+        id = ""
         type="text"
-        size={'mediumLarge'}
+        size="mediumLarge"
         border={'roundBorder'}
         label=" "
         labelStyle={'label'}
@@ -86,9 +86,9 @@ export default Input;
       />
   3. 사이즈 작은 검색 인풋
       <Input
-        id=""
+        id = ""
         type="text"
-        size={'medium'}
+        size="medium"
         border={'roundBorder'}
         label=" "
         labelStyle={'label'}
