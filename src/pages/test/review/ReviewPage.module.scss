@@ -1,7 +1,82 @@
 .reviewPageLayout {
   padding: 20px 16px;
 }
+
+.reviewPageHeader {
+  display: flex;
+  height: 48px;
+  padding: 8px 0px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  align-self: stretch;
+}
+
+.pageTitle {
+  color: var(--Grayscale-Black, #111);
+  text-align: center;
+
+  /* Headline3 */
+  font-family: SUIT;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 20px; /* 142.857% */
+}
+
+.totalReview {
+  color: var(--Grayscale-Gray-400, #b5b9c6);
+
+  /* Headline3 */
+  font-family: SUIT;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 20px;
+}
+
 .reviewBoxStyle {
   padding: 1.6rem 0;
   border-top: 0.1rem solid $color-gray-200;
+}
+
+.ratingBox {
+  margin: 2rem 0 0.8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.starRating {
+  gap: 0.4rem;
+}
+
+.star {
+  width: 2.4rem;
+  height: 2.4rem;
+}
+
+.totalRating {
+  @include font-headline3;
+
+  color: $color-black;
+  margin: 0 0.8rem 0 1.2rem;
+}
+
+.defaultRating {
+  @include font-body2;
+
+  color: $color-gray-600;
+}
+
+.totalReviewer {
+  @include font-body4;
+
+  color: $color-gray-600;
+}
+
+.dropdown {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
 }
