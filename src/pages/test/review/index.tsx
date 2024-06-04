@@ -108,7 +108,6 @@ export default function ReviewPage() {
 
   const rating = 4.5;
   const totalReviewer = 180;
-  const options = ['최신순', '별점 높은 순', '별점 낮은 순'];
 
   return (
     <div className={styles.reviewPageLayout}>
