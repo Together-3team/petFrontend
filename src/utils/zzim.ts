@@ -33,7 +33,7 @@ interface Info {
 const accessToken =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3MTc0ODY5OTYsImV4cCI6MTcxNzQ5NDE5Nn0.VWZhYzLApcLJjMYWKcuH73gJYLXRC9hHSk71V-U_Xws';
 
-export const getLikeStatus = async (productId: number, userId: number) => {
+export const getLikeStatus = async (productId: number) => {
   const response = await axios.get(`/zzims`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
