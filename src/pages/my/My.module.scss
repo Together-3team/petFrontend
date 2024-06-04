@@ -1,4 +1,4 @@
-@layer components {
+@layer overrides {
   .myPage {
     display: flex;
     flex-direction: column;
@@ -16,7 +16,6 @@
   }
 
   .notRegister {
-    color: $color-gray-400;
-    @include font-body4;
+    @include laterText;
   }
 }

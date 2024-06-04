@@ -1,9 +1,27 @@
-import MainLayout from '@/components/common/Layout/Main';
+import classNames from 'classnames/bind';
+
 import styles from './HomePage.module.scss';
+import MainLayout from '@/components/common/Layout/Main';
+import BannerCarousel from '@/components/common/Carousel/Banner';
+
+import banner1 from '@/assets/images/test-carousel1.jpg';
+import banner2 from '@/assets/images/test-carousel2.jpg';
+import banner3 from '@/assets/images/test-carousel3.jpg';
+import banner4 from '@/assets/images/test-carousel4.jpg';
+import banner5 from '@/assets/images/test-carousel5.jpg';
+
+const BANNER_IMAGES = [
+  { src: banner1.src, alt: '배너1' },
+  { src: banner2.src, alt: '배너2' },
+  { src: banner3.src, alt: '배너3' },
+  { src: banner4.src, alt: '배너4' },
+  { src: banner5.src, alt: '배너5' },
+];
 
 export default function HomePage() {
   return (
     <div className={styles.container}>
+      <BannerCarousel items={BANNER_IMAGES} />
       <div className={styles.test}>
         <p>
           Ad occaecat officia dolor nulla labore. Eu qui in elit exercitation in nostrud non. Sint sit consequat aliquip
