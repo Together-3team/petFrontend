@@ -1,6 +1,6 @@
-import styles from './ReviewPage.module.scss';
-import StarRating from '@/components/common/review/StarRating';
+import RatingBox from '@/components/common/review/RatingBox';
 import ReviewBox from '@/components/common/review/ReviewBox';
+import styles from './ReviewPage.module.scss';
 
 export default function ReviewPage() {
   const testData = [
@@ -118,14 +118,7 @@ export default function ReviewPage() {
             리뷰 전체보기 <span className={styles.totalReview}>{totalReviewer}</span>
           </p>
         </div>
-        <div className={styles.ratingBox}>
-          <StarRating rating={rating} starRatingStyle={styles.starRating} starStyle={styles.star} />
-          <p className={styles.totalRating}>
-            {rating}
-            <span className={styles.defaultRating}> / 5.0</span>
-          </p>
-          <p className={styles.totalReviewer}>{`(${totalReviewer}명)`}</p>
-        </div>
+        <RatingBox rating={rating} totalReviewer={totalReviewer} className={styles.ratingBoxStyle} />
         <div className={styles.dropdown}>dropdown</div>
       </div>
       <div className={styles.reviewContainer}>
