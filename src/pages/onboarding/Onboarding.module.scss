@@ -1,0 +1,97 @@
+@layer overrides {
+  .onboarding {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16rem 4.8rem 14.4rem;
+  }
+
+  .petChoiceText {
+    @include font-headline2;
+    text-align: center;
+    margin-bottom: 5.6rem;
+  }
+
+  .petChoice {
+    display: flex;
+    justify-content: center;
+    gap: 2.4rem;
+  }
+
+  .petChoiceBox {
+    display: flex;
+    flex-direction: column;
+    gap: 3.9rem;
+  }
+
+  .checkboxInput {
+    display: none;
+  }
+
+  .petChoiceButton {
+    display: flex;
+    width: 12rem;
+    height: 4rem;
+    padding: 0rem 0.8rem 0rem 1.6rem;
+    align-items: center;
+    gap: 0.8rem;
+    flex-shrink: 0;
+    border-radius: 10rem;
+    background-color: $color-white;
+    color: $color-gray-500;
+    border: 0.1rem solid $color-gray-500;
+    @include font-body3;
+  }
+
+  .checkboxInput:checked + .petChoiceButton {
+    color: $color-pink-main;
+    border: 0.1rem solid $color-pink-main;
+  }
+
+  .checkIcon {
+    width: 2rem;
+    height: 2rem;
+    margin-left: 0.6rem;
+    background: url('../../../src/assets/images/gray-check.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+
+  .checkboxInput:checked + .petChoiceButton .checkIcon {
+    width: 3.2rem;
+    height: 3.2rem;
+    background: url('../../../src/assets/images/pink-check.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+
+  .laterChoice {
+    @include laterText;
+  }
+
+  .buttonArea {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.6rem;
+    padding-top: 10.4rem;
+  }
+
+  .buttonText {
+    width: 5.6rem;
+  }
+
+  .welcomePage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4.8rem;
+    margin: 21.6rem auto 28.8rem;
+  }
+
+  .welcomeTitle {
+    @include font-headline2;
+  }
+}
