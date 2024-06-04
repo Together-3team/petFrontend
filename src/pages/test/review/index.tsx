@@ -1,8 +1,6 @@
-import BackButton from '@/components/common/BackButton';
 import styles from './ReviewPage.module.scss';
 import StarRating from '@/components/common/review/StarRating';
 import ReviewBox from '@/components/common/review/ReviewBox';
-import Dropdown from '@/components/common/Dropdown';
 
 export default function ReviewPage() {
   const testData = [
