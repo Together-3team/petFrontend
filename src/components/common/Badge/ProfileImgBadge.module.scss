@@ -14,7 +14,12 @@
 
   width: 4.4rem;
   height: 4.4rem;
-  padding: auto;
+  padding: 0.9rem 1rem;
+
+  svg {
+    width: 24px;
+    height: 25px;
+  }
 }
 
 .large {
@@ -23,4 +28,9 @@
   width: 6.4rem;
   height: 6.4rem;
   padding: 1.7rem 1.8rem;
+
+  svg {
+    width: 28px;
+    height: 29px;
+  }
 }

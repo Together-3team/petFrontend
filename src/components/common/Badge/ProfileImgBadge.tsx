@@ -13,16 +13,14 @@ const cx = classNames.bind(styles);
 
 export default function ProfileImgBadge({ profileImage = '', className, size }: ProfileImaBadgeProps) {
   return (
-    <>
+    // <>
+    <div className={cx(size, className)}>
       {profileImage.length > 0 ? (
-        <div className={cx(size, className)}>
-          <Image src={profileImage} alt="프로필 이미지" layout="fill" objectFit="cover" />
-        </div>
+        <Image src={profileImage} alt="프로필 이미지" layout="fill" objectFit="cover" />
       ) : (
-        <div className={cx(size, className)}>
-          <ProfileIcon />
-        </div>
+        <ProfileIcon />
       )}
-    </>
+    </div>
+    // </>
   );
 }
