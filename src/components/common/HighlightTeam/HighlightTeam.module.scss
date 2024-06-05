@@ -32,14 +32,90 @@
 
 .teamBox {
   display: flex;
-  padding: 8px 10px;
+  padding: 0 10px;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
   align-self: stretch;
   border-radius: 12px;
   background: var(--Grayscale-Gray-50, #f9fafc);
   margin: 28px 0 24px;
+}
+
+.teamData {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+
+  &:not(:first-child) {
+    border-top: 1px solid var(--Grayscale-Gray-200, #e7e9ed);
+  }
+}
+
+.nickname {
+  color: var(--Grayscale-Black, #111);
+
+  /* Body1 */
+  font-family: SUIT;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 18px; /* 128.571% */
+}
+
+.timeAndBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.timeBox {
+  display: flex;
+  padding: 4px;
+  gap: 8px;
+}
+
+.closed {
+  color: var(--Primary-Main-Pink, #fe5a65);
+
+  /* Body5 */
+  font-family: SUIT;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 16px; /* 133.333% */
+}
+
+.time {
+  color: var(--Primary-Main-Pink, #fe5a65);
+
+  /* Body6 */
+  font-family: SUIT;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px; /* 133.333% */
+}
+
+.participationBtn {
+  display: flex;
+  padding: 8px 16px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: 8px;
+  border: none;
+  background: var(--Primary-Main-Pink, #fe5a65);
+  color: var(--Grayscale-White, #fff);
+
+  /* Headline3 */
+  font-family: SUIT;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 20px; /* 142.857% */
 }
 
 .allTeamLinkBtn {

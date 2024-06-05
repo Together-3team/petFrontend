@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import styles from './HighlightTeam.module.scss';
+import Button from '../Button';
 
 export default function HighlightTeam() {
   const testData = [
@@ -22,13 +23,6 @@ export default function HighlightTeam() {
     },
     {
       id: 3,
-      status: '진행중',
-      creator: '서리핑',
-      createdAt: '2024-06-03T08:15:00Z',
-      participants: [{ name: '서리핑', joinedAt: '2024-06-03T08:15:00Z' }],
-    },
-    {
-      id: 4,
       status: '완료',
       creator: '탱고',
       createdAt: '2024-05-15T11:20:00Z',
@@ -36,13 +30,6 @@ export default function HighlightTeam() {
         { name: '탱고', joinedAt: '2024-05-15T11:20:00Z' },
         { name: '탱자', joinedAt: '2024-05-18T13:35:00Z' },
       ],
-    },
-    {
-      id: 5,
-      status: '진행중',
-      creator: '밍아달려',
-      createdAt: '2024-06-04T16:45:00Z',
-      participants: [{ name: '밍아달려', joinedAt: '2024-06-04T16:45:00Z' }],
     },
   ];
 
@@ -52,7 +39,20 @@ export default function HighlightTeam() {
         <p className={styles.title}>2인 공동구매</p>
         <p className={styles.description}>주문참여로 기다림 없이 바로 주문해보세요</p>
       </div>
-      <div className={styles.teamBox}>공동구매 data</div>
+      <div className={styles.teamBox}>
+        {testData.map(data => (
+          <div key={data.id} className={styles.teamData}>
+            <p className={styles.nickname}>닉네임</p>
+            <div className={styles.timeAndBtn}>
+              <div className={styles.timeBox}>
+                <p className={styles.closed}>참여 마감</p>
+                <p className={styles.time}>23:12:21</p>
+              </div>
+              <button className={styles.participationBtn}>주문참여</button>
+            </div>
+          </div>
+        ))}
+      </div>
       <Link href={'/test/team'} className={styles.allTeamLinkBtn}>
         참여자 전체보기
       </Link>
