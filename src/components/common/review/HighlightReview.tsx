@@ -1,7 +1,7 @@
-import ReviewBox from './ReviewBox';
-import ReviewSummary from './ReviewSummary';
-import styles from './HighlightReview.module.scss';
 import Link from 'next/link';
+import RatingBox from './RatingBox';
+import ReviewBox from './ReviewBox';
+import styles from './HighlightReview.module.scss';
 
 const testData = [
   {
@@ -36,12 +36,19 @@ const testData = [
   },
 ];
 
+const rating = 4.5;
+const totalReviewer = 180;
+
 export default function HighlightReview({ reviewData = testData }: any) {
   return (
     <div className={styles.highlightReviewLayout}>
       {reviewData.length > 0 ? (
         <>
-          <ReviewSummary />
+          <div className={styles.sectionTitleBox}>
+            <p className={styles.sectionTitle}>리뷰</p>
+            <p className={styles.totalReview}>{totalReviewer}</p>
+          </div>
+          <RatingBox rating={rating} totalReviewer={totalReviewer} className={styles.ratingBoxStyle} />
           <div className={styles.reviewContainer}>
             {testData.map(data => (
               <ReviewBox key={data.id} reviewData={data} className={styles.reviewBoxStyle} />
@@ -53,7 +60,7 @@ export default function HighlightReview({ reviewData = testData }: any) {
         </>
       ) : (
         <>
-          <p className={styles.review}>리뷰</p>
+          <p className={styles.sectionTitle}>리뷰</p>
           <div className={styles.noReview}>아직 등록된 리뷰가 없어요.</div>
         </>
       )}
