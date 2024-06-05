@@ -6,11 +6,11 @@ import Input from '@/components/common/Input';
 import AdaptiveModal from '@/components/common/Modal/AdaptiveModal';
 import Button from '@/components/common/Button';
 import titleImage from '@/assets/images/rectangle.png';
-import styles from './ShareModalPage.module.scss';
+import styles from './Drawer.module.scss';
 
 const cx = classNames.bind(styles);
 
-export default function ShareModalPage() {
+export default function DrawerPage() {
   const { modalOpen, handleModalOpen, handleModalClose } = useModal();
 
   return (
@@ -19,7 +19,7 @@ export default function ShareModalPage() {
       <Input id="이름" type="text" label="이름" size={'large'} background={'background'} placeholder=" " />
       <div onClick={handleModalOpen}>모달 열기</div>
       <AdaptiveModal
-        type="share"
+        type="drawer"
         className={cx('')}
         modalOpen={modalOpen}
         handleModalOpen={handleModalOpen}
