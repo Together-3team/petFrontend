@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import { useModalProps } from '@/hooks/useModal';
 import ModalBase, { ModalProps } from '@/components/common/Modal/AdaptiveModal/ModalBase';
-import styles from './BottomShareModal.module.scss';
+import styles from './AdaptiveModal.module.scss';
 import { PropsWithChildren } from 'react';
 
 const cx = classNames.bind(styles);

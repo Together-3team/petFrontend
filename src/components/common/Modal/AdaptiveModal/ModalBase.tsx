@@ -1,10 +1,10 @@
 import { PropsWithChildren } from 'react';
 import classNames from 'classnames/bind';
 import ModalPortal from '@/components/common/Modal/Portal';
-import styles from './BottomShareModal.module.scss';
+import styles from './AdaptiveModal.module.scss';
 
 export interface ModalProps {
-  type: 'bottom' | 'share';
+  type: 'bottom' | 'share' | 'drawer';
   className?: string;
   onClose?: () => void;
 }
