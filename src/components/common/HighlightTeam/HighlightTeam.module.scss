@@ -53,6 +53,33 @@
   }
 }
 
+.participants {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  color: var(--Grayscale-Gray-700, #5a6072);
+
+  /* Body1 */
+  font-family: SUIT;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 18px; /* 128.571% */
+}
+
+.realClosed {
+  padding: 8px 16px;
+  color: var(--Grayscale-Gray-300, #cfd3db);
+
+  /* Body1 */
+  font-family: SUIT;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 18px; /* 128.571% */
+}
+
 .nickname {
   color: var(--Grayscale-Black, #111);
 
