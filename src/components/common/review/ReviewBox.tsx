@@ -14,7 +14,7 @@ export default function ReviewBox({ reviewData, className }: any) {
   return (
     <div className={cx('reviewBoxLayout', className)}>
       <div className={styles.userInfo}>
-        <ProfileImgBadge className={styles.profileImg} />
+        <ProfileImgBadge size={'small'} />
         <div className={styles.userInfoDetail}>
           <div className={styles.nicknameAndDate}>
             <p className={styles.nickname}>{reviewData.nickname}</p>

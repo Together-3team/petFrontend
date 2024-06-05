@@ -3,8 +3,8 @@ import classNames from 'classnames/bind';
 import styles from './ImageBox.module.scss';
 
 interface ImageBox extends ImageProps {
-  size: 'myPageFirstPhoto' | 'petPhoto' | 'welcomePetPhoto' | string;
-  src: StaticImageData;
+  size: 'myPageFirstPhoto' | 'petPhoto' | 'welcomePetPhoto';
+  src: string | StaticImageData;
   alt: string;
   disabled?: boolean;
 }
