@@ -1,7 +1,9 @@
 @layer components {
   .backButton {
-    border: none;
+    display: flex;
+    align-items: center;
     background-color: transparent;
+    border: none;
     padding: 0;
   }
 }
