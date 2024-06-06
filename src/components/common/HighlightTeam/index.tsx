@@ -3,6 +3,8 @@ import AmpersandIcon from '@/assets/svgs/ampersand-icon.svg';
 import styles from './HighlightTeam.module.scss';
 
 export default function HighlightTeam() {
+  // 타이머, 웹소켓, 주문버튼 연결
+
   const testData = [
     {
       id: 1,
@@ -44,18 +46,18 @@ export default function HighlightTeam() {
           <div key={data.id} className={styles.teamData}>
             {data.status === '완료' ? (
               <>
-                <p className={styles.participants}>
-                  닉네임
+                <div className={styles.participants}>
+                  {data.participants[0].name}
                   <div>
                     <AmpersandIcon />
                   </div>
-                  닉네임
-                </p>
+                  {data.participants[1].name}
+                </div>
                 <p className={styles.realClosed}>주문완료</p>
               </>
             ) : (
               <>
-                <p className={styles.nickname}>닉네임</p>
+                <p className={styles.nickname}>{data.creator}</p>
                 <div className={styles.timeAndBtn}>
                   <div className={styles.timeBox}>
                     <p className={styles.closed}>참여 마감</p>
