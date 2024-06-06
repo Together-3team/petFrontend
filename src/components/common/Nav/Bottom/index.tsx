@@ -31,22 +31,22 @@ const MENUS = [
   {
     id: 'search',
     title: '검색 페이지',
-    url: '/test/search',
-    matchedUrl: ['/test/search'],
+    url: '/search',
+    matchedUrl: ['/search'],
     Icon: <SearchIcon />,
   },
   {
     id: 'liked',
     title: '찜 페이지',
-    url: '/test/liked',
-    matchedUrl: ['/test/liked'],
+    url: '/liked',
+    matchedUrl: ['/liked'],
     Icon: <HeartIcon className={cx('fill')} />,
   },
   {
     id: 'my',
     title: '마이 페이지',
-    url: '/test/my',
-    matchedUrl: ['/test/my'],
+    url: '/my',
+    matchedUrl: ['/my'],
     Icon: <PersonIcon className={cx('fill')} />,
   },
 ];
