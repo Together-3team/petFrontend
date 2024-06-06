@@ -25,7 +25,8 @@
   .item {
     cursor: pointer;
 
-    &.active {
+    &.active,
+    &:hover {
       & path {
         stroke: $color-pink-main;
       }
