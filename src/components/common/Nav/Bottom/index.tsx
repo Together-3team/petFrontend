@@ -5,7 +5,7 @@ import classNames from 'classnames/bind';
 import styles from './NavBottom.module.scss';
 import getDynamicPath from '@/utils/getDynamicPath';
 import HomeIcon from '@/assets/svgs/home.svg';
-import SearchIcon from '@/assets/svgs/search-bold.svg';
+import SearchIcon from '@/assets/svgs/search-detail.svg';
 import HeartIcon from '@/assets/svgs/heart.svg';
 import PersonIcon from '@/assets/svgs/person.svg';
 
