@@ -23,7 +23,7 @@ export async function GetGoogleAuth() {
 export async function GetKakaoAuth() {
   const router = useRouter();
   try {
-    const response = await axiosInstance.get(`/auth/google`);
+    const response = await axiosInstance.get(`/auth/kakao`);
     if (response.data.registered === true) {
       const { accessToken } = response.data;
       saveTokenToCookie(accessToken);
@@ -38,7 +38,7 @@ export async function GetKakaoAuth() {
 
 const authAPI = {
   postRegisterData: <T>(body: T) => {
-    return axiosInstance.post(`/register`, body);
+    return axiosInstance.post(`/signup`, body);
   },
 
   postToken: <T>(body: T) => {
