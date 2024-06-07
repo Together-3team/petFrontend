@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 import { useModalProps } from '@/hooks/useModal';
 import ModalBase, { ModalProps } from '@/components/common/Modal/AdaptiveModal/ModalBase';
 import styles from './AdaptiveModal.module.scss';
-import { PropsWithChildren, useRef } from 'react';
+import { PropsWithChildren, useEffect, useRef } from 'react';
 import { useSpring, animated } from 'react-spring';
 import { useDrag } from 'react-use-gesture';
 
@@ -19,22 +19,29 @@ export default function AdaptiveModal({
   const modalRef = useRef(null);
   const [{ y }, api] = useSpring(() => ({ y: 0 }));
 
-  const openModal = () => {
-    api.start({ y: 0 });
-    handleModalOpen();
-  };
+  // const openModal = () => {
+  //   api.start({ y: 0 });
+  //   handleModalOpen();
+  // };
+
+  useEffect(() => {
+    if (modalOpen) {
+      api.start({ y: 0 });
+    }
+  }, [modalOpen, api]);
 
   const closeModal = () => {
     api.start({ y: window.innerHeight });
-    setTimeout(handleModalClose, 300);
+    setTimeout(handleModalClose, 200);
   };
 
   const bind = useDrag(
-    ({ down, movement: [, my], direction: [, dy], velocity }) => {
-      if (down && dy > 0 && my > 100) {
+    ({ down, movement: [, my], direction: [, dy], velocity, cancel }) => {
+      if (!down && my > 100) {
         closeModal();
+        // cancel();
       } else {
-        api.start({ y: down ? my : 0 });
+        api.start({ y: down ? my : 0, immediate: down });
       }
     },
     { initial: () => [0, y.get()], filterTaps: true, bounds: { top: 0 }, rubberband: true }
@@ -49,14 +56,18 @@ export default function AdaptiveModal({
         }
       }}>
       {modalOpen && (
-        <ModalBase type={type} className={className} onClose={type === 'drawer' ? closeModal : handleModalClose}>
-          <animated.div
-            ref={modalRef}
-            {...bind()}
-            style={{ transform: y.to(y => `translateY(${y}px)`) }}
-            className={cx('modalContent', { [type]: type })}>
-            {children}
-          </animated.div>
+        <ModalBase
+          type={type}
+          className={className}
+          onClose={type === 'drawer' ? closeModal : handleModalClose}
+          style={{ transform: y.to(y => `translateY(${y}px)`) }}
+          bind={bind()}>
+          {type === 'drawer' && (
+            <animated.div {...bind()} className={cx('dragHandle')}>
+              Drag here
+            </animated.div>
+          )}
+          {children}
         </ModalBase>
       )}
     </div>

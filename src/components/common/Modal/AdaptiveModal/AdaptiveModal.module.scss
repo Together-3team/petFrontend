@@ -13,7 +13,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #ffffff;
+    background-color: none;
     &[data-type='bottom'],
     &[data-type='drawer'] {
       @include modal-base;
