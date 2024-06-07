@@ -72,7 +72,7 @@ export default function HighlightTeam() {
               </div>
             ))}
           </div>
-          <Link href={'/test/team'} className={styles.allTeamLinkBtn}>
+          <Link href="/test/team" className={styles.allTeamLinkBtn}>
             참여자 전체보기
           </Link>
         </>
