@@ -14,14 +14,14 @@ export default function Menu() {
       </div>
       <div className={styles.centerBorder} />
       <div className={styles.menuList}>
-        <NextButton text="주문내역" href="" />
-        <NextButton text="내 리뷰" href="" />
+        <NextButton href="">주문내역</NextButton>
+        <NextButton href="">내 리뷰</NextButton>
         <hr />
-        <NextButton text="회원정보" href="" />
-        <NextButton text="프로필 수정" href="" />
-        <NextButton text="배송지 목록" href="" />
+        <NextButton href="">회원정보</NextButton>
+        <NextButton href="">프로필 수정</NextButton>
+        <NextButton href="">배송지 목록</NextButton>
         <hr />
-        <NextButton text="로그아웃" href="" />
+        <NextButton href="">로그아웃</NextButton>
       </div>
       <NavBottom />
     </div>

@@ -14,5 +14,6 @@
 
   .nextButton span {
     @include font-body4;
+    color: $color-black;
   }
 }
