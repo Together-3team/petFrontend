@@ -9,7 +9,7 @@ const cx = classNames.bind(styles);
 
 export default function MyPage() {
   return (
-    <div className={cx('myPage')}>
+    <div className={cx('myPageLayout')}>
       <span className={cx('myTitle')}>
         공동구매로 최저가 도전!
         <br />

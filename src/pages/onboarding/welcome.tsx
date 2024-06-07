@@ -9,7 +9,7 @@ export default function Welcome() {
     router.push('/');
   }, 2000);
   return (
-    <div className={styles.welcomePage}>
+    <div className={styles.welcomeLayout}>
       <h1 className={styles.welcomeTitle}>환영합니다, 해피사랑님!</h1>
       <ImageBox size="welcomePetPhoto" src={Image} alt="환영 이미지" />
     </div>

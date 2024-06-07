@@ -1,24 +1,13 @@
-import { getCookie } from 'cookies-next';
 import axiosInstance from './axiosInstance';
 
 //인증 관련 API 요청
 
-const token = getCookie('token');
-
 const authAPI = {
-  getGoggleAuth: () => {
-    const headers = {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    };
-    return axiosInstance.get(`/auth/goggle`, { headers });
+  getGoogleAuth: () => {
+    return axiosInstance.get(`/auth/google`).then(response => response.data);
   },
   getKakaoAuth: () => {
-    const headers = {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    };
-    return axiosInstance.get(`/auth/kakao`, { headers });
+    return axiosInstance.get(`/auth/kakao`).then(response => response.data);
   },
   postRegisterData: <T>(body: T) => {
     return axiosInstance.post(`/register`, body);

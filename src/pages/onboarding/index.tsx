@@ -13,7 +13,7 @@ export default function Onboarding() {
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className={styles.onboarding}>
+        <div className={styles.onboardingLayout}>
           <h1 className={styles.petChoiceText}>
             어서오세요!
             <br />

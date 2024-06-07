@@ -7,13 +7,13 @@ const cx = classNames.bind(styles);
 
 export default function Signup() {
   return (
-    <>
+    <div className={cx('signupLayout')}>
       <div className={cx('buttonArea')}>
         <BackButton />
       </div>
       <div>
         <SignupForm />
       </div>
-    </>
+    </div>
   );
 }
