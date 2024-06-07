@@ -1,14 +1,17 @@
-import Link from 'next/link';
-import { AnchorHTMLAttributes } from 'react';
+import Link, { LinkProps } from 'next/link';
+import { useRouter } from 'next/router';
+import classNames from 'classnames/bind';
 
 import styles from './SearchButton.module.scss';
 import SearchIcon from '@/assets/svgs/search.svg';
-import classNames from 'classnames/bind';
-import { useRouter } from 'next/router';
+
+interface SearchButtonProps extends Partial<LinkProps> {
+  className?: string;
+}
 
 const cx = classNames.bind(styles);
 
-export default function SearchButton({ className, ...rest }: AnchorHTMLAttributes<HTMLAnchorElement>) {
+export default function SearchButton({ className, ...rest }: SearchButtonProps) {
   const router = useRouter();
 
   return (
