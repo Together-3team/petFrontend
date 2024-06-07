@@ -1,3 +1,12 @@
+%teamBoxStyle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: stretch;
+  border-radius: 1.2rem;
+  background: $color-gray-50;
+}
+
 .highlightTeamLayout {
   padding: 2.8rem 1.6rem;
 }
@@ -5,40 +14,26 @@
 .sectionTitleBox {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0.8rem;
 }
 
 .title {
-  color: var(--Grayscale-Black, #111);
+  @include font-headline2;
 
-  /* Headline2 */
-  font-family: SUIT;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 24px; /* 133.333% */
+  color: $color-black;
 }
 
 .description {
-  color: var(--Grayscale-Gray-600, #73798d);
+  @include font-body4;
 
-  /* Body4 */
-  font-family: SUIT;
-  font-size: 13px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 16px; /* 123.077% */
+  color: $color-gray-600;
 }
 
 .teamBox {
-  display: flex;
-  padding: 0 10px;
-  flex-direction: column;
-  align-items: center;
-  align-self: stretch;
-  border-radius: 12px;
-  background: var(--Grayscale-Gray-50, #f9fafc);
-  margin: 28px 0 24px;
+  @extend %teamBoxStyle;
+
+  padding: 0 1rem;
+  margin: 2.8rem 0 2.4rem;
 }
 
 .teamData {
@@ -46,167 +41,102 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 0;
+  padding: 0.8rem 0;
 
   &:not(:first-child) {
-    border-top: 1px solid var(--Grayscale-Gray-200, #e7e9ed);
+    border-top: 0.1rem solid $color-gray-200;
   }
 }
 
 .participants {
+  @include font-body1;
+
   display: flex;
   align-items: center;
-  gap: 6px;
-
-  color: var(--Grayscale-Gray-700, #5a6072);
-
-  /* Body1 */
-  font-family: SUIT;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 18px; /* 128.571% */
+  gap: 0.6rem;
+  color: $color-gray-700;
 }
 
 .realClosed {
-  padding: 8px 16px;
-  color: var(--Grayscale-Gray-300, #cfd3db);
+  @include font-body1;
 
-  /* Body1 */
-  font-family: SUIT;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 18px; /* 128.571% */
+  padding: 0.8rem 1.6rem;
+  color: $color-gray-300;
 }
 
-.nickname {
-  color: var(--Grayscale-Black, #111);
+.creator {
+  @include font-body1;
 
-  /* Body1 */
-  font-family: SUIT;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 18px; /* 128.571% */
+  color: $color-black;
 }
 
 .timeAndBtn {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 8px;
+  gap: 0.8rem;
 }
 
 .timeBox {
   display: flex;
-  padding: 4px;
-  gap: 8px;
+  padding: 0.4rem;
+  gap: 0.8rem;
 }
 
 .closed {
-  color: var(--Primary-Main-Pink, #fe5a65);
+  @include font-body5;
 
-  /* Body5 */
-  font-family: SUIT;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 16px; /* 133.333% */
+  color: $color-pink-main;
 }
 
-.time {
-  color: var(--Primary-Main-Pink, #fe5a65);
+.timer {
+  @include font-body6;
 
-  /* Body6 */
-  font-family: SUIT;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 16px; /* 133.333% */
+  color: $color-pink-main;
 }
 
 .participationBtn {
+  @include font-headline3;
+
   display: flex;
-  padding: 8px 16px;
+  padding: 0.8rem 1.6rem;
   justify-content: center;
   align-items: center;
-  gap: 8px;
-  border-radius: 8px;
+  gap: 0.8rem;
+  border-radius: 0.8rem;
   border: none;
-  background: var(--Primary-Main-Pink, #fe5a65);
-  color: var(--Grayscale-White, #fff);
-
-  /* Headline3 */
-  font-family: SUIT;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 20px; /* 142.857% */
+  background: $color-pink-main;
+  color: $color-white;
 }
 
 .allTeamLinkBtn {
+  @include font-headline3;
+
   display: flex;
-  padding: 12px 0px;
+  padding: 1.2rem 0;
   justify-content: center;
   align-items: center;
-  gap: 8px;
+  gap: 0.8rem;
   align-self: stretch;
-  border-radius: 12px;
-  border: var(--product-cnt, 1px) solid var(--Primary-Main-Pink, #fe5a65);
-  background: var(--Grayscale-White, #fff);
-
-  /* Headline3 */
-  font-family: SUIT;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 20px; /* 142.857% */
-  background: var(--Primary-Gradient, linear-gradient(180deg, #ff8c91 0%, #fe5a65 100%));
+  border-radius: 1.2rem;
+  border: 0.1rem solid $color-pink-main;
+  background: linear-gradient(180deg, #ff8c91 0%, #fe5a65 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .noTeamBox {
-  display: flex;
-  padding: var(--min-24, 32px) 0px;
-  flex-direction: column;
+  @extend %teamBoxStyle;
+
   justify-content: center;
-  align-items: center;
-  gap: 12px;
-  align-self: stretch;
-  border-radius: 12px;
-  background: var(--Grayscale-Gray-50, #f9fafc);
-  margin-top: 20px;
+  margin-top: 2rem;
+  padding: 3.2rem 0;
+  gap: 1.2rem;
 }
 
 .noTeamText {
-  color: var(--Grayscale-Gray-400, #b5b9c6);
+  @include font-body5;
 
-  /* Body5 */
-  font-family: SUIT;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 16px; /* 133.333% */
-}
-
-.buyBtn {
-  display: flex;
-  padding: 8px 16px;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  border-radius: 8px;
-  background: var(--Primary-Main-Pink, #fe5a65);
-  border: none;
-  color: #fff;
-
-  /* Headline3 */
-  font-family: SUIT;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 20px; /* 142.857% */
+  color: $color-gray-400;
 }

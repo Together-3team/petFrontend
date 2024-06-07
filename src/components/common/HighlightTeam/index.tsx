@@ -59,11 +59,11 @@ export default function HighlightTeam() {
                   </>
                 ) : (
                   <>
-                    <p className={styles.nickname}>{data.creator}</p>
+                    <p className={styles.creator}>{data.creator}</p>
                     <div className={styles.timeAndBtn}>
                       <div className={styles.timeBox}>
                         <p className={styles.closed}>참여 마감</p>
-                        <p className={styles.time}>23:12:21</p>
+                        <p className={styles.timer}>23:12:21</p>
                       </div>
                       <button className={styles.participationBtn}>주문참여</button>
                     </div>
@@ -79,7 +79,7 @@ export default function HighlightTeam() {
       ) : (
         <div className={styles.noTeamBox}>
           <p className={styles.noTeamText}>아직 생성된 공동구매가 없어요</p>
-          <button className={styles.buyBtn}>내가 먼저 주문하기</button>
+          <button className={styles.participationBtn}>내가 먼저 주문하기</button>
         </div>
       )}
     </section>
