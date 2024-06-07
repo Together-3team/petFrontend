@@ -54,7 +54,7 @@ export default function HighlightReview({ reviewData = testData }: any) {
               <ReviewBox key={data.id} reviewData={data} className={styles.reviewBoxStyle} />
             ))}
           </div>
-          <Link href={'/test/review'} className={styles.allReviewLinkBtn}>
+          <Link href="/test/review" className={styles.allReviewLinkBtn}>
             리뷰 전체보기
           </Link>
         </>
