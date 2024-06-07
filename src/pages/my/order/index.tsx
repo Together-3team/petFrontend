@@ -1,7 +1,12 @@
+import classNames from 'classnames/bind';
 import Header from '@/components/common/Layout/Header';
-import styles from './Order.module.scss';
+
 import BackButton from '@/components/common/BackButton';
-import ScrollTopButton from '@/components/common/Button/ScrollTop';
+
+import styles from './Order.module.scss';
+import OrderFilterBar from './OrderFilterBar';
+
+const cx = classNames.bind(styles);
 
 export default function Order() {
   return (
@@ -14,7 +19,7 @@ export default function Order() {
           <h1>주문내역</h1>
         </Header.Box>
       </Header.Root>
-      <ScrollTopButton />
+      <OrderFilterBar />
     </div>
   );
 }

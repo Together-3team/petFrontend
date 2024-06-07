@@ -10,14 +10,15 @@ type TagProps = {
   color?: string;
   size: 'small' | 'big';
   type?: 'stock' | 'thumbsUp';
+  className?: string;
 };
 
 const cx = classNames.bind(styles);
 
-function Tag({ children, color, size, type }: TagProps) {
+function Tag({ children, color, size, type, className }: TagProps) {
   return (
     <div
-      className={cx('tag')}
+      className={cx('tag', className)}
       data-size={size}
       data-type={type}
       style={{
