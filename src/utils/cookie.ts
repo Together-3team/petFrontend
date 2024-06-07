@@ -2,8 +2,8 @@ import { setCookie } from 'cookies-next';
 
 //토큰을 쿠키에 저장
 
-export default function saveTokenToCookie(token: any) {
-  setCookie('token', 'token', {
+export default function saveTokenToCookie(token: string) {
+  setCookie('accessToken', token, {
     secure: true,
     httpOnly: true,
     sameSite: 'lax',

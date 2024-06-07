@@ -8,7 +8,7 @@ import signupFormSchema from '@/utils/signupFormSchema';
 import Input from '@/components/common/Input';
 import Button from '@/components/common/Button';
 import UserAgreement from './UserAgreement';
-import authAPI from '@/apis/authAPI';
+import authAPI, { GetGoogleAuth, GetKakaoAuth } from '@/apis/authAPI';
 
 import styles from './SignupForm.module.scss';
 import { GOOGLE_AUTH_URL, KAKAO_AUTH_URL } from '@/constants/oAuth';
@@ -24,14 +24,13 @@ export default function SignupForm() {
     data: googleData,
     error: googleError,
     isLoading: googleLoading,
-  } = useQuery({ queryKey: ['googleAuth'], queryFn: authAPI.getGoogleAuth });
+  } = useQuery({ queryKey: ['googleAuth'], queryFn: GetGoogleAuth });
 
   const {
     data: kakaoData,
     error: kakaoError,
     isLoading: kakaoLoading,
-  } = useQuery({ queryKey: ['kakaoAuth'], queryFn: authAPI.getKakaoAuth });
-  console.log(kakaoData?.data);
+  } = useQuery({ queryKey: ['kakaoAuth'], queryFn: GetKakaoAuth });
 
   const mutation = useMutation({
     mutationFn: body => authAPI.postRegisterData(body),

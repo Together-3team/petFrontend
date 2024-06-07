@@ -3,7 +3,7 @@ import { getCookie } from 'cookies-next';
 import axiosInstance from './axiosInstance';
 
 export const COOKIE_KEY = {
-  TOKEN: 'token',
+  TOKEN: 'accessToken',
 };
 
 const onRequest = (config: InternalAxiosRequestConfig) => {
