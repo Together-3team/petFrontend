@@ -4,16 +4,24 @@ import styles from './BackButton.module.scss';
 
 interface BackButton {
   href?: string;
+  hasPrevPath?: boolean;
 }
 
-export default function BackButton({ href }: BackButton) {
+export default function BackButton({ href, hasPrevPath = true }: BackButton) {
   const router = useRouter();
+  const prevPath = router.query?.prevPath;
 
   function handleClick() {
+    if (hasPrevPath && prevPath) {
+      router.push(Array.isArray(prevPath) ? prevPath[0] : prevPath);
+      return;
+    }
+
     if (href) {
       router.push(href);
       return;
     }
+
     router.back();
   }
 
