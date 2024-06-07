@@ -44,3 +44,7 @@
   background-color: $color-gray-100;
   margin: 1rem 0;
 }
+
+#payment-widget button:first-of-type {
+  width: 100%;
+}

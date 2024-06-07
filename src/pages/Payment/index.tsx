@@ -1,27 +1,28 @@
-import Button from '@/components/common/Button';
+import React, { useEffect, useState, useRef } from 'react';
 import styles from './Payment.module.scss';
-import { useEffect, useState } from 'react';
+import { loadPaymentWidget, PaymentWidgetInstance } from '@tosspayments/payment-widget-sdk';
+import { nanoid } from 'nanoid';
+import Button from '@/components/common/Button';
 import PaymentAgree from '@/components/payment/PaymentAgree';
 import exampleProductImg from '@/assets/exampleProductImg.jpg';
 import TotalPay from '@/components/payment/TotalPay';
 import Card from '@/components/payment/Card';
-// import { isMobile } from 'react-device-detect';
 
-declare global {
-  interface Window {
-    TossPayments: any;
-  }
-}
+const widgetClientKey = 'test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm';
+const customerKey = '-YY27b1BN-PCQD_5Qwp9X';
 
 export default function Payment() {
   const [checkboxChecked, setCheckboxChecked] = useState(false);
+  const [paymentWidget, setPaymentWidget] = useState<PaymentWidgetInstance | null>(null);
+  const paymentMethodsWidgetRef = useRef<ReturnType<PaymentWidgetInstance['renderPaymentMethods']> | null>(null);
+  const [price, setPrice] = useState(50000); // 기본 가격 설정
   const initialProducts = [
     {
       id: 1,
       productTitle: '강아지 간식 27종',
       option: '강아지 독 리얼큐브 소고기 300g',
-      productCost: 10000, // 판매가
-      originalCost: 11800, // 원가
+      productCost: 10000,
+      originalCost: 11800,
       productNumber: 2,
       imageUrl: exampleProductImg,
     },
@@ -55,92 +56,124 @@ export default function Payment() {
   ];
 
   const [products, setProducts] = useState(initialProducts);
+
   useEffect(() => {
     const script = document.createElement('script');
     script.src = 'https://js.tosspayments.com/v1';
     script.async = true;
+    script.onload = () => {
+      const fetchPaymentWidget = async () => {
+        try {
+          const loadedWidget = await loadPaymentWidget(widgetClientKey, customerKey);
+          setPaymentWidget(loadedWidget);
+        } catch (error) {
+          console.error('Error fetching payment widget:', error);
+        }
+      };
+
+      fetchPaymentWidget();
+    };
     document.body.appendChild(script);
     return () => {
       document.body.removeChild(script);
     };
   }, []);
 
-  const isMobile = () => {
-    const userAgent = navigator.userAgent.toLowerCase();
-    return /android|ipad|iphone|ipod/.test(userAgent);
-  };
-
-  const handlePayment = async () => {
-    if (!window.TossPayments) {
-      console.error('Toss Payments script not loaded');
+  useEffect(() => {
+    if (paymentWidget == null) {
       return;
     }
 
-    const tossPayments = window.TossPayments(process.env.NEXT_PUBLIC_TOSS_PAYMENTS_CLIENT_KEY);
+    const paymentMethodsWidget = paymentWidget.renderPaymentMethods(
+      '#payment-widget',
+      { value: price },
+      { variantKey: 'DEFAULT' }
+    );
 
-    tossPayments.requestPayment('카드', {
-      amount: totalPrice,
-      orderId: 'orderId-12345', // 유효 id 생성하면 아이디가 랜덤으로 생성가능
-      orderName: 'Test Order', //상품명
-      customerName: 'Customer', // front에서 이름을 받아서
-      successUrl: `${window.location.origin}/payment/success`,
-      failUrl: `${window.location.origin}/payment/fail`,
-      flowMode: isMobile() ? 'MOBILE_WEB' : 'DEFAULT',
-    });
+    paymentWidget.renderAgreement('#agreement', { variantKey: 'AGREEMENT' });
+
+    paymentMethodsWidgetRef.current = paymentMethodsWidget;
+  }, [paymentWidget, price]);
+
+  useEffect(() => {
+    const paymentMethodsWidget = paymentMethodsWidgetRef.current;
+
+    if (paymentMethodsWidget == null) {
+      return;
+    }
+
+    paymentMethodsWidget.updateAmount(price);
+  }, [price]);
+
+  const handlePaymentRequest = async () => {
+    try {
+      await paymentWidget?.requestPayment({
+        orderId: nanoid(),
+        orderName: '토스 티셔츠 외 2건',
+        customerName: '김토스',
+        customerEmail: 'customer123@gmail.com',
+        customerMobilePhone: '01012341234',
+        successUrl: `${window.location.origin}/payment/success`,
+        failUrl: `${window.location.origin}/payment/fail`,
+      });
+    } catch (error) {
+      console.error('Error requesting payment:', error);
+    }
   };
 
-  // 제품의 총 원가 게산
   function calculateTotalOriginalPrice() {
     return products.reduce((total, product) => total + product.originalCost * product.productNumber, 0);
   }
 
-  // 제품의 총 가격 계산
   function calculateTotalPrice() {
     return products.reduce((total, product) => total + product.productCost * product.productNumber, 0);
   }
 
   const totalOriginalPrice = calculateTotalOriginalPrice();
   const totalPrice = calculateTotalPrice();
-  const productCount = products.length; // 전체 상품 수
+  const productCount = products.length;
 
   return (
-    <>
-      <div className={styles.payment}>
-        <div className={styles.rectangle}></div>
-        <div className={styles.orderProduct}>
-          <div className={styles.orderTitle}>
-            <div className={styles.howMany}>
-              <div>주문 상품</div>
-              <span className={styles.howManyCount}>{productCount}개</span>
-            </div>
+    <div className={styles.payment}>
+      <div className={styles.rectangle}></div>
+      <div className={styles.orderProduct}>
+        <div className={styles.orderTitle}>
+          <div className={styles.howMany}>
+            <div>주문 상품</div>
+            <span className={styles.howManyCount}>{productCount}개</span>
           </div>
-          <div className={styles.line}></div>
         </div>
-
-        {products.map((product, index) => (
-          <Card
-            key={product.id}
-            productTitle={product.productTitle}
-            option={product.option}
-            productCost={product.productCost}
-            originalCost={product.originalCost}
-            productNumber={product.productNumber}
-            imageUrl={product.imageUrl}
-            isLast={index === products.length - 1}
-          />
-        ))}
-        <div className={styles.rectangle}></div>
-        <TotalPay totalPrice={totalPrice} totalOriginalPrice={totalOriginalPrice} productCount={productCount} />
-        <div className={styles.rectangle}></div>
-        <div className={styles.paymentAgree}>
-          <PaymentAgree onCheckboxChange={setCheckboxChecked} />
-          <div className={styles.paymentButton}>
-            <Button size="large" backgroundColor="$color-pink-main" onClick={handlePayment} disabled={!checkboxChecked}>
-              {totalPrice}원 주문하기
-            </Button>
-          </div>
+        <div className={styles.line}></div>
+      </div>
+      {products.map((product, index) => (
+        <Card
+          key={product.id}
+          productTitle={product.productTitle}
+          option={product.option}
+          productCost={product.productCost}
+          originalCost={product.originalCost}
+          productNumber={product.productNumber}
+          imageUrl={product.imageUrl}
+          isLast={index === products.length - 1}
+        />
+      ))}
+      <div className={styles.rectangle}></div>
+      <TotalPay totalPrice={totalPrice} totalOriginalPrice={totalOriginalPrice} productCount={productCount} />
+      <div className={styles.rectangle}></div>
+      <div id="payment-widget"></div>
+      <div id="agreement"></div>
+      <div className={styles.paymentAgree}>
+        <PaymentAgree onCheckboxChange={setCheckboxChecked} />
+        <div className={styles.paymentButton}>
+          <Button
+            size="large"
+            backgroundColor="$color-pink-main"
+            onClick={handlePaymentRequest}
+            disabled={!checkboxChecked}>
+            {totalPrice}원 주문하기
+          </Button>
         </div>
       </div>
-    </>
+    </div>
   );
 }

@@ -27,25 +27,23 @@ export default function Card({
   const discountRate = (discountAmount / originalCost) * 100;
 
   return (
-    <>
-      <div className={styles.bigContainer}>
-        <div className={styles.productExplain}>
-          <Image className={styles.productImg} width={56} height={56} src={imageUrl} alt="productImg" />
-          <div>
-            <div className={styles.productTitle}>{productTitle}</div>
-            <div className={styles.option}>{option}</div>
-            <div className={styles.moneyContainerRight}>
-              <div className={styles.productCost}>{originalCost}원</div>
-              <div className={styles.realPrice}>
-                <div className={styles.discountRate}>{discountRate.toFixed(0)}%</div>
-                <div className={styles.realMoney}>{productCost}원</div>
-              </div>
+    <div className={styles.bigContainer}>
+      <div className={styles.productExplain}>
+        <Image className={styles.productImg} width={56} height={56} src={imageUrl} alt="productImg" />
+        <div>
+          <div className={styles.productTitle}>{productTitle}</div>
+          <div className={styles.option}>{option}</div>
+          <div className={styles.moneyContainerRight}>
+            <div className={styles.productCost}>{originalCost}원</div>
+            <div className={styles.realPrice}>
+              <div className={styles.discountRate}>{discountRate.toFixed(0)}%</div>
+              <div className={styles.realMoney}>{productCost}원</div>
             </div>
           </div>
         </div>
-        <div className={styles.moneyContainer}></div>
-        {!isLast && <div className={styles.line}></div>}
       </div>
-    </>
+      <div className={styles.moneyContainer}></div>
+      {!isLast && <div className={styles.line}></div>}
+    </div>
   );
 }
