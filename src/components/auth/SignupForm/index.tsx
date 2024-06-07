@@ -11,6 +11,7 @@ import UserAgreement from './UserAgreement';
 import authAPI from '@/apis/authAPI';
 
 import styles from './SignupForm.module.scss';
+import { GOOGLE_AUTH_URL, KAKAO_AUTH_URL } from '@/constants/oAuth';
 
 const cx = classNames.bind(styles);
 
@@ -112,7 +113,7 @@ export default function SignupForm() {
               )}
             </div>
           </div>
-          <Link href="/onboarding">
+          <Link href={googleData ? GOOGLE_AUTH_URL : KAKAO_AUTH_URL}>
             <Button size="large" backgroundColor="$color-pink-main">
               가입하기
             </Button>
