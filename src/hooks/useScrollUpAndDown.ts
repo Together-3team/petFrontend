@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
-export default function useScrollVisible() {
-  const [visible, setVisible] = useState(true);
+export default function useScrollUpAndDown(minScrollY: number = 0) {
+  const [isUp, setIsUp] = useState(true);
 
   useEffect(() => {
     let lastScrollY = window.scrollY;
@@ -9,10 +9,10 @@ export default function useScrollVisible() {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
 
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        setVisible(false);
+      if (currentScrollY > lastScrollY && currentScrollY > minScrollY) {
+        setIsUp(false);
       } else {
-        setVisible(true);
+        setIsUp(true);
       }
 
       lastScrollY = currentScrollY;
@@ -21,9 +21,10 @@ export default function useScrollVisible() {
     window.addEventListener('scroll', handleScroll);
 
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [minScrollY]);
 
   return {
-    visible,
+    isUp,
+    isDown: !isUp,
   };
 }
