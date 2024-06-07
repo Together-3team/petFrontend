@@ -41,38 +41,47 @@ export default function HighlightTeam() {
         <p className={styles.title}>2인 공동구매</p>
         <p className={styles.description}>주문참여로 기다림 없이 바로 주문해보세요</p>
       </div>
-      <div className={styles.teamBox}>
-        {testData.map(data => (
-          <div key={data.id} className={styles.teamData}>
-            {data.status === '완료' ? (
-              <>
-                <div className={styles.participants}>
-                  {data.participants[0].name}
-                  <div>
-                    <AmpersandIcon />
-                  </div>
-                  {data.participants[1].name}
-                </div>
-                <p className={styles.realClosed}>주문완료</p>
-              </>
-            ) : (
-              <>
-                <p className={styles.nickname}>{data.creator}</p>
-                <div className={styles.timeAndBtn}>
-                  <div className={styles.timeBox}>
-                    <p className={styles.closed}>참여 마감</p>
-                    <p className={styles.time}>23:12:21</p>
-                  </div>
-                  <button className={styles.participationBtn}>주문참여</button>
-                </div>
-              </>
-            )}
+      {testData.length > 0 ? (
+        <>
+          <div className={styles.teamBox}>
+            {testData.map(data => (
+              <div key={data.id} className={styles.teamData}>
+                {data.status === '완료' ? (
+                  <>
+                    <div className={styles.participants}>
+                      {data.participants[0].name}
+                      <div>
+                        <AmpersandIcon />
+                      </div>
+                      {data.participants[1].name}
+                    </div>
+                    <p className={styles.realClosed}>주문완료</p>
+                  </>
+                ) : (
+                  <>
+                    <p className={styles.nickname}>{data.creator}</p>
+                    <div className={styles.timeAndBtn}>
+                      <div className={styles.timeBox}>
+                        <p className={styles.closed}>참여 마감</p>
+                        <p className={styles.time}>23:12:21</p>
+                      </div>
+                      <button className={styles.participationBtn}>주문참여</button>
+                    </div>
+                  </>
+                )}
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-      <Link href={'/test/team'} className={styles.allTeamLinkBtn}>
-        참여자 전체보기
-      </Link>
+          <Link href={'/test/team'} className={styles.allTeamLinkBtn}>
+            참여자 전체보기
+          </Link>
+        </>
+      ) : (
+        <div className={styles.noTeamBox}>
+          <p className={styles.noTeamText}>아직 생성된 공동구매가 없어요</p>
+          <button className={styles.buyBtn}>내가 먼저 주문하기</button>
+        </div>
+      )}
     </section>
   );
 }
