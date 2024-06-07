@@ -1,0 +1,11 @@
+@layer components {
+  .container {
+    grid-column: 2 / 3;
+    justify-self: center;
+
+    display: flex;
+    gap: 0.8rem;
+
+    white-space: nowrap;
+  }
+}

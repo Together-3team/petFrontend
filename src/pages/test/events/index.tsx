@@ -1,9 +1,16 @@
-import MainLayout from '@/components/common/Layout/Main';
+import { useRouter } from 'next/router';
 
 export default function EventsPage() {
-  return <div>EventsPage</div>;
-}
+  const router = useRouter();
 
-EventsPage.getLayout = function getLayout(page: React.ReactElement) {
-  return <MainLayout>{page}</MainLayout>;
-};
+  console.log('events: ', router);
+
+  return (
+    <>
+      <div>EventsPage</div>
+      <button type="button" onClick={() => router.back()}>
+        뒤로가기
+      </button>
+    </>
+  );
+}
