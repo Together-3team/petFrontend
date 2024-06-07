@@ -1,5 +1,5 @@
 import BackButton from '@/components/common/BackButton';
-import HighlightTeam from '@/components/common/HighlightTeam';
+import HighlightTeam from '@/components/common/Team/HighlightTeam';
 import Header from '@/components/common/Layout/Header';
 import styles from './TeamPage.module.scss';
 
