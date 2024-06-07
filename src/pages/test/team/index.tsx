@@ -1,5 +1,5 @@
-import BackButton from '@/components/common/BackButton';
 import Header from '@/components/common/Layout/Header';
+import BackButton from '@/components/common/BackButton';
 import TeamDataCard from '@/components/common/Team/TeamDataCard';
 import styles from './TeamPage.module.scss';
 
@@ -105,13 +105,13 @@ export default function TeamPage() {
   ];
 
   return (
-    <div>
+    <div className={styles.teamPageLayout}>
       <Header.Root>
         <Header.Box>
           <Header.Left>
             <BackButton />
           </Header.Left>
-          <Header.Center>페이지 전체보기</Header.Center>
+          <Header.Center className={styles.pageTitle}>페이지 전체보기</Header.Center>
         </Header.Box>
       </Header.Root>
       <div>
