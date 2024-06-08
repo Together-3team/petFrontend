@@ -8,7 +8,7 @@ import styles from './Tag.module.scss';
 type TagProps = {
   children: React.ReactNode;
   color?: string;
-  size: 'small' | 'big';
+  size: 'small' | 'medium' | 'big';
   type?: 'stock' | 'thumbsUp';
   className?: string;
 };

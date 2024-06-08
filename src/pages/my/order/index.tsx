@@ -51,10 +51,10 @@ export default function Order() {
                 주문 취소
               </Button>
               <Button size="small" backgroundColor="$color-gray-100">
-                주문 취소
+                배송 조회
               </Button>
               <Button size="small" backgroundColor="$color-gray-100">
-                주문 취소
+                리뷰 쓰기
               </Button>
             </div>
           </div>

@@ -103,6 +103,7 @@ export default function Card({ productInfo, isZzim = false, direction = 'column'
         />
         {isZzim && <Zzim className={cx('zzim')} color="white" productId={productId} />}
       </div>
+      {size === 'miniImage' && <Tag size="medium">공동구매 대기</Tag>}
       <div className={cx('cardContent')} data-direction={direction} data-size={size}>
         <div className={cx('titleBox')} data-direction={direction} data-size={size}>
           <div className={cx(titleInnerBoxClassName)}>
