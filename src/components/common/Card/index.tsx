@@ -8,7 +8,7 @@ import Zzim from '../Zzim';
 import StarIcon from '@/assets/svgs/star.svg';
 import styles from './Card.module.scss';
 
-interface ProductInfo {
+export interface ProductInfo {
   productId: number;
   title: string;
   thumbNailImage: string;
@@ -26,6 +26,7 @@ interface CardProps {
   isZzim?: boolean;
   direction?: 'column' | 'row';
   size: 'big' | 'small' | 'miniImage';
+  tagText?: string;
 }
 
 const cx = classNames.bind(styles);
@@ -33,7 +34,7 @@ const cx = classNames.bind(styles);
 // direction="row"는 꼭 size="small" 또는 "miniImage"와 함께 사용
 // option은 string으로 받는 것으로 생각 ex) 닭고기/ 가슴살
 
-export default function Card({ productInfo, isZzim = false, direction = 'column', size = 'big' }: CardProps) {
+export default function Card({ productInfo, isZzim = false, direction = 'column', size = 'big', tagText }: CardProps) {
   const {
     productId,
     title,
@@ -103,8 +104,8 @@ export default function Card({ productInfo, isZzim = false, direction = 'column'
         />
         {isZzim && <Zzim className={cx('zzim')} color="white" productId={productId} />}
       </div>
-      {size === 'miniImage' && <Tag size="medium">공동구매 대기</Tag>}
       <div className={cx('cardContent')} data-direction={direction} data-size={size}>
+        {size === 'miniImage' && <Tag size="medium">{tagText}</Tag>}
         <div className={cx('titleBox')} data-direction={direction} data-size={size}>
           <div className={cx(titleInnerBoxClassName)}>
             <div className={cx('title')} ref={titleRef} data-stock={stock} data-direction={direction} data-size={size}>

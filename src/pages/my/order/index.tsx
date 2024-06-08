@@ -7,6 +7,7 @@ import rectangleImg from '@/assets/images/rectangle.png';
 import OrderFilterBar from '@/components/OrderFilterBar';
 
 import styles from './Order.module.scss';
+import OrderCard from '@/components/OrderCard';
 
 const cx = classNames.bind(styles);
 
@@ -44,30 +45,7 @@ export default function Order() {
           <span className={styles.orderNumber}>주문번호</span>
         </div>
         <div className={styles.orderCards}>
-          <div>
-            <Card productInfo={productList6} direction="row" size="miniImage" />
-            <div className={styles.orderCardButtons}>
-              <Button size="small" backgroundColor="$color-white-gray">
-                주문 취소
-              </Button>
-              <Button size="small" backgroundColor="$color-gray-100">
-                배송 조회
-              </Button>
-              <Button size="small" backgroundColor="$color-gray-100">
-                리뷰 쓰기
-              </Button>
-            </div>
-          </div>
-          <Card productInfo={productList6} direction="row" size="small" />
-          <Card productInfo={productList6} direction="row" size="small" />
-          <Card productInfo={productList6} direction="row" size="small" />
-          <Card productInfo={productList6} direction="row" size="small" />
-          <Card productInfo={productList6} direction="row" size="small" />
-          <Card productInfo={productList6} direction="row" size="small" />
-          <Card productInfo={productList6} direction="row" size="small" />
-          <Card productInfo={productList6} direction="row" size="small" />
-          <Card productInfo={productList6} direction="row" size="small" />
-          <Card productInfo={productList6} direction="row" size="small" />
+          <OrderCard productInfo={productList6} tagText="공동구매 대기" />
         </div>
       </div>
     </div>

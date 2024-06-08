@@ -38,6 +38,7 @@
 
   &[data-size='small'][data-direction='row'] {
     width: 100%;
+    align-items: center;
   }
 
   &[data-size='small'][data-direction='column'] {
@@ -89,7 +90,7 @@
     margin: 0.4rem 0;
   }
 
-  &[data-direction='row'] {
+  &[data-direction='row'][data-size='small'] {
     margin: 1.2rem 0 0.4rem;
   }
 }
@@ -140,7 +141,8 @@
     width: 23.6rem;
     white-space: pre-wrap;
     text-overflow: ellipsis;
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.8rem;
+    margin-top: 1rem;
   }
 }
 
