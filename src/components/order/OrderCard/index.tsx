@@ -1,5 +1,5 @@
-import Card, { ProductInfo } from '../common/Card';
-import Button from '../common/Button';
+import Card, { ProductInfo } from '../../common/Card';
+import Button from '../../common/Button';
 
 import styles from './OrderCard.module.scss';
 

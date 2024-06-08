@@ -1,17 +1,16 @@
 import classNames from 'classnames/bind';
 import Header from '@/components/common/Layout/Header';
-import Card from '@/components/common/Card';
-import Button from '@/components/common/Button';
 import BackButton from '@/components/common/BackButton';
 import rectangleImg from '@/assets/images/rectangle.png';
-import OrderFilterBar from '@/components/OrderFilterBar';
+import OrderFilterBar from '@/components/order/OrderFilterBar';
 
 import styles from './Order.module.scss';
-import OrderCard from '@/components/OrderCard';
+import OrderCard from '@/components/order/OrderCard';
 
 const cx = classNames.bind(styles);
 
 export default function Order() {
+  //mock 데이터 입니다.
   const productList6 = {
     productId: 6,
     title: '진짜 육포입니다람쥐이이이이이이이이이이이이이이이이ㅣ이이이이이이',
