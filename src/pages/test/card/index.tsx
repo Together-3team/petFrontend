@@ -78,7 +78,7 @@ export default function CardPage() {
     <div className={styles.cards}>
       <Card productInfo={productList} size="big" />
       <Card productInfo={productList} size="small" />
-      <Card productInfo={productList2} zzim={true} size="big" />
+      <Card productInfo={productList2} isZzim={true} size="big" />
       <Zzim className={styles.zzim} color="gray" productId={2} />
       <Card productInfo={productList3} direction="row" size="small" />
       <Card productInfo={productList6} direction="row" size="small" />

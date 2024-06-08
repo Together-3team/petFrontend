@@ -23,7 +23,7 @@ interface ProductInfo {
 
 interface CardProps {
   productInfo: ProductInfo;
-  zzim?: boolean;
+  isZzim?: boolean;
   direction?: 'column' | 'row';
   size: 'big' | 'small';
 }
@@ -33,7 +33,7 @@ const cx = classNames.bind(styles);
 // direction="row"는 꼭 size="small"과 함께 사용
 // option은 string으로 받는 것으로 생각 ex) 닭고기/ 가슴살
 
-export default function Card({ productInfo, zzim = false, direction = 'column', size = 'big' }: CardProps) {
+export default function Card({ productInfo, isZzim = false, direction = 'column', size = 'big' }: CardProps) {
   const {
     productId,
     title,
@@ -95,7 +95,7 @@ export default function Card({ productInfo, zzim = false, direction = 'column', 
           placeholder="blur"
           sizes={size === 'big' ? '(max-width: 140px) 100vw, 140px' : '(max-width: 100px) 100vw, 100px'}
         />
-        {zzim && <Zzim className={cx('zzim')} color="white" productId={productId} />}
+        {isZzim && <Zzim className={cx('zzim')} color="white" productId={productId} />}
       </div>
       <div className={cx('cardContent')} data-direction={direction} data-size={size}>
         <div className={cx('titleBox')} data-direction={direction} data-size={size}>
