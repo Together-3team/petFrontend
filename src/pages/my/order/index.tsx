@@ -46,6 +46,14 @@ export default function Order() {
         </div>
         <div className={styles.orderCards}>
           <OrderCard productInfo={productList6} tagText="공동구매 대기" />
+          <OrderCard productInfo={productList6} tagText="공동구매 대기" />
+          <OrderCard productInfo={productList6} tagText="공동구매 대기" />
+          <OrderCard productInfo={productList6} tagText="공동구매 대기" />
+          <OrderCard productInfo={productList6} tagText="공동구매 대기" />
+          <OrderCard productInfo={productList6} tagText="공동구매 대기" />
+          <OrderCard productInfo={productList6} tagText="공동구매 대기" />
+          <OrderCard productInfo={productList6} tagText="공동구매 대기" />
+          <OrderCard productInfo={productList6} tagText="공동구매 대기" />
         </div>
       </div>
     </div>

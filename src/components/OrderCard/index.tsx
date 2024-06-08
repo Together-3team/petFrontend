@@ -26,7 +26,6 @@ export default function OrderCard({ productInfo, tagText }: OrderCardProps) {
           </Button>
         </div>
       </div>
-      <hr className={styles.updownBorder} />
     </>
   );
 }
