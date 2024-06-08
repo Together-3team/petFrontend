@@ -6,7 +6,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 0.8rem;
+    gap: 2.4rem;
   }
 
   .orderLayout h1 {
@@ -14,33 +14,41 @@
     text-align: center;
   }
 
-  .container {
-    overflow-x: scroll;
-    scrollbar-width: none;
-    width: 36rem;
+  .orderInfo {
+    width: 33rem;
+    height: 4rem;
     display: flex;
-    padding-top: 0.8rem;
+    flex-direction: column;
     align-items: flex-start;
-    gap: 0.8rem;
+    gap: 0.4rem;
+    align-self: stretch;
   }
 
-  .textChip {
+  .orderInfoUp {
     display: flex;
-    padding: 0.8rem 1.2rem;
-    justify-content: center;
-    align-items: center;
-    gap: 0.8rem;
-    white-space: nowrap;
-    background-color: $color-white;
-    border-radius: 10rem;
-    border: 1.5px solid $color-gray-500;
-
-    @include font-body2;
-    color: $color-gray-500;
+    justify-content: space-between;
+    align-items: flex-start;
+    align-self: stretch;
   }
 
-  .clickedChip {
-    border: 1.5px solid $color-pink-main;
-    color: $color-pink-main;
+  .orderDate {
+    color: $color-black;
+    text-align: center;
+
+    @include font-headline3;
+  }
+
+  .orderDetail {
+    color: $color-gray-500;
+    text-align: center;
+
+    @include font-headline3;
+  }
+
+  .orderNumber {
+    color: $color-gray-500;
+    text-align: center;
+
+    @include font-body6;
   }
 }

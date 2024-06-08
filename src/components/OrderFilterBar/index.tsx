@@ -2,7 +2,7 @@ import { useState } from 'react';
 import classNames from 'classnames/bind';
 import useDragScroll from '@/hooks/useDragScroll';
 
-import styles from './Order.module.scss';
+import styles from './OrderFilterBar.module.scss';
 
 const cx = classNames.bind(styles);
 
