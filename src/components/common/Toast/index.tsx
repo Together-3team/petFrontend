@@ -17,7 +17,7 @@ export function Toast({ id, status, message, linkMessage, linkProps }: ToastProp
   const hasLink = linkMessage && linkProps;
 
   return (
-    <div className={cx('toast', statusClassName)} onClick={() => hideToast(id)}>
+    <div id={id} className={cx('toast', statusClassName)} onClick={() => hideToast(id)}>
       <span className={styles.icon}>
         <StatusIcon />
       </span>

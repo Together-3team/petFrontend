@@ -38,6 +38,14 @@ export default function ToastProvider({ children }: PropsWithChildren) {
   };
 
   const hideToastHandler = (id: string) => {
+    const toastEl = document.getElementById(id);
+    if (toastEl) {
+      toastEl.dataset.visibility = 'hidden';
+      toastEl.addEventListener('animationend', () => {
+        setActiveToastList(prev => prev.filter(toast => toast.id !== id));
+      });
+      return;
+    }
     setActiveToastList(prev => prev.filter(toast => toast.id !== id));
   };
 
