@@ -13,6 +13,7 @@ import NavBottom from '@/components/common/Nav/Bottom';
 import BackButton from '@/components/common/BackButton';
 import SearchButton from '@/components/common/Button/Search';
 import CartButton from '@/components/common/Button/Cart';
+import useToast from '@/hooks/useToast';
 
 const BANNER_IMAGES = [
   { src: banner1.src, alt: '배너1' },
@@ -23,9 +24,44 @@ const BANNER_IMAGES = [
 ];
 
 export default function HomePage() {
+  const { showToast } = useToast();
+
+  const showSuccess = () => {
+    showToast({
+      status: 'success',
+      message: '성공',
+    });
+  };
+  const showError = () => {
+    showToast({
+      status: 'error',
+      message: '실패',
+    });
+  };
+  const showWarn = () => {
+    showToast({
+      status: 'warn',
+      message: '경고',
+    });
+  };
+  const showLink = () => {
+    showToast({
+      status: 'success',
+      message: '링크',
+      linkMessage: '장바구니로 가기',
+      linkProps: {
+        href: '/cart',
+      },
+    });
+  };
+
   return (
     <>
       <div className={styles.container}>
+        <button onClick={showSuccess}>성공</button>
+        <button onClick={showError}>실패</button>
+        <button onClick={showWarn}>경고</button>
+        <button onClick={showLink}>링크</button>
         <Header.Root className={styles.header}>
           <Header.Box>
             <Header.Left>

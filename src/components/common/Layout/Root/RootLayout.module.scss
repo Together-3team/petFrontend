@@ -72,4 +72,13 @@
     width: 100%;
     min-height: 100vh;
   }
+
+  .toastContainer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    max-width: $size-mobile-max;
+    z-index: $z-index-toast;
+    padding: 0 1.6rem;
+  }
 }
