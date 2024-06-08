@@ -13,7 +13,7 @@ const cx = classNames.bind(styles);
 export default function Order() {
   const productList6 = {
     productId: 6,
-    title: '진짜 육포입니다람쥐이이이이이이이이이',
+    title: '진짜 육포입니다람쥐이이이이이이이이이이이이이이이이ㅣ이이이이이이',
     thumbNailImage: rectangleImg.src,
     originalPrice: 12000,
     price: 10800,
@@ -45,15 +45,15 @@ export default function Order() {
         </div>
         <div className={styles.orderCards}>
           <div>
-            <Card productInfo={productList6} direction="row" size="small" />
-            <div>
+            <Card productInfo={productList6} direction="row" size="miniImage" />
+            <div className={styles.orderCardButtons}>
               <Button size="small" backgroundColor="$color-white-gray">
                 주문 취소
               </Button>
               <Button size="small" backgroundColor="$color-gray-100">
                 주문 취소
               </Button>
-              <Button size="small" backgroundColor="$color-white-gray">
+              <Button size="small" backgroundColor="$color-gray-100">
                 주문 취소
               </Button>
             </div>

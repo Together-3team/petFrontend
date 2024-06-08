@@ -3,7 +3,14 @@ import styles from './Button.module.scss';
 interface ButtonProps {
   size: 'large' | 'mediumLarge' | 'medium' | 'small';
   children?: React.ReactNode;
-  backgroundColor: '$color-gray-800' | '$color-gray-300' | '$color-pink-main' | '$color-white' | '$color-white-gray';
+  backgroundColor:
+    | '$color-gray-800'
+    | '$color-gray-300'
+    | '$color-gray-100'
+    | '$color-pink-main'
+    | '$color-white'
+    | '$color-white-gray'
+    | '$color-white-pink';
   onClick?: () => void;
 }
 
