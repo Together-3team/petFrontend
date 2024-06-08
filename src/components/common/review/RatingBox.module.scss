@@ -1,23 +1,4 @@
-.reviewTitleBox {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-}
-
-.review {
-  @include font-headline2;
-
-  color: $color-black;
-}
-
-.totalReview {
-  @include font-headline2;
-
-  color: $color-gray-400;
-}
-
-.ratingBox {
-  margin: 2.8rem 0;
+.ratingBoxLayout {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -49,4 +30,10 @@
   @include font-body4;
 
   color: $color-gray-600;
+}
+
+.dropdown {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1.6rem;
 }
