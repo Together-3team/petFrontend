@@ -29,7 +29,11 @@ export default function StarRating({
   const TOTAL_STARS = 5;
 
   const Star = ({ selected, onSelect }: StarProps) => (
-    <FaStar className={cx(starStyle)} color={selected ? '#FAF60D' : '#D9D9D9'} onClick={onSelect} />
+    <FaStar
+      className={cx(starStyle, { editStarStyle: editable })}
+      color={selected ? '#FFD43C' : '#F3F4F7'}
+      onClick={onSelect}
+    />
   );
 
   const handleSelect = (i: number) => {
@@ -39,7 +43,7 @@ export default function StarRating({
   };
 
   return (
-    <div className={cx('starRating', starRatingStyle)}>
+    <div className={cx('starRating', starRatingStyle, { editStarRatingStyle: editable })}>
       {createArray(TOTAL_STARS).map((_, i) => (
         <Star key={i} selected={rating > i} onSelect={() => handleSelect(i)} />
       ))}
