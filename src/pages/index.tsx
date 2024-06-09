@@ -58,10 +58,6 @@ export default function HomePage() {
   return (
     <>
       <div className={styles.container}>
-        <button onClick={showSuccess}>성공</button>
-        <button onClick={showError}>실패</button>
-        <button onClick={showWarn}>경고</button>
-        <button onClick={showLink}>링크</button>
         <Header.Root className={styles.header}>
           <Header.Box>
             <Header.Left>
@@ -77,6 +73,10 @@ export default function HomePage() {
             </Header.Right>
           </Header.Box>
           <NavTop />
+          <button onClick={showSuccess}>성공</button>
+          <button onClick={showError}>실패</button>
+          <button onClick={showWarn}>경고</button>
+          <button onClick={showLink}>링크</button>
         </Header.Root>
         <BannerCarousel items={BANNER_IMAGES} />
         <div className={styles.test}>
