@@ -61,7 +61,6 @@
     width: 100%;
 
     @include desktop {
-      position: relative;
       left: 50vw;
     }
   }
@@ -80,6 +79,5 @@
     width: 100%;
     max-width: $size-mobile-max;
     z-index: $z-index-toast;
-    padding: 0 1.6rem;
   }
 }
