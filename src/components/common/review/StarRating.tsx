@@ -44,6 +44,8 @@ export default function StarRating({
 
   const getRatingText = (rating: number) => {
     switch (rating) {
+      case 0:
+        return '별점을 선택해 주세요';
       case 1:
         return '아쉬워요';
       case 2:
@@ -53,9 +55,7 @@ export default function StarRating({
       case 4:
         return '좋아요';
       case 5:
-        return '최고에요';
-      default:
-        return '';
+        return '최고예요';
     }
   };
 
@@ -66,7 +66,7 @@ export default function StarRating({
           <Star key={i} selected={rating > i} onSelect={() => handleSelect(i)} />
         ))}
       </div>
-      {editable && <p>{getRatingText(rating)}</p>}
+      {editable && <p className={cx('ratingText')}>{getRatingText(rating)}</p>}
     </div>
   );
 }

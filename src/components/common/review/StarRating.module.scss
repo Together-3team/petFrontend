@@ -3,7 +3,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 8px;
+  gap: 0.8rem;
 }
 
 .starRating {
@@ -11,10 +11,17 @@
 }
 
 .editStarStyle {
-  width: 32px;
-  height: 32px;
+  width: 3.2rem;
+  height: 3.2rem;
 }
 
 .editStarRatingStyle {
-  gap: 6px;
+  gap: 0.6rem;
+}
+
+.ratingText {
+  @include font-body1;
+
+  color: $color-gray-500;
+  text-align: center;
 }
