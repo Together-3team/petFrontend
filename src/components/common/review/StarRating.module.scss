@@ -1,3 +1,11 @@
+.editStarRatingBoxStyle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
 .starRating {
   display: flex;
 }
@@ -8,7 +16,5 @@
 }
 
 .editStarRatingStyle {
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
