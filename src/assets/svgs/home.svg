@@ -1,10 +1,5 @@
-<svg width="37" height="36" viewBox="0 0 37 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g id="Home" clip-path="url(#clip0_487_394)">
-<path id="Vector" d="M18.5 9.285L26 16.035V27.75H23V18.75H14V27.75H11V16.035L18.5 9.285ZM18.5 5.25L3.5 18.75H8V30.75H17V21.75H20V30.75H29V18.75H33.5L18.5 5.25Z" fill="#CFD3DB"/>
-</g>
-<defs>
-<clipPath id="clip0_487_394">
-<rect width="36" height="36" fill="white" transform="translate(0.5)"/>
-</clipPath>
-</defs>
+<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M20.6013 20.4903C19.4753 19.0016 17.5666 19.0016 16.4406 20.4903C13.7002 24.113 19.2841 31.6758 25.2244 30.1844" stroke="#CFD3DB" stroke-width="3"/>
+<path d="M11.52 30.7645C17.8678 32.3269 23.5991 24.404 20.7268 20.6087C19.5466 19.0492 17.546 19.0492 16.3657 20.6087" stroke="#CFD3DB" stroke-width="3"/>
+<path d="M8.50605 30.9591V19.4391H2.88L18.3516 5.03906L33.12 19.4391H28.9005V30.9591" stroke="#CFD3DB" stroke-width="3" stroke-miterlimit="1.41421" stroke-linecap="square"/>
 </svg>

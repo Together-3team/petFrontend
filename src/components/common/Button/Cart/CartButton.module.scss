@@ -1,0 +1,26 @@
+@layer components {
+  .container {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .count {
+    background-color: $color-pink-main;
+    color: $color-white;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: -0.4rem;
+    right: -0.5rem;
+    border-radius: 100%;
+    width: 1.2rem;
+    height: 1.2rem;
+    font-size: 0.9rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1.35rem; /* 150% */
+  }
+}

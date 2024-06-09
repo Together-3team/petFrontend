@@ -1,0 +1,15 @@
+@layer components {
+  .header {
+    background-color: $color-white;
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    transition: all 0.3s ease;
+
+    &[data-visible='hidden'] {
+      transform: translateY(-100%);
+    }
+  }
+}
