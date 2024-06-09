@@ -37,11 +37,15 @@ interface ToastListProps {
 
 export default function ToastList({ items }: ToastListProps) {
   return (
-    <div className={styles.toastList}>
-      {items.map(item => (
-        <Toast key={item.id} {...item} />
-      ))}
-    </div>
+    <>
+      {items.length > 0 && (
+        <div className={styles.toastList}>
+          {items.map(item => (
+            <Toast key={item.id} {...item} />
+          ))}
+        </div>
+      )}
+    </>
   );
 }
 
