@@ -4,34 +4,61 @@ import useBottomSheet from '@/hooks/useBottomSheet';
 import Header from './Header';
 import classNames from 'classnames/bind';
 import styles from './BottomSheet.module.scss';
+import { useEffect, useState } from 'react';
 
 const cx = classNames.bind(styles);
 
-export default function BottomSheet({ children }: { children: any }) {
+interface BottomSheet {
+  modalOpen: boolean;
+  handleModalOpen: () => void;
+  handleModalClose: () => void;
+  children: any;
+}
+
+export default function BottomSheet({ modalOpen, handleModalOpen, handleModalClose, children }: BottomSheet) {
   const { onDragEnd, controls } = useBottomSheet();
+  const [windowHeight, setWindowHeight] = useState(0);
+
+  useEffect(() => {
+    // 클라이언트 측에서 window.innerHeight 값을 설정
+    setWindowHeight(window.innerHeight);
+
+    // 창 크기 변경 시 업데이트
+    const handleResize = () => {
+      setWindowHeight(window.innerHeight);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   return (
-    <motion.div
-      className={cx('wrapper')}
-      drag="y"
-      onDragEnd={onDragEnd}
-      initial="hidden"
-      animate={controls}
-      transition={{
-        type: 'spring',
-        damping: 40,
-        stiffness: 400,
-      }}
-      variants={{
-        visible: { y: 0 },
-        hidden: { y: '100%' },
-      }}
-      dragConstraints={{ top: 0 }}
-      dragElastic={0.2}
-      style={{ height: window.innerHeight }}>
-      <Header />
-      <motion.div className={cx('contentWrapper')}>{children}</motion.div>
-    </motion.div>
+    modalOpen && (
+      <motion.div
+        className={cx('wrapper')}
+        drag="y"
+        onDragEnd={onDragEnd}
+        initial="hidden"
+        animate={controls}
+        transition={{
+          type: 'spring',
+          damping: 40,
+          stiffness: 400,
+        }}
+        variants={{
+          visible: { y: 0 },
+          hidden: { y: '100%' },
+        }}
+        dragConstraints={{ top: 0 }}
+        dragElastic={0.2}
+        style={{ height: windowHeight }}>
+        <Header />
+        <motion.div className={cx('contentWrapper')}>{children}</motion.div>
+      </motion.div>
+    )
   );
 }
 
