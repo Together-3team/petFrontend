@@ -1,23 +1,29 @@
-import { PropsWithChildren, createContext, useEffect, useState } from 'react';
+import { PropsWithChildren, createContext, useState } from 'react';
 
 import { ToastType, ToastParameters } from '@/types/components/toast';
+import Portal from '@/components/common/Portal';
+import ToastList from '@/components/common/Toast';
 
 interface ToastContextType {
   toastList: ToastType[];
   showToast: (toast: ToastParameters) => void;
   hideToast: (id: string) => void;
+  setPortalId: (id?: string) => void;
 }
 
 export const ToastContext = createContext<ToastContextType>({
   toastList: [],
   showToast: () => {},
   hideToast: () => {},
+  setPortalId: () => {},
 });
 
 const TOAST_LIMIT = 3;
+const INITIAL_PORTAL_ID = 'rootToast';
 
 export default function ToastProvider({ children }: PropsWithChildren) {
   const [activeToastList, setActiveToastList] = useState<ToastType[]>([]);
+  const [portalId, setPortalId] = useState(INITIAL_PORTAL_ID);
 
   const showToastHandler = (toast: ToastParameters) => {
     const toastId = (new Date().getTime() + Math.random()).toString();
@@ -49,11 +55,23 @@ export default function ToastProvider({ children }: PropsWithChildren) {
     setActiveToastList(prev => prev.filter(toast => toast.id !== id));
   };
 
+  const setPortalIdHandler = (id: string = INITIAL_PORTAL_ID) => {
+    setPortalId(id);
+  };
+
   const value = {
     toastList: activeToastList,
     showToast: showToastHandler,
     hideToast: hideToastHandler,
+    setPortalId: setPortalIdHandler,
   };
 
-  return <ToastContext.Provider value={value}>{children}</ToastContext.Provider>;
+  return (
+    <ToastContext.Provider value={value}>
+      {children}
+      <Portal id={portalId}>
+        <ToastList items={activeToastList} />
+      </Portal>
+    </ToastContext.Provider>
+  );
 }
