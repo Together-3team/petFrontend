@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import Header from '@/components/common/Layout/Header';
-import BackButton from '@/components/common/BackButton';
+import BackButton from '@/components/common/Button/BackButton';
 import rectangleImg from '@/assets/images/rectangle.png';
 import OrderFilterBar from '@/components/order/OrderFilterBar';
 

@@ -7,6 +7,7 @@
     flex-direction: column;
     width: 100%;
     transition: all 0.3s ease;
+    z-index: $z-index-header;
 
     &[data-visible='hidden'] {
       transform: translateY(-100%);

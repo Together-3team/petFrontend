@@ -56,11 +56,11 @@
   }
 
   .main {
+    position: relative;
     max-width: $size-mobile-max;
     width: 100%;
 
     @include desktop {
-      position: relative;
       left: 50vw;
     }
   }
@@ -71,5 +71,13 @@
     flex-direction: column;
     width: 100%;
     min-height: 100vh;
+  }
+
+  .rootToast {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    max-width: $size-mobile-max;
+    z-index: $z-index-toast;
   }
 }
