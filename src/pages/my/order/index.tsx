@@ -24,17 +24,15 @@ export default function Order() {
 
   return (
     <div className={styles.orderLayout}>
-      <div>
-        <Header.Root>
-          <Header.Box>
-            <Header.Left>
-              <BackButton />
-            </Header.Left>
-            <h1>주문내역</h1>
-          </Header.Box>
-        </Header.Root>
-        <OrderFilterBar />
-      </div>
+      <Header.Root>
+        <Header.Box>
+          <Header.Left>
+            <BackButton />
+          </Header.Left>
+          <h1>주문내역</h1>
+        </Header.Box>
+      </Header.Root>
+      <OrderFilterBar />
       <div className={styles.orderList}>
         <div className={styles.orderInfo}>
           <div className={styles.orderInfoUp}>
