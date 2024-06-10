@@ -1,10 +1,9 @@
-import { useContext } from 'react';
 import Link from 'next/link';
 import classNames from 'classnames/bind';
 
 import styles from './Toast.module.scss';
 import { ToastStatus, ToastType } from '@/types/components/toast';
-import { ToastContext } from '@/components/common/Toast/Provider';
+import useToast from '@/hooks/useToast';
 
 import CheckWhiteIcon from '@/assets/svgs/check-white.svg';
 import WarningIcon from '@/assets/svgs/warning.svg';
@@ -15,7 +14,7 @@ interface ToastProps extends ToastType {}
 
 export function Toast({ id, status, message, linkMessage, linkProps }: ToastProps) {
   const { statusClassName, StatusIcon } = getStatusStyles(status);
-  const { hideToast } = useContext(ToastContext);
+  const { hideToast } = useToast();
 
   const hasLink = linkMessage && linkProps;
 

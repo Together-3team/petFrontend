@@ -48,7 +48,7 @@ export default function useToast(id?: string) {
     throw new Error('ToastProvider 안에서 사용해 주세요.');
   }
 
-  const { showToast, setPortalId } = context;
+  const { showToast, hideToast, setPortalId } = context;
 
   useEffect(() => {
     if (id) {
@@ -56,5 +56,5 @@ export default function useToast(id?: string) {
     }
   }, [id, setPortalId]);
 
-  return { showToast, setPortalId };
+  return { showToast, hideToast, setPortalId };
 }
