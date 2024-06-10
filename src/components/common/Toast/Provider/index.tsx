@@ -3,6 +3,7 @@ import { PropsWithChildren, createContext, useCallback, useState } from 'react';
 import { ToastType, ToastParameters } from '@/types/components/toast';
 import Portal from '@/components/common/Portal';
 import ToastList from '@/components/common/Toast';
+import { PORTAL_ID } from '@/constants/portal';
 
 interface ToastContextType {
   toastList: ToastType[];
@@ -19,11 +20,10 @@ export const ToastContext = createContext<ToastContextType>({
 });
 
 const TOAST_LIMIT = 3;
-const INITIAL_PORTAL_ID = 'rootToast';
 
 export default function ToastProvider({ children }: PropsWithChildren) {
   const [activeToastList, setActiveToastList] = useState<ToastType[]>([]);
-  const [portalId, setPortalId] = useState(INITIAL_PORTAL_ID);
+  const [portalId, setPortalId] = useState<string>(PORTAL_ID.TOAST);
 
   const showToastHandler = (toast: ToastParameters) => {
     const toastId = (new Date().getTime() + Math.random()).toString();
@@ -55,8 +55,8 @@ export default function ToastProvider({ children }: PropsWithChildren) {
     setActiveToastList(prev => prev.filter(toast => toast.id !== id));
   };
 
-  const setPortalIdHandler = useCallback((id?: string) => {
-    setPortalId(prev => id || prev);
+  const setPortalIdHandler = useCallback((id: string = PORTAL_ID.TOAST) => {
+    setPortalId(id);
   }, []);
 
   const value = {
