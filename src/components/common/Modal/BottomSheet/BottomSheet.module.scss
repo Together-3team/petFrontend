@@ -1,14 +1,28 @@
+.container {
+  position: relative;
+  width: 100%;
+}
+
+.background {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
 .wrapper {
   flex-direction: column;
   position: fixed;
   z-index: 10;
-  top: 20vh;
-  left: 0;
-  right: 0;
+  width: 100%;
+  max-width: 43rem;
+  bottom: -1000px;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   background-color: white;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.6);
+  border-radius: 20px 20px var(--selectpayment, 0px) var(--selectpayment, 0px);
+  box-shadow: 0px -4px 30px 0px rgba(0, 0, 0, 0.1);
   margin: 0 auto;
   overflow: auto;
 }
@@ -23,15 +37,14 @@
 }
 
 .handleBar {
-  width: 32px;
+  width: 68px;
   height: 4px;
   border-radius: 2px;
-  background-color: #d0d0d0;
+  background-color: #373c49;
   margin: auto;
 }
 
 .contentWrapper {
-  height: 80vh;
   padding: 10px;
 }
 

@@ -4,20 +4,21 @@ import useBottomSheet from '@/hooks/useBottomSheet';
 import Header from './Header';
 import classNames from 'classnames/bind';
 import styles from './BottomSheet.module.scss';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const cx = classNames.bind(styles);
 
 interface BottomSheet {
-  modalOpen: boolean;
-  handleModalOpen: () => void;
-  handleModalClose: () => void;
+  onDragEnd: any;
+  controls: any;
+  isOpen: boolean;
+  setIsOpen: any;
   children: any;
 }
 
-export default function BottomSheet({ modalOpen, handleModalOpen, handleModalClose, children }: BottomSheet) {
-  const { onDragEnd, controls } = useBottomSheet();
+export default function BottomSheet({ onDragEnd, controls, isOpen, setIsOpen, children }: BottomSheet) {
   const [windowHeight, setWindowHeight] = useState(0);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // 클라이언트 측에서 window.innerHeight 값을 설정
@@ -35,8 +36,12 @@ export default function BottomSheet({ modalOpen, handleModalOpen, handleModalClo
     };
   }, []);
 
+  const calculatedHeight = contentRef.current ? contentRef.current.clientHeight + 1048 : windowHeight;
+
   return (
-    modalOpen && (
+    <div className={cx('container')} style={{ height: windowHeight }}>
+      {isOpen && <motion.div className={cx('background')} onClick={() => setIsOpen(false)} />}
+
       <motion.div
         className={cx('wrapper')}
         drag="y"
@@ -54,11 +59,13 @@ export default function BottomSheet({ modalOpen, handleModalOpen, handleModalClo
         }}
         dragConstraints={{ top: 0 }}
         dragElastic={0.2}
-        style={{ height: windowHeight }}>
+        style={{ height: calculatedHeight }}>
         <Header />
-        <motion.div className={cx('contentWrapper')}>{children}</motion.div>
+        <motion.div className={cx('contentWrapper')} ref={contentRef}>
+          {children}
+        </motion.div>
       </motion.div>
-    )
+    </div>
   );
 }
 
