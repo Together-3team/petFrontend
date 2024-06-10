@@ -1,0 +1,30 @@
+@layer components {
+  .container {
+    overflow-x: scroll;
+    scrollbar-width: none;
+    width: 36rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+  }
+
+  .textChip {
+    display: flex;
+    padding: 0.8rem 1.2rem;
+    justify-content: center;
+    align-items: center;
+    gap: 0.8rem;
+    white-space: nowrap;
+    background-color: $color-white;
+    border-radius: 10rem;
+    border: 1.5px solid $color-gray-500;
+
+    @include font-body2;
+    color: $color-gray-500;
+  }
+
+  .clickedChip {
+    border: 1.5px solid $color-pink-main;
+    color: $color-pink-main;
+  }
+}

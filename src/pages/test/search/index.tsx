@@ -1,9 +1,10 @@
-import MainLayout from '@/components/common/Layout/Main';
+import NavBottom from '@/components/common/Nav/Bottom';
 
 export default function SearchPage() {
-  return <div>SearchPage</div>;
+  return (
+    <>
+      <div>SearchPage</div>
+      <NavBottom />
+    </>
+  );
 }
-
-SearchPage.getLayout = function getLayout(page: React.ReactElement) {
-  return <MainLayout>{page}</MainLayout>;
-};

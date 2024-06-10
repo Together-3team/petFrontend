@@ -1,7 +1,15 @@
 @layer components {
   .nav {
-    width: 36rem;
+    @include nav-shadow;
+    width: 100%;
+    height: 8rem;
     padding: 2rem 0;
+
+    background-color: $color-white;
+    position: fixed;
+    bottom: 0;
+    z-index: $z-index-bottom-nav;
+    max-width: $size-mobile-max;
   }
 
   .container {
@@ -17,13 +25,14 @@
   .item {
     cursor: pointer;
 
-    &.active {
-      &:not(:has(.stroke)) path {
-        fill: #fe5a65;
+    &.active,
+    &:hover {
+      & path {
+        stroke: $color-pink-main;
       }
 
-      & .stroke path {
-        stroke: #fe5a65;
+      & .fill path {
+        fill: $color-pink-main;
       }
     }
   }

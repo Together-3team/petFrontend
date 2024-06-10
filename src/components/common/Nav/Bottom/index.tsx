@@ -5,7 +5,7 @@ import classNames from 'classnames/bind';
 import styles from './NavBottom.module.scss';
 import getDynamicPath from '@/utils/getDynamicPath';
 import HomeIcon from '@/assets/svgs/home.svg';
-import SearchIcon from '@/assets/svgs/search-bold.svg';
+import SearchIcon from '@/assets/svgs/search-detail.svg';
 import HeartIcon from '@/assets/svgs/heart.svg';
 import PersonIcon from '@/assets/svgs/person.svg';
 
@@ -31,23 +31,23 @@ const MENUS = [
   {
     id: 'search',
     title: '검색 페이지',
-    url: '/test/search',
-    matchedUrl: ['/test/search'],
+    url: '/search',
+    matchedUrl: ['/search'],
     Icon: <SearchIcon />,
   },
   {
     id: 'liked',
     title: '찜 페이지',
-    url: '/test/liked',
-    matchedUrl: ['/test/liked'],
-    Icon: <HeartIcon className={cx('stroke')} />,
+    url: '/liked',
+    matchedUrl: ['/liked'],
+    Icon: <HeartIcon className={cx('fill')} />,
   },
   {
     id: 'my',
     title: '마이 페이지',
-    url: '/test/my',
-    matchedUrl: ['/test/my'],
-    Icon: <PersonIcon />,
+    url: '/my',
+    matchedUrl: ['/my'],
+    Icon: <PersonIcon className={cx('fill')} />,
   },
 ];
 
