@@ -5,7 +5,7 @@ import { RefObject } from 'react';
 
 함수이기 때문에 useEffect 안에 넣으셔도 되고 handler 함수 안에 넣으셔도 됩니다.
 
-사용)
+사용⭐️)
 const menus = [
   { id: 1, title: '요소1', url: '/example1', isActive: false },
   { id: 2, title: '요소2', url: '/example2', isActive: true },
@@ -13,15 +13,15 @@ const menus = [
 ];
 
 export default function Example() {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const dragScrollProps = useDragScroll<HTMLDivElement>();
   const targetRef = useRef<HTMLDivElement>(null);
 
   const handleMenuClick = () => {
-    scrollToTargetX(containerRef, targetRef);
+    scrollToTargetX(dragScrollProps.ref, targetRef);
   }
 
   return (
-    <ul ref={containerRef}>
+    <ul {...dragScrollProps}>
       {matchedMenus.map(menu => (
         <li key={menu.id} ref={el => {
           if (menu.isActive) {
