@@ -3,8 +3,10 @@ import classNames from 'classnames/bind';
 
 import styles from './Toast.module.scss';
 import { ToastStatus, ToastType } from '@/types/components/toast';
-import CheckWhiteIcon from '@/assets/svgs/check-white.svg';
 import useToast from '@/hooks/useToast';
+
+import CheckWhiteIcon from '@/assets/svgs/check-white.svg';
+import WarningIcon from '@/assets/svgs/warning.svg';
 
 const cx = classNames.bind(styles);
 
@@ -56,9 +58,11 @@ function getStatusStyles(status: ToastStatus) {
   switch (status) {
     case 'error':
       defaultClassName = 'error';
+      defaultIcon = WarningIcon;
       break;
     case 'warn':
       defaultClassName = 'warn';
+      defaultIcon = WarningIcon;
       break;
   }
 
