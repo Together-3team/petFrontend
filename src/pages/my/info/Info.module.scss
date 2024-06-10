@@ -81,4 +81,10 @@
     align-self: stretch;
     color: $color-gray-500;
   }
+
+  .errorText {
+    @include font-caption1;
+    color: $color-pink-main;
+    align-self: stretch;
+  }
 }

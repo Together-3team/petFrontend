@@ -1,17 +1,32 @@
 import { useRef } from 'react';
+import { useForm } from 'react-hook-form';
+import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 import useModal from '@/hooks/useModal';
+import useOutsideClick from '@/hooks/useOutsideClick';
 import Header from '@/components/common/Layout/Header';
 import Input from '@/components/common/Input';
 import Button from '@/components/common/Button';
 import BackButton from '@/components/common/BackButton';
 import BottomShareModal from '@/components/common/Modal/BottomShareModal';
 import Sample from '@/assets/exampleProductImg.jpg';
+import ImageBox from '@/components/common/ImageBox';
+import { phoneNumberSchema } from '@/utils/signupFormSchema';
 
 import styles from './Info.module.scss';
-import ImageBox from '@/components/common/ImageBox';
-import useOutsideClick from '@/hooks/useOutsideClick';
+
+type phoneNumberValue = Yup.InferType<typeof phoneNumberSchema>;
 
 export default function Info() {
+  const methods = useForm<phoneNumberValue>({
+    resolver: yupResolver(phoneNumberSchema),
+  });
+  const {
+    formState: { errors },
+  } = methods;
+  const { register, handleSubmit } = methods;
+  const onSubmit = (data: phoneNumberValue) => console.log(data);
+  console.log(errors);
   const { modalOpen, handleModalOpen, handleModalClose } = useModal();
   const containerRef = useRef<HTMLDivElement>(null);
   useOutsideClick(containerRef, () => handleModalClose());
@@ -27,7 +42,7 @@ export default function Info() {
         </Header.Box>
       </Header.Root>
       <div className={styles.infoField}>
-        <form className={styles.memberForm}>
+        <form className={styles.memberForm} onSubmit={handleSubmit(onSubmit)}>
           <div className={styles.inputArea}>
             <Input
               id="email"
@@ -42,9 +57,12 @@ export default function Info() {
               type="tel"
               size="large"
               label="연락처"
+              isError={errors.phoneNumber && true}
               labelStyle={'label'}
               placeholder="000-0000-0000"
+              {...register('phoneNumber')}
             />
+            {errors.phoneNumber && <span className={styles.errorText}>{errors.phoneNumber.message}</span>}
           </div>
           <Button size="large" backgroundColor="$color-pink-main">
             저장
