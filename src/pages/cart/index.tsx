@@ -8,6 +8,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { httpClient } from '@/apis/httpClient';
 
+interface Product {
+  id: number;
+  productTitle: string;
+  option: string;
+  productCost: number;
+  originalCost: number;
+  productNumber: number;
+  imageUrl: string;
+  isChecked: boolean;
+}
+
 export default function Cart() {
   // 더미 데이터
   // const initialProducts = [
@@ -50,26 +61,62 @@ export default function Cart() {
   // ];
 
   // 상품목록 없는 경우 더미데이터
-  const initialProducts: {
-    id: number;
-    productTitle: string;
-    option: string;
-    productCost: number;
-    productNumber: number;
-  }[] = [];
+  // const initialProducts: {
+  //   id: number;
+  //   productTitle: string;
+  //   option: string;
+  //   productCost: number;
+  //   productNumber: number;
+  // }[] = [];
 
-  const [products, setProducts] = useState(initialProducts.map(product => ({ ...product, isChecked: true })));
+  // const [products, setProducts] = useState(initialProducts.map(product => ({ ...product, isChecked: true })));
+  const [products, setProducts] = useState<Product[]>([]);
   const [selectAll, setSelectAll] = useState(true); // 전체 체크 상태
 
-  // useEffect(() => {
-  //   async function fetchProducts() {
-  //     try {
-  //       const response = await httpClient.get<{
-  //         id: number
-  //       }>
-  //     }
-  //   }
-  // })
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        const response = await httpClient().get<
+          {
+            id: number;
+            user: string;
+            optionCombination: {
+              product: {
+                originalCost: number;
+                productCost: number;
+                imageUrl: string; // 백엔드에서 이미지 URL도 함께 제공한다고 가정합니다.
+                productTitle: string; // 백엔드에서 제품 제목도 함께 제공한다고 가정합니다.
+              };
+              option: string;
+            };
+            quantity: number;
+            status: number;
+            createdAt: string;
+          }[]
+        >('/selected-products/carts'); // 백엔드의 실제 엔드포인트로 변경해야 합니다.
+
+        console.log(response);
+
+        const productsData = response.map(item => ({
+          id: item.id,
+          productTitle: item.optionCombination.product.productTitle,
+          option: item.optionCombination.option,
+          productCost: item.optionCombination.product.productCost,
+          originalCost: item.optionCombination.product.originalCost,
+          productNumber: item.quantity,
+          imageUrl: item.optionCombination.product.imageUrl,
+          isChecked: true,
+        }));
+
+        setProducts(productsData);
+      } catch (error) {
+        console.error('Failed to fetch products:', error);
+      }
+    }
+
+    fetchProducts();
+  }, []);
+
   // selectAll 상태 반전
   function handleSelectAll() {
     setSelectAll(!selectAll);
