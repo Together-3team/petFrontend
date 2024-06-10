@@ -1,7 +1,9 @@
+import { useState } from 'react';
+import Header from '@/components/common/Layout/Header';
+import BackButton from '@/components/common/BackButton';
 import RatingBox from '@/components/common/review/RatingBox';
 import ReviewBox from '@/components/common/review/ReviewBox';
 import styles from './ReviewPage.module.scss';
-import { useState } from 'react';
 
 export default function ReviewPage() {
   const testData = [
@@ -133,12 +135,17 @@ export default function ReviewPage() {
 
   return (
     <div className={styles.reviewPageLayout}>
-      <div>
-        <div className={styles.reviewPageHeader}>
-          <p className={styles.pageTitle}>
+      <Header.Root>
+        <Header.Box>
+          <Header.Left>
+            <BackButton />
+          </Header.Left>
+          <Header.Center className={styles.pageTitle}>
             리뷰 전체보기 <span className={styles.totalReview}>{totalReviewer}</span>
-          </p>
-        </div>
+          </Header.Center>
+        </Header.Box>
+      </Header.Root>
+      <div>
         <RatingBox rating={rating} totalReviewer={totalReviewer} className={styles.ratingBoxStyle} />
         <div className={styles.dropdown}>
           <select value={sortOption} onChange={handleSortChange}>
