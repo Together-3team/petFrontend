@@ -68,4 +68,17 @@
     align-self: stretch;
     text-align: center;
   }
+
+  .modalText {
+    @include font-body4;
+
+    display: flex;
+    height: var(--min-24, 32px);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    align-self: stretch;
+    color: $color-gray-500;
+  }
 }
