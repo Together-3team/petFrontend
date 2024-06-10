@@ -1,4 +1,4 @@
-import { PropsWithChildren, createContext, useState } from 'react';
+import { PropsWithChildren, createContext, useCallback, useState } from 'react';
 
 import { ToastType, ToastParameters } from '@/types/components/toast';
 import Portal from '@/components/common/Portal';
@@ -55,9 +55,9 @@ export default function ToastProvider({ children }: PropsWithChildren) {
     setActiveToastList(prev => prev.filter(toast => toast.id !== id));
   };
 
-  const setPortalIdHandler = (id: string = INITIAL_PORTAL_ID) => {
-    setPortalId(id);
-  };
+  const setPortalIdHandler = useCallback((id?: string) => {
+    setPortalId(prev => id || prev);
+  }, []);
 
   const value = {
     toastList: activeToastList,
