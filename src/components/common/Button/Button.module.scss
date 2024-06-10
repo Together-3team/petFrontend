@@ -25,10 +25,20 @@
   width: 162.05px;
 }
 
+.small {
+  width: 10.2rem;
+  height: 3.6rem;
+}
+
 .backgroundBlack {
   background-color: $color-gray-800;
   color: $color-white;
   border: none;
+}
+
+.backgroundWhiteWithGrayBorder {
+  background-color: $color-white;
+  border: 1px solid $color-gray-300;
 }
 
 .backgroundGray {
@@ -37,10 +47,22 @@
   border: none;
 }
 
+.backgroundWhiteGray {
+  background-color: $color-gray-100;
+  color: $color-gray-400;
+  border: none;
+}
+
 .backgroundPink {
   background-color: $color-pink-main;
   color: $color-white;
   border: none;
+}
+
+.backgroundWhiteWithPink {
+  background-color: $color-white;
+  color: $color-pink-main;
+  border: 1px solid $color-pink-main;
 }
 
 .backgroundWhite {
