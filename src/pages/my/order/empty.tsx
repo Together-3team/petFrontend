@@ -1,5 +1,5 @@
 import Header from '@/components/common/Layout/Header';
-import BackButton from '@/components/common/BackButton';
+import BackButton from '@/components/common/Button/BackButton';
 import Card from '@/components/common/Card';
 import rectangleImg from '@/assets/images/rectangle.png';
 
