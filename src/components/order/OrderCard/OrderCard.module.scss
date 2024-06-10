@@ -1,0 +1,24 @@
+@layer components {
+  .orderCardLayout {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.2rem;
+  }
+
+  .orderCardButtons {
+    width: 33rem;
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.2rem;
+  }
+
+  .updownBorder {
+    width: 32.8rem;
+    height: 1px;
+    background: $color-gray-100;
+    border: 0;
+  }
+}
