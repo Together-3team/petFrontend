@@ -30,5 +30,11 @@ export default function useBottomSheet() {
     }
   }, [controls, isOpen, prevIsOpen]);
 
-  return { onDragEnd, controls, setIsOpen, isOpen };
+  return {
+    onDragEnd,
+    controls,
+    showHandler: () => setIsOpen(true),
+    hideHandler: () => setIsOpen(false),
+    isOpen,
+  };
 }
