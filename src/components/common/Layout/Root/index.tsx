@@ -1,16 +1,12 @@
-import { PropsWithChildren, useContext } from 'react';
+import { PropsWithChildren } from 'react';
 import classNames from 'classnames/bind';
 
 import styles from './RootLayout.module.scss';
 import LogoIcon from '@/assets/svgs/heart.svg';
-import { ToastContext } from '@/components/common/Toast/Provider';
-import ToastList from '@/components/common/Toast';
 
 const cx = classNames.bind(styles);
 
 export default function RootLayout({ children }: PropsWithChildren) {
-  const { toastList } = useContext(ToastContext);
-
   return (
     <div className={cx('container')}>
       <div className={cx('homeBackground')} />
@@ -31,9 +27,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
       <div className={cx('main')}>
         <div className={cx('appBackground')} />
         <div className={cx('contents')}>{children}</div>
-        <div className={styles.toastContainer}>
-          <ToastList items={toastList} />
-        </div>
+        <div id="rootToast" className={styles.rootToast}></div>
         <div id="rootModal"></div>
       </div>
     </div>
