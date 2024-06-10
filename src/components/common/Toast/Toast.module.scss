@@ -61,7 +61,7 @@
   @keyframes fade-in {
     from {
       opacity: 0;
-      transform: translateY(calc($height-toast));
+      transform: translateY($height-toast);
     }
     to {
       opacity: 1;
@@ -76,7 +76,7 @@
     }
     to {
       opacity: 0;
-      transform: translateY(calc($height-toast));
+      transform: translateY($height-toast);
     }
   }
 }
