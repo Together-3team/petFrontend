@@ -1,9 +1,7 @@
-import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import useModal from '@/hooks/useModal';
-import useOutsideClick from '@/hooks/useOutsideClick';
 import Header from '@/components/common/Layout/Header';
 import Input from '@/components/common/Input';
 import Button from '@/components/common/Button';
@@ -28,11 +26,9 @@ export default function Info() {
   const onSubmit = (data: phoneNumberValue) => console.log(data);
   console.log(errors);
   const { modalOpen, handleModalOpen, handleModalClose } = useModal();
-  const containerRef = useRef<HTMLDivElement>(null);
-  useOutsideClick(containerRef, () => handleModalClose());
 
   return (
-    <div className={styles.infoLayout} ref={containerRef}>
+    <div className={styles.infoLayout}>
       <Header.Root>
         <Header.Box>
           <Header.Left>
