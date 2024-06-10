@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import AmpersandIcon from '@/assets/svgs/ampersand-icon.svg';
+import TeamDataCard from './TeamDataCard';
 import styles from './HighlightTeam.module.scss';
 
 export default function HighlightTeam() {
@@ -45,31 +45,7 @@ export default function HighlightTeam() {
         <>
           <div className={styles.teamBox}>
             {testData.map(data => (
-              <div key={data.id} className={styles.teamData}>
-                {data.status === '완료' ? (
-                  <>
-                    <div className={styles.participants}>
-                      {data.participants[0].name}
-                      <div>
-                        <AmpersandIcon />
-                      </div>
-                      {data.participants[1].name}
-                    </div>
-                    <p className={styles.realClosed}>주문완료</p>
-                  </>
-                ) : (
-                  <>
-                    <p className={styles.creator}>{data.creator}</p>
-                    <div className={styles.timeAndBtn}>
-                      <div className={styles.timeBox}>
-                        <p className={styles.closed}>참여 마감</p>
-                        <p className={styles.timer}>23:12:21</p>
-                      </div>
-                      <button className={styles.participationBtn}>주문참여</button>
-                    </div>
-                  </>
-                )}
-              </div>
+              <TeamDataCard key={data.id} data={data} />
             ))}
           </div>
           <Link href="/test/team" className={styles.allTeamLinkBtn}>
