@@ -6,6 +6,7 @@ import ProfileImgBadge from '@/components/common/Badge/ProfileImgBadge';
 import Input from '@/components/common/Input';
 import BackButton from '@/components/common/Button/BackButton';
 import Button from '@/components/common/Button';
+import PlusButton from '@/assets/svgs/plus-button.svg';
 import { nicknameSchema } from '@/utils/signupFormSchema';
 
 import styles from './Profile.module.scss';
@@ -34,9 +35,16 @@ export default function Profile() {
             <h1>프로필 수정</h1>
           </Header.Box>
         </Header.Root>
-        <ProfileImgBadge size="large" />
-        <form className={styles.formField} onSubmit={handleSubmit(onSubmit)}>
-          <div>
+        <form className={styles.profileForm} onSubmit={handleSubmit(onSubmit)}>
+          <div className={styles.formField}>
+            <div className={styles.profileImageBox}>
+              <div className={styles.profileImage}>
+                <ProfileImgBadge size="large" profileImage="" />
+                <div className={styles.plusButton}>
+                  <PlusButton />
+                </div>
+              </div>
+            </div>
             <Input
               id="nickname"
               type="text"

@@ -14,11 +14,39 @@
     text-align: center;
   }
 
+  .profileImageBox {
+    display: flex;
+    padding: 2.4rem var(--selectpayment, 0) var(--min-24, 3.2rem) var(--selectpayment, 0);
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .profileImage {
+    position: relative;
+    display: flex;
+    width: 6.4rem;
+    height: 6.4rem;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .plusButton {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
+
+  .profileForm {
+    display: flex;
+    flex-direction: column;
+    gap: 34.8rem;
+  }
+
   .formField {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 34.8rem;
   }
 
   .errorText {
@@ -31,7 +59,7 @@
     @include font-headline3;
 
     margin-top: 1.2rem;
-    margin-bottom: 0.8rem;
+    margin-bottom: 0.4rem;
   }
 
   .petChoice {
