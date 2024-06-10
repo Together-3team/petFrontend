@@ -1,0 +1,10 @@
+.pageTitle {
+  @include font-headline3;
+
+  color: $color-black;
+  text-align: center;
+}
+
+.teamPageLayout {
+  padding: 1.6rem 2rem;
+}
