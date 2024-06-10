@@ -14,9 +14,8 @@ interface BottomSheetProps {
   onDragEnd: (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => void;
   controls: Pick<AnimationProps, 'animate'>['animate'];
   isOpen: boolean;
-  children: ReactNode;
-  // setIsOpen: Dispatch<SetStateAction<boolean>>;
   onClose: () => void;
+  children: ReactNode;
 }
 
 export default function BottomSheet({ id, onDragEnd, controls, isOpen, onClose, children }: BottomSheetProps) {

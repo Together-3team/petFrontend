@@ -6,7 +6,7 @@ import useToast from '@/hooks/useToast';
 const BOTTOM_SHEET_ID = 'bottomSheetId';
 
 export default function BottomSheetPage() {
-  const { onDragEnd, controls, isOpen, showHandler, hideHandler } = useBottomSheet();
+  const { onDragEnd, controls, isOpen, openHandler, closeHandler } = useBottomSheet();
   const { showToast, setPortalId } = useToast();
 
   return (
@@ -14,7 +14,7 @@ export default function BottomSheetPage() {
       <button
         onClick={() => {
           setPortalId(BOTTOM_SHEET_ID);
-          showHandler();
+          openHandler();
         }}>
         모달 열기
       </button>
@@ -35,9 +35,9 @@ export default function BottomSheetPage() {
         isOpen={isOpen}
         onClose={() => {
           setPortalId();
-          hideHandler();
+          closeHandler();
         }}>
-        <button onClick={() => hideHandler()}>최신순</button>
+        <button onClick={() => closeHandler()}>최신순</button>
         <span>Content아아아아아아아아아아아아아아아아아아아아ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ</span>
         <span>Content아아아아아아아아아아아아아아아아아아아아ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ</span>
         <span>Content아아아아아아아아아아아아아아아아아아아아ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ</span>
