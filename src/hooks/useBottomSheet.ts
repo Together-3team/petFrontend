@@ -1,15 +1,17 @@
-import { useAnimation } from 'framer-motion';
+import { useAnimation, PanInfo } from 'framer-motion';
 import { useEffect, useState } from 'react';
 
 import usePreviousValue from './usePreviousValue';
 
-const useBottomSheet = () => {
+export default function useBottomSheet() {
   const [isOpen, setIsOpen] = useState(false);
   const controls = useAnimation();
   const prevIsOpen = usePreviousValue(isOpen);
 
-  const onDragEnd = info => {
-    const shouldClose = info?.y > 20 || (info?.y >= 0 && info.point?.y > 45);
+  const onDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+    event.preventDefault();
+
+    const shouldClose = info.point.y > 20 || (info.point.y >= 0 && info.point.y > 45);
 
     if (shouldClose) {
       controls.start('hidden');
@@ -29,6 +31,4 @@ const useBottomSheet = () => {
   }, [controls, isOpen, prevIsOpen]);
 
   return { onDragEnd, controls, setIsOpen, isOpen };
-};
-
-export default useBottomSheet;
+}

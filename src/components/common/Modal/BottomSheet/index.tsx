@@ -1,24 +1,28 @@
-import { motion } from 'framer-motion';
-import useBottomSheet from '@/hooks/useBottomSheet';
-
-import Header from './Header';
+import { Dispatch, ReactNode, SetStateAction, useEffect, useRef, useState } from 'react';
+import { AnimationProps, PanInfo, motion } from 'framer-motion';
 import classNames from 'classnames/bind';
+
 import styles from './BottomSheet.module.scss';
-import { useEffect, useRef, useState } from 'react';
+import Header from '@/components/common/Modal/BottomSheet/Header';
+import useOutsideClick from '@/hooks/useOutsideClick';
+import useBottomSheet from '@/hooks/useBottomSheet';
 
 const cx = classNames.bind(styles);
 
-interface BottomSheet {
-  onDragEnd: any;
-  controls: any;
+interface BottomSheetProps {
+  onDragEnd: (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => void;
+  controls: Pick<AnimationProps, 'animate'>['animate'];
   isOpen: boolean;
-  setIsOpen: any;
-  children: any;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
+  children: ReactNode;
 }
 
-export default function BottomSheet({ onDragEnd, controls, isOpen, setIsOpen, children }: BottomSheet) {
+export default function BottomSheet({ onDragEnd, controls, isOpen, setIsOpen, children }: BottomSheetProps) {
   const [windowHeight, setWindowHeight] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+
+  useOutsideClick(containerRef, () => setIsOpen(false));
 
   useEffect(() => {
     // 클라이언트 측에서 window.innerHeight 값을 설정
@@ -39,9 +43,7 @@ export default function BottomSheet({ onDragEnd, controls, isOpen, setIsOpen, ch
   const calculatedHeight = contentRef.current ? contentRef.current.clientHeight + 1048 : windowHeight;
 
   return (
-    <div className={cx('container')} style={{ height: windowHeight }}>
-      {isOpen && <motion.div className={cx('background')} onClick={() => setIsOpen(false)} />}
-
+    <div className={cx('container')} ref={containerRef}>
       <motion.div
         className={cx('wrapper')}
         drag="y"
