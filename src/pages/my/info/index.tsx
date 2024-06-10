@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -25,7 +26,22 @@ export default function Info() {
   const { register, handleSubmit } = methods;
   const onSubmit = (data: phoneNumberValue) => console.log(data);
   console.log(errors);
+
   const { modalOpen, handleModalOpen, handleModalClose } = useModal();
+
+  const router = useRouter();
+
+  function handleReturnHome() {
+    router.replace(
+      {
+        pathname: '/',
+        query: {
+          action: 'delete-account',
+        },
+      },
+      '/'
+    );
+  }
 
   return (
     <div className={styles.infoLayout}>
@@ -80,7 +96,7 @@ export default function Info() {
                 • 찜한 상품 6개와 장바구니에 담은 상품 2개가 모두 사라져요
                 <br />• 우리 아이와의 추억이 담긴 리뷰 3개가 모두 사라져요
               </span>
-              <div className={styles.modalButtonArea}>
+              <div className={styles.modalButtonArea} onClick={handleReturnHome}>
                 <Button size="medium" backgroundColor="$color-white">
                   탈퇴하기
                 </Button>
