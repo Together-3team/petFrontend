@@ -1,5 +1,5 @@
 import Header from '@/components/common/Layout/Header';
-import BackButton from '@/components/common/BackButton';
+import BackButton from '@/components/common/Button/BackButton';
 import TeamDataCard from '@/components/common/Team/TeamDataCard';
 import styles from './TeamPage.module.scss';
 

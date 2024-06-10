@@ -10,7 +10,7 @@ import Header from '@/components/common/Layout/Header';
 import NavTop from '@/components/common/Nav/Top';
 import Input from '@/components/common/Input';
 import NavBottom from '@/components/common/Nav/Bottom';
-import BackButton from '@/components/common/BackButton';
+import BackButton from '@/components/common/Button/BackButton';
 import SearchButton from '@/components/common/Button/Search';
 import CartButton from '@/components/common/Button/Cart';
 
