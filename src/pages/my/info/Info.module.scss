@@ -80,6 +80,7 @@
     flex-shrink: 0;
     align-self: stretch;
     color: $color-gray-500;
+    word-break: keep-all;
   }
 
   .errorText {

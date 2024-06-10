@@ -42,7 +42,7 @@ export default function Info() {
       '/'
     );
   }
-
+  //TODO: useOutsideClick 등록
   return (
     <div className={styles.infoLayout}>
       <Header.Root>
@@ -83,30 +83,28 @@ export default function Info() {
         <div className={styles.quitText} onClick={handleModalOpen}>
           회원탈퇴
         </div>
-        {handleModalOpen && (
-          <BottomShareModal
-            type="bottom"
-            modalOpen={modalOpen}
-            handleModalOpen={handleModalOpen}
-            handleModalClose={handleModalClose}>
-            <div className={styles.modalSize}>
-              <span className={styles.modalTitle}>정말로 탈퇴하시겠어요?</span>
-              <ImageBox size="modalImage" src={Sample} alt="강아지와 고양이가 울먹거리는 이미지" />
-              <span className={styles.modalText}>
-                • 찜한 상품 6개와 장바구니에 담은 상품 2개가 모두 사라져요
-                <br />• 우리 아이와의 추억이 담긴 리뷰 3개가 모두 사라져요
-              </span>
-              <div className={styles.modalButtonArea} onClick={handleReturnHome}>
-                <Button size="medium" backgroundColor="$color-white">
-                  탈퇴하기
-                </Button>
-                <Button size="medium" backgroundColor="$color-gray-800" onClick={handleModalClose}>
-                  돌아가기
-                </Button>
-              </div>
+        <BottomShareModal
+          type="bottom"
+          modalOpen={modalOpen}
+          handleModalOpen={handleModalOpen}
+          handleModalClose={handleModalClose}>
+          <div className={styles.modalSize}>
+            <span className={styles.modalTitle}>정말로 탈퇴하시겠어요?</span>
+            <ImageBox size="modalImage" src={Sample} alt="강아지와 고양이가 울먹거리는 이미지" />
+            <span className={styles.modalText}>
+              • 찜한 상품 6개와 장바구니 상품 2개가 모두 사라져요
+              <br />• 우리 아이와의 추억이 담긴 리뷰 3개가 모두 사라져요
+            </span>
+            <div className={styles.modalButtonArea}>
+              <Button size="medium" backgroundColor="$color-white" onClick={handleReturnHome}>
+                탈퇴하기
+              </Button>
+              <Button size="medium" backgroundColor="$color-gray-800" onClick={handleModalClose}>
+                돌아가기
+              </Button>
             </div>
-          </BottomShareModal>
-        )}
+          </div>
+        </BottomShareModal>
       </div>
     </div>
   );
