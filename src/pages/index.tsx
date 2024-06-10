@@ -14,6 +14,7 @@ import BackButton from '@/components/common/BackButton';
 import SearchButton from '@/components/common/Button/Search';
 import CartButton from '@/components/common/Button/Cart';
 import useToast from '@/hooks/useToast';
+import FloatingBox from '@/components/common/Layout/Footer/FloatingBox';
 
 const BANNER_IMAGES = [
   { src: banner1.src, alt: '배너1' },
@@ -23,8 +24,10 @@ const BANNER_IMAGES = [
   { src: banner5.src, alt: '배너5' },
 ];
 
+const BOTTOM_BOX_ID = 'bottomBox';
+
 export default function HomePage() {
-  const { showToast } = useToast();
+  const { showToast } = useToast(BOTTOM_BOX_ID);
 
   const showSuccess = () => {
     showToast({
@@ -162,7 +165,9 @@ export default function HomePage() {
           </p>
         </div>
       </div>
-      <NavBottom />
+      <FloatingBox id={BOTTOM_BOX_ID}>
+        <NavBottom />
+      </FloatingBox>
     </>
   );
 }
