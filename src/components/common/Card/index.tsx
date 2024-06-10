@@ -4,15 +4,15 @@ import Link from 'next/link';
 import classNames from 'classnames/bind';
 
 import Tag from '../Tag';
+import Zzim from '../Zzim';
 import StarIcon from '@/assets/svgs/star.svg';
 import styles from './Card.module.scss';
 
 interface ProductInfo {
-  id: number;
+  productId: number;
   title: string;
   thumbNailImage: string;
   originalPrice: number;
-  discountRate: number;
   price: number;
   starRating?: number;
   reviewCount?: number;
@@ -23,7 +23,7 @@ interface ProductInfo {
 
 interface CardProps {
   productInfo: ProductInfo;
-  wishList?: boolean;
+  isZzim?: boolean;
   direction?: 'column' | 'row';
   size: 'big' | 'small';
 }
@@ -33,12 +33,12 @@ const cx = classNames.bind(styles);
 // direction="row"는 꼭 size="small"과 함께 사용
 // option은 string으로 받는 것으로 생각 ex) 닭고기/ 가슴살
 
-export default function Card({ productInfo, wishList = false, direction = 'column', size = 'big' }: CardProps) {
+export default function Card({ productInfo, isZzim = false, direction = 'column', size = 'big' }: CardProps) {
   const {
+    productId,
     title,
     thumbNailImage,
     originalPrice,
-    discountRate,
     price,
     starRating,
     reviewCount = 0,
@@ -51,6 +51,8 @@ export default function Card({ productInfo, wishList = false, direction = 'colum
   const titleRef = useRef<HTMLDivElement | null>(null);
   const [titleInnerBoxClassName, setTitleInnerBoxClassName] = useState('');
   const [titleWidth, setTitleWidth] = useState(0);
+
+  const discountRate = Math.ceil((1 - price / originalPrice) * 100);
 
   //title이 큰 카드, 작은 카드 각각의 너비를 초과하면 글씨가 흐르도록 함
   useEffect(() => {
@@ -66,7 +68,7 @@ export default function Card({ productInfo, wishList = false, direction = 'colum
         setTitleWidth(titleWidth);
       }
     }
-  }, [direction, size]);
+  }, [direction, size, stock]);
 
   //카드 각각에서 글씨가 흐르는 시간을 같게 조정
   const animationDuration = titleWidth / 50;
@@ -93,7 +95,7 @@ export default function Card({ productInfo, wishList = false, direction = 'colum
           placeholder="blur"
           sizes={size === 'big' ? '(max-width: 140px) 100vw, 140px' : '(max-width: 100px) 100vw, 100px'}
         />
-        {/* 찜하기 버튼 */}
+        {isZzim && <Zzim className={cx('zzim')} color="white" productId={productId} />}
       </div>
       <div className={cx('cardContent')} data-direction={direction} data-size={size}>
         <div className={cx('titleBox')} data-direction={direction} data-size={size}>
