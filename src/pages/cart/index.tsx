@@ -3,6 +3,7 @@ import styles from './Cart.module.scss';
 import Card from '@/components/cart/Card';
 import TotalPay from '@/components/cart/TotalPay';
 import Button from '@/components/common/Button';
+import FloatingBox from '@/components/common/Layout/Footer/FloatingBox';
 import exampleProductImg from '@/assets/exampleProductImg.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -218,14 +219,14 @@ export default function Cart() {
           <div className={styles.noProduct}>아직 담은 상품이 없어요</div>
         )}
       </div>
-      <div className={styles.bottomNavCart}>
+      <FloatingBox className={styles.bottomNavCart}>
         <Button size="large" backgroundColor="$color-pink-main">
           {totalPrice}원 주문하기
         </Button>
         <div className={styles.howMuchMinus}>
           지금 구매하면 <span className={styles.pink}>-{totalOriginalPrice - totalPrice}원&nbsp;</span>할인돼요
         </div>
-      </div>
+      </FloatingBox>
     </>
   );
 }
