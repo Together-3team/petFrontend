@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import classNames from 'classnames/bind';
@@ -6,7 +7,7 @@ import styles from './NavTop.module.scss';
 import useDragScroll from '@/hooks/useDragScroll';
 import menusData from '@/data/topMenus.json';
 import getDynamicPath from '@/utils/getDynamicPath';
-import useScrollIntoViewWithPath from '@/hooks/useScrollIntoViewWithPath';
+import scrollToTargetX from '@/utils/scrollToTargetX';
 
 const cx = classNames.bind(styles);
 
@@ -15,13 +16,14 @@ export default function NavTop() {
   const { pathname, query } = router;
 
   const dynamicPath = getDynamicPath(pathname, query);
-  const dragScrollProps = useDragScroll<HTMLDivElement>();
-  const { ref: linkRef } = useScrollIntoViewWithPath(dynamicPath, {
-    behavior: 'smooth',
-    inline: 'center',
-    block: 'end',
-  });
   const matchedMenuData = menusData.map(menu => ({ ...menu, isActive: dynamicPath === menu.url }));
+
+  const dragScrollProps = useDragScroll<HTMLDivElement>();
+  const linkRef = useRef<HTMLAnchorElement | null>(null);
+
+  useEffect(() => {
+    scrollToTargetX(dragScrollProps.ref, linkRef);
+  }, [dragScrollProps.ref, linkRef, dynamicPath]);
 
   return (
     <nav className={cx('nav')} {...dragScrollProps}>
