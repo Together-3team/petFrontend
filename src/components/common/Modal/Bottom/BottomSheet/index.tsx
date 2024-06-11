@@ -3,7 +3,7 @@ import { AnimationProps, PanInfo, motion } from 'framer-motion';
 import classNames from 'classnames/bind';
 
 import styles from './BottomSheet.module.scss';
-import Header from '@/components/common/Modal/BottomSheet/Header';
+import Header from '@/components/common/Modal/Bottom/BottomSheet/Header';
 import useOutsideClick from '@/hooks/useOutsideClick';
 import useBottomSheet from '@/hooks/useBottomSheet';
 
