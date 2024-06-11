@@ -4,11 +4,18 @@ import styles from './ProductInfo.module.scss';
 import { useEffect, useState } from 'react';
 import StarRating from '@/components/common/review/StarRating';
 import Tag from '@/components/common/Tag';
+import BannerCarousel from '@/components/common/Carousel/Banner';
+import ProductCarousel from '@/components/common/Carousel/Product';
 
 const cx = classNames.bind(styles);
 
+interface ImagesInfo {
+  src: string;
+  alt: string;
+}
+
 interface ProductInfoProps {
-  thumbNailImage: string;
+  productImages: ImagesInfo[];
   title: string;
   originalPrice: number;
   price: number;
@@ -17,7 +24,7 @@ interface ProductInfoProps {
 }
 
 export default function ProductInfo({
-  thumbNailImage,
+  productImages,
   title,
   originalPrice,
   price,
@@ -28,14 +35,15 @@ export default function ProductInfo({
   return (
     <>
       <div className={cx('imageContainer')}>
-        <Image
+        {/* <Image
           className={cx('thumbNailImage')}
           src={thumbNailImage}
           alt={`${title}-image`}
           blurDataURL={'@/assets/svgs/rectangle.svg'}
           placeholder="blur"
           fill
-        />
+        /> */}
+        <ProductCarousel items={productImages} />
       </div>
       <h1 className={cx('title')}>{title}</h1>
       <p>{originalPrice}</p>
