@@ -1,0 +1,69 @@
+@layer components {
+  .userAgreement {
+    width: 32.8rem;
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+    gap: 0.8rem;
+  }
+
+  .agreementTitle {
+    @include font-headline3;
+  }
+
+  .allAgreement {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    align-self: stretch;
+    height: 3.2rem;
+  }
+
+  .allAgreementText {
+    @include font-body3;
+  }
+
+  .checkBox {
+    width: 2rem;
+    height: 2rem;
+    margin: 0.6rem;
+    accent-color: $color-pink-main;
+  }
+
+  .check {
+    width: 2rem;
+    height: 2rem;
+    margin: 0.6rem;
+    accent-color: $color-gray-50;
+    background-color: $color-gray-50;
+  }
+
+  .agreementBox {
+    display: flex;
+    padding: 1.2rem 1.2rem 1.2rem 0.8rem;
+    flex-direction: column;
+    align-items: center;
+    align-self: stretch;
+    border-radius: 0.8rem;
+    background-color: $color-gray-50;
+  }
+
+  .agreement {
+    width: 100%;
+    height: 3.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    align-self: stretch;
+  }
+
+  .inputCenter {
+    @include font-body6;
+    width: 22.8rem;
+  }
+
+  .detail {
+    @include font-body6;
+    color: $color-gray-600;
+  }
+}

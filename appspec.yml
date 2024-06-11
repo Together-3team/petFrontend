@@ -3,15 +3,15 @@ os: linux
 
 files:
   - source: /
-    destination: /home/ubuntu/deploy-fe
+    destination: /home/ubuntu/pawing-fe
     overwrite: yes
 permissions:
-  - object: /home/ubuntu/deploy-fe
+  - object: /home/ubuntu/pawing-fe
     owner: ubuntu
     group: ubuntu
     mode: 755
 hooks:
   AfterInstall:
-    - location: deploy.sh
+    - location: scripts/aws-deploy.sh
       timeout: 300
       runas: root

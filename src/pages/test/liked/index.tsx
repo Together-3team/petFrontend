@@ -1,9 +1,10 @@
-import MainLayout from '@/components/common/Layout/Main';
+import NavBottom from '@/components/common/Nav/Bottom';
 
 export default function LikedPage() {
-  return <div>LikedPage</div>;
+  return (
+    <>
+      <div>LikedPage</div>
+      <NavBottom />
+    </>
+  );
 }
-
-LikedPage.getLayout = function getLayout(page: React.ReactElement) {
-  return <MainLayout>{page}</MainLayout>;
-};

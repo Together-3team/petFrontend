@@ -1,0 +1,19 @@
+@layer components {
+  .nextButton {
+    width: 32.8rem;
+    height: 4.4rem;
+    display: flex;
+    padding-left: 8px;
+    align-items: center;
+    justify-content: space-between;
+    align-items: center;
+    align-self: stretch;
+    background-color: white;
+    border: none;
+  }
+
+  .nextButton span {
+    @include font-body4;
+    color: $color-black;
+  }
+}

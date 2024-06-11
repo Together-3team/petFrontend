@@ -1,3 +1,37 @@
+/*
+  media
+
+  사용)
+  .example {
+    
+    @include desktop {
+      width: 46rem;
+      height: 46rem;
+    }
+
+  }
+*/
+
+@mixin desktop {
+  @media (min-width: 1024px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: 768px) {
+    @content;
+  }
+}
+
+/*
+  shadow
+
+  사용)
+  .example {
+    @include modal-shadow;
+  }
+*/
 @mixin modal-shadow() {
   box-shadow: 0rem 0.4rem 2rem 0rem rgba(0, 0, 0, 0.08);
 }
@@ -12,4 +46,39 @@
 
 @mixin nav-shadow() {
   box-shadow: 0rem -0.4rem 2rem 0rem rgba(0, 0, 0, 0.08);
+}
+
+/*
+  modal
+
+  사용)
+  .example {
+    @include modal-base;
+  }
+*/
+@mixin modal-base() {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  max-width: $size-mobile-max;
+  @include desktop {
+    left: 50vw;
+  }
+}
+
+/* 로그인, 프로필 선택 등을 나중에 할 때 나타내는 TEXT 스타일 */
+@mixin laterText() {
+  color: $color-gray-400;
+  @include font-body4;
+}
+@mixin share-modal-base() {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  margin: 0 auto;
+  height: 34.1rem;
+  width: 23rem;
+  max-width: $size-mobile-max;
+  border-radius: 1.6rem;
 }

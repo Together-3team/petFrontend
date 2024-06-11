@@ -1,0 +1,39 @@
+.ratingBoxLayout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.starRating {
+  gap: 0.4rem;
+}
+
+.star {
+  width: 2.4rem;
+  height: 2.4rem;
+}
+
+.totalRating {
+  @include font-headline3;
+
+  color: $color-black;
+  margin: 0 0.8rem 0 1.2rem;
+}
+
+.defaultRating {
+  @include font-body2;
+
+  color: $color-gray-600;
+}
+
+.totalReviewer {
+  @include font-body4;
+
+  color: $color-gray-600;
+}
+
+.dropdown {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1.6rem;
+}
