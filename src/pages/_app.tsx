@@ -7,6 +7,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import '@/styles/reset.scss';
 import RootLayout from '@/components/common/Layout/Root';
+import ToastProvider from '@/components/common/Toast/Provider';
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -26,10 +27,12 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
         <title>포잉마켓</title>
       </Head>
       <QueryClientProvider client={queryClient}>
-        <HydrationBoundary state={pageProps.dehydratedState}>
-          <RootLayout>{getLayout(<Component {...pageProps} />)}</RootLayout>
-          <ReactQueryDevtools initialIsOpen={false} />
-        </HydrationBoundary>
+        <ToastProvider>
+          <HydrationBoundary state={pageProps.dehydratedState}>
+            <RootLayout>{getLayout(<Component {...pageProps} />)}</RootLayout>
+            <ReactQueryDevtools initialIsOpen={false} />
+          </HydrationBoundary>
+        </ToastProvider>
       </QueryClientProvider>
     </>
   );

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Header from '@/components/common/Layout/Header';
-import BackButton from '@/components/common/BackButton';
+import BackButton from '@/components/common/Button/BackButton';
 import RatingBox from '@/components/common/review/RatingBox';
 import ReviewBox from '@/components/common/review/ReviewBox';
 import styles from './ReviewPage.module.scss';
