@@ -15,7 +15,7 @@ export default function PaymentSuccessByCart() {
         setButtonText('링크 복사완료!');
         setButtonColor(styles.copyButtonSuccess);
         setTimeout(() => {
-          setButtonText('링크 복사하기');
+          setButtonText('다시 복사하기');
           setButtonColor(styles.copyButton);
         }, 2000);
       })
