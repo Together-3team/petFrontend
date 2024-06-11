@@ -6,7 +6,6 @@ import { UseMutationOptions, useMutation } from '@tanstack/react-query';
 import { GetGoogleAuth, GoogleAuthResponse } from '@/apis/authAPI';
 import saveTokenToCookie from '@/utils/cookie';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 import styles from './Login.module.scss';
 
 const cx = classNames.bind(styles);
@@ -30,12 +29,12 @@ export default function GoogleLogin() {
     },
   } as UseMutationOptions<GoogleAuthResponse, Error, void>);
 
-  // useEffect(() => {
-  //   mutation.mutate();
-  // }, [mutation]);
+  function handleClick() {
+    mutation.mutate();
+  }
 
   return (
-    <div className={cx('googleButton')} onClick={GoogleLogin}>
+    <div className={cx('googleButton')} onClick={handleClick}>
       <GoogleLogo />
       <span>Google로 계속하기</span>
     </div>
