@@ -10,6 +10,11 @@
   gap: 0.4rem;
   padding: 0.35rem;
 
+  &[data-size='huge'] {
+    font-size: 1.2rem;
+    padding: 0.4rem 0.8rem;
+  }
+
   &[data-size='big'] {
     font-size: 1rem;
     padding: 0.35rem 0.5rem;

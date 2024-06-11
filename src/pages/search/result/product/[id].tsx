@@ -9,10 +9,34 @@ import SimilarProducts from '@/components/productDetails/similarProducts';
 import BackButton from '@/components/common/Button/BackButton';
 import Button from '@/components/common/Button';
 import OrderPolicy from '@/components/productDetails/orderPolicy';
+import rectangleImg from '@/assets/images/rectangle.png';
 
 const cx = classNames.bind(styles);
 
 export default function ProductDetailPage() {
+  const productInfo = {
+    productImages: 'string',
+    originalPrice: 10000,
+    productId: 1,
+    price: 5900,
+    reviewRating: 4.5,
+    reviewCount: 180,
+    options: {},
+    thumbNailImage: rectangleImg.src,
+    optionCombinations: [
+      {
+        id: 0,
+        optionCombination: 'string',
+        combinationPrice: 0,
+        createdAt: '2024-06-11T06:52:12.142Z',
+        productDetailId: 0,
+        productId: 0,
+      },
+    ],
+    title: '진짜육포 12종 모음',
+    category: 0,
+    descriptionImages: 'string',
+  };
   return (
     <>
       <Header.Root className={cx('headerRoot')}>
@@ -25,7 +49,14 @@ export default function ProductDetailPage() {
           </Header.Right>
         </Header.Box>
       </Header.Root>
-      <ProductInfo />
+      <ProductInfo
+        thumbNailImage={productInfo.thumbNailImage}
+        title={productInfo.title}
+        originalPrice={productInfo.originalPrice}
+        price={productInfo.price}
+        reviewRating={productInfo.reviewRating}
+        reviewCount={productInfo.reviewCount}
+      />
       {/* 공동구매 & 
       리뷰 */}
       <DetailedDescription />
