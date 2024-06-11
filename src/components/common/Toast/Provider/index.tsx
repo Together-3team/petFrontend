@@ -1,4 +1,4 @@
-import { PropsWithChildren, createContext, useCallback, useState } from 'react';
+import { PropsWithChildren, createContext, useCallback, useEffect, useState } from 'react';
 
 import { ToastType, ToastParameters } from '@/types/components/toast';
 import Portal from '@/components/common/Portal';
@@ -20,6 +20,7 @@ export const ToastContext = createContext<ToastContextType>({
 });
 
 const TOAST_LIMIT = 3;
+const TOAST_DURATION = 3 * 1000;
 
 export default function ToastProvider({ children }: PropsWithChildren) {
   const [activeToastList, setActiveToastList] = useState<ToastType[]>([]);
@@ -36,7 +37,7 @@ export default function ToastProvider({ children }: PropsWithChildren) {
 
     const timer = setTimeout(() => {
       hideToastHandler(toastId);
-    }, 3000);
+    }, TOAST_DURATION);
 
     return () => {
       clearTimeout(timer);
@@ -65,6 +66,14 @@ export default function ToastProvider({ children }: PropsWithChildren) {
     hideToast: hideToastHandler,
     setPortalId: setPortalIdHandler,
   };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setActiveToastList([]);
+    }, TOAST_DURATION + 500);
+
+    return () => clearTimeout(timer);
+  }, [activeToastList]);
 
   return (
     <ToastContext.Provider value={value}>
