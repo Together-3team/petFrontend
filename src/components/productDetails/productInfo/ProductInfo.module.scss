@@ -1,5 +1,19 @@
+.productInfoContent {
+  padding: 1.6rem 1.6rem 2.8rem;
+}
+
 .imageContainer {
   width: 100%;
   aspect-ratio: 1 / 1;
   position: relative;
+}
+
+.shippingInfo {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.8rem;
+  background-color: #f9fafc;
+  border-radius: 0.8rem;
 }
