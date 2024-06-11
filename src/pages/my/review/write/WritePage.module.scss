@@ -1,74 +1,54 @@
 .writePageLayout {
-  padding: 20px 16px;
+  padding: 2rem 1.6rem;
 }
 
 .pageTitle {
-  color: var(--Grayscale-Black, #111);
-  text-align: center;
+  @include font-headline3;
 
-  /* Headline3 */
-  font-family: SUIT;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 20px; /* 142.857% */
+  color: $color-black;
+  text-align: center;
 }
 
 .productDataBox {
   display: flex;
-  padding: 6px var(--selectpayment, 0px);
+  padding: 0.6rem 0;
   align-items: center;
-  gap: 12px;
+  gap: 1.2rem;
 }
 
 .productImg {
-  width: 44px;
-  height: 44px;
-  border-radius: 8px;
+  width: 4.4rem;
+  height: 4.4rem;
+  border-radius: 0.8rem;
 }
 
 .productName {
-  color: var(--Grayscale-Black, #111);
+  @include font-body1;
 
-  /* Body1 */
-  font-family: SUIT;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 18px; /* 128.571% */
-  margin-bottom: 4px;
+  color: $color-black;
+  margin-bottom: 0.4rem;
 }
 
 .productOption {
-  color: var(--Grayscale-Gray-500, #9196a7);
+  @include font-body5;
 
-  /* Body5 */
-  font-family: SUIT;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 16px; /* 133.333% */
+  color: $color-gray-500;
 }
 
 .ratingBox {
   display: flex;
-  padding: 40px var(--selectpayment, 0px);
+  padding: 4rem 0;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 16px;
+  gap: 1.6rem;
 }
 
 .ratingQuestion {
+  @include font-headline3;
+
   color: #000;
   text-align: center;
-
-  /* Headline3 */
-  font-family: SUIT;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 20px; /* 142.857% */
 }
 
 .textareaBox {
@@ -76,53 +56,43 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 12px;
+  gap: 1.2rem;
   align-self: stretch;
-  margin: 16px 0 44px;
+  margin: 1.6rem 0 4.4rem;
 }
 
 .descriptionQuestion {
-  color: #000;
+  @include font-body4;
 
-  /* Body4 */
-  font-family: SUIT;
-  font-size: 13px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 16px; /* 123.077% */
+  color: #000;
 }
 
 .textareaStyle {
   display: flex;
   width: 100%;
-  height: 120px;
-  padding: 12px;
+  height: 12rem;
+  padding: 1.2rem;
   align-items: flex-start;
-  gap: 8px;
+  gap: 0.8rem;
   align-self: stretch;
 }
 
 .reviewSaveBtn {
+  @include font-headline3;
+
   display: flex;
   width: 100%;
-  height: 40px;
-  padding: 12px var(--selectpayment, 0px);
+  height: 4rem;
+  padding: 1.2rem 0;
   justify-content: center;
   align-items: center;
-  gap: 8px;
-  border-radius: 8px;
+  gap: 0.8rem;
+  border-radius: 0.8rem;
   border: none;
-  background: var(--Primary-Main-Pink, #fe5a65);
-  color: var(--Grayscale-White, #fff);
-
-  /* Headline3 */
-  font-family: SUIT;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 20px; /* 142.857% */
+  background: $color-pink-main;
+  color: $color-white;
 
   &:disabled {
-    background: var(--Grayscale-Gray-300, #cfd3db);
+    background: $color-gray-300;
   }
 }
