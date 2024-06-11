@@ -1,0 +1,9 @@
+@layer components {
+  .container {
+    @include modal-base;
+
+    display: flex;
+    flex-direction: column-reverse;
+    z-index: $z-index-bottom-nav;
+  }
+}
