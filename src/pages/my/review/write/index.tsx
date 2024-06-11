@@ -9,7 +9,7 @@ import Button from '@/components/common/Button';
 
 export default function WritePage() {
   return (
-    <div>
+    <div className={styles.writePageLayout}>
       <Header.Root>
         <Header.Box>
           <Header.Left>
@@ -19,24 +19,24 @@ export default function WritePage() {
         </Header.Box>
       </Header.Root>
       <div>
-        <div>
-          <Image src={testImage} alt="상품 이미지" />
-          <div>
-            <p>호랑이 간식 27종</p>
-            <p>호랑이 독 리얼큐브 소고기 300g | 1개</p>
+        <div className={styles.productDataBox}>
+          <Image className={styles.productImg} src={testImage} alt="상품 이미지" />
+          <div className={styles.productData}>
+            <p className={styles.productName}>호랑이 간식 27종</p>
+            <p className={styles.productOption}>호랑이 독 리얼큐브 소고기 300g | 1개</p>
           </div>
         </div>
-        <div>
-          <p>전반적으로 어떠셨나요?</p>
+        <div className={styles.ratingBox}>
+          <p className={styles.ratingQuestion}>전반적으로 어떠셨나요?</p>
           <StarRating editable rating={5} />
         </div>
-        <div>
-          <p>구체적으로 어떤 점이 좋았는지, 또는 어떤 점이 아쉬웠는지 작성해 주세요.</p>
-          <Textarea />
+        <div className={styles.textareaBox}>
+          <p className={styles.descriptionQuestion}>
+            구체적으로 어떤 점이 좋았는지, 또는 어떤 점이 아쉬웠는지 작성해 주세요.
+          </p>
+          <Textarea className={styles.textareaStyle} placeholder={'리뷰를 작성해 주세요.'} />
         </div>
-        <Button size={'large'} backgroundColor={'$color-pink-main'}>
-          저장
-        </Button>
+        <button className={styles.reviewSaveBtn}>저장</button>
       </div>
     </div>
   );
