@@ -1,0 +1,12 @@
+.paymentSuccess {
+  padding: 20.6rem 9rem 33.8rem 9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4.4rem;
+}
+
+.finish {
+  text-align: center;
+  font-family: SUIT;
+  @include font-headline2;
+}
