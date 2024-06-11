@@ -8,6 +8,5 @@
 .finish {
   text-align: center;
   font-family: SUIT;
-  font-size: 1.8rem;
-  font-weight: 700;
+  @include font-headline2;
 }
