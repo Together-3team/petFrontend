@@ -172,8 +172,7 @@ export default function Cart() {
 
   // 제품 삭제
   function handleProductRemove(id: number) {
-    const updatedProducts = products.filter(product => product.id !== id);
-    setProducts(updatedProducts);
+    setProducts(prev => prev.filter(product => product.id !== id));
   }
 
   const totalOriginalPrice = calculateTotalOriginalPrice();
