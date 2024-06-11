@@ -5,12 +5,10 @@ import styles from './BottomSheet.module.scss';
 
 const cx = classNames.bind(styles);
 
-const Header = () => {
+export default function Header() {
   return (
     <motion.div className={cx('headerWrapper')}>
       <motion.div className={cx('handleBar')} />
     </motion.div>
   );
-};
-
-export default Header;
+}
