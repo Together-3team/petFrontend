@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   sassOptions: {
     includePaths: ['styles'],
     additionalData: `@import "src/styles/globals.scss";`,
