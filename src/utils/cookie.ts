@@ -1,7 +1,4 @@
-import { setCookie } from 'cookies-next';
-
 //토큰을 쿠키에 저장
-
 export default function saveTokenToCookie(token: string) {
   setCookie('accessToken', token, {
     secure: true,
@@ -9,6 +6,22 @@ export default function saveTokenToCookie(token: string) {
     sameSite: 'lax',
     path: '/',
   });
+}
+
+function setCookie(name: string, value: string, options: any) {
+  let updatedCookie = encodeURIComponent(name) + '=' + encodeURIComponent(value);
+
+  for (let optionKey in options) {
+    if (options.hasOwnProperty(optionKey)) {
+      updatedCookie += '; ' + optionKey;
+      let optionValue = options[optionKey];
+      if (optionValue !== true) {
+        updatedCookie += '=' + optionValue;
+      }
+    }
+  }
+
+  document.cookie = updatedCookie;
 }
 
 // auth

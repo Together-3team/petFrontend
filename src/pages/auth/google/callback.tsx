@@ -24,7 +24,8 @@ export default function GoogleCallback() {
       console.log(data);
       if (data.registered === true && code) {
         const { accessToken } = data;
-        saveTokenToCookie(accessToken as string);
+        saveTokenToCookie(accessToken);
+        console.log(accessToken);
         router.push('/');
       } else {
         router.push({
