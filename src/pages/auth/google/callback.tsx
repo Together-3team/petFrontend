@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { UseMutationOptions, useMutation, useQueryClient } from '@tanstack/react-query';
 import { GoogleAuthResponse } from '@/apis/authAPI';
-import saveTokenToCookie from '@/utils/cookie';
+import { setCookie } from '@/utils/cookie';
 import axiosInstance from '@/apis/axiosInstance';
 import { API_BASE_URL } from '@/constants';
 
@@ -24,7 +24,9 @@ export default function GoogleCallback() {
       console.log(data);
       if (data.registered === true && code) {
         const { accessToken } = data;
-        saveTokenToCookie(accessToken);
+        setCookie('token', accessToken, {
+          path: '/',
+        });
         console.log(accessToken);
         router.push('/');
       } else {

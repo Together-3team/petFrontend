@@ -1,28 +1,19 @@
+import { Cookies } from 'react-cookie';
+
 //토큰을 쿠키에 저장
-export default function saveTokenToCookie(token: string) {
-  setCookie('accessToken', token, {
-    secure: true,
-    httpOnly: true,
-    sameSite: 'lax',
-    path: '/',
-  });
-}
+const cookies = new Cookies();
 
-function setCookie(name: string, value: string, options: any) {
-  let updatedCookie = encodeURIComponent(name) + '=' + encodeURIComponent(value);
+export const setCookie = (name, value, option) => {
+  return cookies.set(name, value, { ...option });
+};
 
-  for (let optionKey in options) {
-    if (options.hasOwnProperty(optionKey)) {
-      updatedCookie += '; ' + optionKey;
-      let optionValue = options[optionKey];
-      if (optionValue !== true) {
-        updatedCookie += '=' + optionValue;
-      }
-    }
-  }
+export const getCookie = name => {
+  return cookies.get(name);
+};
 
-  document.cookie = updatedCookie;
-}
+export const removeCookie = (name, option) => {
+  return cookies.remove(name, { ...option });
+};
 
 // auth
 // 1. 구글 인증하고 registered: false면
