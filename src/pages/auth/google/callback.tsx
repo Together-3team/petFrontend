@@ -29,7 +29,7 @@ export default function GoogleCallback() {
       } else {
         router.push({
           pathname: '/signup',
-          query: { email: data.email },
+          query: { email: data.email, profileToken: String(data.profileToken) },
         });
       }
     },

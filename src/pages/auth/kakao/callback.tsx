@@ -37,20 +37,5 @@ export default function KakaoCallback() {
     mutation.mutate();
   }, [code]);
 
-  // useEffect(() => {
-  //   const fetchKakaoCallback = async () => {
-  //     try {
-  //       const response = await axiosInstance.get(`${API_BASE_URL}/auth/kakao/callback?code=${code}`);
-  //       console.log(response.data);
-  //       mutation.mutate();
-  //     } catch (error) {
-  //       console.error('Callback fetching failed.', error);
-  //     }
-  //   };
-
-  //   if (code) {
-  //     fetchKakaoCallback();
-  //   }
-  // }, []);
   return <div></div>;
 }

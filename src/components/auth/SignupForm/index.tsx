@@ -9,27 +9,31 @@ import signupFormSchema from '@/utils/signupFormSchema';
 import Input from '@/components/common/Input';
 import Button from '@/components/common/Button';
 import UserAgreement from './UserAgreement';
-import authAPI, { GoogleAuthResponse } from '@/apis/authAPI';
-import axiosInstance from '@/apis/axiosInstance';
-import { API_BASE_URL } from '@/constants';
+import authAPI from '@/apis/authAPI';
 
 import styles from './SignupForm.module.scss';
 import { useRouter } from 'next/router';
 
 const cx = classNames.bind(styles);
 
-export type FormValues = Yup.InferType<typeof signupFormSchema>;
+export type FormValues = Yup.InferType<typeof signupFormSchema> & { profileToken?: string };
 
 export default function SignupForm() {
   const router = useRouter();
-  const { email } = router.query;
+  const { email, profileToken } = router.query;
   const queryClient = useQueryClient();
-
-  const mutation = useMutation({
-    mutationFn: body => authAPI.postRegisterData(body),
+  console.log(profileToken);
+  const mutation = useMutation<void, Error, FormValues>({
+    mutationFn: async (data: FormValues) => {
+      await authAPI.postRegisterData({ ...data, profileToken });
+    },
     onSuccess: data => {
       console.log(data);
       queryClient.invalidateQueries({ queryKey: ['register'] });
+      router.push('/onboarding');
+    },
+    onError: error => {
+      console.error('회원가입 실패', error);
     },
   });
 
@@ -40,7 +44,9 @@ export default function SignupForm() {
     formState: { errors },
   } = methods;
   const { register, handleSubmit } = methods;
-  const onSubmit = (data: any) => mutation.mutate(data);
+  const onSubmit = (data: FormValues) => {
+    console.log(data), mutation.mutate(data);
+  };
   console.log(errors);
   //TODO: 폼 필수요소 미입력 시 버튼 disable
   return (
@@ -54,7 +60,7 @@ export default function SignupForm() {
             label="이메일"
             labelStyle={'label'}
             placeholder={email as string}
-            // placeholder={googleData ? googleData.data.email : kakaoData?.data.kakao_account.email}
+            readOnly
             {...register}
           />
           <div>
@@ -66,7 +72,6 @@ export default function SignupForm() {
               isError={errors.nickname && true}
               labelStyle={'label'}
               placeholder=""
-              //placeholder={googleData ? googleData.data : kakaoData?.data.kakao_account.profile.nickname}
               {...register('nickname')}
             />
             {errors.nickname && <span className={cx('errorText')}>{errors.nickname.message}</span>}
