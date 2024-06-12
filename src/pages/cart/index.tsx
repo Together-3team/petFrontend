@@ -8,7 +8,7 @@ import exampleProductImg from '@/assets/exampleProductImg.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { httpClient } from '@/apis/httpClient';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 interface Product {
   id: number;
@@ -22,64 +22,12 @@ interface Product {
 }
 
 export default function Cart() {
-  // 더미 데이터
-  // const initialProducts = [
-  //   {
-  //     id: 1,
-  //     productTitle: '강아지 간식 27종',
-  //     option: '강아지 독 리얼큐브 소고기 300g',
-  //     productCost: 10000, // 판매가
-  //     originalCost: 11800, // 원가
-  //     productNumber: 2,
-  //     imageUrl: exampleProductImg,
-  //   },
-  //   {
-  //     id: 2,
-  //     productTitle: '강아지 간식 27종',
-  //     option: '강아지 독 리얼큐브 소고기 500g',
-  //     productCost: 15000,
-  //     originalCost: 20000,
-  //     productNumber: 3,
-  //     imageUrl: exampleProductImg,
-  //   },
-  //   {
-  //     id: 3,
-  //     productTitle: '고양이 간식 27종',
-  //     option: '강아지 츄르 5스틱g',
-  //     productCost: 10000,
-  //     originalCost: 11000,
-  //     productNumber: 10,
-  //     imageUrl: exampleProductImg,
-  //   },
-  //   {
-  //     id: 4,
-  //     productTitle: '고양이 간식 27종',
-  //     option: '강아지 츄르 5스틱g',
-  //     productCost: 10000,
-  //     originalCost: 11000,
-  //     productNumber: 10,
-  //     imageUrl: exampleProductImg,
-  //   },
-  // ];
-
-  // 상품목록 없는 경우 더미데이터
-  // const initialProducts: {
-  //   id: number;
-  //   productTitle: string;
-  //   option: string;
-  //   productCost: number;
-  //   productNumber: number;
-  // }[] = [];
-
-  // const [products, setProducts] = useState(initialProducts.map(product => ({ ...product, isChecked: true })));
   const [products, setProducts] = useState<Product[]>([]);
   const [selectAll, setSelectAll] = useState(true); // 전체 체크 상태
 
-  const {
-    data: productsData,
-    isLoading,
-    error,
-  } = useQuery({
+  const queryClient = useQueryClient();
+
+  const { data: productsData } = useQuery({
     queryKey: ['products'],
     queryFn: async () => {
       try {
@@ -144,6 +92,24 @@ export default function Cart() {
     setSelectAll(allChecked);
   }
 
+  // useMutation: 낙관적 업데이트 (서버 통신 여부와 관계없이 UI 업뎃)
+  const mutation = useMutation({
+    mutationKey: ['updateProductQuantity'],
+    mutationFn: async ({ id, newQuantity }: { id: number; newQuantity: number }) => {
+      try {
+        // 서버에 수량 업데이트 요청
+        await httpClient().put(`/selected-products/carts/${id}`, { quantity: newQuantity });
+      } catch (error) {
+        console.error('Failed to update product quantity:', error);
+        throw error;
+      }
+    },
+    onSuccess: () => {
+      // 성공적으로 업데이트되면 해당 쿼리를 다시 불러옴
+      (queryClient as any).invalidateQueries('products');
+    },
+  });
+
   // 수량 변경 시 제품 수량 업데이트
   function handleProductQuantityChange(id: number, newQuantity: number) {
     const updatedProducts = products.map(product =>
@@ -151,6 +117,8 @@ export default function Cart() {
     );
 
     setProducts(updatedProducts);
+    // 서버에 수량 업뎃 요청
+    mutation.mutate({ id, newQuantity });
   }
 
   // 선택한 제품의 총 원가 게산
