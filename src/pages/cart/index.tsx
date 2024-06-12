@@ -144,6 +144,11 @@ export default function Cart() {
     setProducts(prev => prev.filter(product => product.id !== id));
   }
 
+  // 버튼 클릭
+  function handleOrderButtonClick() {
+    sessionStorage.setItem('cartData', JSON.stringify(products));
+  }
+
   const totalOriginalPrice = calculateTotalOriginalPrice();
   const totalPrice = calculateTotalPrice();
   const productCount = products.filter(product => product.isChecked).length; // 전체 상품 수
@@ -188,7 +193,7 @@ export default function Cart() {
         )}
       </div>
       <FloatingBox className={styles.bottomNavCart}>
-        <Button size="large" backgroundColor="$color-pink-main">
+        <Button size="large" backgroundColor="$color-pink-main" onClick={handleOrderButtonClick}>
           {totalPrice}원 주문하기
         </Button>
         <div className={styles.howMuchMinus}>
