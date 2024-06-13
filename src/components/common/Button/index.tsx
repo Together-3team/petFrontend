@@ -1,7 +1,7 @@
 import styles from './Button.module.scss';
 
 interface ButtonProps {
-  size: 'large' | 'mediumLarge' | 'medium' | 'small';
+  size: 'extraLarge' | 'large' | 'mediumLarge' | 'medium' | 'small';
   children?: React.ReactNode;
   backgroundColor:
     | '$color-gray-800'

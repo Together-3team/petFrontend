@@ -1,7 +1,7 @@
 .button {
   height: 4rem;
   font-weight: 500;
-
+  font-family: 'SUIT Variable';
   border-radius: 0.8rem;
 }
 
@@ -9,6 +9,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.extraLarge {
+  width: 100%;
+  margin: 0 1.6rem;
+  font-size: 1.4rem;
 }
 
 .large {

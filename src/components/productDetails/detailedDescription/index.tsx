@@ -1,6 +1,8 @@
 import classNames from 'classnames/bind';
 import styles from './DetailedDescription.module.scss';
 import Image from 'next/image';
+import Button from '@/components/common/Button';
+import Arrow from '@/assets/svgs/arrow-down-pink.svg';
 
 const cx = classNames.bind(styles);
 
@@ -26,6 +28,10 @@ export default function DetailedDescription({ descriptionImages }: DetailedDescr
           />
         );
       })}
+      <Button size="extraLarge" backgroundColor="$color-white-pink">
+        <Arrow />
+        <span className={cx('buttonDescription')}>상품 설명 전체보기</span>
+      </Button>
     </div>
   );
 }
