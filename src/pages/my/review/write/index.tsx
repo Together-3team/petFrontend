@@ -15,6 +15,8 @@ export default function WritePage() {
     setDescriprion(event.target.value);
   };
 
+  const isBtnDisabled = rating === 0 || description.trim() === '';
+
   return (
     <div className={styles.writePageLayout}>
       <Header.Root>
@@ -48,7 +50,9 @@ export default function WritePage() {
             onChange={handleChange}
           />
         </div>
-        <button className={styles.reviewSaveBtn}>저장</button>
+        <button className={styles.reviewSaveBtn} disabled={isBtnDisabled}>
+          저장
+        </button>
       </div>
     </div>
   );
