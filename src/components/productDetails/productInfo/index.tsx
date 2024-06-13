@@ -36,23 +36,22 @@ export default function ProductInfo({
   return (
     <>
       <div className={cx('imageContainer')}>
-        {/* <Image
-          className={cx('thumbNailImage')}
-          src={thumbNailImage}
-          alt={`${title}-image`}
-          blurDataURL={'@/assets/svgs/rectangle.svg'}
-          placeholder="blur"
-          fill
-        /> */}
         <ProductCarousel items={productImages} />
       </div>
       <div className={cx('productInfoContent')}>
         <h1 className={cx('title')}>{title}</h1>
-        <p>{originalPrice}</p>
-        <span>{discountRate}</span>
-        <span>{price}</span>
-        <StarRating rating={reviewRating} />
-        리뷰 {reviewCount}개
+        <p className={cx('originalPrice')}>{originalPrice}</p>
+        <div style={{ display: 'flex', gap: '4px' }}>
+          <span className={cx('discountRate')}>{discountRate}%</span>
+          <span className={cx('price')}>{price}</span>
+        </div>
+        <div className={cx('review')}>
+          <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
+            <StarRating rating={reviewRating} />
+            <span>{reviewRating}</span>
+          </div>
+          <span className={cx('reviewCount')}>리뷰 {reviewCount}개</span>
+        </div>
         <div className={cx('tags')}>
           <Tag size="huge" type="stock" color="#FFF3F3" fontColor="#FE5A65">
             10개 미만
