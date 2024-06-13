@@ -26,7 +26,8 @@ export default function Cart() {
 
   const queryClient = useQueryClient();
 
-  const { data: productsData } = useQuery({
+  // 상품 데이터 GET
+  const { data: productsData, refetch: refetchProducts } = useQuery({
     queryKey: ['products'],
     queryFn: async () => {
       try {
@@ -72,6 +73,16 @@ export default function Cart() {
     }
   }, [productsData]);
 
+  // 상품 삭제
+  async function deleteProduct(id: number) {
+    try {
+      await httpClient().delete(`/selected-products/${id}`);
+      console.log(`Product with ID ${id} deleted successfully`);
+      refetchProducts();
+    } catch (error) {
+      console.error(`Failed to delete product with ID ${id}: `, error);
+    }
+  }
   // selectAll 상태 반전
   function handleSelectAll() {
     setSelectAll(!selectAll);
@@ -144,14 +155,15 @@ export default function Cart() {
       }, 0);
   }
 
-  // 제품 삭제
+  // 제품 삭제 (선택 삭제)
   function handleProductRemove(id: number) {
-    setProducts(prev => prev.filter(product => product.id !== id));
+    deleteProduct(id);
   }
 
   // 버튼 클릭
   function handleOrderButtonClick() {
     sessionStorage.setItem('cartData', JSON.stringify(products));
+    console.log('Cart data saved to sessionStorage:', products);
   }
 
   const totalOriginalPrice = calculateTotalOriginalPrice();
