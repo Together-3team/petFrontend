@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
 import styles from './Cart.module.scss';
+import { useRouter } from 'next/router';
 import Card from '@/components/cart/Card';
 import TotalPay from '@/components/cart/TotalPay';
 import Button from '@/components/common/Button';
 import FloatingBox from '@/components/common/Layout/Footer/FloatingBox';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import { httpClient } from '@/apis/httpClient';
+import { faTrash, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { deleteAllProducts, deleteProductById, fetchCartProducts, updateProductQuantity } from '@/apis/cartApi';
+import Header from '@/components/common/Layout/Header';
 
 export interface Product {
   id: number;
@@ -25,6 +26,7 @@ export default function Cart() {
   const [products, setProducts] = useState<Product[]>([]);
   const [selectAll, setSelectAll] = useState(true);
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   // 상품 목록 GET
   const { data: productsData, refetch: refetchProducts } = useQuery({
@@ -41,11 +43,10 @@ export default function Cart() {
   // 상품 전체 DELETE
   async function handleDeleteAllProducts() {
     try {
-      await httpClient().delete('/selected-products/orders');
-      console.log('Products all deleted successfully');
+      await deleteAllProducts();
+      setProducts([]);
     } catch (error) {
       console.error('Failed to delete all products:', error);
-      throw error;
     }
   }
 
@@ -150,6 +151,14 @@ export default function Cart() {
 
   return (
     <>
+      <Header.Root className={styles.headerRoot}>
+        <Header.Box>
+          <Header.Left>
+            <FontAwesomeIcon icon={faAngleLeft} onClick={() => router.back()} />
+          </Header.Left>
+          <Header.Center className={styles.headerName}>장바구니</Header.Center>
+        </Header.Box>
+      </Header.Root>
       <div className={styles.cart}>
         {products.length > 0 ? (
           <>

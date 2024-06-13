@@ -3,6 +3,14 @@
   padding-bottom: 11rem;
 }
 
+.headerRoot {
+  padding: 2rem 3rem 0 3rem;
+}
+
+.headerName {
+  @include font-headline2;
+}
+
 .checkbox {
   accent-color: $color-pink-main;
 }
