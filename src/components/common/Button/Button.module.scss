@@ -69,3 +69,8 @@
   background-color: $color-white;
   border: 1px solid $color-black;
 }
+
+.disabled {
+  background-color: $color-gray-300;
+  cursor: not-allowed;
+}
