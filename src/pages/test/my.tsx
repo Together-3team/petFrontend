@@ -4,15 +4,38 @@ import Input from '@/components/common/Input';
 import BottomShareModal from '@/components/common/Modal/BottomShareModal';
 import Button from '@/components/common/Button';
 import styles from './My.module.scss';
+import CategoryButton from '@/components/common/Button/Category';
+import Header from '@/components/common/Layout/Header';
+import NavTop from '@/components/common/Nav/Top';
+import NavBottom from '@/components/common/Nav/Bottom';
 
 const cx = classNames.bind(styles);
+
+const CATEGORIES = ['전체', '강아지', '고양이'];
 
 export default function My() {
   const { modalOpen, handleModalOpen, handleModalClose } = useModal();
 
   return (
     <>
+      <div className={styles.floatingBox}>
+        <CategoryButton
+          categories={CATEGORIES}
+          initialActiveCategory={CATEGORIES[0]}
+          onClick={category => console.log(category)}
+        />
+      </div>
       <div className={cx('my')}>
+        <Header.Root>
+          <Header.Box>
+            <Header.Left>왼쪽</Header.Left>
+            <Header.Center>
+              <div>안녕하세요</div>
+            </Header.Center>
+            <Header.Right>오른쪽</Header.Right>
+          </Header.Box>
+          <NavTop />
+        </Header.Root>
         <Input id="이메일" type="email" label="이메일" size={'large'} background={'background'} placeholder=" " />
         <Input id="이름" type="text" label="이름" size={'large'} background={'background'} placeholder=" " />
         <div onClick={handleModalOpen}>모달 열기</div>
@@ -35,6 +58,7 @@ export default function My() {
           </div>
         </BottomShareModal>
       </div>
+      <NavBottom />
     </>
   );
 }

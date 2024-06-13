@@ -1,7 +1,7 @@
 import { getCookie } from '@/utils/cookie';
 import { useEffect, useState } from 'react';
 
-export function useAuth() {
+export default function useAuth() {
   const [isLogin, setIsLogin] = useState(false);
 
   useEffect(() => {
