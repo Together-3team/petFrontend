@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { httpClient } from '@/apis/httpClient';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { fetchCartProducts } from '@/apis/cartApi';
+import { deleteAllProducts, deleteProductById, fetchCartProducts, updateProductQuantity } from '@/apis/cartApi';
 
 export interface Product {
   id: number;
@@ -23,9 +23,10 @@ export interface Product {
 
 export default function Cart() {
   const [products, setProducts] = useState<Product[]>([]);
-  const [selectAll, setSelectAll] = useState(true); // 전체 체크 상태
+  const [selectAll, setSelectAll] = useState(true);
   const queryClient = useQueryClient();
 
+  // 상품 목록 GET
   const { data: productsData, refetch: refetchProducts } = useQuery({
     queryKey: ['cart'],
     queryFn: fetchCartProducts,
@@ -37,25 +38,24 @@ export default function Cart() {
     }
   }, [productsData]);
 
-  // 상품 전체 삭제
+  // 상품 전체 DELETE
   async function handleDeleteAllProducts() {
     try {
-      await httpClient().delete(`/selected-products/orders`);
-      console.log(`Products all deleted successfully`);
-      setProducts([]);
+      await httpClient().delete('/selected-products/orders');
+      console.log('Products all deleted successfully');
     } catch (error) {
-      console.error(`Failed to delete: `, error);
+      console.error('Failed to delete all products:', error);
+      throw error;
     }
   }
 
-  // 상품 선택 삭제
+  // 상품 선택 DELETE
   async function deleteProduct(id: number) {
     try {
-      await httpClient().delete(`/selected-products/${id}`);
-      console.log(`Product with ID ${id} deleted successfully`);
+      await deleteProductById(id);
       refetchProducts();
     } catch (error) {
-      console.error(`Failed to delete product with ID ${id}: `, error);
+      console.error('Failed to delete product:', error);
     }
   }
 
@@ -89,10 +89,9 @@ export default function Cart() {
     mutationKey: ['updateProductQuantity'],
     mutationFn: async ({ id, newQuantity }: { id: number; newQuantity: number }) => {
       try {
-        // 서버에 수량 업데이트 요청
-        await httpClient().put(`/selected-products/${id}`, { quantity: newQuantity });
+        await updateProductQuantity(id, newQuantity);
       } catch (error) {
-        console.error('Failed to update product quantity:', error);
+        console.log('Failed to update product quantity:', error);
         throw error;
       }
     },

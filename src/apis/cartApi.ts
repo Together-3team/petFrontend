@@ -40,3 +40,31 @@ export async function fetchCartProducts(): Promise<Product[]> {
 }
 
 // 상품 전체 DELETE
+export async function deleteAllProducts() {
+  try {
+    await httpClient().delete(`/selected-products/orders`);
+    console.log(`Products all deleted successfully`);
+  } catch (error) {
+    console.error(`Failed to delete: `, error);
+  }
+}
+
+// 상품 선택 DELETE
+export async function deleteProductById(id: number) {
+  try {
+    await httpClient().delete(`/selected-products/${id}`);
+    console.log(`Product with ID ${id} deleted successfully`);
+  } catch (error) {
+    console.error(`Failed to delete product with ID ${id}: `, error);
+  }
+}
+
+// 상품 수량 PUT
+export async function updateProductQuantity(id: number, newQuantity: number) {
+  try {
+    await httpClient().put(`/selected-products/${id}`, { quantity: newQuantity });
+  } catch (error) {
+    console.error('Failed to update product quantity:', error);
+    throw error;
+  }
+}
