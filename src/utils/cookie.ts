@@ -21,6 +21,14 @@ export function removeCookie({ name, option }: CookieProps) {
   return cookies.remove(name, { ...option });
 }
 
+// 다른 페이지에서 쿠키 사용 방법
+// const [cookies] = useCookies()
+// function checkCookie() {
+// if (!cookies) {
+//  alert('로그인 후 이용해주세요')
+//  router.push('/my')
+// }
+
 // auth flow
 // 1. 구글 인증하고 registered: false면
 // 2. 회원가입 페이지로 넘어가서 post하고

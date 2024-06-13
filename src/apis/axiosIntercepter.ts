@@ -10,10 +10,6 @@ const onRequest = (config: InternalAxiosRequestConfig) => {
   console.log('config', config);
 
   const accessToken = getCookie({ name: 'token' }) ?? '토큰을 찾을 수 없습니다.';
-  if (!accessToken) {
-    window.location.href = '/my';
-    return config;
-  }
   config.headers.Authorization = `Bearer ${accessToken}`;
   return config;
 };
