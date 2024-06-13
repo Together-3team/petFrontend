@@ -1,0 +1,91 @@
+@layer overrides {
+  .infoLayout {
+    width: 100%;
+    padding: 2rem 1.6rem 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .infoLayout h1 {
+    @include font-headline3;
+    text-align: center;
+  }
+
+  .memberForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--min-24, 3.2rem);
+  }
+
+  .inputArea {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .quitText {
+    @include laterText;
+
+    width: 6.4rem;
+    height: 2.6rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .infoField {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40.8rem;
+  }
+
+  .modalButtonArea {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .modalSize {
+    display: flex;
+    width: 100%;
+    padding: 1.6rem 1.5rem var(--min-24, 3.2rem) 1.5rem;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    gap: var(--min-24, 32px);
+    flex-shrink: 0;
+  }
+
+  .modalTitle {
+    @include font-body1;
+
+    align-self: stretch;
+    text-align: center;
+  }
+
+  .modalText {
+    @include font-body4;
+
+    display: flex;
+    height: var(--min-24, 32px);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    align-self: stretch;
+    color: $color-gray-500;
+    word-break: keep-all;
+  }
+
+  .errorText {
+    @include font-caption1;
+    color: $color-pink-main;
+    align-self: stretch;
+  }
+}
