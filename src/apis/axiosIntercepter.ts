@@ -1,18 +1,6 @@
 import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
-import { getCookie } from '@/utils/cookie';
 import axiosInstance from './axiosInstance';
 import refreshToken from './refreshToken';
-
-const onRequest = (config: InternalAxiosRequestConfig) => {
-  const { method, url } = config;
-
-  console.log(`${method} - ${url}`);
-  console.log('config', config);
-
-  const accessToken = getCookie({ name: 'token' }) ?? '토큰을 찾을 수 없습니다.';
-  config.headers.Authorization = `Bearer ${accessToken}`;
-  return config;
-};
 
 const onFulfilled = (res: AxiosResponse) => {
   const { method, url } = res.config;
@@ -52,5 +40,4 @@ const onRejected = async (error: AxiosError | Error) => {
   return Promise.reject(error);
 };
 
-axiosInstance.interceptors.request.use(onRequest);
 axiosInstance.interceptors.response.use(onFulfilled, onRejected);
