@@ -16,6 +16,7 @@ import carousel2 from '@/assets/images/test-carousel2.jpg';
 const cx = classNames.bind(styles);
 
 export default function ProductDetailPage() {
+  const descriptionImages = [carousel1.src, carousel2.src];
   const productInfo = {
     productImages: [
       { src: carousel1.src, alt: 'ProductImage1' },
@@ -65,7 +66,7 @@ export default function ProductDetailPage() {
         />
         {/* 공동구매 & 
       리뷰 */}
-        <DetailedDescription />
+        <DetailedDescription descriptionImages={descriptionImages} />
         <SimilarProducts />
         <OrderPolicy />
       </div>
