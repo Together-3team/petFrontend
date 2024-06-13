@@ -29,6 +29,7 @@ export default function GoogleCallback() {
           value: accessToken,
           option: {
             path: '/',
+            HttpOnly: true,
           },
         });
         console.log(accessToken);

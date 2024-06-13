@@ -29,6 +29,7 @@ export default function KakaoCallback() {
           value: accessToken,
           option: {
             path: '/',
+            HttpOnly: true,
           },
         });
         console.log(accessToken);
