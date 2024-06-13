@@ -73,7 +73,18 @@ export default function Cart() {
     }
   }, [productsData]);
 
-  // 상품 삭제
+  // 상품 전체 삭제
+  async function handleDeleteAllProducts() {
+    try {
+      await httpClient().delete(`/selected-products/orders`);
+      console.log(`Products all deleted successfully`);
+      setProducts([]);
+    } catch (error) {
+      console.error(`Failed to delete: `, error);
+    }
+  }
+
+  // 상품 선택 삭제
   async function deleteProduct(id: number) {
     try {
       await httpClient().delete(`/selected-products/${id}`);
@@ -186,7 +197,7 @@ export default function Cart() {
                 />
                 <div className={styles.totalNumber}>전체 {products.length}개</div>
               </div>
-              <FontAwesomeIcon icon={faTrash} className={styles.faTrash} />
+              <FontAwesomeIcon icon={faTrash} className={styles.faTrash} onClick={handleDeleteAllProducts} />
             </div>
             {products.map((product, index) => (
               <Card
