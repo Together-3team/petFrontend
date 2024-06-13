@@ -29,7 +29,7 @@ export default function GoogleCallback() {
           value: accessToken,
           option: {
             path: '/',
-            HttpOnly: true,
+            httpOnly: true,
           },
         });
         console.log(accessToken);
@@ -49,27 +49,6 @@ export default function GoogleCallback() {
   useEffect(() => {
     mutation.mutate();
   }, [code]);
-
-  // useEffect(() => {
-  //   const fetchGoogleCallback = async () => {
-  //     try {
-  //       if (code) {
-  //         const response = await axiosInstance.get(`${API_BASE_URL}/auth/google/callback?code=${code}`);
-  //         console.log(response.data);
-  //         if (response.data.registered === true) {
-  //           const { accessToken } = response.data;
-  //           saveTokenToCookie(accessToken as string);
-  //           router.push('/');
-  //         } else {
-  //           router.push('/signup');
-  //         }
-  //       }
-  //     } catch (error) {
-  //       console.error('Callback fetching failed.', error);
-  //     }
-  //   };
-  //   fetchGoogleCallback();
-  // }, [code]);
 
   return <div></div>;
 }

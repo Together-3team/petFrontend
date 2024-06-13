@@ -19,7 +19,7 @@ export default function KakaoCallback() {
   const queryClient = useQueryClient();
   const mutation = useMutation<KakaoAuthResponse, Error, void>({
     mutationFn: GetKakaoAuth,
-    onSuccess: (data: any) => {
+    onSuccess: (data: KakaoAuthResponse) => {
       queryClient.invalidateQueries({ queryKey: ['kakaoAuth'] });
       console.log(data);
       if (data.registered === true && code) {
@@ -29,7 +29,7 @@ export default function KakaoCallback() {
           value: accessToken,
           option: {
             path: '/',
-            HttpOnly: true,
+            httpOnly: true,
           },
         });
         console.log(accessToken);
