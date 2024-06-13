@@ -1,0 +1,40 @@
+.reviewPageLayout {
+  padding: 2rem 1.6rem;
+}
+
+.reviewPageHeader {
+  display: flex;
+  height: 4.8rem;
+  padding: 0.8rem 0;
+  justify-content: center;
+  align-items: center;
+  gap: 0.8rem;
+  align-self: stretch;
+}
+
+.pageTitle {
+  @include font-headline3;
+
+  color: $color-black;
+}
+
+.totalReview {
+  @include font-headline3;
+
+  color: $color-gray-400;
+}
+
+.reviewBoxStyle {
+  padding: 1.6rem 0;
+  border-top: 0.1rem solid $color-gray-200;
+}
+
+.ratingBoxStyle {
+  margin: 2rem 0 0.8rem;
+}
+
+.dropdown {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1.6rem;
+}

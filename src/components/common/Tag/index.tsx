@@ -8,16 +8,17 @@ import styles from './Tag.module.scss';
 type TagProps = {
   children: React.ReactNode;
   color?: string;
-  size: 'small' | 'big';
+  size: 'small' | 'medium' | 'big';
   type?: 'stock' | 'thumbsUp';
+  className?: string;
 };
 
 const cx = classNames.bind(styles);
 
-function Tag({ children, color, size, type }: TagProps) {
+function Tag({ children, color, size, type, className }: TagProps) {
   return (
     <div
-      className={cx('tag')}
+      className={cx('tag', className)}
       data-size={size}
       data-type={type}
       style={{

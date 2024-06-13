@@ -5,6 +5,28 @@
   justify-content: center;
 }
 
+.sectionTitleBox {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.sectionTitle {
+  @include font-headline2;
+
+  color: $color-black;
+}
+
+.totalReview {
+  @include font-headline2;
+
+  color: $color-gray-400;
+}
+
+.ratingBoxStyle {
+  margin: 2.8rem 0;
+}
+
 .reviewBoxStyle {
   padding: 1.6rem 0;
   border-top: 0.1rem solid $color-gray-200;
@@ -25,12 +47,6 @@
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-}
-
-.review {
-  @include font-headline2;
-
-  color: $color-black;
 }
 
 .noReview {
