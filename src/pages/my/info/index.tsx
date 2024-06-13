@@ -6,7 +6,7 @@ import useModal from '@/hooks/useModal';
 import Header from '@/components/common/Layout/Header';
 import Input from '@/components/common/Input';
 import Button from '@/components/common/Button';
-import BackButton from '@/components/common/BackButton';
+import BackButton from '@/components/common/Button/BackButton';
 import BottomShareModal from '@/components/common/Modal/BottomShareModal';
 import Sample from '@/assets/exampleProductImg.jpg';
 import ImageBox from '@/components/common/ImageBox';

@@ -14,6 +14,7 @@ interface CardProps {
   imageUrl: string | StaticImageData;
   onCheck: () => void;
   onQuantityChange: (newQuantity: number) => void;
+  onRemove: () => void;
 }
 
 export default function Card({
@@ -26,6 +27,7 @@ export default function Card({
   imageUrl,
   onCheck,
   onQuantityChange,
+  onRemove,
 }: CardProps) {
   // 추후 백에서 장바구니에 담은 제품 갯수로 초기화하는 로직 추가
   const [productNumber, setProductNumber] = useState(initialProductNumber);
@@ -44,6 +46,7 @@ export default function Card({
     onQuantityChange(newQuantity);
   }
 
+  console.log(imageUrl);
   return (
     <>
       <div className={styles.oneCheckbox}>
@@ -55,10 +58,10 @@ export default function Card({
             className={styles.checkbox}
             onChange={onCheck}
           />
-          <FontAwesomeIcon icon={faXmark} />
+          <FontAwesomeIcon icon={faXmark} onClick={onRemove} />
         </div>
         <div className={styles.productExplain}>
-          <Image className={styles.productImg} width={56} height={56} src={imageUrl} alt="productImg" />
+          <Image className={styles.productImg} src={imageUrl} width={56} height={56} alt="productImg" />
           <div>
             <div className={styles.productTitle}>{productTitle}</div>
             <div className={styles.option}>{option}</div>

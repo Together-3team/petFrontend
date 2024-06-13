@@ -3,6 +3,7 @@ import classNames from 'classnames/bind';
 
 import styles from './RootLayout.module.scss';
 import LogoIcon from '@/assets/svgs/heart.svg';
+import { PORTAL_ID } from '@/constants/portal';
 
 const cx = classNames.bind(styles);
 
@@ -27,7 +28,8 @@ export default function RootLayout({ children }: PropsWithChildren) {
       <div className={cx('main')}>
         <div className={cx('appBackground')} />
         <div className={cx('contents')}>{children}</div>
-        <div id="rootModal"></div>
+        <div id={PORTAL_ID.TOAST} className={styles.rootToast}></div>
+        <div id={PORTAL_ID.MODAL}></div>
       </div>
     </div>
   );

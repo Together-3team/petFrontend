@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  images: {
+    domains: ['shopping-phinf.pstatic.net'],
+  },
   sassOptions: {
     includePaths: ['styles'],
     additionalData: `@import "src/styles/globals.scss";`,
