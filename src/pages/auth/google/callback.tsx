@@ -19,7 +19,7 @@ export default function GoogleCallback() {
   const queryClient = useQueryClient();
   const mutation = useMutation<GoogleAuthResponse, Error, void>({
     mutationFn: GetGoogleAuth,
-    onSuccess: (data: any) => {
+    onSuccess: (data: GoogleAuthResponse) => {
       queryClient.invalidateQueries({ queryKey: ['googleAuth'] });
       console.log(data);
       if (data.registered === true && code) {
@@ -41,8 +41,8 @@ export default function GoogleCallback() {
         });
       }
     },
-    onError: (error: any) => {
-      console.log('토큰을 확인할 수 없습니다.', error);
+    onError: (error: unknown) => {
+      console.log(error);
     },
   } as unknown as UseMutationOptions<GoogleAuthResponse, Error, void>);
 

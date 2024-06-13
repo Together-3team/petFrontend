@@ -22,7 +22,7 @@ export default function SignupForm() {
   const router = useRouter();
   const { email, profileToken } = router.query;
   const queryClient = useQueryClient();
-  console.log(profileToken);
+
   const mutation = useMutation<void, Error, FormValues>({
     mutationFn: async (data: FormValues) => {
       await authAPI.postRegisterData({ ...data, profileToken });
@@ -48,7 +48,7 @@ export default function SignupForm() {
     console.log(data), mutation.mutate(data);
   };
   console.log(errors);
-  //TODO: 폼 필수요소 미입력 시 버튼 disable
+
   return (
     <FormProvider {...methods}>
       <form className={cx('signupForm')} onSubmit={handleSubmit(onSubmit)}>
@@ -71,7 +71,7 @@ export default function SignupForm() {
               label="닉네임"
               isError={errors.nickname && true}
               labelStyle={'label'}
-              placeholder=""
+              placeholder="2~8자의 한글, 영어, 숫자를 입력해주세요"
               {...register('nickname')}
             />
             {errors.nickname && <span className={cx('errorText')}>{errors.nickname.message}</span>}
@@ -84,7 +84,7 @@ export default function SignupForm() {
               label="연락처"
               isError={errors.phoneNumber && true}
               labelStyle={'label'}
-              placeholder="000-0000-0000"
+              placeholder="000-0000-0000 형식으로 입력해주세요"
               {...register('phoneNumber')}
             />
             {errors.phoneNumber && <span className={cx('errorText')}>{errors.phoneNumber.message}</span>}

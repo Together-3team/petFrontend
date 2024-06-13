@@ -41,7 +41,7 @@ export default function KakaoCallback() {
         });
       }
     },
-    onError: (error: any) => {
+    onError: (error: unknown) => {
       console.log('토큰을 확인할 수 없습니다.', error);
     },
   } as unknown as UseMutationOptions<KakaoAuthResponse, Error, void>);

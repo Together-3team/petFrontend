@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
-import GoogleLogo from '@/assets/svgs/google-logo.svg';
 import { API_BASE_URL } from '@/constants';
+import GoogleLogo from '@/assets/svgs/google-logo.svg';
 import styles from './Login.module.scss';
 
 const cx = classNames.bind(styles);
