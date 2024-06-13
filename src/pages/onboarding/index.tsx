@@ -9,7 +9,7 @@ export default function Onboarding() {
   const methods = useForm();
   const { register, handleSubmit } = methods;
   const onSubmit: SubmitHandler<FieldValues> = data => console.log(data);
-  console.log(onSubmit);
+
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)}>

@@ -24,8 +24,12 @@ export default function GoogleCallback() {
       console.log(data);
       if (data.registered === true && code) {
         const { accessToken } = data;
-        setCookie('token', accessToken, {
-          path: '/',
+        setCookie({
+          name: 'token',
+          value: accessToken,
+          option: {
+            path: '/',
+          },
         });
         console.log(accessToken);
         router.push('/');

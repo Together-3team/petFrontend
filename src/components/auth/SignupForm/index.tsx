@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/router';
 import { useForm, FormProvider } from 'react-hook-form';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import * as Yup from 'yup';
@@ -12,7 +13,6 @@ import UserAgreement from './UserAgreement';
 import authAPI from '@/apis/authAPI';
 
 import styles from './SignupForm.module.scss';
-import { useRouter } from 'next/router';
 
 const cx = classNames.bind(styles);
 
