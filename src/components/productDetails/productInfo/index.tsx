@@ -36,7 +36,7 @@ export default function ProductInfo({
   const discountRate = Math.ceil((1 - price / originalPrice) * 100);
   const futureDate = getFutureDate(3);
   return (
-    <>
+    <div className={cx('contents')}>
       <div className={cx('imageContainer')}>
         <ProductCarousel items={productImages} />
       </div>
@@ -67,6 +67,6 @@ export default function ProductInfo({
           지금 주문하면 {futureDate} 전 도착 예정
         </div>
       </div>
-    </>
+    </div>
   );
 }

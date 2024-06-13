@@ -54,19 +54,21 @@ export default function ProductDetailPage() {
           </Header.Right>
         </Header.Box>
       </Header.Root>
-      <ProductInfo
-        productImages={productInfo.productImages}
-        title={productInfo.title}
-        originalPrice={productInfo.originalPrice}
-        price={productInfo.price}
-        reviewRating={productInfo.reviewRating}
-        reviewCount={productInfo.reviewCount}
-      />
-      {/* 공동구매 & 
+      <div className={cx('contents')}>
+        <ProductInfo
+          productImages={productInfo.productImages}
+          title={productInfo.title}
+          originalPrice={productInfo.originalPrice}
+          price={productInfo.price}
+          reviewRating={productInfo.reviewRating}
+          reviewCount={productInfo.reviewCount}
+        />
+        {/* 공동구매 & 
       리뷰 */}
-      <DetailedDescription />
-      <SimilarProducts />
-      <OrderPolicy />
+        <DetailedDescription />
+        <SimilarProducts />
+        <OrderPolicy />
+      </div>
     </>
   );
 }
