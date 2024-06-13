@@ -46,6 +46,7 @@ export default function Card({
     onQuantityChange(newQuantity);
   }
 
+  console.log(imageUrl);
   return (
     <>
       <div className={styles.oneCheckbox}>
@@ -60,7 +61,7 @@ export default function Card({
           <FontAwesomeIcon icon={faXmark} onClick={onRemove} />
         </div>
         <div className={styles.productExplain}>
-          <Image className={styles.productImg} width={56} height={56} src={imageUrl} alt="productImg" />
+          <Image className={styles.productImg} src={imageUrl} width={56} height={56} alt="productImg" />
           <div>
             <div className={styles.productTitle}>{productTitle}</div>
             <div className={styles.option}>{option}</div>

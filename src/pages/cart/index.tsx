@@ -4,7 +4,6 @@ import Card from '@/components/cart/Card';
 import TotalPay from '@/components/cart/TotalPay';
 import Button from '@/components/common/Button';
 import FloatingBox from '@/components/common/Layout/Footer/FloatingBox';
-import exampleProductImg from '@/assets/exampleProductImg.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { httpClient } from '@/apis/httpClient';
@@ -36,10 +35,10 @@ export default function Cart() {
             id: number;
             optionCombination: {
               product: {
-                originalCost: number;
+                originalPrice: number;
                 price: number;
                 title: string;
-                thumNailImage: string;
+                thumbNailImage: string;
               };
               optionCombination: string;
               combinationName: string;
@@ -55,9 +54,9 @@ export default function Cart() {
           productTitle: item.optionCombination.product.title,
           option: item.optionCombination.optionCombination,
           productCost: item.optionCombination.product.price,
-          originalCost: item.optionCombination.product.originalCost,
+          originalCost: item.optionCombination.product.originalPrice,
           productNumber: item.quantity,
-          imageUrl: item.optionCombination.product.thumNailImage,
+          imageUrl: item.optionCombination.product.thumbNailImage,
           isChecked: true,
         }));
       } catch (error) {
@@ -66,6 +65,12 @@ export default function Cart() {
       }
     },
   });
+
+  useEffect(() => {
+    if (productsData) {
+      setProducts(productsData);
+    }
+  }, [productsData]);
 
   // selectAll 상태 반전
   function handleSelectAll() {
