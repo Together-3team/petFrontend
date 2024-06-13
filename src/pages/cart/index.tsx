@@ -79,6 +79,7 @@ export default function Cart() {
       await httpClient().delete(`/selected-products/orders`);
       console.log(`Products all deleted successfully`);
       setProducts([]);
+      refetchProducts();
     } catch (error) {
       console.error(`Failed to delete: `, error);
     }
