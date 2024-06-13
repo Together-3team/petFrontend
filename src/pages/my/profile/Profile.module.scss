@@ -1,15 +1,65 @@
 @layer overrides {
-  .onboarding {
+  .profileLayout {
     display: flex;
+    width: 100%;
+    padding: 2rem 1.6rem 4rem;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    padding: 16rem 4.8rem 14.4rem;
+    gap: 2.4rem;
   }
 
-  .petChoiceText {
-    @include font-headline2;
+  .profileLayout h1 {
+    @include font-headline3;
     text-align: center;
-    margin-bottom: 5.6rem;
+  }
+
+  .profileImageBox {
+    display: flex;
+    padding: 2.4rem var(--selectpayment, 0) var(--min-24, 3.2rem) var(--selectpayment, 0);
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .profileImage {
+    position: relative;
+    display: flex;
+    width: 6.4rem;
+    height: 6.4rem;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .plusButton {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
+
+  .profileForm {
+    display: flex;
+    flex-direction: column;
+    gap: 34.8rem;
+  }
+
+  .formField {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .errorText {
+    @include font-caption1;
+    color: $color-pink-main;
+    align-self: stretch;
+  }
+
+  .petChoiceLabel {
+    @include font-headline3;
+
+    margin-top: 1.2rem;
+    margin-bottom: 0.4rem;
   }
 
   .petChoice {
@@ -30,7 +80,7 @@
 
   .petChoiceButton {
     display: flex;
-    width: 12rem;
+    width: 15.4rem;
     height: 4rem;
     padding: 0rem 0.8rem 0rem 1.6rem;
     align-items: center;
@@ -51,8 +101,7 @@
   .checkIcon {
     width: 2rem;
     height: 2rem;
-    margin-left: 0.6rem;
-    background: url('../../assets/images/gray-check.png');
+    background: url('../../../assets/images/gray-check.png');
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -61,37 +110,13 @@
   .checkboxInput:checked + .petChoiceButton .checkIcon {
     width: 3.2rem;
     height: 3.2rem;
-    background: url('../../assets/images/pink-check.png');
+    background: url('../../../assets/images/pink-check.png');
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
   }
 
-  .laterChoice {
-    @include laterText;
-  }
-
-  .buttonArea {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2.6rem;
-    padding-top: 10.4rem;
-  }
-
   .buttonText {
-    width: 5.6rem;
-  }
-
-  .welcomePage {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4.8rem;
-    margin: 21.6rem auto 28.8rem;
-  }
-
-  .welcomeTitle {
-    @include font-headline2;
+    width: 9.4rem;
   }
 }
