@@ -1,13 +1,20 @@
-import BackButton from '@/components/common/Button/BackButton';
-import Header from '@/components/common/Layout/Header';
-import styles from './WritePage.module.scss';
+import { ChangeEvent, useState } from 'react';
 import Image from 'next/image';
-import testImage from '@/assets/images/rectangle.png';
+import Header from '@/components/common/Layout/Header';
+import BackButton from '@/components/common/Button/BackButton';
 import StarRating from '@/components/common/review/StarRating';
 import Textarea from '@/components/common/review/Textarea';
-import Button from '@/components/common/Button';
+import testImage from '@/assets/images/rectangle.png';
+import styles from './WritePage.module.scss';
 
 export default function WritePage() {
+  const [rating, setRating] = useState(0);
+  const [description, setDescriprion] = useState('');
+
+  const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    setDescriprion(event.target.value);
+  };
+
   return (
     <div className={styles.writePageLayout}>
       <Header.Root>
@@ -28,13 +35,18 @@ export default function WritePage() {
         </div>
         <div className={styles.ratingBox}>
           <p className={styles.ratingQuestion}>전반적으로 어떠셨나요?</p>
-          <StarRating editable rating={5} />
+          <StarRating editable rating={rating} onRate={setRating} />
         </div>
         <div className={styles.textareaBox}>
           <p className={styles.descriptionQuestion}>
             구체적으로 어떤 점이 좋았는지, 또는 어떤 점이 아쉬웠는지 작성해 주세요.
           </p>
-          <Textarea className={styles.textareaStyle} placeholder={'리뷰를 작성해 주세요.'} />
+          <Textarea
+            className={styles.textareaStyle}
+            placeholder={'리뷰를 작성해 주세요.'}
+            value={description}
+            onChange={handleChange}
+          />
         </div>
         <button className={styles.reviewSaveBtn}>저장</button>
       </div>
