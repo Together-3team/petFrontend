@@ -8,8 +8,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { httpClient } from '@/apis/httpClient';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { fetchCartProducts } from '@/apis/cartApi';
 
-interface Product {
+export interface Product {
   id: number;
   productTitle: string;
   option: string;
@@ -23,48 +24,11 @@ interface Product {
 export default function Cart() {
   const [products, setProducts] = useState<Product[]>([]);
   const [selectAll, setSelectAll] = useState(true); // 전체 체크 상태
-
   const queryClient = useQueryClient();
 
-  // 상품 데이터 GET
   const { data: productsData, refetch: refetchProducts } = useQuery({
-    queryKey: ['products'],
-    queryFn: async () => {
-      try {
-        const response = await httpClient().get<
-          {
-            id: number;
-            optionCombination: {
-              product: {
-                originalPrice: number;
-                price: number;
-                title: string;
-                thumbNailImage: string;
-              };
-              optionCombination: string;
-              combinationName: string;
-              combinationPrice: number;
-              stock: number;
-            };
-            quantity: number;
-          }[]
-        >('/selected-products/carts');
-        console.log(response);
-        return response.map(item => ({
-          id: item.id,
-          productTitle: item.optionCombination.product.title,
-          option: item.optionCombination.optionCombination,
-          productCost: item.optionCombination.product.price,
-          originalCost: item.optionCombination.product.originalPrice,
-          productNumber: item.quantity,
-          imageUrl: item.optionCombination.product.thumbNailImage,
-          isChecked: true,
-        }));
-      } catch (error) {
-        console.error('Failed to fetch products:', error);
-        throw error;
-      }
-    },
+    queryKey: ['cart'],
+    queryFn: fetchCartProducts,
   });
 
   useEffect(() => {
@@ -79,7 +43,6 @@ export default function Cart() {
       await httpClient().delete(`/selected-products/orders`);
       console.log(`Products all deleted successfully`);
       setProducts([]);
-      refetchProducts();
     } catch (error) {
       console.error(`Failed to delete: `, error);
     }
@@ -95,6 +58,7 @@ export default function Cart() {
       console.error(`Failed to delete product with ID ${id}: `, error);
     }
   }
+
   // selectAll 상태 반전
   function handleSelectAll() {
     setSelectAll(!selectAll);
@@ -134,7 +98,10 @@ export default function Cart() {
     },
     onSuccess: () => {
       // 성공적으로 업데이트되면 해당 쿼리를 다시 불러옴
-      (queryClient as any).invalidateQueries('products');
+      (queryClient as any).invalidateQueries('cart');
+    },
+    onError: (error, variables, context) => {
+      console.error('Mutation error: ', error);
     },
   });
 
