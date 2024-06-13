@@ -23,4 +23,13 @@ export const phoneNumberSchema = Yup.object({
     .required('연락처를 입력해주세요'),
 }).required();
 
+export const nicknameSchema = Yup.object({
+  nickname: Yup.string()
+    .trim()
+    .matches(/^[가-힣a-zA-Z0-9]+$/, '2~8자의 한글, 영어, 숫자만 가능합니다.')
+    .min(2, '2~8자의 한글, 영어, 숫자만 가능합니다.')
+    .max(8, '2~8자의 한글, 영어, 숫자만 가능합니다.')
+    .required('닉네임을 입력해주세요.'),
+});
+
 export default signupFormSchema;
