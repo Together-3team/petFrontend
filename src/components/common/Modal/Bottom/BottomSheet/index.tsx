@@ -7,6 +7,74 @@ import Header from '@/components/common/Modal/Bottom/BottomSheet/Header';
 import useOutsideClick from '@/hooks/useOutsideClick';
 import useBottomSheet from '@/hooks/useBottomSheet';
 
+// 사용 예시 (토스트와 함께 사용할 때)
+// const BOTTOM_SHEET_ID = 'bottomSheetId';
+
+// export default function BottomSheetPage() {
+//   const { onDragEnd, controls, isOpen, openHandler, closeHandler } = useBottomSheet();
+//   const { showToast, setPortalId } = useToast();
+
+//   return (
+//     <>
+//       <button
+//         onClick={() => {
+//           setPortalId(BOTTOM_SHEET_ID);
+//           openHandler();
+//         }}>
+//         모달 열기
+//       </button>
+//       <button
+//         type="button"
+//         onClick={() => {
+//           showToast({
+//             status: 'success',
+//             message: '토스트 입니다.',
+//           });
+//         }}>
+//         토스트
+//       </button>
+//       <BottomSheet
+//         id={BOTTOM_SHEET_ID}
+//         onDragEnd={onDragEnd}
+//         controls={controls}
+//         isOpen={isOpen}
+//         onClose={() => {
+//           setPortalId();
+//           closeHandler();
+//         }}>
+//         <button onClick={() => closeHandler()}>최신순</button>
+//         <span>Content</span>
+//       </BottomSheet>
+//     </>
+//   );
+// }
+
+// 사용 예시 (그냥 쓸 때)
+// export default function BottomSheetPage() {
+//   const { onDragEnd, controls, isOpen, openHandler, closeHandler } = useBottomSheet();
+
+//   return (
+//     <>
+//       <button
+//         onClick={() => {
+//           openHandler();
+//         }}>
+//         모달 열기
+//       </button>
+//       <BottomSheet
+//         id={BOTTOM_SHEET_ID}
+//         onDragEnd={onDragEnd}
+//         controls={controls}
+//         isOpen={isOpen}
+//         onClose={() => {
+//           closeHandler();
+//         }}>
+//         <button onClick={() => closeHandler()}>최신순</button>
+//         <span>Content</span>
+//       </BottomSheet>
+//     </>
+//   );
+// }
 const cx = classNames.bind(styles);
 
 interface BottomSheetProps {
