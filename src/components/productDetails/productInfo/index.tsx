@@ -7,6 +7,7 @@ import Tag from '@/components/common/Tag';
 import BannerCarousel from '@/components/common/Carousel/Banner';
 import ProductCarousel from '@/components/common/Carousel/Product';
 import Delivery from '@/assets/svgs/delivery.svg';
+import getFutureDate from '@/utils/getFutureDate';
 
 const cx = classNames.bind(styles);
 
@@ -33,6 +34,7 @@ export default function ProductInfo({
   reviewCount,
 }: ProductInfoProps) {
   const discountRate = Math.ceil((1 - price / originalPrice) * 100);
+  const futureDate = getFutureDate(3);
   return (
     <>
       <div className={cx('imageContainer')}>
@@ -62,7 +64,7 @@ export default function ProductInfo({
         </div>
         <div className={cx('shippingInfo')}>
           <Delivery width={24} height={24} />
-          지금 주문하면 전 도착 예정{' '}
+          지금 주문하면 {futureDate} 전 도착 예정
         </div>
       </div>
     </>
