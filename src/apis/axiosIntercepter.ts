@@ -1,10 +1,6 @@
 import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
-import { getCookie } from 'cookies-next';
+import { getCookie } from '@/utils/cookie';
 import axiosInstance from './axiosInstance';
-
-export const COOKIE_KEY = {
-  TOKEN: 'accessToken',
-};
 
 const onRequest = (config: InternalAxiosRequestConfig) => {
   const { method, url } = config;
@@ -12,7 +8,7 @@ const onRequest = (config: InternalAxiosRequestConfig) => {
   console.log(`${method} - ${url}`);
   console.log('config', config);
 
-  const token = getCookie(COOKIE_KEY.TOKEN) ?? '토큰을 찾을 수 없습니다.';
+  const token = getCookie({ name: 'token' }) ?? '토큰을 찾을 수 없습니다.';
   config.headers.Authorization = `Bearer ${token}`;
   return config;
 };

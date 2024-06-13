@@ -9,17 +9,17 @@ interface CookieProps {
 //토큰을 쿠키에 저장
 const cookies = new Cookies();
 
-export const setCookie = ({ name, value, option }: CookieProps) => {
+export function setCookie({ name, value, option }: CookieProps) {
   return cookies.set(name, value, { ...option });
-};
+}
 
-export const getCookie = ({ name }: CookieProps) => {
+export function getCookie({ name }: CookieProps) {
   return cookies.get(name);
-};
+}
 
-export const removeCookie = ({ name, option }: CookieProps) => {
+export function removeCookie({ name, option }: CookieProps) {
   return cookies.remove(name, { ...option });
-};
+}
 
 // auth flow
 // 1. 구글 인증하고 registered: false면
