@@ -103,7 +103,7 @@ export default function Cart() {
     mutationFn: async ({ id, newQuantity }: { id: number; newQuantity: number }) => {
       try {
         // 서버에 수량 업데이트 요청
-        await httpClient().put(`/selected-products/carts/${id}`, { quantity: newQuantity });
+        await httpClient().put(`/selected-products/${id}`, { quantity: newQuantity });
       } catch (error) {
         console.error('Failed to update product quantity:', error);
         throw error;
