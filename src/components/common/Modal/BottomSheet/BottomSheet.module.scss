@@ -1,0 +1,48 @@
+.test {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.container {
+  // position: relative;
+  // width: 100%;
+
+  position: fixed;
+  width: 100%;
+  max-width: $size-mobile-max;
+  bottom: -1000px;
+  z-index: $z-index-modal;
+}
+
+.wrapper {
+  width: 100%;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  background-color: white;
+  border-radius: 20px 20px var(--selectpayment, 0px) var(--selectpayment, 0px);
+  box-shadow: 0px -4px 30px 0px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  overflow: auto;
+}
+
+.headerWrapper {
+  height: 48px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  position: relative;
+  padding-top: 16px;
+  padding-bottom: 4px;
+  cursor: pointer;
+}
+
+.handleBar {
+  width: 68px;
+  height: 4px;
+  border-radius: 2px;
+  background-color: #373c49;
+  margin: auto;
+}
+
+.contentWrapper {
+  padding: 10px;
+}
