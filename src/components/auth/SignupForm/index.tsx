@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/router';
 import { useForm, FormProvider } from 'react-hook-form';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import classNames from 'classnames/bind';
@@ -10,7 +10,7 @@ import signupFormSchema from '@/utils/signupFormSchema';
 import Input from '@/components/common/Input';
 import Button from '@/components/common/Button';
 import UserAgreement from './UserAgreement';
-import authApi from '@/apis/authApi';
+import authApi from '@/apis/authAPI';
 
 import styles from './SignupForm.module.scss';
 

@@ -1,6 +1,19 @@
 import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import axiosInstance from './axiosInstance';
-import refreshToken from './refreshToken';
+import useRefreshToken from '../hooks/useRefreshToken';
+import useAccessToken from '@/hooks/useAccessToken';
+
+const onRequest = (config: InternalAxiosRequestConfig) => {
+  const { method, url } = config;
+  console.log('config', config);
+  console.log(`${method} - ${url}`);
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const accessToken = useAccessToken();
+  const token = accessToken ?? '쿠키를 찾을 수 없습니다.';
+  config.headers.Authorization = `Bearer ${token}`;
+  return config;
+};
 
 const onFulfilled = (res: AxiosResponse) => {
   const { method, url } = res.config;
@@ -15,6 +28,8 @@ const onFulfilled = (res: AxiosResponse) => {
 };
 
 const onRejected = async (error: AxiosError | Error) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const refreshToken = useRefreshToken();
   if (axios.isAxiosError(error) && error.config) {
     const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
     const { method, url } = error.config;
@@ -40,4 +55,5 @@ const onRejected = async (error: AxiosError | Error) => {
   return Promise.reject(error);
 };
 
+axiosInstance.interceptors.request.use(onRequest);
 axiosInstance.interceptors.response.use(onFulfilled, onRejected);

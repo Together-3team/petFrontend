@@ -2,7 +2,7 @@ import ProfileImgBadge from '@/components/common/Badge/ProfileImgBadge';
 import NextButton from '@/components/common/Button/NextButton';
 import NavBottom from '@/components/common/Nav/Bottom';
 
-import styles from './My.module.scss';
+import styles from './Menu.module.scss';
 //TODO: 인증 후 my>index.txs에 합치기
 export default function Menu() {
   return (

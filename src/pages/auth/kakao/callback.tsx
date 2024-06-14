@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { UseMutationOptions, useMutation, useQueryClient } from '@tanstack/react-query';
-import { KakaoAuthResponse } from '@/apis/authApi';
-import { setCookie } from '@/utils/cookie';
+import { KakaoAuthResponse } from '@/apis/authAPI';
+import { useCookies } from 'react-cookie';
 import axiosInstance from '@/apis/axiosInstance';
 import { API_BASE_URL } from '@/constants';
 
@@ -10,6 +10,7 @@ const code = typeof window !== 'undefined' && new URL(window.location.toString()
 
 export default function KakaoCallback() {
   const router = useRouter();
+  const [cookies, setCookie, removeCookies] = useCookies(['accessToken']);
 
   async function GetKakaoAuth(): Promise<KakaoAuthResponse> {
     const response = await axiosInstance.get(`${API_BASE_URL}/auth/kakao/callback?code=${code}`);
@@ -24,13 +25,8 @@ export default function KakaoCallback() {
       console.log(data);
       if (data.registered === true && code) {
         const { accessToken } = data;
-        setCookie({
-          name: 'token',
-          value: accessToken,
-          option: {
-            path: '/',
-            httpOnly: true,
-          },
+        setCookie('accessToken', accessToken, {
+          path: '/',
         });
         console.log(accessToken);
         router.push('/');

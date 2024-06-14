@@ -1,7 +1,8 @@
 import { httpClient } from './httpClient';
+import axiosInstance from './axiosInstance';
 
 export interface UserResponse {
-  id: number;
+  id?: number;
   nickname: string;
   email: string;
   phoneNumber: string;
@@ -10,13 +11,24 @@ export interface UserResponse {
   isSubscribedToPromotions: boolean;
 }
 
-export async function fetchMyData(): Promise<UserResponse> {
+export async function fetchMyData() {
   try {
-    const response = await httpClient().get<{ data: UserResponse }>('/users/me');
-    console.log(response.data);
+    const response = await axiosInstance.get('/users/me');
+    console.log(response);
     return response.data;
   } catch (error) {
     console.error('Failed to fetch data:', error);
     throw error;
   }
 }
+
+// export async function fetchMyData(): Promise<UserResponse> {
+//   try {
+//     const response = await httpClient().get<{ data: UserResponse }>('/users/me');
+//     console.log(response.data);
+//     return response.data;
+//   } catch (error) {
+//     console.error('Failed to fetch data:', error);
+//     throw error;
+//   }
+// }

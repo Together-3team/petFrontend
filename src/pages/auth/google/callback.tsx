@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { UseMutationOptions, useMutation, useQueryClient } from '@tanstack/react-query';
-import { GoogleAuthResponse } from '@/apis/authApi';
-import { setCookie } from '@/utils/cookie';
+import { GoogleAuthResponse } from '@/apis/authAPI';
+import { useCookies } from 'react-cookie';
 import axiosInstance from '@/apis/axiosInstance';
 import { API_BASE_URL } from '@/constants';
 
@@ -10,6 +10,7 @@ const code = typeof window !== 'undefined' && new URL(window.location.toString()
 
 export default function GoogleCallback() {
   const router = useRouter();
+  const [cookies, setCookie, removeCookies] = useCookies(['accessToken']);
 
   async function GetGoogleAuth(): Promise<GoogleAuthResponse> {
     const response = await axiosInstance.get(`${API_BASE_URL}/auth/google/callback?code=${code}`);
@@ -24,13 +25,8 @@ export default function GoogleCallback() {
       console.log(data);
       if (data.registered === true && code) {
         const { accessToken } = data;
-        setCookie({
-          name: 'token',
-          value: accessToken,
-          option: {
-            path: '/',
-            httpOnly: true,
-          },
+        setCookie('accessToken', accessToken, {
+          path: '/',
         });
         console.log(accessToken);
         router.push('/');
