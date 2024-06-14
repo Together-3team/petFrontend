@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { UseMutationOptions, useMutation, useQueryClient } from '@tanstack/react-query';
-import { GoogleAuthResponse } from '@/apis/authApi';
+import { GoogleAuthResponse } from '@/apis/authApi-temp';
 import { useCookies } from 'react-cookie';
 import authAxiosInstance from '@/apis/authAxiosInstance';
 import { API_BASE_URL } from '@/constants';
