@@ -10,7 +10,12 @@
   gap: 0.4rem;
   padding: 0.35rem;
 
-  &[data-size='big'] {
+  &[data-size='extraLarge'] {
+    font-size: 1.2rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  &[data-size='large'] {
     font-size: 1rem;
     padding: 0.35rem 0.5rem;
   }
