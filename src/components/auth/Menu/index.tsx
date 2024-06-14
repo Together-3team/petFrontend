@@ -5,6 +5,7 @@ import { useCookies } from 'react-cookie';
 
 import styles from './Menu.module.scss';
 import { useRouter } from 'next/router';
+import FloatingBox from '@/components/common/Layout/Footer/FloatingBox';
 
 export default function Menu() {
   const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken']);
@@ -25,7 +26,7 @@ export default function Menu() {
       <div className={styles.centerBorder} />
       <div className={styles.menuList}>
         <NextButton href="/my/order">주문내역</NextButton>
-        <NextButton href="/my/info">내 리뷰</NextButton>
+        <NextButton href="">내 리뷰</NextButton>
         <hr />
         <NextButton href="/my/info">회원정보</NextButton>
         <NextButton href="/my/profile">프로필 수정</NextButton>
@@ -35,7 +36,9 @@ export default function Menu() {
           로그아웃
         </NextButton>
       </div>
-      <NavBottom />
+      <FloatingBox id={'bottomBox'}>
+        <NavBottom />
+      </FloatingBox>
     </div>
   );
 }

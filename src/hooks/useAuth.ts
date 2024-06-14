@@ -40,7 +40,6 @@ export default function useAuth() {
 {
   /* 로그인 여부를 유저 정보 여부로 판단하는 커스텀 훅입니다.
 사용 예시
-import {useRouter} from 'next/router';
 import useAuth from "@/hooks/useAuth";
 
 export default function 로그인이 필요한 페이지() {
@@ -49,6 +48,10 @@ const {isLogin} = useAuth();
 
 if(!isLogin) {
   router.push('/my')
+  => 로그인 안 했을 때 실행할 동작
+}
+if(isLogin) {
+  => 로그인 했을 때 실행할 동작
 }
 }
 */
