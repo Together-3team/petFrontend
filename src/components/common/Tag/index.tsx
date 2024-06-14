@@ -9,7 +9,7 @@ type TagProps = {
   children: React.ReactNode;
   color?: string;
   fontColor?: string;
-  size: 'small' | 'medium' | 'big' | 'huge';
+  size: 'small' | 'medium' | 'large' | 'extraLarge';
   type?: 'stock' | 'thumbsUp';
   className?: string;
 };
@@ -17,7 +17,7 @@ type TagProps = {
 const cx = classNames.bind(styles);
 
 function Tag({ children, color = '#000000', fontColor = '#000000', size, type, className }: TagProps) {
-  const iconSize = size === 'huge' ? 13 : size === 'big' ? 8 : 6;
+  const iconSize = size === 'extraLarge' ? 13 : size === 'large' ? 8 : 6;
   return (
     <div
       className={cx('tag', className)}
