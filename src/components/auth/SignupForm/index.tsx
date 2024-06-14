@@ -10,7 +10,7 @@ import signupFormSchema from '@/utils/signupFormSchema';
 import Input from '@/components/common/Input';
 import Button from '@/components/common/Button';
 import UserAgreement from './UserAgreement';
-import authApi from '@/apis/authApi-temp';
+import authApi from '@/apis/authApi';
 
 import styles from './SignupForm.module.scss';
 
