@@ -21,7 +21,7 @@ export function removeCookie({ name, option }: CookieProps) {
   return cookies.remove(name, { ...option });
 }
 
-// 다른 페이지에서 쿠키 사용 방법
+// 다른 페이지에서 쿠키 사용 예시
 // const [cookies] = useCookies()
 // function checkCookie() {
 // if (!cookies) {

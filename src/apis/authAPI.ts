@@ -7,6 +7,7 @@ export interface GoogleAuthResponse {
   email: string;
   profileToken: string;
   accessToken?: string;
+  refreshToken?: string;
 }
 
 export interface KakaoAuthResponse {
@@ -14,6 +15,7 @@ export interface KakaoAuthResponse {
   email: string;
   profileToken: string;
   accessToken?: string;
+  refreshToken?: string;
 }
 
 const authApi = {

@@ -1,10 +1,20 @@
 import ProfileImgBadge from '@/components/common/Badge/ProfileImgBadge';
 import NextButton from '@/components/common/Button/NextButton';
 import NavBottom from '@/components/common/Nav/Bottom';
+import { useCookies } from 'react-cookie';
 
 import styles from './Menu.module.scss';
-//TODO: 인증 후 my>index.txs에 합치기
+import { useRouter } from 'next/router';
+
 export default function Menu() {
+  const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken']);
+  const router = useRouter();
+
+  function handleLogout() {
+    removeCookie('accessToken', { path: '/' });
+    removeCookie('refreshToken', { path: '/' });
+  }
+
   return (
     <div className={styles.menuLayout}>
       <h1>마이페이지</h1>
@@ -14,14 +24,16 @@ export default function Menu() {
       </div>
       <div className={styles.centerBorder} />
       <div className={styles.menuList}>
-        <NextButton href="">주문내역</NextButton>
-        <NextButton href="">내 리뷰</NextButton>
+        <NextButton href="/my/order">주문내역</NextButton>
+        <NextButton href="/my/info">내 리뷰</NextButton>
         <hr />
-        <NextButton href="">회원정보</NextButton>
-        <NextButton href="">프로필 수정</NextButton>
+        <NextButton href="/my/info">회원정보</NextButton>
+        <NextButton href="/my/profile">프로필 수정</NextButton>
         <NextButton href="">배송지 목록</NextButton>
         <hr />
-        <NextButton href="">로그아웃</NextButton>
+        <NextButton href="/" onClick={handleLogout}>
+          로그아웃
+        </NextButton>
       </div>
       <NavBottom />
     </div>

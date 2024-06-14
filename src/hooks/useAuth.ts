@@ -1,9 +1,22 @@
-import { useQuery } from '@tanstack/react-query';
+import { dehydrate, QueryClient, useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { fetchMyData } from '@/apis/userApi';
+import { getCookie } from '@/utils/cookie';
+
+export async function getServerSideProps() {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({ queryKey: ['user'], queryFn: fetchMyData });
+
+  return {
+    dehydratedState: dehydrate(queryClient),
+  };
+}
 
 export default function useAuth() {
   const [isLogin, setIsLogin] = useState(false);
+
+  const cookie = getCookie({ name: 'accessToken' });
 
   const { data: userData } = useQuery({
     queryKey: ['user'],
@@ -11,12 +24,12 @@ export default function useAuth() {
   });
 
   useEffect(() => {
-    if (userData) {
+    if (userData && cookie) {
       setIsLogin(true);
     } else {
       setIsLogin(false);
     }
-  }, [userData]);
+  }, [userData, cookie]);
   console.log(userData);
   return {
     isLogin,

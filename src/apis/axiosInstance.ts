@@ -9,6 +9,7 @@ const axiosInstance = axios.create({
   },
 });
 
+//axiosInterceptor
 const onRequest = (config: InternalAxiosRequestConfig) => {
   const { method, url } = config;
   console.log('config', config);
