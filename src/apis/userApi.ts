@@ -20,7 +20,7 @@ export async function fetchMyData() {
     throw error;
   }
 }
-
+// httpClient 적용 실패...
 // export async function fetchMyData(): Promise<UserResponse> {
 //   try {
 //     const response = await httpClient().get<{ data: UserResponse }>('/users/me');
