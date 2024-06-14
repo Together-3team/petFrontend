@@ -1,12 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import styles from './Cart.module.scss';
 import { useRouter } from 'next/router';
 import Card from '@/components/cart/Card';
 import TotalPay from '@/components/cart/TotalPay';
 import Button from '@/components/common/Button';
+import BackButton from '@/components/common/Button/BackButton';
 import FloatingBox from '@/components/common/Layout/Footer/FloatingBox';
+import useToast from '@/hooks/useToast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { deleteAllProducts, deleteProductById, fetchCartProducts, updateProductQuantity } from '@/apis/cartApi';
 import Header from '@/components/common/Layout/Header';
@@ -23,10 +25,12 @@ export interface Product {
 }
 
 export default function Cart() {
+  const BOTTOM_BOX_ID = 'bottomBox';
   const [products, setProducts] = useState<Product[]>([]);
   const [selectAll, setSelectAll] = useState(true);
   const queryClient = useQueryClient();
   const router = useRouter();
+  const { showToast } = useToast(BOTTOM_BOX_ID);
 
   // 상품 목록 GET
   const { data: productsData, refetch: refetchProducts } = useQuery({
@@ -136,7 +140,19 @@ export default function Cart() {
 
   // 제품 삭제 (선택 삭제)
   function handleProductRemove(id: number) {
-    deleteProduct(id);
+    deleteProduct(id)
+      .then(() => {
+        showToast({
+          status: 'success',
+          message: '상품이 삭제되었습니다',
+        });
+      })
+      .catch(() => {
+        showToast({
+          status: 'error',
+          message: '상품 삭제에 실패했습니다',
+        });
+      });
   }
 
   // 버튼 클릭
@@ -154,7 +170,7 @@ export default function Cart() {
       <Header.Root className={styles.headerRoot}>
         <Header.Box>
           <Header.Left>
-            <FontAwesomeIcon icon={faAngleLeft} onClick={() => router.back()} />
+            <BackButton />
           </Header.Left>
           <Header.Center className={styles.headerName}>장바구니</Header.Center>
         </Header.Box>
@@ -196,7 +212,7 @@ export default function Cart() {
           <div className={styles.noProduct}>아직 담은 상품이 없어요</div>
         )}
       </div>
-      <FloatingBox className={styles.bottomNavCart}>
+      <FloatingBox className={styles.bottomNavCart} id={BOTTOM_BOX_ID}>
         <Button size="large" backgroundColor="$color-pink-main" onClick={handleOrderButtonClick}>
           {totalPrice}원 주문하기
         </Button>
