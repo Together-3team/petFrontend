@@ -150,12 +150,12 @@ export default function Card({ productInfo, isZzim = false, direction = 'column'
         {direction === 'column' && stock > 0 && (
           <div className={cx('tags')} data-size={size}>
             {stock <= 10 && (
-              <Tag size={size === 'big' ? 'big' : 'small'} type="stock" color="#FFF3F3">
+              <Tag size={size === 'big' ? 'large' : 'small'} type="stock" color="#FFF3F3">
                 10개 미만
               </Tag>
             )}
             {reviewCount >= 100 && (
-              <Tag size={size === 'big' ? 'big' : 'small'} type="thumbsUp" color="#E5FAFC">
+              <Tag size={size === 'big' ? 'large' : 'small'} type="thumbsUp" color="#E5FAFC">
                 리뷰 100+
               </Tag>
             )}
