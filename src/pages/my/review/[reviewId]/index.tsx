@@ -7,32 +7,35 @@ import testImage from '@/assets/images/rectangle.png';
 import styles from './ReviewDetailPage.module.scss';
 
 export default function ReviewDetailPage() {
+  const testDescription =
+    '좋아요 너무 좋아요 너무 좋아요 너무 좋아요 너무 좋아요 너무 좋아요 너무 좋아요 너무 좋아요 너무 좋아요 너무 좋아요 너무 좋아요 너무 좋아요 너무 좋아요 너무 좋아요 너무 좋아요 너무 좋아요 너무 좋아요 너무 좋아요 너무 좋아요 너무 좋아요 너무 좋아요 너무 좋아요 너무 좋아요 너무 좋아요 너무 좋아요 너무 좋아요 너무 좋아요 너무 좋아요 너무 좋아요 너무 좋아요 너무 좋아요 너무 좋아요';
+
   return (
-    <div>
+    <div className={styles.reviewDetailPageLayout}>
       <Header.Root>
         <Header.Box>
           <Header.Left>
             <BackButton />
           </Header.Left>
-          <Header.Center>리뷰 상세보기</Header.Center>
+          <Header.Center className={styles.pageTitle}>리뷰 상세보기</Header.Center>
         </Header.Box>
       </Header.Root>
       <div>
-        <div>
-          <Image src={testImage} alt="상품 이미지" />
+        <div className={styles.productDataBox}>
+          <Image className={styles.productImg} src={testImage} alt="상품 이미지" />
           <div className={styles.productData}>
             <p className={styles.productName}>호랑이 간식 27종</p>
             <p className={styles.productOption}>호랑이 독 리얼큐브 소고기 300g | 1개</p>
           </div>
         </div>
-        <div>
-          <div>
+        <div className={styles.ratingAndDate}>
+          <div className={styles.ratingBox}>
             <StarRating rating={5} />
-            <p>5.0</p>
+            <p className={styles.ratingCount}>5.0</p>
           </div>
-          <p>2024.05.04</p>
+          <p className={styles.date}>2024.05.04</p>
         </div>
-        <Textarea disabled />
+        <Textarea className={styles.description} disabled value={testDescription} />
       </div>
     </div>
   );
