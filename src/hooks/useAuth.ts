@@ -21,6 +21,7 @@ export default function useAuth() {
   const { data: userData } = useQuery({
     queryKey: ['user'],
     queryFn: fetchMyData,
+    enabled: !!cookie,
   });
 
   useEffect(() => {

@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import { API_BASE_URL } from '@/constants';
 import { getCookie } from '@/utils/cookie';
+import authAxiosInstance from './authAxiosInstance';
 
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
@@ -16,8 +17,9 @@ const onRequest = (config: InternalAxiosRequestConfig) => {
   console.log(`${method} - ${url}`);
 
   const accessToken = getCookie({ name: 'accessToken' });
-  const token = accessToken ?? '쿠키를 찾을 수 없습니다.';
-  config.headers.Authorization = `Bearer ${token}`;
+  if (accessToken) {
+    config.headers.Authorization = `Bearer ${accessToken}`;
+  }
 
   return config;
 };
@@ -46,9 +48,8 @@ const onRejected = async (error: AxiosError | Error) => {
       if (status === 401 && originalRequest && !originalRequest._retry) {
         originalRequest._retry = true;
         try {
-          const newAccessToken = await refreshToken();
-          originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-          return axiosInstance(originalRequest);
+          originalRequest.headers.Authorization = `Bearer ${refreshToken}`;
+          return authAxiosInstance(originalRequest);
         } catch (refreshError) {
           return Promise.reject(refreshError);
         }
