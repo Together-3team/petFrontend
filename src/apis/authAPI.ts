@@ -16,7 +16,7 @@ export interface KakaoAuthResponse {
   accessToken?: string;
 }
 
-const authAPI = {
+const authApi = {
   postRegisterData: <T>(body: T) => {
     return axiosInstance.post(`/auth/register`, body);
   },
@@ -26,4 +26,4 @@ const authAPI = {
   },
 };
 
-export default authAPI;
+export default authApi;

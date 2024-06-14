@@ -22,7 +22,7 @@ const onRejected = async (error: AxiosError | Error) => {
     if (error.response) {
       const { status } = error.response;
       console.log(`${method} - ${url} error : ${status}`);
-      if (status === 500 && originalRequest && !originalRequest._retry) {
+      if (status === 401 && originalRequest && !originalRequest._retry) {
         originalRequest._retry = true;
         try {
           const newAccessToken = await refreshToken();

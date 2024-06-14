@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { UseMutationOptions, useMutation, useQueryClient } from '@tanstack/react-query';
-import { KakaoAuthResponse } from '@/apis/authAPI';
+import { KakaoAuthResponse } from '@/apis/authApi';
 import { setCookie } from '@/utils/cookie';
 import axiosInstance from '@/apis/axiosInstance';
 import { API_BASE_URL } from '@/constants';

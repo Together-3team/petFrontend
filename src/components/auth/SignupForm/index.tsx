@@ -10,7 +10,7 @@ import signupFormSchema from '@/utils/signupFormSchema';
 import Input from '@/components/common/Input';
 import Button from '@/components/common/Button';
 import UserAgreement from './UserAgreement';
-import authAPI from '@/apis/authAPI';
+import authApi from '@/apis/authApi';
 
 import styles from './SignupForm.module.scss';
 
@@ -25,7 +25,7 @@ export default function SignupForm() {
 
   const mutation = useMutation<void, Error, FormValues>({
     mutationFn: async (data: FormValues) => {
-      await authAPI.postRegisterData({ ...data, profileToken });
+      await authApi.postRegisterData({ ...data, profileToken });
     },
     onSuccess: data => {
       console.log(data);
