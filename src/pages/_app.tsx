@@ -4,6 +4,7 @@ import Head from 'next/head';
 import { ReactElement, ReactNode, useState } from 'react';
 import { HydrationBoundary, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { CookiesProvider } from 'react-cookie';
 
 import '@/styles/reset.scss';
 import RootLayout from '@/components/common/Layout/Root';
@@ -27,12 +28,14 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
         <title>포잉마켓</title>
       </Head>
       <QueryClientProvider client={queryClient}>
-        <ToastProvider>
-          <HydrationBoundary state={pageProps.dehydratedState}>
-            <RootLayout>{getLayout(<Component {...pageProps} />)}</RootLayout>
-            <ReactQueryDevtools initialIsOpen={false} />
-          </HydrationBoundary>
-        </ToastProvider>
+        <CookiesProvider cookies={pageProps.cookies}>
+          <ToastProvider>
+            <HydrationBoundary state={pageProps.dehydratedState}>
+              <RootLayout>{getLayout(<Component {...pageProps} />)}</RootLayout>
+              <ReactQueryDevtools initialIsOpen={false} />
+            </HydrationBoundary>
+          </ToastProvider>
+        </CookiesProvider>
       </QueryClientProvider>
     </>
   );
