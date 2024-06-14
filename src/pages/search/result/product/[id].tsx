@@ -44,6 +44,29 @@ export default function ProductDetailPage() {
     category: 0,
     descriptionImages: 'string',
   };
+
+  const productList = [
+    {
+      productId: 1,
+      title: '진짜 육포',
+      thumbNailImage: rectangleImg.src,
+      originalPrice: 15000,
+      price: 12000,
+      starRating: 4.5,
+      reviewCount: 200,
+      stock: 3,
+    },
+    {
+      productId: 2,
+      title: '진짜 육포',
+      thumbNailImage: rectangleImg.src,
+      originalPrice: 15000,
+      price: 12000,
+      starRating: 4.5,
+      reviewCount: 200,
+      stock: 3,
+    },
+  ];
   return (
     <>
       <Header.Root className={cx('headerRoot')}>
@@ -68,7 +91,7 @@ export default function ProductDetailPage() {
         {/* 공동구매 & 
       리뷰 */}
         <DetailedDescription descriptionImages={descriptionImages} />
-        <SimilarProducts />
+        <SimilarProducts productList={productList} />
         <OrderPolicy />
       </div>
     </>
