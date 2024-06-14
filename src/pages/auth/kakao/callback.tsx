@@ -4,7 +4,6 @@ import { UseMutationOptions, useMutation, useQueryClient } from '@tanstack/react
 import { KakaoAuthResponse } from '@/apis/authApi';
 import { useCookies } from 'react-cookie';
 import authAxiosInstance from '@/apis/authAxiosInstance';
-import { API_BASE_URL } from '@/constants';
 
 const code = typeof window !== 'undefined' && new URL(window.location.toString()).searchParams.get('code');
 
@@ -13,7 +12,7 @@ export default function KakaoCallback() {
   const [cookies, setCookie, removeCookies] = useCookies(['accessToken', 'refreshToken']);
 
   async function GetKakaoAuth(): Promise<KakaoAuthResponse> {
-    const response = await authAxiosInstance.get(`${API_BASE_URL}/auth/kakao/callback?code=${code}`);
+    const response = await authAxiosInstance.get(`/auth/kakao/callback?code=${code}`);
     return response.data;
   }
 
@@ -21,8 +20,7 @@ export default function KakaoCallback() {
   const mutation = useMutation<KakaoAuthResponse, Error, void>({
     mutationFn: GetKakaoAuth,
     onSuccess: (data: KakaoAuthResponse) => {
-      queryClient.invalidateQueries({ queryKey: ['kakaoAuth'] });
-      console.log(data);
+      queryClient.invalidateQueries();
       if (data.registered === true && code) {
         const { accessToken, refreshToken } = data;
         setCookie('accessToken', accessToken, {
