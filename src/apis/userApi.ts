@@ -1,4 +1,3 @@
-import { httpClient } from './httpClient';
 import axiosInstance from './axiosInstance';
 
 export interface UserResponse {

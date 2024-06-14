@@ -27,16 +27,16 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
       <Head>
         <title>포잉마켓</title>
       </Head>
-      <CookiesProvider>
-        <QueryClientProvider client={queryClient}>
+      <QueryClientProvider client={queryClient}>
+        <CookiesProvider cookies={pageProps.cookies}>
           <ToastProvider>
             <HydrationBoundary state={pageProps.dehydratedState}>
               <RootLayout>{getLayout(<Component {...pageProps} />)}</RootLayout>
               <ReactQueryDevtools initialIsOpen={false} />
             </HydrationBoundary>
           </ToastProvider>
-        </QueryClientProvider>
-      </CookiesProvider>
+        </CookiesProvider>
+      </QueryClientProvider>
     </>
   );
 }

@@ -17,7 +17,7 @@ export default function useAuth() {
       setIsLogin(false);
     }
   }, [userData]);
-
+  console.log(userData);
   return {
     isLogin,
     setIsLogin,
