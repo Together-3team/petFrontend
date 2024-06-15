@@ -18,7 +18,7 @@ export default function UserAgreement() {
         ...prevFormState,
         serviceAgreement: isChecked,
         privatePolicy: isChecked,
-        marketingAgreement: isChecked,
+        isSubscribedToPromotions: isChecked,
       }),
       { keepDefaultValues: true }
     );
@@ -52,7 +52,7 @@ export default function UserAgreement() {
             </Link>
           </div>
           <div className={cx('agreement')}>
-            <CheckOnly name={'marketingAgreement'} />
+            <CheckOnly name={'isSubscribedToPromotions'} />
             <span className={cx('inputCenter')}>(선택) 광고성 정보 수신 전체 동의</span>
             <Link
               className={cx('detail')}
