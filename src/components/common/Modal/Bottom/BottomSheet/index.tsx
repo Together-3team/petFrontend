@@ -1,19 +1,23 @@
 import { PointerEvent, PropsWithChildren, useEffect, useMemo, useRef } from 'react';
 import { PanInfo, motion, useAnimation, useDragControls } from 'framer-motion';
 import useMeasure from 'react-use-measure';
+import classNames from 'classnames/bind';
 
 import styles from './BottomSheet.module.scss';
 import useOutsideClick from '@/hooks/useOutsideClick';
 import usePreviousValue from '@/hooks/usePreviousValue';
+
+const cx = classNames.bind(styles);
 
 interface BottomSheetProps extends PropsWithChildren {
   id?: string;
   isOpen: boolean;
   onOpen: () => void;
   onClose: () => void;
+  hasBackdrop?: boolean;
 }
 
-export default function BottomSheet({ id, isOpen, onOpen, onClose, children }: BottomSheetProps) {
+export default function BottomSheet({ id, isOpen, onOpen, onClose, hasBackdrop = true, children }: BottomSheetProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [headerRef, headerBounds] = useMeasure();
   const [contentsRef, contentsBounds] = useMeasure();
@@ -41,6 +45,11 @@ export default function BottomSheet({ id, isOpen, onOpen, onClose, children }: B
     }
   };
 
+  const handleHeaderPointerDown = (e: PointerEvent<HTMLDivElement>) => {
+    window.getSelection()?.removeAllRanges();
+    dragControls.start(e);
+  };
+
   useEffect(() => {
     const toggleModal = () => {
       if (prevIsOpen && !isOpen) {
@@ -55,14 +64,9 @@ export default function BottomSheet({ id, isOpen, onOpen, onClose, children }: B
     return () => toggleModal();
   }, [controls, isOpen, prevIsOpen]);
 
-  const handleHeaderPointerDown = (e: PointerEvent<HTMLDivElement>) => {
-    window.getSelection()?.removeAllRanges();
-    dragControls.start(e);
-  };
-
   return (
     <>
-      {isOpen && <motion.div className={styles.backdrop} />}
+      {isOpen && <motion.div className={cx('backdrop', { show: hasBackdrop })} />}
       <motion.div
         id={id}
         className={styles.container}

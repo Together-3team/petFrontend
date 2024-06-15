@@ -4,6 +4,10 @@
     position: absolute;
     inset: 0;
     z-index: $z-index-modal-backdrop;
+
+    &.show {
+      background-color: rgba(0, 0, 0, 0.2);
+    }
   }
 
   .container {
