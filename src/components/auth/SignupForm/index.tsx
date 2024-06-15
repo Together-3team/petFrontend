@@ -33,7 +33,10 @@ export default function SignupForm() {
       router.push({
         pathname: '/onboading',
         query: {
-          ///nickname: data.nickname, phoneNumber: data.phoneNumber, profileImage: data.profileImage, isSubscribedToPromotions
+          nickname: data.nickname,
+          phoneNumber: data.phoneNumber,
+          profileImage: data.profileImage,
+          isSubscribedToPromotions: data.isSubscribedToPromotions,
         },
       });
     },

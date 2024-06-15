@@ -1,7 +1,9 @@
 import Link from 'next/link';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { FieldValues, FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { userApi } from '@/apis/userApi';
+import { UserEditParams, userApi, UserId, UserEditProps } from '@/apis/userApi';
 import ImageBox from '@/components/common/ImageBox';
 import Button from '@/components/common/Button';
 import selectedDog from '@/assets/images/selected-dog.png';
@@ -10,12 +12,32 @@ import unselectedCat from '@/assets/images/unselected-cat.png';
 import unselectedDog from '@/assets/images/unselected-dog.png';
 
 import styles from './Onboarding.module.scss';
+import { AxiosResponse } from 'axios';
 
 export default function Onboarding() {
   const [isChecked, setIsChecked] = useState<string[]>([]);
+
+  const router = useRouter();
+  const { nickname, phoneNumber, profileImage, isSubscribedToPromotions } = router.query;
+
+  const queryClient = useQueryClient();
+  const mutation = useMutation<AxiosResponse<any, any>, Error, UserEditParams>({
+    mutationFn: async ({ id, data }: UserEditParams) => {
+      return await userApi.put(id, { ...data, nickname, phoneNumber, profileImage, isSubscribedToPromotions });
+    },
+    onSuccess: data => {
+      console.log(data);
+      queryClient.invalidateQueries({ queryKey: ['userEdit'] });
+    },
+  });
+
+  type OnboardingProps = FieldValues & UserEditParams;
+
   const methods = useForm();
   const { register, handleSubmit } = methods;
-  const onSubmit: SubmitHandler<FieldValues> = data => console.log(data);
+  const onSubmit: SubmitHandler<OnboardingProps> = data => {
+    console.log(data), mutation.mutate(data);
+  };
 
   function handleCheckboxChange(key: string) {
     setIsChecked(prev => (prev.includes(key) ? prev.filter(item => item !== key) : [...prev, key]));
@@ -27,7 +49,7 @@ export default function Onboarding() {
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit as SubmitHandler<FieldValues>)}>
         <div className={styles.onboardingLayout}>
           <h1 className={styles.petChoiceText}>
             어서오세요!

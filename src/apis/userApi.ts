@@ -16,21 +16,34 @@ export async function fetchMyData() {
   return response.data;
 }
 
-interface UserData {
-  id: string;
+export interface UserId {
+  id: number;
+}
+
+export interface UserEditProps {
+  nickname: string;
+  phoneNumber: string;
+  profileImage: string;
+  isSubscribedToPromotions: boolean;
+  prefferedPet: string;
+}
+
+export interface UserEditParams {
+  data: UserEditProps;
+  id: UserId;
 }
 
 export const userApi = {
-  getUserData: ({ id }: UserData) => {
+  getUserData: ({ id }: UserId) => {
     return axiosInstance.get(`/users/${id}`);
   },
-  put: <T>({ id }: UserData, body: T) => {
+  put: <T>(id: UserId, body: T) => {
     return axiosInstance.put(`/users/${id}`, body);
   },
   post: <T>(body: T) => {
     return axiosInstance.post(`/users`, body);
   },
-  delete: ({ id }: UserData) => {
+  delete: (id: UserId) => {
     return axiosInstance.delete(`/users/${id}`);
   },
   checkNickname: <T>(body: T) => {
