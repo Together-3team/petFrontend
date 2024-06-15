@@ -16,10 +16,10 @@ import CartButton from '@/components/common/Button/Cart';
 import useToast from '@/hooks/useToast';
 import FloatingBox from '@/components/common/Layout/Footer/FloatingBox';
 import useModal from '@/hooks/useModal';
-import BottomSheet from '@/components/common/Modal/BottomSheet';
+import BottomSheet from '@/components/common/Modal/Base/BottomSheet';
 import { useState } from 'react';
-import BottomModal from '@/components/common/Modal/BottomModal';
-import CenterModal from '@/components/common/Modal/CenterModal';
+import BottomModal from '@/components/common/Modal/Base/BottomModal';
+import CenterModal from '@/components/common/Modal/Base/CenterModal';
 
 const BANNER_IMAGES = [
   { src: banner1.src, alt: '배너1' },
