@@ -18,6 +18,7 @@ import FloatingBox from '@/components/common/Layout/Footer/FloatingBox';
 import useModal from '@/hooks/useModal';
 import BottomSheet from '@/components/common/Modal/BottomSheet';
 import { useState } from 'react';
+import BottomModal from '@/components/common/Modal/BottomModal';
 
 const BANNER_IMAGES = [
   { src: banner1.src, alt: '배너1' },
@@ -29,10 +30,16 @@ const BANNER_IMAGES = [
 
 const BOTTOM_BOX_ID = 'bottomBox';
 const BOTTOM_SHEET_ID = 'bottomSheet';
+const BOTTOM_MODAL_ID = 'bottomModal';
 
 export default function HomePage() {
   const { showToast, setPortalId } = useToast(BOTTOM_BOX_ID);
   const { modalOpen, handleModalOpen, handleModalClose } = useModal();
+  const {
+    modalOpen: bottomModalIsOpen,
+    handleModalOpen: openBottomModal,
+    handleModalClose: closeBottomModal,
+  } = useModal();
   const [test, setTest] = useState(false);
 
   const showSuccess = () => {
@@ -91,7 +98,14 @@ export default function HomePage() {
               setPortalId(BOTTOM_SHEET_ID);
               handleModalOpen();
             }}>
-            모달
+            바텀시트
+          </button>
+          <button
+            onClick={() => {
+              setPortalId(BOTTOM_MODAL_ID);
+              openBottomModal();
+            }}>
+            바텀모달
           </button>
         </Header.Root>
         <BannerCarousel items={BANNER_IMAGES} />
@@ -181,6 +195,31 @@ export default function HomePage() {
       <FloatingBox id={BOTTOM_BOX_ID}>
         <NavBottom />
       </FloatingBox>
+
+      <BottomModal
+        id={BOTTOM_MODAL_ID}
+        isOpen={bottomModalIsOpen}
+        onClose={() => {
+          setPortalId(BOTTOM_MODAL_ID);
+          closeBottomModal();
+        }}>
+        <div>
+          <h1>안녕하세요오오오</h1>
+          <p>
+            Nisi aute veniam id id elit nisi culpa sunt. Est anim ex dolore eiusmod voluptate nulla deserunt nulla.
+            Nostrud irure ut in aliqua consequat nisi do duis labore consequat qui ipsum. Aliqua amet reprehenderit
+            cupidatat anim. Cillum ea ex esse fugiat nulla excepteur mollit ipsum aute enim nostrud. Consectetur nisi
+            quis laborum sunt laborum nisi ullamco excepteur anim. Dolore dolore quis ipsum dolor. Fugiat aliqua duis
+            nostrud voluptate ex laboris id eiusmod cillum ea aliquip adipisicing ipsum excepteur. Consectetur proident
+            duis do anim cupidatat deserunt amet in adipisicing. Mollit voluptate non consequat cillum amet duis nulla
+            qui esse pariatur. Pariatur voluptate occaecat ut ea ullamco amet. Eiusmod incididunt consequat adipisicing
+            laboris cupidatat. Elit commodo velit ea commodo amet aute dolor deserunt dolore eu adipisicing aliqua.
+            Labore elit dolore quis consequat fugiat anim aute sit cillum esse amet laborum proident id. Dolore proident
+            do et fugiat fugiat consequat non adipisicing duis. Minim aliquip ut non consequat incididunt est elit est
+            nulla. Aute aliqua duis magna deserunt Lorem et quis deserunt velit sit aute ut dolore in.
+          </p>
+        </div>
+      </BottomModal>
 
       <BottomSheet
         id={BOTTOM_SHEET_ID}
