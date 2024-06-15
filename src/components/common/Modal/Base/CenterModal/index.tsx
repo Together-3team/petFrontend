@@ -7,7 +7,6 @@ import Portal from '@/components/common/Portal';
 const cx = classNames.bind(styles);
 
 interface CenterModalProps extends PropsWithChildren {
-  id?: string;
   isOpen: boolean;
   onClose: () => void;
   hasBackdrop?: boolean;
@@ -32,7 +31,7 @@ interface CenterModalProps extends PropsWithChildren {
     )
   }
 */
-export default function CenterModal({ id, isOpen, onClose, hasBackdrop = true, children }: CenterModalProps) {
+export default function CenterModal({ isOpen, onClose, hasBackdrop = true, children }: CenterModalProps) {
   useEffect(() => {
     const toggleModal = () => {
       if (isOpen) {
