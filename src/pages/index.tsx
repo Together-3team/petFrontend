@@ -15,6 +15,9 @@ import SearchButton from '@/components/common/Button/Search';
 import CartButton from '@/components/common/Button/Cart';
 import useToast from '@/hooks/useToast';
 import FloatingBox from '@/components/common/Layout/Footer/FloatingBox';
+import useModal from '@/hooks/useModal';
+import BottomSheetBong from '@/components/common/Modal/Bottom/BottomSheetBong';
+import { useState } from 'react';
 
 const BANNER_IMAGES = [
   { src: banner1.src, alt: '배너1' },
@@ -25,9 +28,12 @@ const BANNER_IMAGES = [
 ];
 
 const BOTTOM_BOX_ID = 'bottomBox';
+const BOTTOM_SHEET_ID = 'bottomSheet';
 
 export default function HomePage() {
-  const { showToast } = useToast(BOTTOM_BOX_ID);
+  const { showToast, setPortalId } = useToast(BOTTOM_BOX_ID);
+  const { modalOpen, handleModalOpen, handleModalClose } = useModal();
+  const [test, setTest] = useState(false);
 
   const showSuccess = () => {
     showToast({
@@ -80,6 +86,13 @@ export default function HomePage() {
           <button onClick={showError}>실패</button>
           <button onClick={showWarn}>경고</button>
           <button onClick={showLink}>링크</button>
+          <button
+            onClick={() => {
+              setPortalId(BOTTOM_SHEET_ID);
+              handleModalOpen();
+            }}>
+            모달
+          </button>
         </Header.Root>
         <BannerCarousel items={BANNER_IMAGES} />
         <div className={styles.test}>
@@ -168,6 +181,52 @@ export default function HomePage() {
       <FloatingBox id={BOTTOM_BOX_ID}>
         <NavBottom />
       </FloatingBox>
+
+      <BottomSheetBong
+        id={BOTTOM_SHEET_ID}
+        isOpen={modalOpen}
+        onOpen={() => {
+          setPortalId(BOTTOM_SHEET_ID);
+          handleModalOpen();
+        }}
+        onClose={() => {
+          setPortalId(BOTTOM_BOX_ID);
+          handleModalClose();
+        }}>
+        <div>
+          <h1>안녕하세요</h1>
+          <button type="button" onClick={() => setTest(prev => !prev)}>
+            테스트
+          </button>
+          <div className={styles.bottomSheetContents}>
+            <p>
+              Sit ad proident labore magna exercitation eiusmod. Minim in aute irure commodo nulla nisi eiusmod velit
+              cillum. Aliqua ea cillum ipsum laborum quis sint ea fugiat incididunt adipisicing do non aute consequat.
+              Magna sunt exercitation irure in eu enim id. Qui irure ea excepteur ut ad aute qui irure irure ullamco
+              culpa consectetur. Sit ad proident labore magna exercitation eiusmod. Minim in aute irure commodo nulla
+              nisi eiusmod velit cillum. Aliqua ea cillum ipsum laborum quis sint ea fugiat incididunt adipisicing do
+              non aute consequat. Magna sunt exercitation irure in eu enim id. Qui irure ea excepteur ut ad aute qui
+              irure irure ullamco culpa consectetur. Sit ad proident labore magna exercitation eiusmod. Minim in aute
+              irure commodo nulla nisi eiusmod velit cillum. Aliqua ea cillum ipsum laborum quis sint ea fugiat
+              incididunt adipisicing do non aute consequat. Magna sunt exercitation irure in eu enim id. Qui irure ea
+              excepteur ut ad aute qui irure irure ullamco culpa consectetur.
+            </p>
+          </div>
+          <div>
+            {test && (
+              <>
+                <p>테스트</p>
+                <p>테스트</p>
+                <p>테스트</p>
+                <p>테스트</p>
+                <p>테스트</p>
+                <p>테스트</p>
+                <p>테스트</p>
+              </>
+            )}
+          </div>
+        </div>
+      </BottomSheetBong>
     </>
   );
 }
