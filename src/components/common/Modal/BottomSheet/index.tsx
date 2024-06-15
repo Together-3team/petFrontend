@@ -12,12 +12,11 @@ const cx = classNames.bind(styles);
 interface BottomSheetProps extends PropsWithChildren {
   id?: string;
   isOpen: boolean;
-  onOpen: () => void;
   onClose: () => void;
   hasBackdrop?: boolean;
 }
 
-export default function BottomSheet({ id, isOpen, onOpen, onClose, hasBackdrop = true, children }: BottomSheetProps) {
+export default function BottomSheet({ id, isOpen, onClose, hasBackdrop = true, children }: BottomSheetProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [headerRef, headerBounds] = useMeasure();
   const [contentsRef, contentsBounds] = useMeasure();
@@ -41,7 +40,6 @@ export default function BottomSheet({ id, isOpen, onOpen, onClose, hasBackdrop =
       onClose();
     } else {
       controls.start('visible');
-      onOpen();
     }
   };
 

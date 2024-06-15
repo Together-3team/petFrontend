@@ -185,10 +185,6 @@ export default function HomePage() {
       <BottomSheet
         id={BOTTOM_SHEET_ID}
         isOpen={modalOpen}
-        onOpen={() => {
-          setPortalId(BOTTOM_SHEET_ID);
-          handleModalOpen();
-        }}
         onClose={() => {
           setPortalId(BOTTOM_BOX_ID);
           handleModalClose();
