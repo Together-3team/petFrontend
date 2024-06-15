@@ -19,6 +19,7 @@ import useModal from '@/hooks/useModal';
 import BottomSheet from '@/components/common/Modal/BottomSheet';
 import { useState } from 'react';
 import BottomModal from '@/components/common/Modal/BottomModal';
+import CenterModal from '@/components/common/Modal/CenterModal';
 
 const BANNER_IMAGES = [
   { src: banner1.src, alt: '배너1' },
@@ -39,6 +40,11 @@ export default function HomePage() {
     modalOpen: bottomModalIsOpen,
     handleModalOpen: openBottomModal,
     handleModalClose: closeBottomModal,
+  } = useModal();
+  const {
+    modalOpen: centerModalIsOpen,
+    handleModalOpen: openCenterModal,
+    handleModalClose: closeCenterModal,
   } = useModal();
   const [test, setTest] = useState(false);
 
@@ -80,7 +86,6 @@ export default function HomePage() {
               <BackButton />
             </Header.Left>
             <Header.Center>
-              <div>안녕하세요</div>
               <Input id="검색" placeholder="검색해 주세요" type="search" />
             </Header.Center>
             <Header.Right>
@@ -106,6 +111,13 @@ export default function HomePage() {
               openBottomModal();
             }}>
             바텀모달
+          </button>
+          <button
+            onClick={() => {
+              setPortalId();
+              openCenterModal();
+            }}>
+            센터모달
           </button>
         </Header.Root>
         <BannerCarousel items={BANNER_IMAGES} />
@@ -200,7 +212,7 @@ export default function HomePage() {
         id={BOTTOM_MODAL_ID}
         isOpen={bottomModalIsOpen}
         onClose={() => {
-          setPortalId(BOTTOM_MODAL_ID);
+          setPortalId(BOTTOM_BOX_ID);
           closeBottomModal();
         }}>
         <div>
@@ -220,6 +232,27 @@ export default function HomePage() {
           </p>
         </div>
       </BottomModal>
+
+      <CenterModal
+        isOpen={centerModalIsOpen}
+        onClose={() => {
+          setPortalId(BOTTOM_BOX_ID);
+          closeCenterModal();
+        }}>
+        <div style={{ width: '300px' }}>
+          <h1>안녕하세요</h1>
+          <p>
+            Occaecat esse incididunt tempor nostrud ea eu ex culpa minim. Exercitation eiusmod reprehenderit aute enim
+            elit labore ullamco. Adipisicing amet in ad in et magna. Quis ipsum sit non nisi nostrud nisi sint consequat
+            culpa. Sunt pariatur dolor duis tempor dolore et nisi Lorem excepteur velit. Laborum sint commodo Lorem
+            exercitation. Aliqua aute officia quis est reprehenderit adipisicing dolor. Deserunt laboris laborum culpa
+            proident est sit. In eu ipsum aliquip dolore eu pariatur magna anim sunt. Voluptate sint ea cillum ad
+            aliquip est deserunt quis. Occaecat sunt dolore aliquip ut sint commodo incididunt mollit dolore consectetur
+            amet. Elit exercitation exercitation ex anim ullamco amet. Laboris laborum velit esse et excepteur. Labore
+            tempor mollit eu deserunt proident nulla. Officia do voluptate eiusmod deserunt.
+          </p>
+        </div>
+      </CenterModal>
 
       <BottomSheet
         id={BOTTOM_SHEET_ID}
