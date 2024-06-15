@@ -1,8 +1,7 @@
-import { PropsWithChildren, useEffect, useRef } from 'react';
+import { PropsWithChildren, useEffect } from 'react';
 import classNames from 'classnames/bind';
 
 import styles from './BottomModal.module.scss';
-import useOutsideClick from '@/hooks/useOutsideClick';
 
 const cx = classNames.bind(styles);
 
@@ -14,10 +13,6 @@ interface BottomModalProps extends PropsWithChildren {
 }
 
 export default function BottomModal({ id, isOpen, onClose, hasBackdrop = true, children }: BottomModalProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useOutsideClick(containerRef, onClose);
-
   useEffect(() => {
     const toggleModal = () => {
       if (isOpen) {
@@ -32,8 +27,8 @@ export default function BottomModal({ id, isOpen, onClose, hasBackdrop = true, c
 
   return (
     <>
-      {isOpen && <div className={cx('backdrop', { show: hasBackdrop })} />}
-      <div id={id} className={styles.container} ref={containerRef}>
+      {isOpen && <div className={cx('backdrop', { show: hasBackdrop })} onClick={onClose} />}
+      <div id={id} className={styles.container}>
         {isOpen && <div className={styles.modal}>{children}</div>}
       </div>
     </>
