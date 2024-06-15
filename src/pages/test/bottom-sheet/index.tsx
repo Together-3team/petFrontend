@@ -45,10 +45,6 @@ export default function BottomSheetPage() {
       <BottomSheet
         id={BOTTOM_SHEET_ID}
         isOpen={modalOpen}
-        onOpen={() => {
-          setPortalId();
-          handleModalOpen();
-        }}
         onClose={() => {
           setPortalId();
           handleModalClose();
