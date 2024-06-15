@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import useModal from '@/hooks/useModal';
 import useToast from '@/hooks/useToast';
-import BottomSheet from '@/components/common/Modal/Bottom/BottomSheet';
+import BottomSheet from '@/components/common/Modal/BottomSheet';
 
 const BOTTOM_SHEET_ID = 'bottomSheetId';
 

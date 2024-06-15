@@ -16,7 +16,7 @@ import CartButton from '@/components/common/Button/Cart';
 import useToast from '@/hooks/useToast';
 import FloatingBox from '@/components/common/Layout/Footer/FloatingBox';
 import useModal from '@/hooks/useModal';
-import BottomSheet from '@/components/common/Modal/Bottom/BottomSheet';
+import BottomSheet from '@/components/common/Modal/BottomSheet';
 import { useState } from 'react';
 
 const BANNER_IMAGES = [
