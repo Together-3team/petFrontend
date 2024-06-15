@@ -1,7 +1,16 @@
 import React, { useState } from 'react';
+import classNames from 'classnames/bind';
 import DaumPostcode from 'react-daum-postcode';
+import styles from './AddressInput.module.scss';
+import Input from '../common/Input';
 
-export default function AddressInput() {
+interface AddressInputProps {
+  errors: any;
+}
+
+const cx = classNames.bind(styles);
+
+export default function AddressInput({ errors, ...rest }: AddressInputProps) {
   const [zonecode, setZonecode] = useState('');
   const [address, setAddress] = useState('');
   const [isOpen, setIsOpen] = useState(false);
@@ -10,13 +19,13 @@ export default function AddressInput() {
   const themeObj = {
     bgColor: '#FFFFFF',
     pageBgColor: '#FFFFFF',
-    postcodeTextColor: '#C05850',
+    postcodeTextColor: '#FE5A65',
     emphTextColor: '#222222',
   };
 
   const postCodeStyle = {
-    width: '360px',
-    height: '480px',
+    width: '340px',
+    height: '440px',
   };
 
   //data는 사용자가 선택한 주소 정보(zonecode, address...)를 담고 있는 객체
@@ -55,12 +64,30 @@ export default function AddressInput() {
           </button>
         </div>
         {isOpen && (
-          <div>
-            <DaumPostcode theme={themeObj} style={postCodeStyle} onComplete={completeHandler} onClose={closeHandler} />
+          <div className={cx('postCodeModalBackground')} onClick={() => closeHandler('FORCE_CLOSE')}>
+            <div className={cx('postCodeModalContainer')}>
+              <DaumPostcode
+                theme={themeObj}
+                style={postCodeStyle}
+                onComplete={completeHandler}
+                onClose={closeHandler}
+                className={cx('postCodeModal')}
+              />
+            </div>
           </div>
         )}
         <div>{address}</div>
         <input value={detailedAddress} onChange={inputChangeHandler} />
+        <Input
+          id="detailedAddress"
+          type="text"
+          size="large"
+          label="상세 주소"
+          isError={errors.detailedAddress && true}
+          labelStyle={'label'}
+          placeholder="상세주소"
+          {...rest}
+        />
       </div>
     </div>
   );

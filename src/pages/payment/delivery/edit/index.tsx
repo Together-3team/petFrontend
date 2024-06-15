@@ -12,6 +12,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import UserAgreement from '@/components/auth/SignupForm/UserAgreement';
 import CheckOnly from '@/components/common/CheckOnly';
 import Button from '@/components/common/Button';
+import AddressInput from '@/components/payment/AddressInput';
 
 const cx = classNames.bind(styles);
 
@@ -50,15 +51,19 @@ export default function DeliveryEditPage() {
       <FormProvider {...methods}>
         <form className={cx('deliveryEditForm')} onSubmit={handleSubmit(onSubmit)}>
           <div className={cx('inputArea')}>
-            <Input
-              id="name"
-              type="text"
-              size="large"
-              label="배송지명"
-              labelStyle={'label'}
-              placeholder="예) 집, 회사"
-              {...register}
-            />
+            <div>
+              <Input
+                id="name"
+                type="text"
+                size="large"
+                label="배송지명"
+                isError={errors.name && true}
+                labelStyle={'label'}
+                placeholder="예) 집, 회사"
+                {...register}
+              />
+              {errors.name && <span className={cx('errorText')}>{errors.name.message}</span>}
+            </div>
             <div>
               <Input
                 id="recipient"
@@ -85,6 +90,7 @@ export default function DeliveryEditPage() {
               />
               {errors.phoneNumber && <span className={cx('errorText')}>{errors.phoneNumber.message}</span>}
             </div>
+            <AddressInput errors={errors} {...register('phoneNumber')} />
           </div>
           <div className={cx('buttonArea')}>
             <div className={cx('ageCheck')}>
