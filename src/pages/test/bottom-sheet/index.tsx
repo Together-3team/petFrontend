@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import useModal from '@/hooks/useModal';
 import useToast from '@/hooks/useToast';
-import BottomSheetBong from '@/components/common/Modal/Bottom/BottomSheetBong';
+import BottomSheet from '@/components/common/Modal/Bottom/BottomSheet';
 
 const BOTTOM_SHEET_ID = 'bottomSheetId';
 
@@ -42,7 +42,7 @@ export default function BottomSheetPage() {
         }}>
         토스트
       </button>
-      <BottomSheetBong
+      <BottomSheet
         id={BOTTOM_SHEET_ID}
         isOpen={modalOpen}
         onOpen={() => {
@@ -79,7 +79,7 @@ export default function BottomSheetPage() {
           <span>Content아아아아아아아아아아아아아아아아아아아아ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ</span>
           <span>Content아아아아아아아아아아아아아아아아아아아아ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ</span>
         </div>
-      </BottomSheetBong>
+      </BottomSheet>
     </>
   );
 }

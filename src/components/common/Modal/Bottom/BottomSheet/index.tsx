@@ -2,18 +2,18 @@ import { PointerEvent, PropsWithChildren, useEffect, useMemo, useRef } from 'rea
 import { PanInfo, motion, useAnimation, useDragControls } from 'framer-motion';
 import useMeasure from 'react-use-measure';
 
-import styles from './BottomSheetBong.module.scss';
+import styles from './BottomSheet.module.scss';
 import useOutsideClick from '@/hooks/useOutsideClick';
 import usePreviousValue from '@/hooks/usePreviousValue';
 
-interface BottomSheetBongProps extends PropsWithChildren {
+interface BottomSheetProps extends PropsWithChildren {
   id?: string;
   isOpen: boolean;
   onOpen: () => void;
   onClose: () => void;
 }
 
-export default function BottomSheetBong({ id, isOpen, onOpen, onClose, children }: BottomSheetBongProps) {
+export default function BottomSheet({ id, isOpen, onOpen, onClose, children }: BottomSheetProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [headerRef, headerBounds] = useMeasure();
   const [contentsRef, contentsBounds] = useMeasure();

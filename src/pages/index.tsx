@@ -16,7 +16,7 @@ import CartButton from '@/components/common/Button/Cart';
 import useToast from '@/hooks/useToast';
 import FloatingBox from '@/components/common/Layout/Footer/FloatingBox';
 import useModal from '@/hooks/useModal';
-import BottomSheetBong from '@/components/common/Modal/Bottom/BottomSheetBong';
+import BottomSheet from '@/components/common/Modal/Bottom/BottomSheet';
 import { useState } from 'react';
 
 const BANNER_IMAGES = [
@@ -182,7 +182,7 @@ export default function HomePage() {
         <NavBottom />
       </FloatingBox>
 
-      <BottomSheetBong
+      <BottomSheet
         id={BOTTOM_SHEET_ID}
         isOpen={modalOpen}
         onOpen={() => {
@@ -226,7 +226,7 @@ export default function HomePage() {
             )}
           </div>
         </div>
-      </BottomSheetBong>
+      </BottomSheet>
     </>
   );
 }
