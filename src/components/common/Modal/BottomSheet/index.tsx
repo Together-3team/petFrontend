@@ -1,10 +1,9 @@
-import { PointerEvent, PropsWithChildren, useEffect, useMemo, useRef } from 'react';
+import { PointerEvent, PropsWithChildren, useEffect, useMemo } from 'react';
 import { PanInfo, motion, useAnimation, useDragControls } from 'framer-motion';
 import useMeasure from 'react-use-measure';
 import classNames from 'classnames/bind';
 
 import styles from './BottomSheet.module.scss';
-import useOutsideClick from '@/hooks/useOutsideClick';
 import usePreviousValue from '@/hooks/usePreviousValue';
 
 const cx = classNames.bind(styles);
@@ -17,14 +16,11 @@ interface BottomSheetProps extends PropsWithChildren {
 }
 
 export default function BottomSheet({ id, isOpen, onClose, hasBackdrop = true, children }: BottomSheetProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
   const [headerRef, headerBounds] = useMeasure();
   const [contentsRef, contentsBounds] = useMeasure();
   const controls = useAnimation();
   const dragControls = useDragControls();
   const prevIsOpen = usePreviousValue(isOpen);
-
-  useOutsideClick(containerRef, () => onClose());
 
   const expandedHeight = useMemo(() => {
     return contentsBounds.height + headerBounds.height;
@@ -64,7 +60,7 @@ export default function BottomSheet({ id, isOpen, onClose, hasBackdrop = true, c
 
   return (
     <>
-      {isOpen && <motion.div className={cx('backdrop', { show: hasBackdrop })} />}
+      {isOpen && <motion.div className={cx('backdrop', { show: hasBackdrop })} onClick={onClose} />}
       <motion.div
         id={id}
         className={styles.container}
@@ -83,7 +79,6 @@ export default function BottomSheet({ id, isOpen, onClose, hasBackdrop = true, c
             top: '100vh',
           },
         }}
-        ref={containerRef}
         style={{ height: `calc(100vh - ${expandedHeight}px)` }}>
         {isOpen && (
           <div>
