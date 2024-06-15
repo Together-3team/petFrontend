@@ -11,23 +11,29 @@ export interface UserResponse {
 }
 
 export async function fetchMyData() {
-  try {
-    const response = await axiosInstance.get('/users/me');
-    console.log(response);
-    return response.data;
-  } catch (error) {
-    console.error('Failed to fetch data:', error);
-    throw error;
-  }
+  const response = await axiosInstance.get(`/users/me`);
+  console.log(response);
+  return response.data;
 }
-// httpClient 적용 실패...
-// export async function fetchMyData(): Promise<UserResponse> {
-//   try {
-//     const response = await httpClient().get<{ data: UserResponse }>('/users/me');
-//     console.log(response.data);
-//     return response.data;
-//   } catch (error) {
-//     console.error('Failed to fetch data:', error);
-//     throw error;
-//   }
-// }
+
+interface UserData {
+  id: string;
+}
+
+export const userApi = {
+  getUserData: ({ id }: UserData) => {
+    return axiosInstance.get(`/users/${id}`);
+  },
+  put: <T>({ id }: UserData, body: T) => {
+    return axiosInstance.put(`/users/${id}`, body);
+  },
+  post: <T>(body: T) => {
+    return axiosInstance.post(`/users`, body);
+  },
+  delete: ({ id }: UserData) => {
+    return axiosInstance.delete(`/users/${id}`);
+  },
+  checkNickname: <T>(body: T) => {
+    return axiosInstance.post(`/users/verify-nickname`, body);
+  },
+};

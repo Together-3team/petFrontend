@@ -75,7 +75,7 @@ export default function Onboarding() {
           </div>
           <div className={styles.buttonArea}>
             <Link href="/onboarding/welcome">
-              <Button size="mediumLarge" backgroundColor="$color-pink-main">
+              <Button size="mediumLarge" backgroundColor="$color-pink-main" disabled={!isChecked}>
                 다음
               </Button>
             </Link>
