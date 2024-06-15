@@ -17,5 +17,5 @@ export const deliveryFormSchema = Yup.object().shape({
   zipCode: Yup.number().required(),
   address: Yup.string().required(),
   detailedAddress: Yup.string().required(),
-  isDefault: Yup.boolean().required(),
+  isDefault: Yup.boolean(),
 });
