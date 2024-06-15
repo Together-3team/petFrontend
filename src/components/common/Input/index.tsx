@@ -15,6 +15,7 @@ interface InputProps {
   placeholder: string;
   imageProps?: Partial<ImageProps>;
   background?: string;
+  value?: string;
 }
 
 const cx = classNames.bind(styles);

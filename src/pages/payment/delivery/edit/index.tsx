@@ -33,8 +33,11 @@ export default function DeliveryEditPage() {
     formState: { errors },
   } = methods;
   const { register, handleSubmit } = methods;
-  const onSubmit = (data: FormValues) => console.log(data);
-  console.log(errors);
+  const onSubmit = (data: FormValues) => {
+    console.log('abc');
+    console.log(data);
+  };
+  // console.log(errors);
 
   return (
     <div className={styles.deliveryEditPage}>
@@ -60,7 +63,7 @@ export default function DeliveryEditPage() {
                 isError={errors.name && true}
                 labelStyle={'label'}
                 placeholder="예) 집, 회사"
-                {...register}
+                {...register('name')}
               />
               {errors.name && <span className={cx('errorText')}>{errors.name.message}</span>}
             </div>
@@ -90,7 +93,7 @@ export default function DeliveryEditPage() {
               />
               {errors.phoneNumber && <span className={cx('errorText')}>{errors.phoneNumber.message}</span>}
             </div>
-            <AddressInput errors={errors} {...register('phoneNumber')} />
+            <AddressInput errors={errors} register={register} />
           </div>
           <div className={cx('buttonArea')}>
             <div className={cx('ageCheck')}>
@@ -103,10 +106,40 @@ export default function DeliveryEditPage() {
               </div>
             </div>
             <Button size="large" backgroundColor="$color-pink-main">
-              가입하기
+              저장
             </Button>
           </div>
         </form>
+        dddddddddddd
+        <br />
+        dddddddddddd
+        <br />
+        dddddddddddd
+        <br />
+        dddddddddddd
+        <br />
+        dddddddddddd
+        <br />
+        dddddddddddd
+        <br />
+        dddddddddddd
+        <br />
+        dddddddddddd
+        <br />
+        dddddddddddd
+        <br />
+        dddddddddddd
+        <br />
+        dddddddddddd
+        <br />
+        dddddddddddd
+        <br />
+        dddddddddddd
+        <br />
+        dddddddddddd
+        <br />
+        dddddddddddd
+        <br />
       </FormProvider>
     </div>
   );
