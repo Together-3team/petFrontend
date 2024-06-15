@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { FieldValues, FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { userApi } from '@/apis/userApi';
 import ImageBox from '@/components/common/ImageBox';
 import Button from '@/components/common/Button';
 import selectedDog from '@/assets/images/selected-dog.png';
@@ -11,13 +12,17 @@ import unselectedDog from '@/assets/images/unselected-dog.png';
 import styles from './Onboarding.module.scss';
 
 export default function Onboarding() {
-  const [isChecked, setIsChecked] = useState<string | null>();
+  const [isChecked, setIsChecked] = useState<string[]>([]);
   const methods = useForm();
   const { register, handleSubmit } = methods;
   const onSubmit: SubmitHandler<FieldValues> = data => console.log(data);
 
   function handleCheckboxChange(key: string) {
-    setIsChecked(prev => (prev === key ? null : key));
+    setIsChecked(prev => (prev.includes(key) ? prev.filter(item => item !== key) : [...prev, key]));
+  }
+
+  function handleCheckNothing(key: string) {
+    setIsChecked([key]);
   }
 
   return (
@@ -33,15 +38,15 @@ export default function Onboarding() {
             <div className={styles.petChoiceBox}>
               <ImageBox
                 size="petPhoto"
-                src={isChecked === 'dog' ? selectedDog : unselectedDog}
-                alt={isChecked === 'cat' ? '선택된 강아지 이미지' : '미선택 강아지 이미지'}
+                src={isChecked.includes('dog') ? selectedDog : unselectedDog}
+                alt={isChecked.includes('dog') ? '선택된 강아지 이미지' : '미선택 강아지 이미지'}
               />
               <label className={styles.petChoiceLabel}>
                 <input
                   key="dog"
                   type="checkbox"
                   className={styles.checkboxInput}
-                  checked={isChecked === 'dog'}
+                  checked={isChecked.includes('dog')}
                   onClick={() => handleCheckboxChange('dog')}
                   {...register('dog')}
                 />
@@ -54,15 +59,15 @@ export default function Onboarding() {
             <div className={styles.petChoiceBox}>
               <ImageBox
                 size="petPhoto"
-                src={isChecked === 'cat' ? selectedCat : unselectedCat}
-                alt={isChecked === 'cat' ? '선택된 고양이 이미지' : '미선택 고양이 이미지'}
+                src={isChecked.includes('cat') ? selectedCat : unselectedCat}
+                alt={isChecked.includes('cat') ? '선택된 고양이 이미지' : '미선택 고양이 이미지'}
               />
               <label className={styles.petChoiceLabel}>
                 <input
                   key="cat"
                   type="checkbox"
                   className={styles.checkboxInput}
-                  checked={isChecked === 'cat'}
+                  checked={isChecked.includes('cat')}
                   onClick={() => handleCheckboxChange('cat')}
                   {...register('cat')}
                 />
@@ -79,9 +84,16 @@ export default function Onboarding() {
                 다음
               </Button>
             </Link>
-            <Link href="/">
+            <label>
+              <input
+                key="nothing"
+                className={styles.checkboxInput}
+                type="checkbox"
+                onClick={() => handleCheckNothing('nothing')}
+                {...register('nothing')}
+              />
               <div className={styles.laterChoice}>나중에 선택할게요</div>
-            </Link>
+            </label>
           </div>
         </div>
       </form>

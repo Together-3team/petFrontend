@@ -30,7 +30,12 @@ export default function SignupForm() {
     onSuccess: data => {
       console.log(data);
       queryClient.invalidateQueries({ queryKey: ['register'] });
-      router.push('/onboarding');
+      router.push({
+        pathname: '/onboading',
+        query: {
+          ///nickname: data.nickname, phoneNumber: data.phoneNumber, profileImage: data.profileImage, isSubscribedToPromotions
+        },
+      });
     },
     onError: error => {
       console.error('회원가입 실패', error);
