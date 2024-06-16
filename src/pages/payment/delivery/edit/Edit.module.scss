@@ -10,4 +10,45 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+}
+
+.inputArea {
+  width: 32.8rem;
+}
+
+.isDefaultInput {
+  width: 32.8rem;
+  display: flex;
+  align-items: center;
+}
+
+.aisDefaultText {
+  @include font-body3;
+}
+
+.checkBox {
+  width: 2rem;
+  height: 2rem;
+  margin: 0.6rem;
+  accent-color: $color-pink-main;
+}
+
+.errorText {
+  @include font-caption1;
+  color: $color-pink-main;
+  align-self: stretch;
+}
+
+.isDefaultErrorText {
+  padding-top: 0.8rem;
+  padding-left: 1rem;
+}
+
+.buttonArea {
+  display: flex;
+  flex-direction: column;
+  width: 32.8rem;
+  align-items: center;
+  gap: 1.2rem;
 }

@@ -96,15 +96,14 @@ export default function DeliveryEditPage() {
             <AddressInput errors={errors} register={register} />
           </div>
           <div className={cx('buttonArea')}>
-            <div className={cx('ageCheck')}>
-              <div className={cx('ageCheckInput')}>
-                <input id="ageCheck" type="checkbox" className={cx('checkBox')} {...register('isDefault')} />
-                <span className={cx('ageCheckText')}>기본 배송지로 등록합니다.</span>
-                {errors.isDefault && (
-                  <span className={cx('errorText', 'ageCheckErrorText')}>{errors.isDefault.message}</span>
-                )}
-              </div>
+            <div className={cx('isDefaultInput')}>
+              <input id="isDefault" type="checkbox" className={cx('checkBox')} {...register('isDefault')} />
+              <span className={cx('isDefaultText')}>기본 배송지로 등록합니다.</span>
+              {errors.isDefault && (
+                <span className={cx('errorText', 'isDefaultErrorText')}>{errors.isDefault.message}</span>
+              )}
             </div>
+
             <Button size="large" backgroundColor="$color-pink-main">
               저장
             </Button>
