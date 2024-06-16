@@ -4,30 +4,33 @@ import { useRouter } from 'next/router';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { FieldValues, FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { UserEditParams, userApi, UserId, UserEditProps } from '@/apis/userApi';
+import useAuth from '@/hooks/useAuth';
 import ImageBox from '@/components/common/ImageBox';
 import Button from '@/components/common/Button';
 import selectedDog from '@/assets/images/selected-dog.png';
 import selectedCat from '@/assets/images/selected-cat.png';
 import unselectedCat from '@/assets/images/unselected-cat.png';
 import unselectedDog from '@/assets/images/unselected-dog.png';
+import { AxiosResponse } from 'axios';
 
 import styles from './Onboarding.module.scss';
-import { AxiosResponse } from 'axios';
 
 export default function Onboarding() {
   const [isChecked, setIsChecked] = useState<string[]>([]);
 
-  const router = useRouter();
-  const { nickname, phoneNumber, profileImage, isSubscribedToPromotions } = router.query;
+  const { userData } = useAuth();
 
   const queryClient = useQueryClient();
   const mutation = useMutation<AxiosResponse<any, any>, Error, UserEditParams>({
-    mutationFn: async ({ id, data }: UserEditParams) => {
-      return await userApi.put(id, { ...data, nickname, phoneNumber, profileImage, isSubscribedToPromotions });
+    mutationFn: async ({ id, userData }: UserEditParams) => {
+      return await userApi.put(id, userData);
     },
     onSuccess: data => {
       console.log(data);
       queryClient.invalidateQueries({ queryKey: ['userEdit'] });
+    },
+    onError: error => {
+      console.error('반려동물 선택 실패', error);
     },
   });
 

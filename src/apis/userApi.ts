@@ -29,7 +29,7 @@ export interface UserEditProps {
 }
 
 export interface UserEditParams {
-  data: UserEditProps;
+  userData: UserEditProps;
   id: UserId;
 }
 

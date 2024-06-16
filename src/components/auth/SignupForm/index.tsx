@@ -31,13 +31,7 @@ export default function SignupForm() {
       console.log(data);
       queryClient.invalidateQueries({ queryKey: ['register'] });
       router.push({
-        pathname: '/onboading',
-        query: {
-          nickname: data.nickname,
-          phoneNumber: data.phoneNumber,
-          profileImage: data.profileImage,
-          isSubscribedToPromotions: data.isSubscribedToPromotions,
-        },
+        pathname: '/onboarding',
       });
     },
     onError: error => {
