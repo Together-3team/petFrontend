@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
+import { useMutation } from '@tanstack/react-query';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import useModal from '@/hooks/useModal';
@@ -13,10 +14,22 @@ import ImageBox from '@/components/common/ImageBox';
 import { phoneNumberSchema } from '@/utils/signupFormSchema';
 
 import styles from './Info.module.scss';
+import useAuth from '@/hooks/useAuth';
+import { DeleteUserRdo, UserId, userApi } from '@/apis/userApi';
 
 type phoneNumberValue = Yup.InferType<typeof phoneNumberSchema>;
 
 export default function Info() {
+  const { userData } = useAuth();
+
+  const mutation = useMutation<DeleteUserRdo, Error, UserId>({
+    mutationKey: ['deleteUser'],
+    mutationFn: async (id: UserId) => {
+      const response = await userApi.delete(id);
+      return response.data;
+    },
+  });
+
   const methods = useForm<phoneNumberValue>({
     resolver: yupResolver(phoneNumberSchema),
   });
@@ -24,24 +37,26 @@ export default function Info() {
     formState: { errors },
   } = methods;
   const { register, handleSubmit } = methods;
-  const onSubmit = (data: phoneNumberValue) => console.log(data);
+  const onSubmit = (data: phoneNumberValue) => {
+    console.log(data);
+  };
   console.log(errors);
 
   const { modalOpen, handleModalOpen, handleModalClose } = useModal();
 
   const router = useRouter();
 
-  function handleReturnHome() {
-    router.replace(
-      {
+  async function handleDeleteUser() {
+    try {
+      await mutation.mutateAsync(userData.id);
+      router.push({
         pathname: '/',
-        query: {
-          action: 'delete-account',
-        },
-      },
-      '/'
-    );
+      });
+    } catch (error) {
+      console.error('Error deleting user:', error);
+    }
   }
+
   //TODO: useOutsideClick 등록
   return (
     <div className={styles.infoLayout}>
@@ -62,7 +77,7 @@ export default function Info() {
               size="large"
               label="이메일"
               labelStyle={'label'}
-              placeholder="kyeonjoo@kakao.com"
+              placeholder={userData.email}
             />
             <Input
               id="phoneNumber"
@@ -71,7 +86,7 @@ export default function Info() {
               label="연락처"
               isError={errors.phoneNumber && true}
               labelStyle={'label'}
-              placeholder="000-0000-0000"
+              placeholder={userData.phoneNumber}
               {...register('phoneNumber')}
             />
             {errors.phoneNumber && <span className={styles.errorText}>{errors.phoneNumber.message}</span>}
@@ -96,7 +111,7 @@ export default function Info() {
               <br />• 우리 아이와의 추억이 담긴 리뷰 3개가 모두 사라져요
             </span>
             <div className={styles.modalButtonArea}>
-              <Button size="medium" backgroundColor="$color-white" onClick={handleReturnHome}>
+              <Button size="medium" backgroundColor="$color-white" onClick={handleDeleteUser}>
                 탈퇴하기
               </Button>
               <Button size="medium" backgroundColor="$color-gray-800" onClick={handleModalClose}>

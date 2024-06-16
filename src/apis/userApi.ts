@@ -33,6 +33,11 @@ export interface UserEditParams {
   id: UserId;
 }
 
+export interface DeleteUserRdo {
+  raw: object[];
+  affected: number;
+}
+
 export const userApi = {
   getUserData: ({ id }: UserId) => {
     return axiosInstance.get(`/users/${id}`);
@@ -43,8 +48,9 @@ export const userApi = {
   post: <T>(body: T) => {
     return axiosInstance.post(`/users`, body);
   },
-  delete: (id: UserId) => {
-    return axiosInstance.delete(`/users/${id}`);
+  delete: async (id: UserId) => {
+    const response = await axiosInstance.delete<DeleteUserRdo>(`/users/${id}`);
+    return response;
   },
   checkNickname: <T>(body: T) => {
     return axiosInstance.post(`/users/verify-nickname`, body);

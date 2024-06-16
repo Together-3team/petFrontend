@@ -56,7 +56,8 @@ export default function SignupForm() {
   } = methods;
   const { register, handleSubmit } = methods;
   const onSubmit = (data: FormValues) => {
-    console.log(data), mutation.mutate(data);
+    console.log(data);
+    mutation.mutate(data);
   };
   console.log(errors);
 
