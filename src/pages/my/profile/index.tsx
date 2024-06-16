@@ -10,10 +10,13 @@ import PlusButton from '@/assets/svgs/plus-button.svg';
 import { nicknameSchema } from '@/utils/signupFormSchema';
 
 import styles from './Profile.module.scss';
+import useAuth from '@/hooks/useAuth';
 
 type profileValue = Yup.InferType<typeof nicknameSchema>;
 
 export default function Profile() {
+  const { userData } = useAuth();
+
   const methods = useForm<profileValue & FieldValues>({
     resolver: yupResolver(nicknameSchema),
   });
@@ -39,7 +42,7 @@ export default function Profile() {
           <div className={styles.formField}>
             <div className={styles.profileImageBox}>
               <div className={styles.profileImage}>
-                <ProfileImgBadge size="large" profileImage="" />
+                <ProfileImgBadge size="large" profileImage={userData.profileImage} />
                 <div className={styles.plusButton}>
                   <PlusButton />
                 </div>
@@ -52,7 +55,7 @@ export default function Profile() {
               label="닉네임"
               isError={errors.nickname && true}
               labelStyle={'label'}
-              placeholder="닉네임을 입력해주세요"
+              placeholder={userData.nickname}
               {...register('nickname')}
             />
             {errors.nickname && <span className={styles.errorText}>{errors.nickname.message}</span>}

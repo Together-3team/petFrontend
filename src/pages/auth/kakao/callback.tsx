@@ -11,14 +11,14 @@ export default function KakaoCallback() {
   const router = useRouter();
   const [cookies, setCookie, removeCookies] = useCookies(['accessToken', 'refreshToken']);
 
-  async function GetKakaoAuth(): Promise<KakaoAuthResponse> {
+  async function getKakaoAuth(): Promise<KakaoAuthResponse> {
     const response = await authAxiosInstance.get(`/auth/kakao/callback?code=${code}`);
     return response.data;
   }
 
   const mutation = useMutation<KakaoAuthResponse, Error, void>({
     mutationKey: ['kakaoAuth'],
-    mutationFn: GetKakaoAuth,
+    mutationFn: getKakaoAuth,
     onSuccess: (data: KakaoAuthResponse) => {
       if (data.registered === true && code) {
         const { accessToken, refreshToken } = data;
@@ -37,7 +37,7 @@ export default function KakaoCallback() {
       }
     },
     onError: (error: unknown) => {
-      console.log('토큰을 확인할 수 없습니다.', error);
+      console.log(error);
     },
   } as unknown as UseMutationOptions<KakaoAuthResponse, Error, void>);
 

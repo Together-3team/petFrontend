@@ -22,7 +22,7 @@ export default function Menu() {
     <div className={styles.menuLayout}>
       <h1>마이페이지</h1>
       <div className={styles.profileArea}>
-        <ProfileImgBadge size="large" />
+        <ProfileImgBadge size="large" profileImage={userData.profileImage} />
         <h2>{userData.nickname}</h2>
       </div>
       <div className={styles.centerBorder} />

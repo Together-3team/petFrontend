@@ -43,7 +43,8 @@ export default function MyPage() {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const queryClient = new QueryClient();
 
-  const accessToken = context.req.cookies;
+  const accessToken = context.req.cookies['accessToken'];
+
   await queryClient.prefetchQuery({ queryKey: ['user', accessToken], queryFn: fetchMyData });
 
   return {

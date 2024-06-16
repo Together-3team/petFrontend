@@ -34,12 +34,11 @@ export default function Onboarding() {
     },
   });
 
-  type OnboardingProps = FieldValues & UserEditParams;
-
   const methods = useForm();
   const { register, handleSubmit } = methods;
-  const onSubmit: SubmitHandler<OnboardingProps> = data => {
-    console.log(data), mutation.mutate(data);
+  const onSubmit = (data: UserEditParams) => {
+    console.log(data);
+    mutation.mutate(data);
   };
 
   function handleCheckboxChange(key: string) {

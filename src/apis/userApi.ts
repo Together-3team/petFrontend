@@ -25,7 +25,7 @@ export interface UserEditProps {
   phoneNumber: string;
   profileImage: string;
   isSubscribedToPromotions: boolean;
-  prefferedPet: string;
+  prefferedPet: number;
 }
 
 export interface UserEditParams {

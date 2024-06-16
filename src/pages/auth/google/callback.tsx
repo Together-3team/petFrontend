@@ -11,14 +11,14 @@ export default function GoogleCallback() {
   const router = useRouter();
   const [cookies, setCookie, removeCookies] = useCookies(['accessToken', 'refreshToken']);
 
-  async function GetGoogleAuth(): Promise<GoogleAuthResponse> {
+  async function getGoogleAuth(): Promise<GoogleAuthResponse> {
     const response = await authAxiosInstance.get(`/auth/google/callback?code=${code}`);
     return response.data;
   }
 
   const mutation = useMutation<GoogleAuthResponse, Error, void>({
     mutationKey: ['googleAuth'],
-    mutationFn: GetGoogleAuth,
+    mutationFn: getGoogleAuth,
     onSuccess: (data: GoogleAuthResponse) => {
       if (data.registered === true && code) {
         const { accessToken, refreshToken } = data;
