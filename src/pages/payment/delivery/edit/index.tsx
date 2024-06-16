@@ -20,7 +20,7 @@ export default function DeliveryEditPage() {
     resolver: yupResolver(deliveryFormSchema),
   });
   const {
-    formState: { errors },
+    formState: { errors, isValid },
   } = methods;
   const { register, handleSubmit, setValue } = methods;
   const onSubmit = (data: FormValues) => {
@@ -29,16 +29,14 @@ export default function DeliveryEditPage() {
 
   return (
     <div className={styles.deliveryEditPage}>
-      <div className={styles.deliveryEditPage}>
-        <Header.Root>
-          <Header.Box>
-            <Header.Left>
-              <BackButton />
-            </Header.Left>
-            <h1 className={cx('header')}>배송지 수정</h1>
-          </Header.Box>
-        </Header.Root>
-      </div>
+      <Header.Root>
+        <Header.Box>
+          <Header.Left>
+            <BackButton />
+          </Header.Left>
+          <h1 className={cx('header')}>배송지 수정</h1>
+        </Header.Box>
+      </Header.Root>
       <FormProvider {...methods}>
         <form className={cx('deliveryEditForm')} onSubmit={handleSubmit(onSubmit)}>
           <div className={cx('inputArea')}>
@@ -91,8 +89,7 @@ export default function DeliveryEditPage() {
                 <span className={cx('errorText', 'isDefaultErrorText')}>{errors.isDefault.message}</span>
               )}
             </div>
-
-            <Button size="large" backgroundColor="$color-pink-main">
+            <Button size="large" backgroundColor="$color-pink-main" disabled={!isValid}>
               저장
             </Button>
           </div>
