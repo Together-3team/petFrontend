@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -15,18 +15,33 @@ import { phoneNumberSchema } from '@/utils/signupFormSchema';
 
 import styles from './Info.module.scss';
 import useAuth from '@/hooks/useAuth';
-import { DeleteUserRdo, UserId, userApi } from '@/apis/userApi';
+import { DeleteUserRdo, UserEditParams, UserId, userApi } from '@/apis/userApi';
+import { AxiosResponse } from 'axios';
 
 type phoneNumberValue = Yup.InferType<typeof phoneNumberSchema>;
 
 export default function Info() {
   const { userData } = useAuth();
 
-  const mutation = useMutation<DeleteUserRdo, Error, UserId>({
+  const deleteUsermutation = useMutation<DeleteUserRdo, Error, UserId>({
     mutationKey: ['deleteUser'],
     mutationFn: async (id: UserId) => {
       const response = await userApi.delete(id);
       return response.data;
+    },
+  });
+
+  const mutation = useMutation<Error, UserEditParams>({
+    mutationKey: ['userEdit'],
+    mutationFn: async ({ id, userData }: UserEditParams) => {
+      const response = await userApi.put(id, userData);
+      return response.data;
+    },
+    onSuccess: data => {
+      console.log(data);
+    },
+    onError: error => {
+      console.error('회원 정보 수정 실패', error);
     },
   });
 
@@ -48,7 +63,7 @@ export default function Info() {
 
   async function handleDeleteUser() {
     try {
-      await mutation.mutateAsync(userData.id);
+      await deleteUsermutation.mutateAsync(userData.id);
       router.push({
         pathname: '/',
       });
@@ -69,7 +84,7 @@ export default function Info() {
         </Header.Box>
       </Header.Root>
       <div className={styles.infoField}>
-        <form className={styles.memberForm} onSubmit={handleSubmit(onSubmit)}>
+        <form className={styles.memberForm} onSubmit={handleSubmit(onSubmit as SubmitHandler<phoneNumberValue>)}>
           <div className={styles.inputArea}>
             <Input
               id="email"

@@ -1,10 +1,8 @@
 import Link from 'next/link';
 import { useState } from 'react';
-import { useRouter } from 'next/router';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { FieldValues, FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { UserEditParams, userApi, UserId, UserEditProps } from '@/apis/userApi';
-import useAuth from '@/hooks/useAuth';
 import ImageBox from '@/components/common/ImageBox';
 import Button from '@/components/common/Button';
 import selectedDog from '@/assets/images/selected-dog.png';
@@ -18,16 +16,13 @@ import styles from './Onboarding.module.scss';
 export default function Onboarding() {
   const [isChecked, setIsChecked] = useState<string[]>([]);
 
-  const { userData } = useAuth();
-
-  const queryClient = useQueryClient();
   const mutation = useMutation<AxiosResponse<any, any>, Error, UserEditParams>({
+    mutationKey: ['userEdit'],
     mutationFn: async ({ id, userData }: UserEditParams) => {
       return await userApi.put(id, userData);
     },
     onSuccess: data => {
       console.log(data);
-      queryClient.invalidateQueries({ queryKey: ['userEdit'] });
     },
     onError: error => {
       console.error('반려동물 선택 실패', error);

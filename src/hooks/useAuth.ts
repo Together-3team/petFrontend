@@ -7,12 +7,12 @@ export default function useAuth() {
   const { accessToken } = cookie;
 
   const { data: userData } = useQuery({
-    queryKey: ['user'],
+    queryKey: ['user', accessToken],
     queryFn: fetchMyData,
-    enabled: !!accessToken,
+    enabled: !accessToken,
   });
 
-  const isLogin = !!userData && !!cookie;
+  const isLogin = !!userData;
   console.log(userData);
 
   return {

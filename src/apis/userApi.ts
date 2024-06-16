@@ -42,8 +42,9 @@ export const userApi = {
   getUserData: ({ id }: UserId) => {
     return axiosInstance.get(`/users/${id}`);
   },
-  put: <T>(id: UserId, body: T) => {
-    return axiosInstance.put(`/users/${id}`, body);
+  put: async <T>(id: UserId, body: T) => {
+    const response = axiosInstance.put<UserEditParams>(`/users/${id}`, body);
+    return response;
   },
   post: <T>(body: T) => {
     return axiosInstance.post(`/users`, body);
