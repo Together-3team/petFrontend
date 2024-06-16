@@ -124,7 +124,7 @@ export default function SignupForm() {
               )}
             </div>
           </div>
-          <Button size="large" backgroundColor="$color-pink-main">
+          <Button type="submit" size="large" backgroundColor="$color-pink-main">
             가입하기
           </Button>
         </div>

@@ -86,12 +86,13 @@ export default function Info() {
               label="연락처"
               isError={errors.phoneNumber && true}
               labelStyle={'label'}
-              placeholder={userData.phoneNumber}
+              placeholder="000-0000-0000 형식으로 입력해주세요"
+              defaultValue={userData.phoneNumber}
               {...register('phoneNumber')}
             />
             {errors.phoneNumber && <span className={styles.errorText}>{errors.phoneNumber.message}</span>}
           </div>
-          <Button size="large" backgroundColor="$color-pink-main">
+          <Button type="submit" size="large" backgroundColor="$color-pink-main">
             저장
           </Button>
         </form>
