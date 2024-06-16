@@ -2,6 +2,8 @@ import { forwardRef, ChangeEvent } from 'react';
 import Image, { ImageProps } from 'next/image';
 import classNames from 'classnames/bind';
 import styles from './Input.module.scss';
+import { UseFormSetValue } from 'react-hook-form';
+import { FormValues } from '@/components/payment/AddressInput';
 
 interface InputProps {
   id: string;
@@ -17,12 +19,13 @@ interface InputProps {
   background?: string;
   value?: string;
   readOnly?: boolean;
+  autoComplete?: string;
 }
 
 const cx = classNames.bind(styles);
 
 const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
-  { id, label, isError, errorText, labelStyle, size, border, imageProps, background, ...rest },
+  { id, label, isError, errorText, labelStyle, size, border, imageProps, background, autoComplete, ...rest },
   ref
 ) {
   return (
@@ -33,7 +36,12 @@ const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
         </label>
       )}
       <div className={cx({ inputWithIcon: imageProps })}>
-        <input ref={ref} className={cx(border, { error: isError }, size, background)} {...rest} />
+        <input
+          ref={ref}
+          className={cx(border, { error: isError }, size, background)}
+          autoComplete={autoComplete}
+          {...rest}
+        />
         {imageProps && (
           <Image
             src="/images/search.svg"

@@ -13,6 +13,7 @@ import UserAgreement from '@/components/auth/SignupForm/UserAgreement';
 import CheckOnly from '@/components/common/CheckOnly';
 import Button from '@/components/common/Button';
 import AddressInput from '@/components/payment/AddressInput';
+import useModal from '@/hooks/useModal';
 
 const cx = classNames.bind(styles);
 
@@ -32,7 +33,7 @@ export default function DeliveryEditPage() {
   const {
     formState: { errors },
   } = methods;
-  const { register, handleSubmit } = methods;
+  const { register, handleSubmit, setValue } = methods;
   const onSubmit = (data: FormValues) => {
     console.log('abc');
     console.log(data);
@@ -93,7 +94,7 @@ export default function DeliveryEditPage() {
               />
               {errors.phoneNumber && <span className={cx('errorText')}>{errors.phoneNumber.message}</span>}
             </div>
-            <AddressInput errors={errors} register={register} />
+            <AddressInput errors={errors} register={register} setValue={setValue} />
           </div>
           <div className={cx('buttonArea')}>
             <div className={cx('isDefaultInput')}>
