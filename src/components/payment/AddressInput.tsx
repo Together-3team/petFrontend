@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import * as Yup from 'yup';
 import classNames from 'classnames/bind';
 import DaumPostcode from 'react-daum-postcode';
-import styles from './AddressInput.module.scss';
-import Input from '../common/Input';
-import { UseFormRegister, UseFormRegisterReturn, UseFormSetValue } from 'react-hook-form';
+import { UseFormRegister, UseFormSetValue } from 'react-hook-form';
+
 import { deliveryFormSchema } from '@/utils/deliveryFormSchema';
+import Input from '../common/Input';
 import useModal from '@/hooks/useModal';
 import CenterModal from '../common/Modal/Base/CenterModal';
+import styles from './AddressInput.module.scss';
 
 export type FormValues = Yup.InferType<typeof deliveryFormSchema>;
 
@@ -20,9 +21,9 @@ interface AddressInputProps {
 const cx = classNames.bind(styles);
 
 export default function AddressInput({ errors, register, setValue }: AddressInputProps) {
+  const { modalOpen, handleModalOpen, handleModalClose } = useModal();
   const [zonecode, setZonecode] = useState('');
   const [address, setAddress] = useState('');
-  const [isOpen, setIsOpen] = useState(false);
 
   const themeObj = {
     bgColor: '#FFFFFF',
@@ -45,25 +46,6 @@ export default function AddressInput({ errors, register, setValue }: AddressInpu
     setValue('address', address);
   };
 
-  const closeHandler = (state: string) => {
-    if (state === 'FORCE_CLOSE') {
-      setIsOpen(false);
-    } else if (state === 'COMPLETE_CLOSE') {
-      setIsOpen(false);
-    }
-  };
-
-  const toggleHandler = () => {
-    setIsOpen(prevOpenState => !prevOpenState);
-  };
-
-  const { modalOpen, handleModalOpen, handleModalClose } = useModal();
-
-  // <button type="button" onClick={handleModalOpen}>모달 오픈</div>
-
-  // <CenterModal isOpen={modalOpen} onClose={handleModalClose}>
-  //   <div>모달 내용</div>
-  // </CenterModal>
   return (
     <div>
       <div>
@@ -80,29 +62,19 @@ export default function AddressInput({ errors, register, setValue }: AddressInpu
             autoComplete="none"
             {...register('zipCode')}
           />
-          <button type="button" onClick={toggleHandler}>
+          <button type="button" onClick={handleModalOpen}>
             우편번호 찾기
           </button>
-          {/* <button type="button" onClick={handleModalOpen}>
-            모달 오픈
-          </button> */}
         </div>
-        {isOpen && (
-          // <CenterModal isOpen={modalOpen} onClose={handleModalClose}>
-          <div className={cx('postCodeModalBackground')} onClick={() => closeHandler('FORCE_CLOSE')}>
-            <div className={cx('postCodeModalContainer')}>
-              <DaumPostcode
-                theme={themeObj}
-                style={postCodeStyle}
-                onComplete={completeHandler}
-                onClose={closeHandler}
-                // onClose={handleModalClose}
-                className={cx('postCodeModal')}
-              />
-            </div>
-          </div>
-          // </CenterModal>
-        )}
+        <CenterModal isOpen={modalOpen} onClose={handleModalClose}>
+          <DaumPostcode
+            theme={themeObj}
+            style={postCodeStyle}
+            onComplete={completeHandler}
+            onClose={handleModalClose}
+            className={cx('postCodeModal')}
+          />
+        </CenterModal>
         <Input
           id="address"
           type="text"

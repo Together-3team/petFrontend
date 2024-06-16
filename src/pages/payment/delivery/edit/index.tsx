@@ -1,19 +1,15 @@
 import classNames from 'classnames/bind';
 import * as Yup from 'yup';
+import { FormProvider, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 
-import styles from './Edit.module.scss';
-
+import { deliveryFormSchema } from '@/utils/deliveryFormSchema';
 import BackButton from '@/components/common/Button/BackButton';
 import Header from '@/components/common/Layout/Header';
 import Input from '@/components/common/Input';
-import { deliveryFormSchema } from '@/utils/deliveryFormSchema';
-import { FormProvider, useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import UserAgreement from '@/components/auth/SignupForm/UserAgreement';
-import CheckOnly from '@/components/common/CheckOnly';
 import Button from '@/components/common/Button';
 import AddressInput from '@/components/payment/AddressInput';
-import useModal from '@/hooks/useModal';
+import styles from './Edit.module.scss';
 
 const cx = classNames.bind(styles);
 
