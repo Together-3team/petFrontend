@@ -16,13 +16,6 @@ const cx = classNames.bind(styles);
 export type FormValues = Yup.InferType<typeof deliveryFormSchema>;
 
 export default function DeliveryEditPage() {
-  // const [description, setDescription] = useState('');
-
-  // const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-  //   setDescription(event.target.value);
-  // };
-  // const isBtnDisabled = rating === 0 || description.trim() === '';
-
   const methods = useForm<FormValues>({
     resolver: yupResolver(deliveryFormSchema),
   });
@@ -31,10 +24,8 @@ export default function DeliveryEditPage() {
   } = methods;
   const { register, handleSubmit, setValue } = methods;
   const onSubmit = (data: FormValues) => {
-    console.log('abc');
     console.log(data);
   };
-  // console.log(errors);
 
   return (
     <div className={styles.deliveryEditPage}>
@@ -106,36 +97,6 @@ export default function DeliveryEditPage() {
             </Button>
           </div>
         </form>
-        dddddddddddd
-        <br />
-        dddddddddddd
-        <br />
-        dddddddddddd
-        <br />
-        dddddddddddd
-        <br />
-        dddddddddddd
-        <br />
-        dddddddddddd
-        <br />
-        dddddddddddd
-        <br />
-        dddddddddddd
-        <br />
-        dddddddddddd
-        <br />
-        dddddddddddd
-        <br />
-        dddddddddddd
-        <br />
-        dddddddddddd
-        <br />
-        dddddddddddd
-        <br />
-        dddddddddddd
-        <br />
-        dddddddddddd
-        <br />
       </FormProvider>
     </div>
   );

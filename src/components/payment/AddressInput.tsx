@@ -48,12 +48,12 @@ export default function AddressInput({ errors, register, setValue }: AddressInpu
 
   return (
     <div>
-      <div>
-        <div>
+      <div className={cx('addressInputContainer')}>
+        <div className={cx('zipCode')}>
           <Input
             id="zipCode"
             type="text"
-            size="large"
+            size="small"
             label="우편번호"
             isError={errors.zipCode && true}
             labelStyle={'label'}
@@ -62,7 +62,7 @@ export default function AddressInput({ errors, register, setValue }: AddressInpu
             autoComplete="none"
             {...register('zipCode')}
           />
-          <button type="button" onClick={handleModalOpen}>
+          <button type="button" onClick={handleModalOpen} className={cx('button')}>
             우편번호 찾기
           </button>
         </div>

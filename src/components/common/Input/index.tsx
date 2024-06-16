@@ -95,5 +95,6 @@ export default Input;
         placeholder="검색어를 입력해주세요"
         imageProps={{}}
         background={'background'}
-      /> */
+      /> 
+  4. 우편번호 인풋: size='small'*/
 }
