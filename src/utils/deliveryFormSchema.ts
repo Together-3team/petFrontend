@@ -14,7 +14,7 @@ export const deliveryFormSchema = Yup.object().shape({
   phoneNumber: Yup.string()
     .matches(/^\d{3}-\d{3,4}-\d{4}$/, '연락처 입력 형식을 확인해주세요. (000-0000-0000)')
     .required(),
-  zipCode: Yup.number().required(),
+  zipCode: Yup.string().required(),
   address: Yup.string().required(),
   detailedAddress: Yup.string().required(),
   isDefault: Yup.boolean(),
