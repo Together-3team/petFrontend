@@ -1,40 +1,22 @@
-import { dehydrate, QueryClient, useQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { fetchMyData } from '@/apis/userApi';
-import { getCookie } from '@/utils/cookie';
-
-export async function getServerSideProps() {
-  const queryClient = new QueryClient();
-
-  await queryClient.prefetchQuery({ queryKey: ['user'], queryFn: fetchMyData });
-
-  return {
-    dehydratedState: dehydrate(queryClient),
-  };
-}
+import { useCookies } from 'react-cookie';
 
 export default function useAuth() {
-  const [isLogin, setIsLogin] = useState(false);
-
-  const cookie = getCookie({ name: 'accessToken' });
+  const [cookie] = useCookies(['accessToken']);
+  const { accessToken } = cookie;
 
   const { data: userData } = useQuery({
     queryKey: ['user'],
     queryFn: fetchMyData,
-    enabled: !!cookie,
+    enabled: !!accessToken,
   });
 
-  useEffect(() => {
-    if (userData && cookie) {
-      setIsLogin(true);
-    } else {
-      setIsLogin(false);
-    }
-  }, [userData, cookie]);
+  const isLogin = !!userData && !!cookie;
   console.log(userData);
+
   return {
     isLogin,
-    setIsLogin,
     userData,
   };
 }

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { dehydrate, QueryClient } from '@tanstack/react-query';
 import classNames from 'classnames/bind';
 import useAuth from '@/hooks/useAuth';
 import LoginButton from '@/components/auth/LoginButton';
@@ -9,10 +10,14 @@ import Menu from '@/components/auth/Menu';
 import styles from './My.module.scss';
 import FloatingBox from '@/components/common/Layout/Footer/FloatingBox';
 import NavBottom from '@/components/common/Nav/Bottom';
+import { fetchMyData } from '@/apis/userApi';
+import { GetServerSidePropsContext } from 'next';
+import { useCookies } from 'react-cookie';
 
 const cx = classNames.bind(styles);
 
 export default function MyPage() {
+  const [cookie] = useCookies(['accessToken']);
   const { isLogin } = useAuth();
   if (!isLogin)
     return (
@@ -32,5 +37,18 @@ export default function MyPage() {
         </FloatingBox>
       </div>
     );
-  if (isLogin) return <Menu />;
+  if (isLogin && cookie.accessToken) return <Menu />;
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const queryClient = new QueryClient();
+
+  const accessToken = context.req.cookies;
+  await queryClient.prefetchQuery({ queryKey: ['user', accessToken], queryFn: fetchMyData });
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
 }

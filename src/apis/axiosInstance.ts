@@ -12,12 +12,8 @@ const axiosInstance = axios.create({
 
 //axiosInterceptor
 const onRequest = (config: InternalAxiosRequestConfig) => {
-  const { method, url } = config;
-  console.log('config', config);
-  console.log(`${method} - ${url}`);
-
   const accessToken = getCookie({ name: 'accessToken' });
-  if (accessToken) {
+  if (!config.headers.Authorization && accessToken) {
     config.headers.Authorization = `Bearer ${accessToken}`;
   }
 

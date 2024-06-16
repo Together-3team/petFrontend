@@ -6,6 +6,7 @@ import styles from './Welcome.module.scss';
 
 export default function Welcome() {
   const { userData } = useAuth();
+  console.log(userData);
 
   const router = useRouter();
   const nextPage = (router.query.path as string) || '/';
@@ -15,7 +16,7 @@ export default function Welcome() {
 
   return (
     <div className={styles.welcomeLayout}>
-      <h1 className={styles.welcomeTitle}>환영합니다, 해피사랑 님!</h1>
+      <h1 className={styles.welcomeTitle}>환영합니다, {userData.nickname}님!</h1>
       <ImageBox size="welcomePetPhoto" src={Image} alt="환영 이미지" />
     </div>
   );

@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/router';
 import { useForm, FormProvider } from 'react-hook-form';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import classNames from 'classnames/bind';
@@ -10,7 +10,8 @@ import signupFormSchema from '@/utils/signupFormSchema';
 import Input from '@/components/common/Input';
 import Button from '@/components/common/Button';
 import UserAgreement from './UserAgreement';
-import authApi from '@/apis/authApi';
+import authApi, { RegisterRdo } from '@/apis/authApi';
+import { useCookies } from 'react-cookie';
 
 import styles from './SignupForm.module.scss';
 
@@ -21,15 +22,23 @@ export type FormValues = Yup.InferType<typeof signupFormSchema> & { profileToken
 export default function SignupForm() {
   const router = useRouter();
   const { email, profileToken } = router.query;
-  const queryClient = useQueryClient();
+  const [cookies, setCookie, removeCookies] = useCookies(['accessToken', 'refreshToken']);
 
-  const mutation = useMutation<void, Error, FormValues>({
+  const mutation = useMutation<RegisterRdo, Error, FormValues>({
+    mutationKey: ['register'],
     mutationFn: async (data: FormValues) => {
-      await authApi.postRegisterData({ ...data, profileToken });
+      const response = await authApi.postRegisterData({ ...data, profileToken });
+      return response.data;
     },
     onSuccess: data => {
       console.log(data);
-      queryClient.invalidateQueries({ queryKey: ['register'] });
+      const { accessToken, refreshToken } = data;
+      setCookie('accessToken', accessToken, {
+        path: '/',
+      });
+      setCookie('refreshToken', refreshToken, {
+        path: '/',
+      });
       router.push({
         pathname: '/onboarding',
       });

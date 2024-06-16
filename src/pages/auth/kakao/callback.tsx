@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { UseMutationOptions, useMutation, useQueryClient } from '@tanstack/react-query';
+import { UseMutationOptions, useMutation } from '@tanstack/react-query';
 import { KakaoAuthResponse } from '@/apis/authApi';
 import { useCookies } from 'react-cookie';
 import authAxiosInstance from '@/apis/authAxiosInstance';
@@ -16,11 +16,10 @@ export default function KakaoCallback() {
     return response.data;
   }
 
-  const queryClient = useQueryClient();
   const mutation = useMutation<KakaoAuthResponse, Error, void>({
+    mutationKey: ['kakaoAuth'],
     mutationFn: GetKakaoAuth,
     onSuccess: (data: KakaoAuthResponse) => {
-      queryClient.invalidateQueries();
       if (data.registered === true && code) {
         const { accessToken, refreshToken } = data;
         setCookie('accessToken', accessToken, {
@@ -29,7 +28,6 @@ export default function KakaoCallback() {
         setCookie('refreshToken', refreshToken, {
           path: '/',
         });
-        console.log(refreshToken);
         router.push('/');
       } else {
         router.push({

@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { UseMutationOptions, useMutation, useQueryClient } from '@tanstack/react-query';
+import { UseMutationOptions, useMutation } from '@tanstack/react-query';
 import { GoogleAuthResponse } from '@/apis/authApi';
 import { useCookies } from 'react-cookie';
 import authAxiosInstance from '@/apis/authAxiosInstance';
@@ -16,17 +16,15 @@ export default function GoogleCallback() {
     return response.data;
   }
 
-  const queryClient = useQueryClient();
   const mutation = useMutation<GoogleAuthResponse, Error, void>({
+    mutationKey: ['googleAuth'],
     mutationFn: GetGoogleAuth,
     onSuccess: (data: GoogleAuthResponse) => {
-      queryClient.invalidateQueries();
       if (data.registered === true && code) {
         const { accessToken, refreshToken } = data;
         setCookie('accessToken', accessToken, {
           path: '/',
         });
-        console.log(accessToken);
         setCookie('refreshToken', refreshToken, {
           path: '/',
         });
