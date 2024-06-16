@@ -1,6 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from './DeliveryCard.module.scss';
 import Button from '../Button';
+import Tag from '../Tag';
 
 interface DeliveryInfo {
   id: number;
@@ -22,7 +23,11 @@ export default function DeliveryCard({ deliveryInfo }: { deliveryInfo: DeliveryI
     <div>
       <div className={cx('addressName')}>
         <span>{name}</span>
-        {isDefault && <span>기본 배송지</span>}
+        {isDefault && (
+          <Tag size="medium" color="##F3F4F7" fontColor="#5A6072">
+            기본 배송지
+          </Tag>
+        )}
       </div>
       <p className={cx('recipientInfo')}>
         {recipient} ･ {recipientPhoneNumber}
