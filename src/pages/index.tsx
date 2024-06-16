@@ -15,6 +15,11 @@ import SearchButton from '@/components/common/Button/Search';
 import CartButton from '@/components/common/Button/Cart';
 import useToast from '@/hooks/useToast';
 import FloatingBox from '@/components/common/Layout/Footer/FloatingBox';
+import useModal from '@/hooks/useModal';
+import BottomSheet from '@/components/common/Modal/Base/BottomSheet';
+import { useState } from 'react';
+import BottomModal from '@/components/common/Modal/Base/BottomModal';
+import CenterModal from '@/components/common/Modal/Base/CenterModal';
 
 const BANNER_IMAGES = [
   { src: banner1.src, alt: '배너1' },
@@ -25,9 +30,23 @@ const BANNER_IMAGES = [
 ];
 
 const BOTTOM_BOX_ID = 'bottomBox';
+const BOTTOM_SHEET_ID = 'bottomSheet';
+const BOTTOM_MODAL_ID = 'bottomModal';
 
 export default function HomePage() {
-  const { showToast } = useToast(BOTTOM_BOX_ID);
+  const { showToast, setPortalId } = useToast(BOTTOM_BOX_ID);
+  const { modalOpen, handleModalOpen, handleModalClose } = useModal();
+  const {
+    modalOpen: bottomModalIsOpen,
+    handleModalOpen: openBottomModal,
+    handleModalClose: closeBottomModal,
+  } = useModal();
+  const {
+    modalOpen: centerModalIsOpen,
+    handleModalOpen: openCenterModal,
+    handleModalClose: closeCenterModal,
+  } = useModal();
+  const [test, setTest] = useState(false);
 
   const showSuccess = () => {
     showToast({
@@ -67,7 +86,6 @@ export default function HomePage() {
               <BackButton />
             </Header.Left>
             <Header.Center>
-              <div>안녕하세요</div>
               <Input id="검색" placeholder="검색해 주세요" type="search" />
             </Header.Center>
             <Header.Right>
@@ -80,6 +98,27 @@ export default function HomePage() {
           <button onClick={showError}>실패</button>
           <button onClick={showWarn}>경고</button>
           <button onClick={showLink}>링크</button>
+          <button
+            onClick={() => {
+              setPortalId(BOTTOM_SHEET_ID);
+              handleModalOpen();
+            }}>
+            바텀시트
+          </button>
+          <button
+            onClick={() => {
+              setPortalId(BOTTOM_MODAL_ID);
+              openBottomModal();
+            }}>
+            바텀모달
+          </button>
+          <button
+            onClick={() => {
+              setPortalId();
+              openCenterModal();
+            }}>
+            센터모달
+          </button>
         </Header.Root>
         <BannerCarousel items={BANNER_IMAGES} />
         <div className={styles.test}>
@@ -168,6 +207,94 @@ export default function HomePage() {
       <FloatingBox id={BOTTOM_BOX_ID}>
         <NavBottom />
       </FloatingBox>
+
+      <BottomModal
+        id={BOTTOM_MODAL_ID}
+        isOpen={bottomModalIsOpen}
+        onClose={() => {
+          setPortalId(BOTTOM_BOX_ID);
+          closeBottomModal();
+        }}>
+        <div>
+          <h1>안녕하세요오오오</h1>
+          <p>
+            Nisi aute veniam id id elit nisi culpa sunt. Est anim ex dolore eiusmod voluptate nulla deserunt nulla.
+            Nostrud irure ut in aliqua consequat nisi do duis labore consequat qui ipsum. Aliqua amet reprehenderit
+            cupidatat anim. Cillum ea ex esse fugiat nulla excepteur mollit ipsum aute enim nostrud. Consectetur nisi
+            quis laborum sunt laborum nisi ullamco excepteur anim. Dolore dolore quis ipsum dolor. Fugiat aliqua duis
+            nostrud voluptate ex laboris id eiusmod cillum ea aliquip adipisicing ipsum excepteur. Consectetur proident
+            duis do anim cupidatat deserunt amet in adipisicing. Mollit voluptate non consequat cillum amet duis nulla
+            qui esse pariatur. Pariatur voluptate occaecat ut ea ullamco amet. Eiusmod incididunt consequat adipisicing
+            laboris cupidatat. Elit commodo velit ea commodo amet aute dolor deserunt dolore eu adipisicing aliqua.
+            Labore elit dolore quis consequat fugiat anim aute sit cillum esse amet laborum proident id. Dolore proident
+            do et fugiat fugiat consequat non adipisicing duis. Minim aliquip ut non consequat incididunt est elit est
+            nulla. Aute aliqua duis magna deserunt Lorem et quis deserunt velit sit aute ut dolore in.
+          </p>
+        </div>
+      </BottomModal>
+
+      <CenterModal
+        isOpen={centerModalIsOpen}
+        onClose={() => {
+          setPortalId(BOTTOM_BOX_ID);
+          closeCenterModal();
+        }}>
+        <div style={{ width: '300px' }}>
+          <h1>안녕하세요</h1>
+          <p>
+            Occaecat esse incididunt tempor nostrud ea eu ex culpa minim. Exercitation eiusmod reprehenderit aute enim
+            elit labore ullamco. Adipisicing amet in ad in et magna. Quis ipsum sit non nisi nostrud nisi sint consequat
+            culpa. Sunt pariatur dolor duis tempor dolore et nisi Lorem excepteur velit. Laborum sint commodo Lorem
+            exercitation. Aliqua aute officia quis est reprehenderit adipisicing dolor. Deserunt laboris laborum culpa
+            proident est sit. In eu ipsum aliquip dolore eu pariatur magna anim sunt. Voluptate sint ea cillum ad
+            aliquip est deserunt quis. Occaecat sunt dolore aliquip ut sint commodo incididunt mollit dolore consectetur
+            amet. Elit exercitation exercitation ex anim ullamco amet. Laboris laborum velit esse et excepteur. Labore
+            tempor mollit eu deserunt proident nulla. Officia do voluptate eiusmod deserunt.
+          </p>
+        </div>
+      </CenterModal>
+
+      <BottomSheet
+        id={BOTTOM_SHEET_ID}
+        isOpen={modalOpen}
+        onClose={() => {
+          setPortalId(BOTTOM_BOX_ID);
+          handleModalClose();
+        }}>
+        <div>
+          <h1>안녕하세요</h1>
+          <button type="button" onClick={() => setTest(prev => !prev)}>
+            테스트
+          </button>
+          <div className={styles.bottomSheetContents}>
+            <p>
+              Sit ad proident labore magna exercitation eiusmod. Minim in aute irure commodo nulla nisi eiusmod velit
+              cillum. Aliqua ea cillum ipsum laborum quis sint ea fugiat incididunt adipisicing do non aute consequat.
+              Magna sunt exercitation irure in eu enim id. Qui irure ea excepteur ut ad aute qui irure irure ullamco
+              culpa consectetur. Sit ad proident labore magna exercitation eiusmod. Minim in aute irure commodo nulla
+              nisi eiusmod velit cillum. Aliqua ea cillum ipsum laborum quis sint ea fugiat incididunt adipisicing do
+              non aute consequat. Magna sunt exercitation irure in eu enim id. Qui irure ea excepteur ut ad aute qui
+              irure irure ullamco culpa consectetur. Sit ad proident labore magna exercitation eiusmod. Minim in aute
+              irure commodo nulla nisi eiusmod velit cillum. Aliqua ea cillum ipsum laborum quis sint ea fugiat
+              incididunt adipisicing do non aute consequat. Magna sunt exercitation irure in eu enim id. Qui irure ea
+              excepteur ut ad aute qui irure irure ullamco culpa consectetur.
+            </p>
+          </div>
+          <div>
+            {test && (
+              <>
+                <p>테스트</p>
+                <p>테스트</p>
+                <p>테스트</p>
+                <p>테스트</p>
+                <p>테스트</p>
+                <p>테스트</p>
+                <p>테스트</p>
+              </>
+            )}
+          </div>
+        </div>
+      </BottomSheet>
     </>
   );
 }

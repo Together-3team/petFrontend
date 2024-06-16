@@ -5,6 +5,7 @@ import styles from './NextButton.module.scss';
 
 interface NextButtonProps {
   href: string;
+  onClick?: () => void;
 }
 
 export default function NextButton({ children, ...rest }: PropsWithChildren<NextButtonProps>) {

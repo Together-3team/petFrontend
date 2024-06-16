@@ -1,0 +1,53 @@
+@layer components {
+  .backdrop {
+    background-color: transparent;
+    position: absolute;
+    inset: 0;
+    z-index: $z-index-modal-backdrop;
+
+    &.show {
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  .container {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    max-width: $size-mobile-max;
+    display: flex;
+    flex-direction: column-reverse;
+    z-index: $z-index-modal;
+  }
+
+  .wrapper {
+    @include drawer-shadow;
+
+    height: 100vh;
+    background-color: $color-white;
+    border-radius: 2rem 2rem 0 0;
+  }
+
+  .header {
+    display: flex;
+    justify-content: center;
+    background-color: $color-white;
+    border-radius: 2rem 2rem 0 0;
+    height: 2rem;
+    padding: 1.6rem 1.6rem 2rem;
+    cursor: pointer;
+  }
+
+  .handle {
+    background-color: $color-gray-800;
+    width: 6.8rem;
+    height: 0.4rem;
+    border-radius: 0.4rem;
+  }
+
+  .contents {
+    background-color: $color-white;
+    border-bottom: 0.1rem solid $color-gray-100;
+    padding: 0 1.6rem 2.4rem;
+  }
+}
