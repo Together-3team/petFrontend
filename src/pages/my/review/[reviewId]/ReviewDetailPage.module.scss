@@ -1,0 +1,78 @@
+.reviewDetailPageLayout {
+  padding: 2rem 1.6rem;
+}
+
+.pageTitle {
+  @include font-headline3;
+
+  color: $color-black;
+  text-align: center;
+}
+
+.productDataBox {
+  display: flex;
+  margin: 0.8rem 0;
+  padding: 0.6rem 0;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.productImg {
+  width: 4.4rem;
+  height: 4.4rem;
+  border-radius: 0.8rem;
+}
+
+.productName {
+  @include font-body1;
+
+  color: $color-black;
+  margin-bottom: 0.4rem;
+}
+
+.productOption {
+  @include font-body5;
+
+  color: $color-gray-500;
+}
+
+.ratingAndDate {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+  padding: 0.8rem 0 1.2rem;
+  border-bottom: 0.1rem solid $color-gray-100;
+}
+
+.ratingBox {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.ratingCount {
+  @include font-body6;
+
+  color: $color-gray-800;
+}
+
+.date {
+  @include font-body3;
+
+  color: $color-black;
+}
+
+.description {
+  @include font-body6;
+
+  display: flex;
+  width: 100%;
+  margin-top: 2rem;
+  padding: 1.2rem;
+  justify-content: center;
+  align-items: center;
+  gap: 0.8rem;
+  align-self: stretch;
+  color: $color-black;
+}
