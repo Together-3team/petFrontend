@@ -43,6 +43,10 @@
     gap: 0.4rem;
   }
 
+  .inputWithLabel input:focus {
+    outline: none;
+  }
+
   .inputWithIcon {
     position: relative;
   }

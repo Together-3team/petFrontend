@@ -55,9 +55,6 @@ export default function AddressInput({ errors, register, ...rest }: AddressInput
   return (
     <div>
       <div>
-        <strong>address</strong>
-      </div>
-      <div>
         <div>
           <Input
             id="zipCode"
@@ -68,6 +65,7 @@ export default function AddressInput({ errors, register, ...rest }: AddressInput
             labelStyle={'label'}
             placeholder=""
             value={zonecode}
+            {...register('zipCode')}
           />
           <button type="button" onClick={toggleHandler}>
             우편번호 찾기
@@ -95,6 +93,7 @@ export default function AddressInput({ errors, register, ...rest }: AddressInput
           labelStyle={'label'}
           placeholder=""
           value={address}
+          {...register('address')}
         />
         <Input
           id="detailedAddress"
