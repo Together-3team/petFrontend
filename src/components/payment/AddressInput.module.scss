@@ -32,3 +32,9 @@
   z-index: 100;
   // box-shadow: 0px -4px 30px 0px rgba(0, 0, 0, 0.1);
 }
+
+.errorText {
+  @include font-caption1;
+  color: $color-pink-main;
+  align-self: stretch;
+}

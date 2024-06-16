@@ -53,7 +53,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
           />
         )}
       </div>
-      {isError && <p className={cx('errorText')}>{errorText}</p>}
+      {isError && errorText && <p className={cx('errorText')}>{errorText}</p>}
     </div>
   );
 });

@@ -49,22 +49,25 @@ export default function AddressInput({ errors, register, setValue }: AddressInpu
   return (
     <div>
       <div className={cx('addressInputContainer')}>
-        <div className={cx('zipCode')}>
-          <Input
-            id="zipCode"
-            type="text"
-            size="small"
-            label="우편번호"
-            isError={errors.zipCode && true}
-            labelStyle={'label'}
-            placeholder=""
-            value={zonecode}
-            autoComplete="none"
-            {...register('zipCode')}
-          />
-          <button type="button" onClick={handleModalOpen} className={cx('button')}>
-            우편번호 찾기
-          </button>
+        <div>
+          <div className={cx('zipCode')}>
+            <Input
+              id="zipCode"
+              type="text"
+              size="small"
+              label="우편번호"
+              isError={errors.zipCode && true}
+              labelStyle={'label'}
+              placeholder=""
+              value={zonecode}
+              autoComplete="none"
+              {...register('zipCode')}
+            />
+            <button type="button" onClick={handleModalOpen} className={cx('button')}>
+              우편번호 찾기
+            </button>
+          </div>
+          {errors.zipCode && <span className={cx('errorText')}>{errors.zipCode.message}</span>}
         </div>
         <CenterModal isOpen={modalOpen} onClose={handleModalClose}>
           <DaumPostcode
@@ -75,28 +78,34 @@ export default function AddressInput({ errors, register, setValue }: AddressInpu
             className={cx('postCodeModal')}
           />
         </CenterModal>
-        <Input
-          id="address"
-          type="text"
-          size="large"
-          label="주소"
-          isError={errors.address && true}
-          labelStyle={'label'}
-          placeholder=""
-          value={address}
-          autoComplete="none"
-          {...register('address')}
-        />
-        <Input
-          id="detailedAddress"
-          type="text"
-          size="large"
-          label="상세 주소"
-          isError={errors.detailedAddress && true}
-          labelStyle={'label'}
-          placeholder="상세주소"
-          {...register('detailedAddress')}
-        />
+        <div>
+          <Input
+            id="address"
+            type="text"
+            size="large"
+            label="주소"
+            isError={errors.address && true}
+            labelStyle={'label'}
+            placeholder=""
+            value={address}
+            autoComplete="none"
+            {...register('address')}
+          />
+          {errors.address && <span className={cx('errorText')}>{errors.address.message}</span>}
+        </div>
+        <div>
+          <Input
+            id="detailedAddress"
+            type="text"
+            size="large"
+            label="상세 주소"
+            isError={errors.detailedAddress && true}
+            labelStyle={'label'}
+            placeholder="상세주소"
+            {...register('detailedAddress')}
+          />
+          {errors.detailedAddress && <span className={cx('errorText')}>{errors.detailedAddress.message}</span>}
+        </div>
       </div>
     </div>
   );

@@ -18,6 +18,7 @@ export type FormValues = Yup.InferType<typeof deliveryFormSchema>;
 export default function DeliveryEditPage() {
   const methods = useForm<FormValues>({
     resolver: yupResolver(deliveryFormSchema),
+    mode: 'all',
   });
   const {
     formState: { errors, isValid },
