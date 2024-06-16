@@ -1,19 +1,42 @@
+'use client';
+
+import { useRouter } from 'next/router';
 import { useForm, FormProvider } from 'react-hook-form';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import classNames from 'classnames/bind';
+import signupFormSchema from '@/utils/signupFormSchema';
 import Input from '@/components/common/Input';
 import Button from '@/components/common/Button';
 import UserAgreement from './UserAgreement';
-import signupFormSchema from '@/utils/signupFormSchema';
+import authApi from '@/apis/authApi';
 
 import styles from './SignupForm.module.scss';
 
 const cx = classNames.bind(styles);
 
-export type FormValues = Yup.InferType<typeof signupFormSchema>;
+export type FormValues = Yup.InferType<typeof signupFormSchema> & { profileToken?: string };
 
 export default function SignupForm() {
+  const router = useRouter();
+  const { email, profileToken } = router.query;
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation<void, Error, FormValues>({
+    mutationFn: async (data: FormValues) => {
+      await authApi.postRegisterData({ ...data, profileToken });
+    },
+    onSuccess: data => {
+      console.log(data);
+      queryClient.invalidateQueries({ queryKey: ['register'] });
+      router.push('/onboarding');
+    },
+    onError: error => {
+      console.error('회원가입 실패', error);
+    },
+  });
+
   const methods = useForm<FormValues>({
     resolver: yupResolver(signupFormSchema),
   });
@@ -21,7 +44,9 @@ export default function SignupForm() {
     formState: { errors },
   } = methods;
   const { register, handleSubmit } = methods;
-  const onSubmit = (data: FormValues) => console.log(data);
+  const onSubmit = (data: FormValues) => {
+    console.log(data), mutation.mutate(data);
+  };
   console.log(errors);
 
   return (
@@ -34,7 +59,8 @@ export default function SignupForm() {
             size="large"
             label="이메일"
             labelStyle={'label'}
-            placeholder="이메일을 입력해주세요"
+            placeholder={email as string}
+            readOnly
             {...register}
           />
           <div>
@@ -45,7 +71,7 @@ export default function SignupForm() {
               label="닉네임"
               isError={errors.nickname && true}
               labelStyle={'label'}
-              placeholder="닉네임을 입력해주세요"
+              placeholder="2~8자의 한글, 영어, 숫자를 입력해주세요"
               {...register('nickname')}
             />
             {errors.nickname && <span className={cx('errorText')}>{errors.nickname.message}</span>}
@@ -58,7 +84,7 @@ export default function SignupForm() {
               label="연락처"
               isError={errors.phoneNumber && true}
               labelStyle={'label'}
-              placeholder="000-0000-0000"
+              placeholder="000-0000-0000 형식으로 입력해주세요"
               {...register('phoneNumber')}
             />
             {errors.phoneNumber && <span className={cx('errorText')}>{errors.phoneNumber.message}</span>}

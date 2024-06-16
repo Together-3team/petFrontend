@@ -131,4 +131,136 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
+  .orderPriceArea {
+    width: 100%;
+  }
+
+  .orderDetailLayout {
+    display: flex;
+    width: 100%;
+    padding: 2rem 1.6rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .orderDetailLayout h1 {
+    @include font-headline3;
+    text-align: center;
+  }
+
+  .orderDetailLayout h3 {
+    @include font-headline3;
+
+    width: 100%;
+    text-align: left;
+  }
+
+  .orderDetailLayout h3 span {
+    color: $color-gray-500;
+  }
+
+  .orderDetailHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    align-self: stretch;
+  }
+
+  .orderDetailHeader span {
+    @include font-headline3;
+
+    color: $color-gray-500;
+    white-space: nowrap;
+  }
+
+  .deliveryArea {
+    display: flex;
+    padding-top: 1.2rem;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    align-self: stretch;
+  }
+
+  .deliveryCard {
+    display: flex;
+    padding: 1.6rem 1.2rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 0.8rem;
+    align-self: stretch;
+    border-radius: 1.2rem;
+    background: var(--Grayscale-Gray-50, #f9fafc);
+  }
+
+  .deliveryCard h4 {
+    @include font-body1;
+  }
+
+  .deliveryCard span {
+    @include font-body4;
+  }
+
+  .deliveryMessageArea {
+    display: flex;
+    padding: 1.2rem var(--selectpayment, 0);
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 0.8rem;
+    align-self: stretch;
+  }
+
+  .deliveryMessage {
+    @include font-body2;
+    width: 100%;
+    text-align: left;
+  }
+
+  .orderListArea {
+    display: flex;
+    flex-direction: column;
+    padding-top: 1.2rem;
+    padding-bottom: 1.2rem;
+    gap: 1.2rem;
+  }
+  .rectangle {
+    width: 100%;
+    height: 0.8rem;
+    background-color: $color-gray-50;
+  }
+
+  .updownBorder {
+    width: 32.8rem;
+    height: 0.1rem;
+    background: $color-gray-100;
+    border: 0;
+  }
+
+  .paymentMethod {
+    display: flex;
+    padding: 1.2rem var(--selectpayment, 0) 2.8rem var(--selectpayment, 0);
+    flex-direction: column;
+    align-items: center;
+    gap: 2.4rem;
+    align-self: stretch;
+  }
+
+  .paymentMethodTitle {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .paymentMethod span {
+    @include font-body2;
+
+    width: 100%;
+    text-align: left;
+  }
 }
