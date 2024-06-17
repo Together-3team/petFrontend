@@ -43,7 +43,7 @@ export default function GoogleCallback() {
 
   useEffect(() => {
     mutation.mutate();
-  }, [code]);
+  }, [mutation]);
 
   return <div></div>;
 }

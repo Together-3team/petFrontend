@@ -43,7 +43,7 @@ export default function KakaoCallback() {
 
   useEffect(() => {
     mutation.mutate();
-  }, [code]);
+  }, [mutation]);
 
   return <div></div>;
 }

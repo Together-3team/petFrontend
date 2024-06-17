@@ -1,7 +1,6 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { fetchMyData } from '@/apis/userApi';
 import { useCookies } from 'react-cookie';
-import { useEffect } from 'react';
 
 export default function useAuth() {
   const [cookie] = useCookies(['accessToken']);

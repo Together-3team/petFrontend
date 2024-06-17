@@ -19,7 +19,7 @@ import { AxiosResponse } from 'axios';
 
 import styles from './Info.module.scss';
 
-type phoneNumberValue = Yup.InferType<typeof phoneNumberSchema>;
+type PhoneNumberValue = Yup.InferType<typeof phoneNumberSchema>;
 //TODO: 리다이렉트 시 userData 못 불러오는 이슈
 export default function Info() {
   const { userData } = useAuth();
@@ -33,8 +33,9 @@ export default function Info() {
       return response.data;
     },
   });
+
   const mutation = useMutation<AxiosResponse<UserEditParams>, Error, UserEditParams>({
-    mutationKey: ['user'],
+    mutationKey: ['userEdit'],
     mutationFn: async ({ id, userEditData }: UserEditParams) => {
       const response = await userApi.put(id, userEditData);
       console.log(response);
@@ -48,15 +49,15 @@ export default function Info() {
     },
   });
 
-  const methods = useForm<phoneNumberValue>({
+  const methods = useForm<PhoneNumberValue>({
     resolver: yupResolver(phoneNumberSchema),
   });
   const {
     formState: { errors },
   } = methods;
-  const { register, handleSubmit, setValue } = methods;
+  const { register, handleSubmit } = methods;
 
-  const onSubmit: SubmitHandler<phoneNumberValue> = data => {
+  const onSubmit: SubmitHandler<PhoneNumberValue> = data => {
     const userEditData: UserEditProps = {
       nickname: userData.nickname,
       phoneNumber: data.phoneNumber,

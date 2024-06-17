@@ -1,8 +1,9 @@
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { FieldValues, FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { UserEditParams, userApi } from '@/apis/userApi';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import useAuth from '@/hooks/useAuth';
+import { UserEditParams, UserEditProps, userApi } from '@/apis/userApi';
 import ImageBox from '@/components/common/ImageBox';
 import Button from '@/components/common/Button';
 import selectedDog from '@/assets/images/selected-dog.png';
@@ -12,20 +13,17 @@ import unselectedDog from '@/assets/images/unselected-dog.png';
 import { AxiosResponse } from 'axios';
 
 import styles from './Onboarding.module.scss';
-import useAuth from '@/hooks/useAuth';
-
+//TODO: 반려동물 선택 put 요청
 export default function Onboarding() {
   const [isChecked, setIsChecked] = useState<number[]>([]);
 
   const { userData } = useAuth();
 
-  const mutation = useMutation<AxiosResponse<any, any>, Error, UserEditParams>({
+  const mutation = useMutation<AxiosResponse<UserEditParams>, Error, UserEditParams>({
     mutationKey: ['userEdit'],
-    // mutationFn: async ({ id, userData }: UserEditParams) => {
-    //   return await userApi.put(id, userData);
-    // },
-    mutationFn: async ({ id, userData }: UserEditParams) => {
-      const response = await userApi.put(id, userData);
+    mutationFn: async ({ id, userEditData }: UserEditParams) => {
+      const response = await userApi.put(id, userEditData);
+      console.log(response);
       return response;
     },
     onSuccess: data => {
@@ -36,23 +34,50 @@ export default function Onboarding() {
     },
   });
 
-  type OnboardingProps = FieldValues & UserEditParams;
+  interface PetValue {
+    preferredPet: number;
+  }
 
-  const methods = useForm<OnboardingProps>();
+  const methods = useForm<PetValue>({
+    defaultValues: {
+      preferredPet: 0,
+    },
+  });
 
   const { register, handleSubmit, setValue } = methods;
-  const onSubmit: SubmitHandler<OnboardingProps> = data => {
+
+  useEffect(() => {
+    if (userData) {
+      setValue('preferredPet', userData.preferredPet);
+      setIsChecked([userData.preferredPet]);
+    }
+  }, [userData, setValue]);
+
+  const onSubmit: SubmitHandler<PetValue> = data => {
+    const userEditData: UserEditProps = {
+      nickname: userData.nickname,
+      phoneNumber: userData.phoneNumber,
+      profileImage: userData.profileImage,
+      isSubscribedToPromotions: userData.isSubscribedToPromotions,
+      preferredPet: data.preferredPet,
+    };
     console.log(data);
-    mutation.mutate(data);
+
+    const params: UserEditParams = {
+      id: userData.id,
+      userEditData,
+    };
+    mutation.mutate(params);
   };
 
   function handleCheckboxChange(key: number) {
     setIsChecked(prev => (prev.includes(key) ? prev.filter(item => item !== key) : [...prev, key]));
-    setValue(userData.prefferedPet, key);
+    setValue('preferredPet', key);
   }
 
   function handleCheckAll(key: number) {
     setIsChecked([key]);
+    setValue('preferredPet', 0);
   }
 
   return (
@@ -73,13 +98,13 @@ export default function Onboarding() {
               />
               <label className={styles.petChoiceLabel}>
                 <input
-                  id="prefferedPet"
+                  id="preferredPet"
                   key="dog"
                   type="checkbox"
                   className={styles.checkboxInput}
                   checked={isChecked.includes(1)}
                   onClick={() => handleCheckboxChange(1)}
-                  {...register('prefferedPet', { value: 1 })}
+                  {...register('preferredPet', { value: 1 })}
                 />
                 <div className={styles.petChoiceButton}>
                   <span className={styles.buttonText}>강아지</span>
@@ -95,13 +120,13 @@ export default function Onboarding() {
               />
               <label className={styles.petChoiceLabel}>
                 <input
-                  id="cat"
+                  id="preferredPet"
                   key="cat"
                   type="checkbox"
                   className={styles.checkboxInput}
                   checked={isChecked.includes(2)}
                   onClick={() => handleCheckboxChange(2)}
-                  {...register('cat', { value: 2 })}
+                  {...register('preferredPet', { value: 2 })}
                 />
                 <div className={styles.petChoiceButton}>
                   <span className={styles.buttonText}>고양이</span>
@@ -118,13 +143,13 @@ export default function Onboarding() {
             </Link>
             <label>
               <input
-                id="prefferedPet"
+                id="preferredPet"
                 key="all"
                 className={styles.checkboxInput}
                 type="checkbox"
                 checked={isChecked.includes(0)}
                 onClick={() => handleCheckAll(0)}
-                {...register('prefferedPet', { value: 0 })}
+                {...register('preferredPet', { value: 0 })}
               />
               <div className={styles.laterChoice}>나중에 선택할게요</div>
             </label>
