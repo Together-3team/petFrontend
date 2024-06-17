@@ -1,19 +1,15 @@
 import { PropsWithChildren } from 'react';
-import classNames from 'classnames/bind';
 
 import styles from './RootLayout.module.scss';
 import LogoIcon from '@/assets/svgs/heart.svg';
 import { PORTAL_ID } from '@/constants/portal';
-
-const cx = classNames.bind(styles);
-
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
-    <div className={cx('container')}>
-      <div className={cx('homeBackground')} />
-      <div className={cx('heroContainer')}>
+    <div className={styles.container}>
+      <div className={styles.homeBackground} />
+      <div className={styles.heroContainer}>
         {/* hero 내용 분리 예정 */}
-        <div className={cx('hero')}>
+        <div className={styles.hero}>
           <header>
             {/* 로고 이미지로 대체 예정 */}
             <LogoIcon />
@@ -25,11 +21,13 @@ export default function RootLayout({ children }: PropsWithChildren) {
           </footer>
         </div>
       </div>
-      <div className={cx('main')}>
-        <div className={cx('appBackground')} />
-        <div className={cx('contents')}>{children}</div>
-        <div id={PORTAL_ID.TOAST} className={styles.rootToast}></div>
-        <div id={PORTAL_ID.MODAL}></div>
+      <div className={styles.mainBox}>
+        <div>
+          <div className={styles.appBackground} />
+          <div className={styles.contents}>{children}</div>
+          <div id={PORTAL_ID.TOAST} className={styles.rootToast}></div>
+          <div id={PORTAL_ID.MODAL}></div>
+        </div>
       </div>
     </div>
   );

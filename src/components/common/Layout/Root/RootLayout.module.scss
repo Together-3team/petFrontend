@@ -21,7 +21,7 @@
   }
 
   .heroContainer {
-    $size-home: 50rem;
+    $size-home: 51.2rem;
 
     display: none;
     border: 0.1rem solid $color-pink-main;
@@ -55,12 +55,15 @@
     z-index: $z-index-app-background;
   }
 
-  .main {
-    position: relative;
-    max-width: $size-mobile-max;
+  .mainBox {
     width: 100%;
+    max-width: $size-mobile-max;
 
     @include desktop {
+      display: flex;
+      justify-content: center;
+      max-width: $size-view-box;
+      position: relative;
       left: 50vw;
     }
   }
@@ -69,10 +72,13 @@
     @include nav-shadow;
 
     background-color: $color-white;
-    border: 0.1rem solid $color-gray-300;
+    border-left: 0.1rem solid $color-gray-300;
+    border-right: 0.1rem solid $color-gray-300;
     display: flex;
     flex-direction: column;
+    position: relative;
     width: 100%;
+    max-width: $size-mobile-max;
     min-height: 100vh;
   }
 

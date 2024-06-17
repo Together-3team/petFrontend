@@ -61,9 +61,6 @@
   bottom: 0;
   width: 100%;
   max-width: $size-mobile-max;
-  @include desktop {
-    left: 50vw;
-  }
 }
 
 /* 로그인, 프로필 선택 등을 나중에 할 때 나타내는 TEXT 스타일 */
