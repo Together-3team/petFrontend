@@ -36,10 +36,10 @@ export default function DeliveryCard({ deliveryInfo }: { deliveryInfo: DeliveryI
         {address}, {detailedAddress}
       </p>
       <p>{zipCode}</p>
-      <Button size="small" backgroundColor="$color-white-gray">
+      <Button size="extraSmall" backgroundColor="$color-white-gray">
         수정
       </Button>
-      <Button size="small" backgroundColor="$color-white-gray">
+      <Button size="extraSmall" backgroundColor="$color-white-gray">
         삭제
       </Button>
     </div>
