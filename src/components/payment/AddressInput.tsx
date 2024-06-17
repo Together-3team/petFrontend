@@ -22,9 +22,6 @@ const cx = classNames.bind(styles);
 
 export default function AddressInput({ errors, register, setValue }: AddressInputProps) {
   const { modalOpen, handleModalOpen, handleModalClose } = useModal();
-  // const [zonecode, setZonecode] = useState('');
-  // const [address, setAddress] = useState('');
-  // const [isUpdate, setIsUpdate] = useState(false);
 
   const themeObj = {
     bgColor: '#FFFFFF',
@@ -41,13 +38,9 @@ export default function AddressInput({ errors, register, setValue }: AddressInpu
   //data는 사용자가 선택한 주소 정보(zonecode, address...)를 담고 있는 객체
   const completeHandler = (data: any) => {
     const { address, zonecode } = data;
-    // setZonecode(zonecode);
-    // setAddress(address);
     setValue('zipCode', zonecode);
     setValue('address', address);
-    // setIsUpdate(true);
   };
-  // const { ref, ...rest } = register('zipCode');
 
   return (
     <div>
@@ -59,20 +52,16 @@ export default function AddressInput({ errors, register, setValue }: AddressInpu
               type="text"
               size="small"
               label="우편번호"
-              isError={errors.zipCode && true}
               labelStyle={'label'}
               placeholder=""
               autoComplete="none"
-              // isUpdate={isUpdate}
-              // ref={ref}
-              // {...rest}
               {...register('zipCode')}
+              readOnly
             />
             <button type="button" onClick={handleModalOpen} className={cx('button')}>
               우편번호 찾기
             </button>
           </div>
-          {errors.zipCode && <span className={cx('errorText')}>{errors.zipCode.message}</span>}
         </div>
         <CenterModal isOpen={modalOpen} onClose={handleModalClose}>
           <DaumPostcode
@@ -89,14 +78,12 @@ export default function AddressInput({ errors, register, setValue }: AddressInpu
             type="text"
             size="large"
             label="주소"
-            isError={errors.address && true}
             labelStyle={'label'}
             placeholder=""
-            // value={address}
             autoComplete="none"
+            readOnly
             {...register('address')}
           />
-          {errors.address && <span className={cx('errorText')}>{errors.address.message}</span>}
         </div>
         <div>
           <Input
