@@ -40,3 +40,26 @@
   background-color: $color-gray-100;
   margin: 1rem 0;
 }
+
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-bottom: 2.4rem;
+}
+
+.clockImg {
+  margin: 2rem 0;
+}
+
+.warning {
+  @include font-body1;
+  margin-bottom: 1.2rem;
+}
+
+.detailWarning {
+  @include font-body4;
+  color: $color-gray-500;
+  margin-bottom: 3.2rem;
+}

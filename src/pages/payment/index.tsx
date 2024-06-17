@@ -4,14 +4,16 @@ import { loadPaymentWidget, PaymentWidgetInstance } from '@tosspayments/payment-
 import { nanoid } from 'nanoid';
 import Button from '@/components/common/Button';
 import PaymentAgree from '@/components/payment/PaymentAgree';
-import exampleProductImg from '@/assets/exampleProductImg.jpg';
 import TotalPay from '@/components/payment/TotalPay';
 import Card from '@/components/payment/Card';
 import Header from '@/components/common/Layout/Header';
+import BottomModal from '@/components/common/Modal/Base/BottomModal';
 import BackButton from '@/components/common/Button/BackButton';
 import { fetchCartProducts } from '@/apis/cartApi';
 import { Product } from '@/pages/cart';
 import { useQuery } from '@tanstack/react-query';
+import clock from '@/assets/images/clock.png';
+import Image from 'next/image';
 
 const widgetClientKey = 'test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm';
 const customerKey = '-YY27b1BN-PCQD_5Qwp9X';
@@ -20,7 +22,8 @@ export default function Payment() {
   const [checkboxChecked, setCheckboxChecked] = useState(false);
   const [paymentWidget, setPaymentWidget] = useState<PaymentWidgetInstance | null>(null);
   const paymentMethodsWidgetRef = useRef<ReturnType<PaymentWidgetInstance['renderPaymentMethods']> | null>(null);
-  const [price, setPrice] = useState(50000); // 기본 가격 설정
+  const [price, setPrice] = useState(0); // 기본 가격 설정
+  const [isModalOpen, setIsModalOpen] = useState(true);
   const {
     data: products,
     isLoading,
@@ -120,7 +123,7 @@ export default function Payment() {
           <Header.Left>
             <BackButton />
           </Header.Left>
-          <Header.Center className={styles.headerName}>장바구니</Header.Center>
+          <Header.Center className={styles.headerName}>결제</Header.Center>
         </Header.Box>
       </Header.Root>
       <div className={styles.rectangle}></div>
@@ -162,6 +165,18 @@ export default function Payment() {
           </Button>
         </div>
       </div>
+      <BottomModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <div className={styles.modalContent}>
+          <Image className={styles.clockImg} src={clock} width={168} height={120} alt="clockImg" />
+          <div className={styles.warning}>공동구매는 빨리 성사되지 않으면 취소될 수 있어요</div>
+          <div className={styles.detailWarning}>
+            24시간 내 공동구매 참여자가 없거나, 공동구매 성사 전에 품절되면 주문이 취소될 수 있어요.
+          </div>
+          <Button size="large" backgroundColor="$color-gray-800" onClick={() => setIsModalOpen(false)}>
+            이해했어요
+          </Button>
+        </div>
+      </BottomModal>
     </div>
   );
 }
