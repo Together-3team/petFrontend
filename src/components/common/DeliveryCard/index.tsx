@@ -20,7 +20,7 @@ export default function DeliveryCard({ deliveryInfo }: { deliveryInfo: DeliveryI
   const { id, name, recipient, recipientPhoneNumber, zipCode, address, detailedAddress, isDefault } = deliveryInfo;
 
   return (
-    <div>
+    <div className={cx('deliveryCard')}>
       <div className={cx('addressName')}>
         <span>{name}</span>
         {isDefault && (
