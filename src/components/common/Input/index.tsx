@@ -1,4 +1,4 @@
-import { forwardRef, ChangeEvent } from 'react';
+import { forwardRef, ChangeEvent, useEffect, ForwardedRef, useRef } from 'react';
 import Image, { ImageProps } from 'next/image';
 import classNames from 'classnames/bind';
 import styles from './Input.module.scss';
@@ -20,6 +20,7 @@ interface InputProps {
   value?: string;
   readOnly?: boolean;
   autoComplete?: string;
+  // isUpdate?: boolean;
 }
 
 const cx = classNames.bind(styles);
@@ -28,6 +29,30 @@ const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   { id, label, isError, errorText, labelStyle, size, border, imageProps, background, autoComplete, ...rest },
   ref
 ) {
+  // const inputRef = useRef<HTMLInputElement | null>(null);
+  // if (isUpdate) {
+  //   console.log(inputRef?.current);
+  //   inputRef.current?.dispatchEvent(new Event('change'));
+  // }
+
+  // useEffect(() => {
+  //   if (isUpdate) {
+  //     document.getElementById('input')?.blur();
+  //   }
+  // }, [isUpdate]);
+
+  // useEffect(() => {
+  //   function focusInput(ref: ForwardedRef<HTMLInputElement>) {
+  //     console.log(ref);
+  //     console.log(typeof ref);
+  //     if (typeof ref !== 'function' && ref?.current && isUpdate) {
+  //       console.log('abc');
+  //       ref && ref.current?.dispatchEvent(new Event('input'));
+  //     }
+  //   }
+  //   focusInput(ref);
+  // }, [isUpdate, ref]);
+
   return (
     <div className={cx('inputWithLabel')}>
       {label && (
@@ -37,10 +62,17 @@ const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
       )}
       <div className={cx({ inputWithIcon: imageProps })}>
         <input
+          id="input"
           ref={ref}
           className={cx(border, { error: isError }, size, background)}
           autoComplete={autoComplete}
           {...rest}
+          // ref={e => {
+          //   if (typeof ref === 'function') {
+          //     ref(e);
+          //   }
+          //   inputRef.current = e;
+          // }}
         />
         {imageProps && (
           <Image

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import * as Yup from 'yup';
 import classNames from 'classnames/bind';
 import DaumPostcode from 'react-daum-postcode';
@@ -22,8 +22,9 @@ const cx = classNames.bind(styles);
 
 export default function AddressInput({ errors, register, setValue }: AddressInputProps) {
   const { modalOpen, handleModalOpen, handleModalClose } = useModal();
-  const [zonecode, setZonecode] = useState('');
-  const [address, setAddress] = useState('');
+  // const [zonecode, setZonecode] = useState('');
+  // const [address, setAddress] = useState('');
+  // const [isUpdate, setIsUpdate] = useState(false);
 
   const themeObj = {
     bgColor: '#FFFFFF',
@@ -40,11 +41,13 @@ export default function AddressInput({ errors, register, setValue }: AddressInpu
   //data는 사용자가 선택한 주소 정보(zonecode, address...)를 담고 있는 객체
   const completeHandler = (data: any) => {
     const { address, zonecode } = data;
-    setZonecode(zonecode);
-    setAddress(address);
+    // setZonecode(zonecode);
+    // setAddress(address);
     setValue('zipCode', zonecode);
     setValue('address', address);
+    // setIsUpdate(true);
   };
+  // const { ref, ...rest } = register('zipCode');
 
   return (
     <div>
@@ -59,8 +62,10 @@ export default function AddressInput({ errors, register, setValue }: AddressInpu
               isError={errors.zipCode && true}
               labelStyle={'label'}
               placeholder=""
-              value={zonecode}
               autoComplete="none"
+              // isUpdate={isUpdate}
+              // ref={ref}
+              // {...rest}
               {...register('zipCode')}
             />
             <button type="button" onClick={handleModalOpen} className={cx('button')}>
@@ -87,7 +92,7 @@ export default function AddressInput({ errors, register, setValue }: AddressInpu
             isError={errors.address && true}
             labelStyle={'label'}
             placeholder=""
-            value={address}
+            // value={address}
             autoComplete="none"
             {...register('address')}
           />
