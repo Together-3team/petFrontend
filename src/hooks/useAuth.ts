@@ -17,9 +17,6 @@ export default function useAuth() {
     queryClient.setQueryData(['user'], null);
   }
   const isLogin = !!userData && !!accessToken;
-  console.log(userData);
-  console.log(isLogin);
-  console.log(cookie);
 
   return {
     isLogin,

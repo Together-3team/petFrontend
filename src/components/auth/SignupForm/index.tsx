@@ -72,6 +72,7 @@ export default function SignupForm() {
             label="이메일"
             labelStyle={'label'}
             placeholder={email as string}
+            background="background"
             readOnly
             {...register}
           />

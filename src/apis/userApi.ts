@@ -25,17 +25,12 @@ export interface UserEditProps {
   phoneNumber: string;
   profileImage: string;
   isSubscribedToPromotions: boolean;
-  prefferedPet: number;
+  preferredPet: number;
 }
 
 export interface UserEditParams {
-  userData: {
-    nickname: string;
-    phoneNumber: string;
-    profileImage: string;
-    isSubscribedToPromotions: boolean;
-    prefferedPet: number;
-  };
+  data?: UserEditProps;
+  userEditData?: UserEditProps;
   id: UserId;
 }
 

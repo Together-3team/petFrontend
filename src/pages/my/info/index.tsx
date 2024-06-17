@@ -3,7 +3,10 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useCookies } from 'react-cookie';
 import useModal from '@/hooks/useModal';
+import useAuth from '@/hooks/useAuth';
+import { DeleteUserRdo, UserEditParams, UserId, userApi, UserEditProps } from '@/apis/userApi';
 import Header from '@/components/common/Layout/Header';
 import Input from '@/components/common/Input';
 import Button from '@/components/common/Button';
@@ -15,12 +18,9 @@ import { phoneNumberSchema } from '@/utils/signupFormSchema';
 import { AxiosResponse } from 'axios';
 
 import styles from './Info.module.scss';
-import useAuth from '@/hooks/useAuth';
-import { DeleteUserRdo, UserEditParams, UserId, userApi } from '@/apis/userApi';
-import { useCookies } from 'react-cookie';
 
 type phoneNumberValue = Yup.InferType<typeof phoneNumberSchema>;
-
+//TODO: 리다이렉트 시 userData 못 불러오는 이슈
 export default function Info() {
   const { userData } = useAuth();
 
@@ -33,11 +33,11 @@ export default function Info() {
       return response.data;
     },
   });
-
-  const mutation = useMutation<AxiosResponse<any, any>, Error, UserEditParams>({
-    mutationKey: ['userEdit'],
-    mutationFn: async ({ id, userData }: UserEditParams) => {
-      const response = await userApi.put(id, userData);
+  const mutation = useMutation<AxiosResponse<UserEditParams>, Error, UserEditParams>({
+    mutationKey: ['user'],
+    mutationFn: async ({ id, userEditData }: UserEditParams) => {
+      const response = await userApi.put(id, userEditData);
+      console.log(response);
       return response;
     },
     onSuccess: data => {
@@ -54,12 +54,25 @@ export default function Info() {
   const {
     formState: { errors },
   } = methods;
-  const { register, handleSubmit } = methods;
-  const onSubmit = (data: phoneNumberValue) => {
+  const { register, handleSubmit, setValue } = methods;
+
+  const onSubmit: SubmitHandler<phoneNumberValue> = data => {
+    const userEditData: UserEditProps = {
+      nickname: userData.nickname,
+      phoneNumber: data.phoneNumber,
+      profileImage: userData.profileImage,
+      isSubscribedToPromotions: userData.isSubscribedToPromotions,
+      preferredPet: userData.preferredPet,
+    };
     console.log(data);
-    // mutation.mutate(data);
+
+    const params: UserEditParams = {
+      id: userData.id,
+      userEditData,
+    };
+
+    mutation.mutate(params);
   };
-  console.log(errors);
 
   const { modalOpen, handleModalOpen, handleModalClose } = useModal();
 
