@@ -37,7 +37,7 @@ export default function MyPage() {
         </FloatingBox>
       </div>
     );
-  if (isLogin && cookie.accessToken) return <Menu />;
+  if (isLogin) return <Menu />;
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
