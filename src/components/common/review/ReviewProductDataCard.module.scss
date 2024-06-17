@@ -1,0 +1,26 @@
+.productDataBox {
+  display: flex;
+  margin: 0.8rem 0;
+  padding: 0.6rem 0;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.productImg {
+  width: 4.4rem;
+  height: 4.4rem;
+  border-radius: 0.8rem;
+}
+
+.productName {
+  @include font-body1;
+
+  color: $color-black;
+  margin-bottom: 0.4rem;
+}
+
+.productOption {
+  @include font-body5;
+
+  color: $color-gray-500;
+}

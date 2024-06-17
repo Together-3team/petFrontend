@@ -14,7 +14,7 @@ const signupFormSchema = Yup.object().shape({
   ageCheck: Yup.boolean().oneOf([true], '해당 항목을 표시해야 합니다.').required(),
   serviceAgreement: Yup.boolean().oneOf([true], '필수 이용약관에 동의해야 합니다.').required(),
   privatePolicy: Yup.boolean().oneOf([true], '필수 이용약관에 동의해야 합니다.').required(),
-  marketingAgreement: Yup.boolean().required(),
+  isSubscribedToPromotions: Yup.boolean().required(),
 });
 
 export const phoneNumberSchema = Yup.object({
