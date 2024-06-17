@@ -1,6 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
 import styles from './Cart.module.scss';
-import { useRouter } from 'next/router';
 import Card from '@/components/cart/Card';
 import TotalPay from '@/components/cart/TotalPay';
 import Button from '@/components/common/Button';
@@ -19,6 +18,7 @@ export interface Product {
   option: string;
   productCost: number;
   originalCost: number;
+  combinationPrice: number;
   productNumber: number;
   imageUrl: string;
   isChecked: boolean;
@@ -29,7 +29,6 @@ export default function Cart() {
   const [products, setProducts] = useState<Product[]>([]);
   const [selectAll, setSelectAll] = useState(true);
   const queryClient = useQueryClient();
-  const router = useRouter();
   const { showToast } = useToast(BOTTOM_BOX_ID);
 
   // 상품 목록 GET
@@ -125,7 +124,7 @@ export default function Cart() {
     return products
       .filter(product => product.isChecked)
       .reduce((total, product) => {
-        return total + product.originalCost * product.productNumber;
+        return total + product.originalCost * product.productNumber + product.combinationPrice * product.productNumber;
       }, 0);
   }
 
@@ -134,7 +133,7 @@ export default function Cart() {
     return products
       .filter(product => product.isChecked)
       .reduce((total, product) => {
-        return total + product.productCost * product.productNumber;
+        return total + product.productCost * product.productNumber + product.combinationPrice * product.productNumber;
       }, 0);
   }
 
