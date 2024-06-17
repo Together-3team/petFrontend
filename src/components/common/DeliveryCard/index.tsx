@@ -36,12 +36,14 @@ export default function DeliveryCard({ deliveryInfo }: { deliveryInfo: DeliveryI
         {address}, {detailedAddress}
       </p>
       <p>{zipCode}</p>
-      <Button size="extraSmall" backgroundColor="$color-white-gray">
-        수정
-      </Button>
-      <Button size="extraSmall" backgroundColor="$color-white-gray">
-        삭제
-      </Button>
+      <div className={cx('buttons')}>
+        <Button size="extraSmall" backgroundColor="$color-white-gray-gray">
+          수정
+        </Button>
+        <Button size="extraSmall" backgroundColor="$color-white-gray-gray">
+          삭제
+        </Button>
+      </div>
     </div>
   );
 }

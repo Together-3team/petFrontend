@@ -10,6 +10,7 @@ interface ButtonProps {
     | '$color-pink-main'
     | '$color-white'
     | '$color-white-gray'
+    | '$color-white-gray-gray'
     | '$color-white-pink';
   onClick?: () => void;
   disabled?: boolean;
@@ -24,6 +25,7 @@ export default function Button({ size, children, backgroundColor, onClick, disab
     '$color-pink-main': styles.backgroundPink,
     '$color-white': styles.backgroundWhite,
     '$color-white-gray': styles.backgroundWhiteWithGrayBorder,
+    '$color-white-gray-gray': styles.backgroundWhiteWithGrayBorderAndGrayFont,
     '$color-white-pink': styles.backgroundWhiteWithPink,
   };
   const backgroundClass = backgroundColorMap[backgroundColor] || '';

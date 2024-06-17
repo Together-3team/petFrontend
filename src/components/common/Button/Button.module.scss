@@ -46,6 +46,12 @@
   border: 1px solid $color-gray-300;
 }
 
+.backgroundWhiteWithGrayBorderAndGrayFont {
+  background-color: $color-white;
+  border: 1px solid $color-gray-500;
+  color: $color-gray-500;
+}
+
 .backgroundGray {
   background-color: $color-gray-300;
   color: $color-white;
