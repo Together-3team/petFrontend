@@ -1,9 +1,7 @@
-import { forwardRef, ChangeEvent, useEffect, ForwardedRef, useRef } from 'react';
+import { forwardRef } from 'react';
 import Image, { ImageProps } from 'next/image';
 import classNames from 'classnames/bind';
 import styles from './Input.module.scss';
-import { UseFormSetValue } from 'react-hook-form';
-import { FormValues } from '@/components/payment/AddressInput';
 
 interface InputProps {
   id: string;
