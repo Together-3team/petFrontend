@@ -27,7 +27,7 @@ export default function CardSliderSimilar() {
       </CardSlider.Header>
       <CardSlider.List>
         {PRODUCT_LIST.map((product, index) => (
-          <li key={index}>
+          <li key={index} className={styles.item}>
             <Card productInfo={product} size="big" isZzim />
           </li>
         ))}
