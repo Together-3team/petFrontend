@@ -3,6 +3,8 @@ import NextButtonTemp from '@/components/common/Button/NextButtonTemp';
 import CardSlider from '@/components/common/Card/CardSlider/Base';
 import rectangleImg from '@/assets/images/rectangle.png';
 import Card from '@/components/common/Card';
+import CardPlaceholder from '../../CardPlaceholder';
+import Link from 'next/link';
 
 const PRODUCT = {
   productId: 2,
@@ -34,6 +36,17 @@ export default function CardSliderHot() {
             <Card productInfo={product} size="big" isZzim />
           </li>
         ))}
+        <li>
+          <CardPlaceholder>
+            <p className={styles.moreText}>
+              더 다양한 인기 상품이
+              <br /> 궁금하신가요?
+            </p>
+            <Link href="/products/hot" className={styles.moreButton}>
+              전체보기
+            </Link>
+          </CardPlaceholder>
+        </li>
       </CardSlider.List>
     </CardSlider.Root>
   );
