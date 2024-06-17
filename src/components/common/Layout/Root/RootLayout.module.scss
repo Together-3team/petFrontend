@@ -9,7 +9,9 @@
   }
 
   .homeBackground {
-    background-color: $color-pink-light;
+    background-image: url('/images/pawing-background.png');
+    background-size: cover;
+    background-position: center center;
     position: fixed;
     top: 0;
     left: 0;
