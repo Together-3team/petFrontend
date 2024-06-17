@@ -18,20 +18,19 @@ export default function CardSliderSimilar() {
   /**
    * @TODO 리액트쿼리 추가
    */
+  const PRODUCT_LIST = Array(8).fill(PRODUCT);
 
   return (
     <CardSlider.Root>
       <CardSlider.Header>
         <CardSlider.Title>비슷한 상품</CardSlider.Title>
       </CardSlider.Header>
-      <CardSlider.List>
-        {Array(8)
-          .fill(PRODUCT)
-          .map((product, index) => (
-            <li key={index}>
-              <Card productInfo={product} size="big" isZzim />
-            </li>
-          ))}
+      <CardSlider.List className={styles.list}>
+        {PRODUCT_LIST.map((product, index) => (
+          <li key={index}>
+            <Card productInfo={product} size="big" isZzim />
+          </li>
+        ))}
       </CardSlider.List>
     </CardSlider.Root>
   );
