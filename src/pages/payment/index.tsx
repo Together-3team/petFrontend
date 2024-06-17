@@ -8,6 +8,7 @@ import TotalPay from '@/components/payment/TotalPay';
 import Card from '@/components/payment/Card';
 import Header from '@/components/common/Layout/Header';
 import BottomModal from '@/components/common/Modal/Base/BottomModal';
+import Input from '@/components/common/Input';
 import BackButton from '@/components/common/Button/BackButton';
 import { fetchCartProducts } from '@/apis/cartApi';
 import { Product } from '@/pages/cart';
@@ -94,13 +95,15 @@ export default function Payment() {
 
   const handlePaymentRequest = async () => {
     try {
+      const firstProductTitle = products?.[0]?.productTitle || '';
+      const remainingProductCount = (products?.length || 0) - 1;
+      const orderName =
+        remainingProductCount > 0 ? `${firstProductTitle} 외 ${remainingProductCount}건` : firstProductTitle;
+      console.log(orderName);
       await paymentWidget?.requestPayment({
         orderId: nanoid(),
-        orderName: '토스 티셔츠 외 2건',
-        customerName: '김토스',
-        customerEmail: 'customer123@gmail.com',
-        customerMobilePhone: '01012341234',
-        successUrl: `${window.location.origin}/payment/success`,
+        orderName,
+        successUrl: `${window.location.origin}/payment/paymentSuccess`,
         failUrl: `${window.location.origin}/payment/fail`,
       });
     } catch (error) {
@@ -126,6 +129,16 @@ export default function Payment() {
           <Header.Center className={styles.headerName}>결제</Header.Center>
         </Header.Box>
       </Header.Root>
+      <div className={styles.deliveryMessage}>
+        <Input
+          id="recipient"
+          type="text"
+          size="large"
+          label="배송메시지"
+          labelStyle={'label'}
+          placeholder="예) 부재시 집 앞에 놔주세요"
+        />
+      </div>
       <div className={styles.rectangle}></div>
       <div className={styles.orderProduct}>
         <div className={styles.orderTitle}>
