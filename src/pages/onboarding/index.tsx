@@ -21,13 +21,13 @@ export default function Onboarding() {
 
   const mutation = useMutation<AxiosResponse<any, any>, Error, UserEditParams>({
     mutationKey: ['userEdit'],
-    mutationFn: async ({ id, userData }: UserEditParams) => {
-      return await userApi.put(id, userData);
-    },
     // mutationFn: async ({ id, userData }: UserEditParams) => {
-    //   const response = await userApi.put(id, userData);
-    //   return response;
+    //   return await userApi.put(id, userData);
     // },
+    mutationFn: async ({ id, userData }: UserEditParams) => {
+      const response = await userApi.put(id, userData);
+      return response;
+    },
     onSuccess: data => {
       console.log(data);
     },
@@ -40,7 +40,7 @@ export default function Onboarding() {
 
   const methods = useForm<OnboardingProps>();
 
-  const { register, handleSubmit, setValue, getValues } = methods;
+  const { register, handleSubmit, setValue } = methods;
   const onSubmit: SubmitHandler<OnboardingProps> = data => {
     console.log(data);
     mutation.mutate(data);
@@ -48,7 +48,7 @@ export default function Onboarding() {
 
   function handleCheckboxChange(key: number) {
     setIsChecked(prev => (prev.includes(key) ? prev.filter(item => item !== key) : [...prev, key]));
-    setValue('userData.prefferedPet', key);
+    setValue(userData.prefferedPet, key);
   }
 
   function handleCheckAll(key: number) {
@@ -73,12 +73,13 @@ export default function Onboarding() {
               />
               <label className={styles.petChoiceLabel}>
                 <input
+                  id="prefferedPet"
                   key="dog"
                   type="checkbox"
                   className={styles.checkboxInput}
                   checked={isChecked.includes(1)}
                   onClick={() => handleCheckboxChange(1)}
-                  {...register('dog', { value: 1 })}
+                  {...register('prefferedPet', { value: 1 })}
                 />
                 <div className={styles.petChoiceButton}>
                   <span className={styles.buttonText}>강아지</span>
@@ -94,6 +95,7 @@ export default function Onboarding() {
               />
               <label className={styles.petChoiceLabel}>
                 <input
+                  id="cat"
                   key="cat"
                   type="checkbox"
                   className={styles.checkboxInput}
@@ -116,12 +118,13 @@ export default function Onboarding() {
             </Link>
             <label>
               <input
+                id="prefferedPet"
                 key="all"
                 className={styles.checkboxInput}
                 type="checkbox"
                 checked={isChecked.includes(0)}
                 onClick={() => handleCheckAll(0)}
-                {...register('all', { value: 0 })}
+                {...register('prefferedPet', { value: 0 })}
               />
               <div className={styles.laterChoice}>나중에 선택할게요</div>
             </label>

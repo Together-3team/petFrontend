@@ -92,6 +92,8 @@ export default function Info() {
               size="large"
               label="이메일"
               labelStyle={'label'}
+              readOnly
+              background="background"
               placeholder={userData.email}
             />
             <Input
