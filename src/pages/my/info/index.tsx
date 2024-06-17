@@ -12,16 +12,19 @@ import BottomShareModal from '@/components/common/Modal/BottomShareModal';
 import Sample from '@/assets/exampleProductImg.jpg';
 import ImageBox from '@/components/common/ImageBox';
 import { phoneNumberSchema } from '@/utils/signupFormSchema';
+import { AxiosResponse } from 'axios';
 
 import styles from './Info.module.scss';
 import useAuth from '@/hooks/useAuth';
 import { DeleteUserRdo, UserEditParams, UserId, userApi } from '@/apis/userApi';
-import { AxiosResponse } from 'axios';
+import { useCookies } from 'react-cookie';
 
 type phoneNumberValue = Yup.InferType<typeof phoneNumberSchema>;
 
 export default function Info() {
   const { userData } = useAuth();
+
+  const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken']);
 
   const deleteUsermutation = useMutation<DeleteUserRdo, Error, UserId>({
     mutationKey: ['deleteUser'],
@@ -31,11 +34,11 @@ export default function Info() {
     },
   });
 
-  const mutation = useMutation<Error, UserEditParams>({
+  const mutation = useMutation<AxiosResponse<any, any>, Error, UserEditParams>({
     mutationKey: ['userEdit'],
     mutationFn: async ({ id, userData }: UserEditParams) => {
       const response = await userApi.put(id, userData);
-      return response.data;
+      return response;
     },
     onSuccess: data => {
       console.log(data);
@@ -54,6 +57,7 @@ export default function Info() {
   const { register, handleSubmit } = methods;
   const onSubmit = (data: phoneNumberValue) => {
     console.log(data);
+    // mutation.mutate(data);
   };
   console.log(errors);
 
@@ -64,6 +68,8 @@ export default function Info() {
   async function handleDeleteUser() {
     try {
       await deleteUsermutation.mutateAsync(userData.id);
+      removeCookie('accessToken', { path: '/' });
+      removeCookie('refreshToken', { path: '/' });
       router.push({
         pathname: '/',
       });
@@ -84,7 +90,7 @@ export default function Info() {
         </Header.Box>
       </Header.Root>
       <div className={styles.infoField}>
-        <form className={styles.memberForm} onSubmit={handleSubmit(onSubmit as SubmitHandler<phoneNumberValue>)}>
+        <form className={styles.memberForm} onSubmit={handleSubmit(onSubmit)}>
           <div className={styles.inputArea}>
             <Input
               id="email"

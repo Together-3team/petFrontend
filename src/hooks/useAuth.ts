@@ -1,19 +1,25 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { fetchMyData } from '@/apis/userApi';
 import { useCookies } from 'react-cookie';
+import { useEffect } from 'react';
 
 export default function useAuth() {
   const [cookie] = useCookies(['accessToken']);
   const { accessToken } = cookie;
+  const queryClient = useQueryClient();
 
   const { data: userData, refetch } = useQuery({
     queryKey: ['user'],
     queryFn: fetchMyData,
     enabled: !!accessToken,
   });
-
-  const isLogin = !!userData && !!cookie;
+  if (!cookie) {
+    queryClient.setQueryData(['user'], null);
+  }
+  const isLogin = !!userData && !!accessToken;
   console.log(userData);
+  console.log(isLogin);
+  console.log(cookie);
 
   return {
     isLogin,

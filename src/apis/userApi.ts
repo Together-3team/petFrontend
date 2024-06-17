@@ -29,7 +29,13 @@ export interface UserEditProps {
 }
 
 export interface UserEditParams {
-  userData: UserEditProps;
+  userData: {
+    nickname: string;
+    phoneNumber: string;
+    profileImage: string;
+    isSubscribedToPromotions: boolean;
+    prefferedPet: number;
+  };
   id: UserId;
 }
 
