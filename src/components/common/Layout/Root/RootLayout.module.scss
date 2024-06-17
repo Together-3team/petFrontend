@@ -22,7 +22,7 @@
     z-index: $z-index-home-background;
   }
 
-  .heroContainer {
+  .introViewBox {
     $size-home: 51.2rem;
 
     display: none;
@@ -33,18 +33,10 @@
     height: 100vh;
 
     @include desktop {
-      display: block;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
-  }
-
-  .hero {
-    display: flex;
-    border: 0.1rem solid $color-blue;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    max-width: 40rem;
-    height: 100%;
   }
 
   .appBackground {
