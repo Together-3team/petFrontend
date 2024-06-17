@@ -27,6 +27,7 @@ export default function CardSliderRecommended({ title }: CardSliderRecommendedPr
   /**
    * @TODO 리액트쿼리 추가
    */
+  const PRODUCT_LIST = Array(8).fill(PRODUCT);
 
   return (
     <CardSlider.Root>
@@ -43,14 +44,12 @@ export default function CardSliderRecommended({ title }: CardSliderRecommendedPr
         </CardSlider.Description>
         <NextButtonTemp className={styles.nextButton} href="/products/recommended" />
       </CardSlider.Header>
-      <CardSlider.List>
-        {Array(8)
-          .fill(PRODUCT)
-          .map((product, index) => (
-            <li key={index}>
-              <Card productInfo={product} size="big" isZzim />
-            </li>
-          ))}
+      <CardSlider.List className={styles.list}>
+        {PRODUCT_LIST.map((product, index) => (
+          <li key={index}>
+            <Card productInfo={product} size="big" isZzim />
+          </li>
+        ))}
       </CardSlider.List>
     </CardSlider.Root>
   );
