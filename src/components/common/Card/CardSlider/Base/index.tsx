@@ -3,6 +3,7 @@ import CardSliderList from '@/components/common/Card/CardSlider/Base/List';
 import CardSliderHeader from '@/components/common/Card/CardSlider/Base/Header';
 import CardSliderTitle from '@/components/common/Card/CardSlider/Base/Title';
 import CardSliderDescription from '@/components/common/Card/CardSlider/Base/Description';
+import CardSliderItem from '@/components/common/Card/CardSlider/Base/Item';
 
 const CardSlider = Object.assign(
   {},
@@ -12,6 +13,7 @@ const CardSlider = Object.assign(
     Title: CardSliderTitle,
     Description: CardSliderDescription,
     List: CardSliderList,
+    Item: CardSliderItem,
   }
 );
 
