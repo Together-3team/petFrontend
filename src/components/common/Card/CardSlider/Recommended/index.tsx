@@ -44,7 +44,7 @@ export default function CardSliderRecommended({ title }: CardSliderRecommendedPr
         </CardSlider.Description>
         <NextButtonTemp className={styles.nextButton} href="/products/recommended" />
       </CardSlider.Header>
-      <CardSlider.List className={styles.list}>
+      <CardSlider.List>
         {PRODUCT_LIST.map((product, index) => (
           <li key={index}>
             <Card productInfo={product} size="big" isZzim />

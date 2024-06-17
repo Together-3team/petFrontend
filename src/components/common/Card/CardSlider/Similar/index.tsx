@@ -25,7 +25,7 @@ export default function CardSliderSimilar() {
       <CardSlider.Header>
         <CardSlider.Title>비슷한 상품</CardSlider.Title>
       </CardSlider.Header>
-      <CardSlider.List className={styles.list}>
+      <CardSlider.List>
         {PRODUCT_LIST.map((product, index) => (
           <li key={index}>
             <Card productInfo={product} size="big" isZzim />

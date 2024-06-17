@@ -28,7 +28,7 @@ export default function CardSliderHot() {
         <CardSlider.Description>지금 인기많은 상품이에요</CardSlider.Description>
         <NextButtonTemp className={styles.nextButton} href="/products/hot" />
       </CardSlider.Header>
-      <CardSlider.List className={styles.list}>
+      <CardSlider.List>
         {PRODUCT_LIST.map((product, index) => (
           <li key={index}>
             <Card productInfo={product} size="big" isZzim />
