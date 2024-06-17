@@ -19,6 +19,7 @@ export default function CardSliderHot() {
   /**
    * @TODO 리액트쿼리 추가
    */
+  const PRODUCT_LIST = Array(8).fill(PRODUCT);
 
   return (
     <CardSlider.Root>
@@ -27,14 +28,12 @@ export default function CardSliderHot() {
         <CardSlider.Description>지금 인기많은 상품이에요</CardSlider.Description>
         <NextButtonTemp className={styles.nextButton} href="/products/hot" />
       </CardSlider.Header>
-      <CardSlider.List>
-        {Array(8)
-          .fill(PRODUCT)
-          .map((product, index) => (
-            <li key={index}>
-              <Card productInfo={product} size="big" isZzim />
-            </li>
-          ))}
+      <CardSlider.List className={styles.list}>
+        {PRODUCT_LIST.map((product, index) => (
+          <li key={index}>
+            <Card productInfo={product} size="big" isZzim />
+          </li>
+        ))}
       </CardSlider.List>
     </CardSlider.Root>
   );
