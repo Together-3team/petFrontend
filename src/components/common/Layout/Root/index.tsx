@@ -22,7 +22,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
         </div>
       </div>
       <div className={styles.mainBox}>
-        <div>
+        <div className={styles.main}>
           <div className={styles.appBackground} />
           <div className={styles.contents}>{children}</div>
           <div id={PORTAL_ID.TOAST} className={styles.rootToast}></div>
