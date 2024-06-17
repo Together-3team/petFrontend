@@ -11,6 +11,7 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { deleteAllProducts, deleteProductById, fetchCartProducts, updateProductQuantity } from '@/apis/cartApi';
 import Header from '@/components/common/Layout/Header';
+import { useRouter } from 'next/router';
 
 export interface Product {
   id: number;
@@ -30,6 +31,7 @@ export default function Cart() {
   const [selectAll, setSelectAll] = useState(true);
   const queryClient = useQueryClient();
   const { showToast } = useToast(BOTTOM_BOX_ID);
+  const router = useRouter();
 
   // 상품 목록 GET
   const { data: productsData, refetch: refetchProducts } = useQuery({
@@ -158,6 +160,7 @@ export default function Cart() {
   function handleOrderButtonClick() {
     sessionStorage.setItem('cartData', JSON.stringify(products));
     console.log('Cart data saved to sessionStorage:', products);
+    router.push('/payment');
   }
 
   const totalOriginalPrice = calculateTotalOriginalPrice();
