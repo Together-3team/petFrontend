@@ -32,11 +32,11 @@ export default function CardSliderHot() {
       </CardSlider.Header>
       <CardSlider.List>
         {PRODUCT_LIST.map((product, index) => (
-          <li key={index} className={styles.item}>
+          <CardSlider.Item key={index}>
             <Card productInfo={product} size="big" isZzim />
-          </li>
+          </CardSlider.Item>
         ))}
-        <li className={styles.item}>
+        <CardSlider.Item>
           <CardPlaceholder>
             <p className={styles.moreText}>
               더 다양한 인기 상품이
@@ -46,7 +46,7 @@ export default function CardSliderHot() {
               전체보기
             </Link>
           </CardPlaceholder>
-        </li>
+        </CardSlider.Item>
       </CardSlider.List>
     </CardSlider.Root>
   );
