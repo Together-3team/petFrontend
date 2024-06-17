@@ -48,11 +48,11 @@ export default function CardSliderRecommended({ title }: CardSliderRecommendedPr
       </CardSlider.Header>
       <CardSlider.List>
         {PRODUCT_LIST.map((product, index) => (
-          <li key={index}>
+          <li key={index} className={styles.item}>
             <Card productInfo={product} size="big" isZzim />
           </li>
         ))}
-        <li>
+        <li className={styles.item}>
           <CardPlaceholder>
             <p className={styles.moreText}>
               더 다양한 추천 상품이
