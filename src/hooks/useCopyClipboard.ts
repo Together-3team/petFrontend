@@ -8,12 +8,12 @@ import { useEffect, useState } from 'react';
     const { isCopied, copyHandler } = useCopyClipboard();
 
     const handleCopy = () => {
-    if (typeof window === 'undefined') {
-      return;
-    }
+      if (typeof window === 'undefined') {
+        return;
+      }
 
-    copyHandler(window.location.href);
-  };
+      copyHandler(window.location.href);
+    };
 
     return (
       <button onClick={handleCopy}>복사</button>
