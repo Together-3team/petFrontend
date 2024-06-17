@@ -11,6 +11,7 @@ import BottomModal from '@/components/common/Modal/Base/BottomModal';
 import Input from '@/components/common/Input';
 import BackButton from '@/components/common/Button/BackButton';
 import { fetchCartProducts } from '@/apis/cartApi';
+import { completePayment } from '@/apis/paymentApi';
 import { Product } from '@/pages/cart';
 import { useQuery } from '@tanstack/react-query';
 import clock from '@/assets/images/clock.png';
@@ -25,6 +26,7 @@ export default function Payment() {
   const paymentMethodsWidgetRef = useRef<ReturnType<PaymentWidgetInstance['renderPaymentMethods']> | null>(null);
   const [price, setPrice] = useState(0); // 기본 가격 설정
   const [isModalOpen, setIsModalOpen] = useState(true);
+  const [deliveryMessage, setIsDeliveryMessage] = useState('');
   const {
     data: products,
     isLoading,
@@ -100,12 +102,24 @@ export default function Payment() {
       const orderName =
         remainingProductCount > 0 ? `${firstProductTitle} 외 ${remainingProductCount}건` : firstProductTitle;
       console.log(orderName);
-      await paymentWidget?.requestPayment({
+      const response = await paymentWidget?.requestPayment({
         orderId: nanoid(),
         orderName,
         successUrl: `${window.location.origin}/payment/paymentSuccess`,
         failUrl: `${window.location.origin}/payment/fail`,
       });
+
+      if (response) {
+        const { orderId, paymentKey } = response;
+        const deliveryMessageValue = deliveryMessage;
+        const postData = {
+          deliveryMessage: deliveryMessageValue,
+          orderId,
+          paymentKey,
+        };
+        const postResponse = await completePayment(postData);
+        console.log('결제 완료: ', postData);
+      }
     } catch (error) {
       console.error('Error requesting payment:', error);
     }
