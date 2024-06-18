@@ -6,7 +6,7 @@ const authAxiosInstance = axios.create({
   headers: {
     'Content-Type': 'application/json',
     Authorization:
-      'Barear eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcxODY3Njc0NCwiZXhwIjoxNzE4NjgzOTQ0fQ.-70f8mQ64pWwx89lC3hRbM6gz1t7F4lwUMiPx3FVd1Q',
+      'Barear eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcxODcxMDAxMywiZXhwIjoxNzE4NzE3MjEzfQ.4kxGxyk0zBf9Fcto35aMD3waEI3ew7rYJsLokgW3inc',
   },
 });
 

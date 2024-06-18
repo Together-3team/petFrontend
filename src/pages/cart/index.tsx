@@ -1,9 +1,10 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './Cart.module.scss';
 import Card from '@/components/cart/Card';
 import TotalPay from '@/components/cart/TotalPay';
 import Button from '@/components/common/Button';
 import BackButton from '@/components/common/Button/BackButton';
+import BottomModal from '@/components/common/Modal/Base/BottomModal';
 import FloatingBox from '@/components/common/Layout/Footer/FloatingBox';
 import useToast from '@/hooks/useToast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -29,6 +30,8 @@ export default function Cart() {
   const BOTTOM_BOX_ID = 'bottomBox';
   const [products, setProducts] = useState<Product[]>([]);
   const [selectAll, setSelectAll] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState<{ type: 'individual' | 'bulk'; id?: number } | null>(null);
   const queryClient = useQueryClient();
   const { showToast } = useToast(BOTTOM_BOX_ID);
   const router = useRouter();
@@ -42,26 +45,65 @@ export default function Cart() {
   useEffect(() => {
     if (productsData) {
       setProducts(productsData);
+      setSelectAll(productsData.every(product => product.isChecked));
     }
   }, [productsData]);
 
   // 상품 전체 DELETE
   async function handleDeleteAllProducts() {
     try {
-      await deleteAllProducts();
-      setProducts([]);
+      // 모달 열기
+      setModalContent({
+        type: 'bulk',
+      });
+      setIsModalOpen(true);
     } catch (error) {
       console.error('Failed to delete all products:', error);
     }
   }
 
   // 상품 선택 DELETE
-  async function deleteProduct(id: number) {
+  async function handleProductRemove(id: number) {
     try {
       await deleteProductById(id);
-      refetchProducts();
+      showToast({
+        status: 'success',
+        message: '상품이 삭제되었습니다',
+      });
+      setIsModalOpen(false); // 삭제 성공 후 모달 닫기
+      refetchProducts(); // 제품 목록 다시 불러오기
     } catch (error) {
       console.error('Failed to delete product:', error);
+      showToast({
+        status: 'error',
+        message: '상품 삭제에 실패했습니다',
+      });
+    }
+  }
+
+  // 모달에서 삭제 버튼 클릭 시 (개별 삭제)
+  function handleModalDeleteButtonClick() {
+    if (modalContent?.type === 'individual' && modalContent.id !== undefined) {
+      handleProductRemove(modalContent.id);
+    }
+  }
+
+  // 모달에서 전체 삭제 버튼 클릭 시
+  function handleModalBulkDeleteButtonClick() {
+    try {
+      deleteAllProducts();
+      showToast({
+        status: 'success',
+        message: '모든 상품이 삭제되었습니다',
+      });
+      setIsModalOpen(false); // 모달 닫기
+      setProducts([]); // 상품 목록 초기화
+    } catch (error) {
+      console.error('Failed to delete all products:', error);
+      showToast({
+        status: 'error',
+        message: '상품 삭제에 실패했습니다',
+      });
     }
   }
 
@@ -117,7 +159,7 @@ export default function Cart() {
     );
 
     setProducts(updatedProducts);
-    // 서버에 수량 업뎃 요청
+    // 서버에 수량 업데이트 요청
     mutation.mutate({ id, newQuantity });
   }
 
@@ -139,24 +181,7 @@ export default function Cart() {
       }, 0);
   }
 
-  // 제품 삭제 (선택 삭제)
-  function handleProductRemove(id: number) {
-    deleteProduct(id)
-      .then(() => {
-        showToast({
-          status: 'success',
-          message: '상품이 삭제되었습니다',
-        });
-      })
-      .catch(() => {
-        showToast({
-          status: 'error',
-          message: '상품 삭제에 실패했습니다',
-        });
-      });
-  }
-
-  // 버튼 클릭
+  // 버튼 클릭 (주문하기)
   function handleOrderButtonClick() {
     const selectedProducts = products.filter(product => product.isChecked);
     sessionStorage.setItem('cartData', JSON.stringify(selectedProducts));
@@ -206,7 +231,13 @@ export default function Cart() {
                 imageUrl={product.imageUrl}
                 onCheck={() => handleProductCheck(product.id)}
                 onQuantityChange={(newQuantity: number) => handleProductQuantityChange(product.id, newQuantity)}
-                onRemove={() => handleProductRemove(product.id)}
+                onRemove={() => {
+                  setModalContent({
+                    type: 'individual',
+                    id: product.id,
+                  });
+                  setIsModalOpen(true);
+                }}
               />
             ))}
             <TotalPay totalPrice={totalPrice} totalOriginalPrice={totalOriginalPrice} productCount={productCount} />
@@ -223,6 +254,36 @@ export default function Cart() {
           지금 구매하면 <span className={styles.pink}>-{totalOriginalPrice - totalPrice}원&nbsp;</span>할인돼요
         </div>
       </FloatingBox>
+      <BottomModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} hasBackdrop={true}>
+        <div className={styles.modalContent}>
+          {modalContent?.type === 'individual' && (
+            <>
+              <div className={styles.oneMore}>정말로 이 상품을 삭제하시겠습니까?</div>
+              <div className={styles.buttonBox}>
+                <Button size="medium" backgroundColor="$color-white" onClick={() => setIsModalOpen(false)}>
+                  취소
+                </Button>
+                <Button size="medium" backgroundColor="$color-gray-800" onClick={handleModalDeleteButtonClick}>
+                  삭제
+                </Button>
+              </div>
+            </>
+          )}
+          {modalContent?.type === 'bulk' && (
+            <>
+              <div className={styles.oneMore}>정말로 모든 상품을 삭제하시겠습니까?</div>
+              <div className={styles.buttonBox}>
+                <Button size="medium" backgroundColor="$color-white" onClick={() => setIsModalOpen(false)}>
+                  취소
+                </Button>
+                <Button size="medium" backgroundColor="$color-gray-800" onClick={handleModalBulkDeleteButtonClick}>
+                  삭제
+                </Button>
+              </div>
+            </>
+          )}
+        </div>
+      </BottomModal>
     </>
   );
 }
