@@ -2,7 +2,8 @@ import classNames from 'classnames/bind';
 import styles from './DetailedDescription.module.scss';
 import Image from 'next/image';
 import Button from '@/components/common/Button';
-import Arrow from '@/assets/svgs/arrow-down-pink.svg';
+import ArrowDown from '@/assets/svgs/arrow-down-pink.svg';
+import ArrowUp from '@/assets/svgs/arrow-up-pink.svg';
 import { useState } from 'react';
 
 const cx = classNames.bind(styles);
@@ -43,7 +44,7 @@ export default function DetailedDescription({ descriptionImages }: DetailedDescr
       {!showAll && (
         <div style={{ margin: '16px' }}>
           <Button size="large" backgroundColor="$color-white-pink" onClick={handleToggle}>
-            <Arrow />
+            <ArrowDown />
             <span className={cx('buttonDescription')}>상품 설명 전체보기</span>
           </Button>
         </div>
@@ -51,7 +52,7 @@ export default function DetailedDescription({ descriptionImages }: DetailedDescr
       {showAll && (
         <div style={{ margin: '16px' }}>
           <Button size="extraLarge" backgroundColor="$color-white-pink" onClick={handleToggle}>
-            <Arrow />
+            <ArrowUp />
             <span className={cx('buttonDescription')}>상품 정보 접기</span>
           </Button>
         </div>
