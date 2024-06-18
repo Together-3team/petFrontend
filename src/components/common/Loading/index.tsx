@@ -5,7 +5,7 @@ import pawingLoading from '@/assets/lotties/pawing-loading.json';
 
 export default function Loading() {
   return (
-    <div className={styles.container}>
+    <div className={styles.layout}>
       <Lottie className={styles.lottie} animationData={pawingLoading} play />
       <p className={styles.text}>loading...</p>
     </div>
