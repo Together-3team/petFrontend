@@ -1,0 +1,37 @@
+.addressInputContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.zipCode {
+  display: flex;
+  align-items: end;
+  gap: 0.8rem;
+}
+
+.button {
+  display: flex;
+  width: 10rem;
+  height: 4.4rem;
+  padding: 0;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.8rem;
+  background: #5a6072;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 600;
+  line-height: 1.8rem;
+}
+
+.postCodeModal {
+  margin: 2rem 0;
+  z-index: 100;
+}
+
+.errorText {
+  @include font-caption1;
+  color: $color-pink-main;
+  align-self: stretch;
+}

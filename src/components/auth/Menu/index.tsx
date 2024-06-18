@@ -1,15 +1,17 @@
+import { useCookies } from 'react-cookie';
+import { useRouter } from 'next/router';
+import useAuth from '@/hooks/useAuth';
 import ProfileImgBadge from '@/components/common/Badge/ProfileImgBadge';
 import NextButton from '@/components/common/Button/NextButton';
 import NavBottom from '@/components/common/Nav/Bottom';
-import { useCookies } from 'react-cookie';
+import FloatingBox from '@/components/common/Layout/Footer/FloatingBox';
 
 import styles from './Menu.module.scss';
-import { useRouter } from 'next/router';
-import FloatingBox from '@/components/common/Layout/Footer/FloatingBox';
 
 export default function Menu() {
   const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken']);
   const router = useRouter();
+  const { userData } = useAuth();
 
   function handleLogout() {
     removeCookie('accessToken', { path: '/' });
@@ -20,8 +22,8 @@ export default function Menu() {
     <div className={styles.menuLayout}>
       <h1>마이페이지</h1>
       <div className={styles.profileArea}>
-        <ProfileImgBadge size="large" />
-        <h2>해피사랑님</h2>
+        <ProfileImgBadge size="large" profileImage={userData.profileImage} />
+        <h2>{userData.nickname}</h2>
       </div>
       <div className={styles.centerBorder} />
       <div className={styles.menuList}>
