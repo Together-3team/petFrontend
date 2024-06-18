@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
+import { QueryClient, dehydrate, useMutation } from '@tanstack/react-query';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import useAuth from '@/hooks/useAuth';
-import { UserEditParams, UserEditProps, userApi } from '@/apis/userApi';
+import { UserEditParams, UserEditProps, fetchMyData, userApi } from '@/apis/userApi';
 import ImageBox from '@/components/common/ImageBox';
 import Button from '@/components/common/Button';
 import selectedDog from '@/assets/images/selected-dog.png';
@@ -11,6 +11,7 @@ import selectedCat from '@/assets/images/selected-cat.png';
 import unselectedCat from '@/assets/images/unselected-cat.png';
 import unselectedDog from '@/assets/images/unselected-dog.png';
 import { AxiosResponse } from 'axios';
+import { GetServerSidePropsContext } from 'next';
 
 import styles from './Onboarding.module.scss';
 //TODO: 반려동물 선택 put 요청
@@ -158,4 +159,18 @@ export default function Onboarding() {
       </form>
     </FormProvider>
   );
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const queryClient = new QueryClient();
+
+  const accessToken = context.req.cookies['accessToken'];
+
+  await queryClient.prefetchQuery({ queryKey: ['user', accessToken], queryFn: fetchMyData });
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
 }
