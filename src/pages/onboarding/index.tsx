@@ -53,6 +53,7 @@ export default function Onboarding() {
       isSubscribedToPromotions: userData.isSubscribedToPromotions,
       preferredPet: preferredPet,
     };
+
     const params: UserEditParams = {
       id: userData.id,
       userEditData,
@@ -69,9 +70,13 @@ export default function Onboarding() {
     setCatChecked(prev => !prev);
   }
 
-  function handleAllCheckboxChange() {
-    setDogChecked(false);
+  function handleMoveNext() {
+    router.push('/onboarding/welcome');
+  }
+
+  function handleCheckNothing() {
     setCatChecked(false);
+    setDogChecked(false);
     router.push('/onboarding/welcome');
   }
 
@@ -127,21 +132,20 @@ export default function Onboarding() {
             </div>
           </div>
           <div className={styles.buttonArea}>
-            <Link href="/onboarding/welcome">
-              <Button
-                type="submit"
-                size="mediumLarge"
-                backgroundColor="$color-pink-main"
-                disabled={!dogChecked && !catChecked}>
-                다음
-              </Button>
-            </Link>
+            <Button
+              type="submit"
+              size="mediumLarge"
+              onClick={handleMoveNext}
+              backgroundColor="$color-pink-main"
+              disabled={!dogChecked && !catChecked}>
+              다음
+            </Button>
             <label>
               <input
                 type="checkbox"
                 className={styles.checkboxInput}
                 checked={!dogChecked && !catChecked}
-                onClick={handleAllCheckboxChange}
+                onClick={handleCheckNothing}
               />
               <div className={styles.laterChoice}>나중에 선택할게요</div>
             </label>
