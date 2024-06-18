@@ -56,6 +56,7 @@ export default function Info() {
   const {
     formState: { errors },
   } = methods;
+
   const { register, handleSubmit } = methods;
 
   const onSubmit: SubmitHandler<PhoneNumberValue> = data => {
