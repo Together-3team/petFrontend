@@ -1,6 +1,10 @@
 import { useForm, SubmitHandler, FormProvider, FieldValues } from 'react-hook-form';
+import { QueryClient, dehydrate } from '@tanstack/react-query';
+import { GetServerSidePropsContext } from 'next';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import useAuth from '@/hooks/useAuth';
+import { fetchMyData } from '@/apis/userApi';
 import Header from '@/components/common/Layout/Header';
 import ProfileImgBadge from '@/components/common/Badge/ProfileImgBadge';
 import Input from '@/components/common/Input';
@@ -10,7 +14,6 @@ import PlusButton from '@/assets/svgs/plus-button.svg';
 import { nicknameSchema } from '@/utils/signupFormSchema';
 
 import styles from './Profile.module.scss';
-import useAuth from '@/hooks/useAuth';
 
 type profileValue = Yup.InferType<typeof nicknameSchema>;
 
@@ -84,4 +87,18 @@ export default function Profile() {
       </FormProvider>
     </div>
   );
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const queryClient = new QueryClient();
+
+  const accessToken = context.req.cookies['accessToken'];
+
+  await queryClient.prefetchQuery({ queryKey: ['user', accessToken], queryFn: fetchMyData });
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
 }

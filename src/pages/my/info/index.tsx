@@ -1,12 +1,12 @@
 import { useRouter } from 'next/router';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useMutation } from '@tanstack/react-query';
+import { QueryClient, dehydrate, useMutation } from '@tanstack/react-query';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useCookies } from 'react-cookie';
 import useModal from '@/hooks/useModal';
 import useAuth from '@/hooks/useAuth';
-import { DeleteUserRdo, UserEditParams, UserId, userApi, UserEditProps } from '@/apis/userApi';
+import { DeleteUserRdo, UserEditParams, UserId, userApi, UserEditProps, fetchMyData } from '@/apis/userApi';
 import Header from '@/components/common/Layout/Header';
 import Input from '@/components/common/Input';
 import Button from '@/components/common/Button';
@@ -16,9 +16,9 @@ import Sample from '@/assets/exampleProductImg.jpg';
 import ImageBox from '@/components/common/ImageBox';
 import { phoneNumberSchema } from '@/utils/signupFormSchema';
 import { AxiosResponse } from 'axios';
+import { GetServerSidePropsContext } from 'next';
 
 import styles from './Info.module.scss';
-import { useEffect } from 'react';
 
 type PhoneNumberValue = Yup.InferType<typeof phoneNumberSchema>;
 //TODO: 리다이렉트 시 userData 못 불러오는 이슈
@@ -162,4 +162,18 @@ export default function Info() {
       </div>
     </div>
   );
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const queryClient = new QueryClient();
+
+  const accessToken = context.req.cookies['accessToken'];
+
+  await queryClient.prefetchQuery({ queryKey: ['user', accessToken], queryFn: fetchMyData });
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
 }
