@@ -1,4 +1,4 @@
-import { forwardRef, ChangeEvent } from 'react';
+import { forwardRef } from 'react';
 import Image, { ImageProps } from 'next/image';
 import classNames from 'classnames/bind';
 import styles from './Input.module.scss';
@@ -12,22 +12,21 @@ interface InputProps {
   isError?: boolean;
   errorText?: string;
   labelStyle?: string;
-  placeholder: string;
+  placeholder?: string;
   imageProps?: Partial<ImageProps>;
   background?: string;
+  value?: string;
+  readOnly?: boolean;
+  defaultValue?: string;
+  autoComplete?: string;
 }
 
 const cx = classNames.bind(styles);
 
 const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
-  { id, label, isError, errorText, labelStyle, size, border, imageProps, background, ...rest },
+  { id, label, isError, errorText, labelStyle, size, border, imageProps, background, autoComplete, ...rest },
   ref
 ) {
-  function handleChange(event: ChangeEvent<HTMLInputElement>) {
-    if (ref && 'current' in ref && ref.current) {
-      ref.current.value = event.target.value;
-    }
-  }
   return (
     <div className={cx('inputWithLabel')}>
       {label && (
@@ -37,9 +36,10 @@ const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
       )}
       <div className={cx({ inputWithIcon: imageProps })}>
         <input
+          id="input"
           ref={ref}
           className={cx(border, { error: isError }, size, background)}
-          onChange={handleChange}
+          autoComplete={autoComplete}
           {...rest}
         />
         {imageProps && (
@@ -53,7 +53,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
           />
         )}
       </div>
-      {isError && <p className={cx('errorText')}>{errorText}</p>}
+      {isError && errorText && <p className={cx('errorText')}>{errorText}</p>}
     </div>
   );
 });
@@ -95,5 +95,6 @@ export default Input;
         placeholder="검색어를 입력해주세요"
         imageProps={{}}
         background={'background'}
-      /> */
+      /> 
+  4. 우편번호 인풋: size='small'*/
 }

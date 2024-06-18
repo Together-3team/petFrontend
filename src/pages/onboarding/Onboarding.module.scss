@@ -1,5 +1,5 @@
 @layer overrides {
-  .onboarding {
+  .onboardingLayout {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -52,7 +52,7 @@
     width: 2rem;
     height: 2rem;
     margin-left: 0.6rem;
-    background: url('../../../src/assets/images/gray-check.png');
+    background: url('../../assets/images/gray-check.png');
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -61,7 +61,7 @@
   .checkboxInput:checked + .petChoiceButton .checkIcon {
     width: 3.2rem;
     height: 3.2rem;
-    background: url('../../../src/assets/images/pink-check.png');
+    background: url('../../assets/images/pink-check.png');
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -81,17 +81,5 @@
 
   .buttonText {
     width: 5.6rem;
-  }
-
-  .welcomePage {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4.8rem;
-    margin: 21.6rem auto 28.8rem;
-  }
-
-  .welcomeTitle {
-    @include font-headline2;
   }
 }

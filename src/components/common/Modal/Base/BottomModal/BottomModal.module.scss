@@ -1,0 +1,28 @@
+@layer components {
+  .backdrop {
+    background-color: transparent;
+    position: absolute;
+    inset: 0;
+    z-index: $z-index-modal-backdrop;
+
+    &.show {
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  .container {
+    @include modal-base;
+
+    display: flex;
+    flex-direction: column-reverse;
+    z-index: $z-index-modal;
+  }
+
+  .modal {
+    @include modal-shadow;
+
+    background-color: $color-white;
+    border-radius: 2rem 2rem 0 0;
+    padding: 1.6rem 1.6rem 2.4rem;
+  }
+}

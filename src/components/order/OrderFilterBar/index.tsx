@@ -8,7 +8,7 @@ const cx = classNames.bind(styles);
 
 export default function OrderFilterBar() {
   const dragScrollProps = useDragScroll<HTMLDivElement>();
-  const [isClicked, setIsClicked] = useState<string>('');
+  const [isClicked, setIsClicked] = useState<string>('전체');
 
   const handleClick = (key: string) => {
     setIsClicked(key);

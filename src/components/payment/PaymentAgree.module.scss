@@ -1,0 +1,73 @@
+.agree {
+  margin: 0 3rem;
+}
+.checkboxTitle {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+}
+
+.checkbox {
+  border: 0.1rem solid $color-gray-300;
+  width: 2rem;
+  height: 2rem;
+  appearance: none;
+  border-radius: 0.25rem;
+}
+
+.checkbox:checked {
+  background-color: $color-pink-main;
+  border: 0.1rem solid $color-pink-main;
+  color: $color-white;
+}
+
+.checkbox:checked::before {
+  content: '✔';
+  display: block;
+  text-align: center;
+  color: $color-white;
+}
+
+.agreeTitle {
+  font-size: 1.3rem;
+}
+
+.contentCheckbox {
+  display: flex;
+  gap: 0.8rem;
+  margin: 0.8rem 0;
+}
+
+.check {
+  border: 0;
+  width: 2rem;
+  height: 2rem;
+  appearance: none;
+  background-color: $color-white;
+  border-radius: 0.25rem;
+}
+
+.checkContent {
+  color: $color-gray-500;
+  font-size: 1.2rem;
+}
+
+.check::before {
+  content: '✔';
+  color: $color-gray-300;
+  display: block;
+  text-align: center;
+  line-height: 20px;
+}
+
+.check:checked {
+  background-color: transparent;
+}
+
+.check:checked::before {
+  content: '✔';
+  display: block;
+  text-align: center;
+  line-height: 20px;
+  color: $color-pink-main;
+}

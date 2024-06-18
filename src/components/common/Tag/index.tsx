@@ -16,7 +16,7 @@ type TagProps = {
 
 const cx = classNames.bind(styles);
 
-function Tag({ children, color = '#000000', fontColor = '#000000', size, type, className }: TagProps) {
+export default function Tag({ children, color = '#000000', fontColor = '#000000', size, type, className }: TagProps) {
   const iconSize = size === 'extraLarge' ? 13 : size === 'large' ? 8 : 6;
   return (
     <div
@@ -33,5 +33,3 @@ function Tag({ children, color = '#000000', fontColor = '#000000', size, type, c
     </div>
   );
 }
-
-export default Tag;
