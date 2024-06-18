@@ -41,7 +41,7 @@
   }
 
   .background {
-    background-color: #a7a7a7;
+    background-color: $color-gray-50;
   }
 
   .label {
@@ -61,6 +61,10 @@
 
   .inputWithIcon {
     position: relative;
+  }
+
+  .readOnly {
+    background-color: $color-gray-50;
   }
 
   .error {

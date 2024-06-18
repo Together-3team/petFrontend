@@ -70,7 +70,11 @@ export default function Card({ productInfo, isZzim = false, direction = 'column'
         {isZzim && <Zzim className={cx('zzim')} color="white" productId={productId} />}
       </div>
       <div className={cx('cardContent')} data-direction={direction} data-size={size}>
-        {size === 'miniImage' && <Tag size="medium">{tagText}</Tag>}
+        {size === 'miniImage' && (
+          <Tag size="medium" color="$color-gray-100">
+            {tagText}
+          </Tag>
+        )}
         <div className={cx('titleBox')} data-direction={direction} data-size={size}>
           <div className={cx('title')} data-stock={stock} data-direction={direction} data-size={size}>
             {title}

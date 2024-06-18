@@ -17,6 +17,7 @@ interface InputProps {
   background?: string;
   value?: string;
   readOnly?: boolean;
+  defaultValue?: string;
   autoComplete?: string;
 }
 
