@@ -1,6 +1,10 @@
 import { useForm, SubmitHandler, FormProvider, FieldValues } from 'react-hook-form';
+import { QueryClient, dehydrate } from '@tanstack/react-query';
+import { GetServerSidePropsContext } from 'next';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import useAuth from '@/hooks/useAuth';
+import { fetchMyData } from '@/apis/userApi';
 import Header from '@/components/common/Layout/Header';
 import ProfileImgBadge from '@/components/common/Badge/ProfileImgBadge';
 import Input from '@/components/common/Input';
@@ -14,6 +18,8 @@ import styles from './Profile.module.scss';
 type profileValue = Yup.InferType<typeof nicknameSchema>;
 
 export default function Profile() {
+  const { userData } = useAuth();
+
   const methods = useForm<profileValue & FieldValues>({
     resolver: yupResolver(nicknameSchema),
   });
@@ -39,7 +45,7 @@ export default function Profile() {
           <div className={styles.formField}>
             <div className={styles.profileImageBox}>
               <div className={styles.profileImage}>
-                <ProfileImgBadge size="large" profileImage="" />
+                <ProfileImgBadge size="large" profileImage={userData.profileImage} />
                 <div className={styles.plusButton}>
                   <PlusButton />
                 </div>
@@ -52,7 +58,7 @@ export default function Profile() {
               label="닉네임"
               isError={errors.nickname && true}
               labelStyle={'label'}
-              placeholder="닉네임을 입력해주세요"
+              placeholder={userData.nickname}
               {...register('nickname')}
             />
             {errors.nickname && <span className={styles.errorText}>{errors.nickname.message}</span>}
@@ -81,4 +87,18 @@ export default function Profile() {
       </FormProvider>
     </div>
   );
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const queryClient = new QueryClient();
+
+  const accessToken = context.req.cookies['accessToken'];
+
+  await queryClient.prefetchQuery({ queryKey: ['user', accessToken], queryFn: fetchMyData });
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
 }
