@@ -23,6 +23,18 @@
     border: 0.1rem solid $color-gray-400;
   }
 
+  .small {
+    display: flex;
+    width: 22rem;
+    height: 4.4rem;
+    padding: 0rem 1.2rem;
+    align-items: center;
+    gap: 0.8rem;
+    align-self: stretch;
+    border-radius: 0.8rem;
+    border: 0.1rem solid $color-gray-400;
+  }
+
   .roundBorder {
     border-radius: 6.25rem;
     border: none;
@@ -41,6 +53,10 @@
     display: flex;
     flex-direction: column;
     gap: 0.4rem;
+  }
+
+  .inputWithLabel input:focus {
+    outline: none;
   }
 
   .inputWithIcon {
