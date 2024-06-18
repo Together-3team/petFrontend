@@ -1,14 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import styles from './Cart.module.scss';
 import Card from '@/components/cart/Card';
 import TotalPay from '@/components/cart/TotalPay';
 import Button from '@/components/common/Button';
+import BackButton from '@/components/common/Button/BackButton';
 import FloatingBox from '@/components/common/Layout/Footer/FloatingBox';
+import useToast from '@/hooks/useToast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import { httpClient } from '@/apis/httpClient';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { deleteAllProducts, deleteProductById, fetchCartProducts, updateProductQuantity } from '@/apis/cartApi';
+import Header from '@/components/common/Layout/Header';
 
 export interface Product {
   id: number;
@@ -16,15 +18,18 @@ export interface Product {
   option: string;
   productCost: number;
   originalCost: number;
+  combinationPrice: number;
   productNumber: number;
   imageUrl: string;
   isChecked: boolean;
 }
 
 export default function Cart() {
+  const BOTTOM_BOX_ID = 'bottomBox';
   const [products, setProducts] = useState<Product[]>([]);
   const [selectAll, setSelectAll] = useState(true);
   const queryClient = useQueryClient();
+  const { showToast } = useToast(BOTTOM_BOX_ID);
 
   // 상품 목록 GET
   const { data: productsData, refetch: refetchProducts } = useQuery({
@@ -41,11 +46,10 @@ export default function Cart() {
   // 상품 전체 DELETE
   async function handleDeleteAllProducts() {
     try {
-      await httpClient().delete('/selected-products/orders');
-      console.log('Products all deleted successfully');
+      await deleteAllProducts();
+      setProducts([]);
     } catch (error) {
       console.error('Failed to delete all products:', error);
-      throw error;
     }
   }
 
@@ -120,7 +124,7 @@ export default function Cart() {
     return products
       .filter(product => product.isChecked)
       .reduce((total, product) => {
-        return total + product.originalCost * product.productNumber;
+        return total + product.originalCost * product.productNumber + product.combinationPrice * product.productNumber;
       }, 0);
   }
 
@@ -129,13 +133,25 @@ export default function Cart() {
     return products
       .filter(product => product.isChecked)
       .reduce((total, product) => {
-        return total + product.productCost * product.productNumber;
+        return total + product.productCost * product.productNumber + product.combinationPrice * product.productNumber;
       }, 0);
   }
 
   // 제품 삭제 (선택 삭제)
   function handleProductRemove(id: number) {
-    deleteProduct(id);
+    deleteProduct(id)
+      .then(() => {
+        showToast({
+          status: 'success',
+          message: '상품이 삭제되었습니다',
+        });
+      })
+      .catch(() => {
+        showToast({
+          status: 'error',
+          message: '상품 삭제에 실패했습니다',
+        });
+      });
   }
 
   // 버튼 클릭
@@ -150,6 +166,14 @@ export default function Cart() {
 
   return (
     <>
+      <Header.Root className={styles.headerRoot}>
+        <Header.Box>
+          <Header.Left>
+            <BackButton />
+          </Header.Left>
+          <Header.Center className={styles.headerName}>장바구니</Header.Center>
+        </Header.Box>
+      </Header.Root>
       <div className={styles.cart}>
         {products.length > 0 ? (
           <>
@@ -187,7 +211,7 @@ export default function Cart() {
           <div className={styles.noProduct}>아직 담은 상품이 없어요</div>
         )}
       </div>
-      <FloatingBox className={styles.bottomNavCart}>
+      <FloatingBox className={styles.bottomNavCart} id={BOTTOM_BOX_ID}>
         <Button size="large" backgroundColor="$color-pink-main" onClick={handleOrderButtonClick}>
           {totalPrice}원 주문하기
         </Button>
