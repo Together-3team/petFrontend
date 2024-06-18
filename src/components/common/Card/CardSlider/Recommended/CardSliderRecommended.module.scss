@@ -1,0 +1,31 @@
+@layer overrides {
+  .nextButton {
+    position: absolute;
+    top: 0.4rem;
+    right: 1.6rem;
+  }
+
+  .user {
+    @include font-body3;
+  }
+
+  .moreText {
+    @include font-body6;
+
+    color: $color-gray-700;
+    text-align: center;
+    padding: 0.8rem;
+  }
+
+  .moreButton {
+    @include font-body2;
+
+    border: none;
+    border-radius: 0.8rem;
+    background-color: $color-pink-main;
+    color: $color-white;
+    width: 8rem;
+    text-align: center;
+    padding: 0.8rem;
+  }
+}
