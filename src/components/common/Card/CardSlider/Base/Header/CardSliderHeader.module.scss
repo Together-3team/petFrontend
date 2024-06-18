@@ -1,0 +1,10 @@
+@layer components {
+  .header {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 0 1.6rem 2.4rem;
+  }
+}
