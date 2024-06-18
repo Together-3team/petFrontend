@@ -42,7 +42,7 @@ export default function DetailedDescription({ descriptionImages }: DetailedDescr
       })}
       {!showAll && (
         <div style={{ margin: '16px' }}>
-          <Button size="extraLarge" backgroundColor="$color-white-pink" onClick={handleToggle}>
+          <Button size="large" backgroundColor="$color-white-pink" onClick={handleToggle}>
             <Arrow />
             <span className={cx('buttonDescription')}>상품 설명 전체보기</span>
           </Button>

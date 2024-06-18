@@ -13,6 +13,7 @@ import rectangleImg from '@/assets/images/rectangle.png';
 import carousel1 from '@/assets/images/test-carousel1.jpg';
 import carousel2 from '@/assets/images/test-carousel2.jpg';
 import carousel3 from '@/assets/images/test-carousel3.jpg';
+import CardSliderSimilar from '@/components/common/Card/CardSlider/Similar';
 
 const cx = classNames.bind(styles);
 
@@ -91,7 +92,9 @@ export default function ProductDetailPage() {
         {/* 공동구매 & 
       리뷰 */}
         <DetailedDescription descriptionImages={descriptionImages} />
-        <SimilarProducts productList={productList} />
+        <div className={cx('cardSlider')}>
+          <CardSliderSimilar />
+        </div>
         <OrderPolicy />
       </div>
     </>
