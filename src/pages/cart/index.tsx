@@ -158,8 +158,9 @@ export default function Cart() {
 
   // 버튼 클릭
   function handleOrderButtonClick() {
-    sessionStorage.setItem('cartData', JSON.stringify(products));
-    console.log('Cart data saved to sessionStorage:', products);
+    const selectedProducts = products.filter(product => product.isChecked);
+    sessionStorage.setItem('cartData', JSON.stringify(selectedProducts));
+    console.log('Cart data saved to sessionStorage:', selectedProducts);
     router.push('/payment');
   }
 

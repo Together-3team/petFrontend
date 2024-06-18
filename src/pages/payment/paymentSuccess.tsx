@@ -9,7 +9,11 @@ export default function PaymentSuccess() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      router.push('/payment/paymentSuccessByCart');
+      const { paymentKey, orderId, amount } = router.query;
+      router.push({
+        pathname: '/payment/paymentSuccessByCart',
+        query: { paymentKey, orderId, amount },
+      });
     }, 2000);
 
     return () => clearTimeout(timer);

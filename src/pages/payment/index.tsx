@@ -16,6 +16,7 @@ import { Product } from '@/pages/cart';
 import { useQuery } from '@tanstack/react-query';
 import clock from '@/assets/images/clock.png';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 const widgetClientKey = 'test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm';
 const customerKey = '-YY27b1BN-PCQD_5Qwp9X';
@@ -27,25 +28,22 @@ export default function Payment() {
   const [price, setPrice] = useState(0); // 기본 가격 설정
   const [isModalOpen, setIsModalOpen] = useState(true);
   const [deliveryMessage, setIsDeliveryMessage] = useState('');
-  const {
-    data: products,
-    isLoading,
-    isError,
-  } = useQuery<Product[]>({
-    queryKey: ['cart'],
-    queryFn: fetchCartProducts,
-  });
+  const [products, setProducts] = useState<Product[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
-    if (products) {
-      const calculatedPrice = products.reduce(
+    const cartData = sessionStorage.getItem('cartData');
+    if (cartData) {
+      const parsedProducts = JSON.parse(cartData) as Product[];
+      setProducts(parsedProducts);
+      const calculatedPrice = parsedProducts.reduce(
         (total, product) =>
           total + product.productCost * product.productNumber + product.combinationPrice * product.productNumber,
         0
       );
       setPrice(calculatedPrice);
     }
-  }, [products]);
+  });
 
   useEffect(() => {
     const script = document.createElement('script');
@@ -117,7 +115,7 @@ export default function Payment() {
           orderId,
           paymentKey,
         };
-        const postResponse = await completePayment(postData);
+        await completePayment(postData);
         console.log('결제 완료: ', postData);
       }
     } catch (error) {
