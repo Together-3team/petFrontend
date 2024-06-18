@@ -1,10 +1,11 @@
 @layer components {
   .container {
-    position: sticky;
+    border-left: 0.1rem solid #cfd3db;
+    border-right: 0.1rem solid #cfd3db;
+    position: fixed;
     bottom: 0;
     width: 100%;
     max-width: $size-mobile-max;
-
     display: flex;
     flex-direction: column-reverse;
     z-index: $z-index-bottom-nav;
