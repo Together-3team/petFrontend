@@ -6,17 +6,7 @@ import DeliveryCard from '@/components/common/DeliveryCard';
 import { useEffect, useRef } from 'react';
 import DeliveryEmptyView from '@/components/delivery/EmptyView';
 import Button from '@/components/common/Button';
-
-interface DeliveryInfo {
-  id: number;
-  name: string;
-  recipient: string;
-  recipientPhoneNumber: string;
-  zipCode: number;
-  address: string;
-  detailedAddress: string;
-  isDefault: boolean;
-}
+import { DeliveryInfo } from '@/types/components/delivery';
 
 const cx = classNames.bind(styles);
 
