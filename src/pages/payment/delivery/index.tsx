@@ -10,7 +10,7 @@ import { DeliveryInfo } from '@/types/components/delivery';
 
 const cx = classNames.bind(styles);
 
-export default function MyDeliveryPage() {
+export default function PaymentDeliveryPage() {
   //나중에 1 변경해야함
   const [selectedOption, setSelectedOption] = useState(1);
   const buttonRef = useRef<HTMLDivElement>(null);
