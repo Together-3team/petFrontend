@@ -7,12 +7,17 @@ export default function useAuth() {
   const { accessToken } = cookie;
   const queryClient = useQueryClient();
 
-  const { data: userData, refetch } = useQuery({
+  const {
+    data: userData,
+    refetch,
+    isLoading,
+  } = useQuery({
     queryKey: ['user'],
     queryFn: fetchMyData,
     enabled: !!accessToken,
   });
-  if (!cookie) {
+
+  if (!accessToken) {
     queryClient.setQueryData(['user'], null);
   }
   const isLogin = !!userData && !!accessToken;
@@ -21,6 +26,7 @@ export default function useAuth() {
     isLogin,
     userData,
     refetch,
+    isLoading,
   };
 }
 

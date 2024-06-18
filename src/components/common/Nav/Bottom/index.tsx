@@ -8,7 +8,6 @@ import HomeIcon from '@/assets/svgs/home.svg';
 import SearchIcon from '@/assets/svgs/search-detail.svg';
 import HeartIcon from '@/assets/svgs/heart.svg';
 import PersonIcon from '@/assets/svgs/person.svg';
-import useAuth from '@/hooks/useAuth';
 
 const cx = classNames.bind(styles);
 

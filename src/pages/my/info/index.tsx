@@ -18,6 +18,7 @@ import { phoneNumberSchema } from '@/utils/signupFormSchema';
 import { AxiosResponse } from 'axios';
 
 import styles from './Info.module.scss';
+import { useEffect } from 'react';
 
 type PhoneNumberValue = Yup.InferType<typeof phoneNumberSchema>;
 //TODO: 리다이렉트 시 userData 못 불러오는 이슈
