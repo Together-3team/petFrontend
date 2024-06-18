@@ -1,9 +1,7 @@
 @layer components {
   .container {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    max-width: $size-mobile-max;
+    @include modal-base;
+
     display: flex;
     flex-direction: column-reverse;
     z-index: $z-index-bottom-nav;
