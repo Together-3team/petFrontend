@@ -1,0 +1,16 @@
+@layer components {
+  .container {
+    overflow-x: auto;
+    width: 100%;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .list {
+    display: flex;
+    gap: 2.4rem;
+    height: 27rem;
+  }
+}
