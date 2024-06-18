@@ -15,14 +15,16 @@ interface InputProps {
   placeholder?: string;
   imageProps?: Partial<ImageProps>;
   background?: string;
+  value?: string;
   readOnly?: boolean;
   defaultValue?: string;
+  autoComplete?: string;
 }
 
 const cx = classNames.bind(styles);
 
 const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
-  { id, label, isError, errorText, labelStyle, size, border, imageProps, background, ...rest },
+  { id, label, isError, errorText, labelStyle, size, border, imageProps, background, autoComplete, ...rest },
   ref
 ) {
   return (
@@ -33,7 +35,13 @@ const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
         </label>
       )}
       <div className={cx({ inputWithIcon: imageProps })}>
-        <input ref={ref} className={cx(border, { error: isError }, size, background)} {...rest} />
+        <input
+          id="input"
+          ref={ref}
+          className={cx(border, { error: isError }, size, background)}
+          autoComplete={autoComplete}
+          {...rest}
+        />
         {imageProps && (
           <Image
             src="/images/search.svg"
@@ -45,7 +53,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
           />
         )}
       </div>
-      {isError && <p className={cx('errorText')}>{errorText}</p>}
+      {isError && errorText && <p className={cx('errorText')}>{errorText}</p>}
     </div>
   );
 });
@@ -87,5 +95,6 @@ export default Input;
         placeholder="검색어를 입력해주세요"
         imageProps={{}}
         background={'background'}
-      /> */
+      /> 
+  4. 우편번호 인풋: size='small'*/
 }
