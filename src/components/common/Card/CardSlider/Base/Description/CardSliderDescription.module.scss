@@ -1,0 +1,7 @@
+@layer components {
+  .description {
+    @include font-body4;
+
+    color: $color-gray-600;
+  }
+}

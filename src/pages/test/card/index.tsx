@@ -30,7 +30,7 @@ export default function CardPage() {
     thumbNailImage: rectangleImg.src,
     originalPrice: 12000,
     price: 10800,
-    option: '닭가슴살맛',
+    option: '닭가슴살맛ㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅ',
     quantity: 2,
     stock: 10,
   };

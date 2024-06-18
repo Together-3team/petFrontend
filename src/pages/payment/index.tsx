@@ -7,6 +7,11 @@ import PaymentAgree from '@/components/payment/PaymentAgree';
 import exampleProductImg from '@/assets/exampleProductImg.jpg';
 import TotalPay from '@/components/payment/TotalPay';
 import Card from '@/components/payment/Card';
+import Header from '@/components/common/Layout/Header';
+import BackButton from '@/components/common/Button/BackButton';
+import { fetchCartProducts } from '@/apis/cartApi';
+import { Product } from '@/pages/cart';
+import { useQuery } from '@tanstack/react-query';
 
 const widgetClientKey = 'test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm';
 const customerKey = '-YY27b1BN-PCQD_5Qwp9X';
@@ -16,46 +21,25 @@ export default function Payment() {
   const [paymentWidget, setPaymentWidget] = useState<PaymentWidgetInstance | null>(null);
   const paymentMethodsWidgetRef = useRef<ReturnType<PaymentWidgetInstance['renderPaymentMethods']> | null>(null);
   const [price, setPrice] = useState(50000); // 기본 가격 설정
-  const initialProducts = [
-    {
-      id: 1,
-      productTitle: '강아지 간식 27종',
-      option: '강아지 독 리얼큐브 소고기 300g',
-      productCost: 10000,
-      originalCost: 11800,
-      productNumber: 2,
-      imageUrl: exampleProductImg,
-    },
-    {
-      id: 2,
-      productTitle: '강아지 간식 27종',
-      option: '강아지 독 리얼큐브 소고기 500g',
-      productCost: 15000,
-      originalCost: 20000,
-      productNumber: 3,
-      imageUrl: exampleProductImg,
-    },
-    {
-      id: 3,
-      productTitle: '고양이 간식 27종',
-      option: '강아지 츄르 5스틱g',
-      productCost: 10000,
-      originalCost: 11000,
-      productNumber: 10,
-      imageUrl: exampleProductImg,
-    },
-    {
-      id: 4,
-      productTitle: '고양이 간식 27종',
-      option: '강아지 츄르 5스틱g',
-      productCost: 10000,
-      originalCost: 11000,
-      productNumber: 10,
-      imageUrl: exampleProductImg,
-    },
-  ];
+  const {
+    data: products,
+    isLoading,
+    isError,
+  } = useQuery<Product[]>({
+    queryKey: ['cart'],
+    queryFn: fetchCartProducts,
+  });
 
-  const [products, setProducts] = useState(initialProducts);
+  useEffect(() => {
+    if (products) {
+      const calculatedPrice = products.reduce(
+        (total, product) =>
+          total + product.productCost * product.productNumber + product.combinationPrice * product.productNumber,
+        0
+      );
+      setPrice(calculatedPrice);
+    }
+  }, [products]);
 
   useEffect(() => {
     const script = document.createElement('script');
@@ -122,19 +106,23 @@ export default function Payment() {
   };
 
   function calculateTotalOriginalPrice() {
-    return products.reduce((total, product) => total + product.originalCost * product.productNumber, 0);
-  }
-
-  function calculateTotalPrice() {
-    return products.reduce((total, product) => total + product.productCost * product.productNumber, 0);
+    return products ? products.reduce((total, product) => total + product.originalCost * product.productNumber, 0) : 0;
   }
 
   const totalOriginalPrice = calculateTotalOriginalPrice();
-  const totalPrice = calculateTotalPrice();
-  const productCount = products.length;
+  const totalPrice = price;
+  const productCount = products ? products.length : 0;
 
   return (
     <div className={styles.payment}>
+      <Header.Root className={styles.headerRoot}>
+        <Header.Box>
+          <Header.Left>
+            <BackButton />
+          </Header.Left>
+          <Header.Center className={styles.headerName}>장바구니</Header.Center>
+        </Header.Box>
+      </Header.Root>
       <div className={styles.rectangle}></div>
       <div className={styles.orderProduct}>
         <div className={styles.orderTitle}>
@@ -145,7 +133,7 @@ export default function Payment() {
         </div>
         <div className={styles.line}></div>
       </div>
-      {products.map((product, index) => (
+      {products?.map((product, index) => (
         <Card
           key={product.id}
           productTitle={product.productTitle}

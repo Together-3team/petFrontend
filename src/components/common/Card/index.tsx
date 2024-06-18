@@ -48,45 +48,10 @@ export default function Card({ productInfo, isZzim = false, direction = 'column'
     quantity,
   } = productInfo;
 
-  // title 길이에 따라 흐르게 할지말지 정한다.
-  const titleRef = useRef<HTMLDivElement | null>(null);
-  const [titleInnerBoxClassName, setTitleInnerBoxClassName] = useState('');
-  const [titleWidth, setTitleWidth] = useState(0);
-
   const discountRate = Math.ceil((1 - price / originalPrice) * 100);
 
-  //title이 큰 카드, 작은 카드 각각의 너비를 초과하면 글씨가 흐르도록 함
-  useEffect(() => {
-    const titleElement = titleRef.current;
-    if (titleElement) {
-      const titleWidth = titleElement.offsetWidth;
-      if (size === 'big' && stock > 0 && titleWidth > 140 && direction === 'column') {
-        setTitleInnerBoxClassName('titleInnerBox');
-        setTitleWidth(titleWidth);
-      }
-      if (size === 'small' && stock > 0 && titleWidth > 100 && direction === 'column') {
-        setTitleInnerBoxClassName('titleInnerBox');
-        setTitleWidth(titleWidth);
-      }
-    }
-  }, [direction, size, stock]);
-
-  //카드 각각에서 글씨가 흐르는 시간을 같게 조정
-  const animationDuration = titleWidth / 50;
-
   return (
-    <Link
-      href={`/product/${title}`}
-      className={cx('card')}
-      as="image"
-      data-direction={direction}
-      data-size={size}
-      style={
-        {
-          '--title-width': `${titleWidth}px`,
-          '--animation-duration': `${animationDuration}s`,
-        } as React.CSSProperties
-      }>
+    <Link href={`/product/${title}`} className={cx('card')} data-direction={direction} data-size={size}>
       <div className={cx('cardImage')} data-direction={direction} data-size={size}>
         <Image
           src={thumbNailImage}
@@ -105,17 +70,14 @@ export default function Card({ productInfo, isZzim = false, direction = 'column'
         {isZzim && <Zzim className={cx('zzim')} color="white" productId={productId} />}
       </div>
       <div className={cx('cardContent')} data-direction={direction} data-size={size}>
-        {size === 'miniImage' && <Tag size="medium">{tagText}</Tag>}
+        {size === 'miniImage' && (
+          <Tag size="medium" color="$color-gray-100">
+            {tagText}
+          </Tag>
+        )}
         <div className={cx('titleBox')} data-direction={direction} data-size={size}>
-          <div className={cx(titleInnerBoxClassName)}>
-            <div className={cx('title')} ref={titleRef} data-stock={stock} data-direction={direction} data-size={size}>
-              {title}
-            </div>
-            {titleInnerBoxClassName && direction === 'column' && stock > 0 && (
-              <h3 className={cx('secondTitle')} data-direction={direction} data-size={size}>
-                {title}
-              </h3>
-            )}
+          <div className={cx('title')} data-stock={stock} data-direction={direction} data-size={size}>
+            {title}
           </div>
         </div>
         {option && quantity && (
