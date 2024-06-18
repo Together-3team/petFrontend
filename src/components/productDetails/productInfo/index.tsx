@@ -42,23 +42,23 @@ export default function ProductInfo({
       </div>
       <div className={cx('productInfoContent')}>
         <h1 className={cx('title')}>{title}</h1>
-        <p className={cx('originalPrice')}>{originalPrice}</p>
+        <p className={cx('originalPrice')}>{originalPrice}원</p>
         <div style={{ display: 'flex', gap: '4px' }}>
           <span className={cx('discountRate')}>{discountRate}%</span>
-          <span className={cx('price')}>{price}</span>
+          <span className={cx('price')}>{price}원</span>
         </div>
         <div className={cx('review')}>
           <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
             <StarRating rating={reviewRating} />
-            <span>{reviewRating}</span>
+            <span className={cx('reviewRating')}>{reviewRating}</span>
           </div>
           <span className={cx('reviewCount')}>리뷰 {reviewCount}개</span>
         </div>
         <div className={cx('tags')}>
-          <Tag size="huge" type="stock" color="#FFF3F3" fontColor="#FE5A65">
+          <Tag size="extraLarge" type="stock" color="#FFF3F3" fontColor="#FE5A65">
             10개 미만
           </Tag>
-          <Tag size="huge" type="thumbsUp" color="#E5FAFC" fontColor="#34BACC">
+          <Tag size="extraLarge" type="thumbsUp" color="#E5FAFC" fontColor="#34BACC">
             리뷰 100+
           </Tag>
         </div>
