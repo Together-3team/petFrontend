@@ -4,6 +4,7 @@ import Autoplay from 'embla-carousel-autoplay';
 
 import styles from './ProductCarousel.module.scss';
 import { useSelectedSnapDisplay } from '@/hooks/useSelectedSnapDisplay';
+import Share from '@/assets/svgs/btn-share.svg';
 
 interface ProductCarouselProps {
   items: {
@@ -31,6 +32,9 @@ export default function ProductCarousel({ items }: ProductCarouselProps) {
       <div className={styles.snap}>
         {selectedSnap + 1} / {snapCount}
       </div>
+      <button type="button" className={styles.share}>
+        <Share width={40} height={40} viewBox="0 0 44 44" />
+      </button>
     </div>
   );
 }
