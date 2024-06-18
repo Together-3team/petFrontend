@@ -1,40 +1,32 @@
-import { dehydrate, QueryClient, useQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { fetchMyData } from '@/apis/userApi';
-import { getCookie } from '@/utils/cookie';
-
-export async function getServerSideProps() {
-  const queryClient = new QueryClient();
-
-  await queryClient.prefetchQuery({ queryKey: ['user'], queryFn: fetchMyData });
-
-  return {
-    dehydratedState: dehydrate(queryClient),
-  };
-}
+import { useCookies } from 'react-cookie';
 
 export default function useAuth() {
-  const [isLogin, setIsLogin] = useState(false);
+  const [cookie] = useCookies(['accessToken']);
+  const { accessToken } = cookie;
+  const queryClient = useQueryClient();
 
-  const cookie = getCookie({ name: 'accessToken' });
-
-  const { data: userData } = useQuery({
+  const {
+    data: userData,
+    refetch,
+    isLoading,
+  } = useQuery({
     queryKey: ['user'],
     queryFn: fetchMyData,
+    enabled: !!accessToken,
   });
 
-  useEffect(() => {
-    if (userData && cookie) {
-      setIsLogin(true);
-    } else {
-      setIsLogin(false);
-    }
-  }, [userData, cookie]);
-  console.log(userData);
+  if (!accessToken) {
+    queryClient.setQueryData(['user'], null);
+  }
+  const isLogin = !!userData && !!accessToken;
+
   return {
     isLogin,
-    setIsLogin,
     userData,
+    refetch,
+    isLoading,
   };
 }
 
@@ -46,6 +38,7 @@ import useAuth from "@/hooks/useAuth";
 export default function 로그인이 필요한 페이지() {
 
 const {isLogin} = useAuth();
+const {userData} = useAuth(); => 유저 데이터 가져올 때 사용
 
 if(!isLogin) {
   router.push('/my')

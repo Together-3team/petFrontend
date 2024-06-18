@@ -71,29 +71,31 @@ export default function OrderDetail() {
           <h1>주문 상세정보</h1>
         </Header.Box>
       </Header.Root>
-      <div className={styles.orderDetailHeader}>
-        <h3>2024.04.21</h3>
-        <span>주문번호 No. 0102020202</span>
-      </div>
-
-      <div className={styles.deliveryArea}>
-        <h3>배송지</h3>
-        <div className={styles.deliveryCard}>
-          <h4>{deliveryInfo.recipient} 집</h4>
-          <span>
-            {deliveryInfo.recipient} · {deliveryInfo.recipientPhoneNumber}
-            <br />
-            {deliveryInfo.address}, {deliveryInfo.detailedAddress}
-            <br />
-            {deliveryInfo.zipCode}
-          </span>
+      <div className={styles.orderDetailTop}>
+        <div className={styles.orderDetailHeader}>
+          <h3>2024.04.21</h3>
+          <span>주문번호 No. 0102020202</span>
         </div>
+
+        <div className={styles.deliveryArea}>
+          <h3>배송지</h3>
+          <div className={styles.deliveryCard}>
+            <h4>{deliveryInfo.recipient} 집</h4>
+            <span>
+              {deliveryInfo.recipient} · {deliveryInfo.recipientPhoneNumber}
+              <br />
+              {deliveryInfo.address}, {deliveryInfo.detailedAddress}
+              <br />
+              {deliveryInfo.zipCode}
+            </span>
+          </div>
+        </div>
+        <div className={styles.deliveryMessageArea}>
+          <h3>배송메시지</h3>
+          <span className={styles.deliveryMessage}>부재시 경비실에 맡겨주세요</span>
+        </div>
+        <div className={styles.rectangle} />
       </div>
-      <div className={styles.deliveryMessageArea}>
-        <h3>배송메시지</h3>
-        <span className={styles.deliveryMessage}>부재시 경비실에 맡겨주세요</span>
-      </div>
-      <div className={styles.rectangle} />
       <div className={styles.orderListArea}>
         <h3>
           주문 상품 <span>{orderList.length}개</span>
@@ -102,17 +104,19 @@ export default function OrderDetail() {
           <OrderCard key={order.productId} productInfo={order} tagText="공동구매 대기" />
         ))}
       </div>
-      <div className={styles.rectangle} />
-      <div className={styles.orderPriceArea}>
-        <TotalPay totalPrice={totalPrice} totalOriginalPrice={totalOriginalPrice} productCount={orderCount} />
-      </div>
-      <div className={styles.rectangle} />
-      <div className={styles.paymentMethod}>
-        <div className={styles.paymentMethodTitle}>
-          <h3>결제 수단</h3>
-          <hr className={styles.updownBorder} />
+      <div className={styles.orderDetailBottom}>
+        <div className={styles.rectangle} />
+        <div className={styles.orderPriceArea}>
+          <TotalPay totalPrice={totalPrice} totalOriginalPrice={totalOriginalPrice} productCount={orderCount} />
         </div>
-        <span>토스페이</span>
+        <div className={styles.paymentMethod}>
+          <div className={styles.rectangle} />
+          <div className={styles.paymentMethodTitle}>
+            <h3>결제 수단</h3>
+            <hr className={styles.updownBorder} />
+          </div>
+          <span>토스페이</span>
+        </div>
       </div>
     </div>
   );

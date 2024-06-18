@@ -11,23 +11,50 @@ export interface UserResponse {
 }
 
 export async function fetchMyData() {
-  try {
-    const response = await axiosInstance.get('/users/me');
-    console.log(response);
-    return response.data;
-  } catch (error) {
-    console.error('Failed to fetch data:', error);
-    throw error;
-  }
+  const response = await axiosInstance.get(`/users/me`);
+  console.log(response);
+  return response.data;
 }
-// httpClient 적용 실패...
-// export async function fetchMyData(): Promise<UserResponse> {
-//   try {
-//     const response = await httpClient().get<{ data: UserResponse }>('/users/me');
-//     console.log(response.data);
-//     return response.data;
-//   } catch (error) {
-//     console.error('Failed to fetch data:', error);
-//     throw error;
-//   }
-// }
+
+export interface UserId {
+  id: number;
+}
+
+export interface UserEditProps {
+  nickname: string;
+  phoneNumber: string;
+  profileImage: string;
+  isSubscribedToPromotions: boolean;
+  preferredPet: number;
+}
+
+export interface UserEditParams {
+  data?: UserEditProps;
+  userEditData?: UserEditProps;
+  id: UserId;
+}
+
+export interface DeleteUserRdo {
+  raw: object[];
+  affected: number;
+}
+
+export const userApi = {
+  getUserData: ({ id }: UserId) => {
+    return axiosInstance.get(`/users/${id}`);
+  },
+  put: async <T>(id: UserId, body: T) => {
+    const response = axiosInstance.put<UserEditParams>(`/users/${id}`, body);
+    return response;
+  },
+  post: <T>(body: T) => {
+    return axiosInstance.post(`/users`, body);
+  },
+  delete: async (id: UserId) => {
+    const response = await axiosInstance.delete<DeleteUserRdo>(`/users/${id}`);
+    return response;
+  },
+  checkNickname: <T>(body: T) => {
+    return axiosInstance.post(`/users/verify-nickname`, body);
+  },
+};

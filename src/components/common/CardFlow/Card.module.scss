@@ -1,3 +1,16 @@
+@mixin move-words($duration) {
+  @keyframes move-words {
+    0% {
+      left: 0%;
+    }
+    100% {
+      left: calc(-1 * (var(--title-width) + 1rem));
+    }
+  }
+
+  animation: move-words $duration linear infinite;
+}
+
 .card {
   text-decoration: none;
   color: #000000;
@@ -25,7 +38,7 @@
 
   &[data-size='small'][data-direction='row'] {
     width: 100%;
-    align-items: start;
+    align-items: center;
   }
 
   &[data-size='small'][data-direction='column'] {
@@ -78,7 +91,7 @@
   }
 
   &[data-direction='row'][data-size='small'] {
-    margin: 0 0 0.4rem;
+    margin: 1.2rem 0 0.4rem;
   }
 }
 
@@ -92,16 +105,18 @@
   }
 }
 
+.titleInnerBox {
+  display: flex;
+  gap: 1rem;
+  position: absolute;
+  @include move-words(var(--animation-duration));
+}
+
 .title {
   float: left;
-  white-space: normal;
+  white-space: nowrap;
   font-weight: 600;
   font-size: 1rem;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
 
   &[data-size='big'],
   &[data-direction='row'] {
@@ -110,6 +125,8 @@
 
   &[data-direction='row'],
   &[data-stock='0'] {
+    text-overflow: ellipsis;
+    overflow: hidden;
     width: 100%;
   }
 
@@ -117,7 +134,8 @@
     color: #b5b9c6;
   }
 
-  &[data-direction='miniImage'] {
+  &[data-direction='miniImage'],
+  &[data-direction='row'] {
     @include font-body1;
 
     width: 23.6rem;
@@ -125,6 +143,17 @@
     text-overflow: ellipsis;
     margin-bottom: 0.8rem;
     margin-top: 1rem;
+  }
+}
+
+.secondTitle {
+  float: left;
+  font-weight: 600;
+  font-size: 1rem;
+  white-space: nowrap;
+
+  &[data-size='big'] {
+    font-size: 1.4rem;
   }
 }
 

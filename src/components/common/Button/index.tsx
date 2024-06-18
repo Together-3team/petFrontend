@@ -13,6 +13,7 @@ interface ButtonProps {
     | '$color-white-pink';
   onClick?: () => void;
   disabled?: boolean;
+  type?: string;
 }
 
 export default function Button({ size, children, backgroundColor, onClick, disabled }: ButtonProps) {
