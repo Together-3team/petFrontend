@@ -1,0 +1,30 @@
+.paymentSuccessByWith {
+  display: flex;
+  flex-direction: column;
+  padding: 19.2rem 6.6rem 22rem 6.7rem;
+  gap: 3rem;
+}
+
+.warning {
+  font-size: 1.8rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.petImg {
+  width: 24rem;
+  height: 16rem;
+  border-radius: 0.8rem;
+}
+
+.share {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  align-items: center;
+}
+
+.safeMent {
+  @include font-body1;
+  text-align: center;
+}
