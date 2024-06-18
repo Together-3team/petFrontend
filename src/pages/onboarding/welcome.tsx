@@ -1,7 +1,9 @@
 import { useRouter } from 'next/router';
 import useAuth from '@/hooks/useAuth';
 import ImageBox from '@/components/common/ImageBox';
-import Image from '@/assets/exampleProductImg.jpg';
+import welcomeDog from '@/assets/images/welcome-dog.png';
+import welcomeCat from '@/assets/images/welcome-cat.png';
+import welcomePet from '@/assets/images/welcome-pet.png';
 import { fetchMyData } from '@/apis/userApi';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext } from 'next';
@@ -20,8 +22,12 @@ export default function Welcome() {
 
   return (
     <div className={styles.welcomeLayout}>
-      <h1 className={styles.welcomeTitle}>환영합니다, {userData.nickname}님!</h1>
-      <ImageBox size="welcomePetPhoto" src={Image} alt="환영 이미지" />
+      <h1 className={styles.welcomeTitle}>환영합니다, {userData.nickname} 님!</h1>
+      <ImageBox
+        size="welcomePetPhoto"
+        src={userData.preferredPet === 0 ? welcomePet : userData.preferredPet === 1 ? welcomeDog : welcomeCat}
+        alt="환영 이미지"
+      />
     </div>
   );
 }

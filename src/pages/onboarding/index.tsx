@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { GetServerSidePropsContext } from 'next';
@@ -8,7 +7,6 @@ import useAuth from '@/hooks/useAuth';
 import { UserEditParams, UserEditProps, fetchMyData, userApi } from '@/apis/userApi';
 import ImageBox from '@/components/common/ImageBox';
 import Button from '@/components/common/Button';
-import { ProfileValue } from '../my/profile';
 import selectedDog from '@/assets/images/selected-dog.png';
 import selectedCat from '@/assets/images/selected-cat.png';
 import unselectedCat from '@/assets/images/unselected-cat.png';
@@ -16,7 +14,6 @@ import unselectedDog from '@/assets/images/unselected-dog.png';
 
 import styles from './Onboarding.module.scss';
 
-//TODO: 반려동물 선택 put 요청
 export default function Onboarding() {
   const { userData } = useAuth();
 
@@ -29,7 +26,6 @@ export default function Onboarding() {
     mutationKey: ['userEdit'],
     mutationFn: async ({ id, userEditData }: UserEditParams) => {
       const response = await userApi.put(id, userEditData);
-      console.log(response);
       return response;
     },
     onSuccess: data => {

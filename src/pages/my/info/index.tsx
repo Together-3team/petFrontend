@@ -26,7 +26,7 @@ export default function Info() {
 
   const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken']);
 
-  const deleteUsermutation = useMutation<DeleteUserRdo, Error, UserId>({
+  const deleteUsermutation = useMutation({
     mutationKey: ['deleteUser'],
     mutationFn: async (id: UserId) => {
       const response = await userApi.delete(id);
