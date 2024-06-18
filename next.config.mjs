@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: false,
   images: {
-    domains: ['shopping-phinf.pstatic.net'],
+    domains: ['shopping-phinf.pstatic.net', 'k.kakaocdn.net', 'lh3.googleusercontent.com'],
   },
   sassOptions: {
     includePaths: ['styles'],
