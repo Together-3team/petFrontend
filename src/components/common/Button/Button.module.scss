@@ -30,6 +30,11 @@
   height: 3.6rem;
 }
 
+.extraSmall {
+  width: 6rem;
+  height: 2.8rem;
+}
+
 .backgroundBlack {
   background-color: $color-gray-800;
   color: $color-white;
@@ -39,6 +44,12 @@
 .backgroundWhiteWithGrayBorder {
   background-color: $color-white;
   border: 1px solid $color-gray-300;
+}
+
+.backgroundWhiteWithGrayBorderAndGrayFont {
+  background-color: $color-white;
+  border: 1px solid $color-gray-500;
+  color: $color-gray-500;
 }
 
 .backgroundGray {
