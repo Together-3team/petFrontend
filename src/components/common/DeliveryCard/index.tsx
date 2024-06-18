@@ -2,17 +2,7 @@ import classNames from 'classnames/bind';
 import styles from './DeliveryCard.module.scss';
 import Button from '../Button';
 import Tag from '../Tag';
-
-interface DeliveryInfo {
-  id: number;
-  name: string;
-  recipient: string;
-  recipientPhoneNumber: string;
-  zipCode: number;
-  address: string;
-  detailedAddress: string;
-  isDefault: boolean;
-}
+import { DeliveryInfo } from '@/types/components/delivery';
 
 const cx = classNames.bind(styles);
 
