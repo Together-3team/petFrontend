@@ -61,3 +61,15 @@
 .pink {
   color: $color-pink-main;
 }
+
+.oneMore {
+  @include font-body3;
+  text-align: center;
+  margin: 5rem;
+}
+
+.buttonBox {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 2rem;
+}

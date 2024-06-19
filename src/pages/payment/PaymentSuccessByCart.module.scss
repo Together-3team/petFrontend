@@ -1,8 +1,16 @@
+.faXmark {
+  position: absolute;
+  top: 3rem;
+  right: 3rem;
+}
+
 .paymentSuccessByCart {
   display: flex;
   flex-direction: column;
   padding: 19.2rem 6.6rem 22rem 6.7rem;
   gap: 3rem;
+  justify-content: center;
+  align-items: center;
 }
 
 .warning {
