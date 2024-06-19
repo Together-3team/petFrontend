@@ -8,12 +8,10 @@ import styles from './WritePage.module.scss';
 import { postReview } from './reviewWriteAPI';
 import useToast from '@/hooks/useToast';
 
-const BOTTOM_BOX_ID = 'bottomBox';
-
 export default function WritePage() {
   const [rating, setRating] = useState(0);
   const [description, setDescriprion] = useState('');
-  const { showToast, setPortalId } = useToast(BOTTOM_BOX_ID);
+  const { showToast } = useToast();
 
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setDescriprion(event.target.value);
@@ -21,8 +19,11 @@ export default function WritePage() {
 
   const handleSaveReview = async () => {
     const reviewData = {
+      productId: 0,
+      purchaseProductId: 0,
       rating,
       description,
+      reviewImages: '',
     };
 
     try {
@@ -31,6 +32,7 @@ export default function WritePage() {
       window.location.href = '/my/review/reviewId';
     } catch (error) {
       console.log(error);
+
       if (error.status === 401) {
         showToast({
           status: 'error',
