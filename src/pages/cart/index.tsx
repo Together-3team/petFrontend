@@ -45,8 +45,12 @@ export default function Cart() {
 
   useEffect(() => {
     if (productsData) {
-      setProducts(productsData);
-      setSelectAll(productsData.every(product => product.isChecked));
+      setProducts(
+        productsData.map(product => ({
+          ...product,
+          isChecked: products.find(p => p.id === product.id)?.isChecked ?? product.isChecked,
+        }))
+      );
     }
   }, [productsData]);
 
