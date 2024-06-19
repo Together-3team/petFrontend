@@ -16,8 +16,8 @@ interface InputProps {
   imageProps?: Partial<ImageProps>;
   background?: string;
   readOnly?: boolean;
-  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   value?: string;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const cx = classNames.bind(styles);
