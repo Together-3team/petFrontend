@@ -18,13 +18,18 @@ export interface KakaoAuthResponse {
   refreshToken?: string;
 }
 
+export interface RegisterRdo {
+  accessToken: string;
+  refreshToken: string;
+}
+
 const authApi = {
   postRegisterData: <T>(body: T) => {
-    return axiosInstance.post(`/auth/register`, body);
+    return axiosInstance.post<RegisterRdo>(`/auth/register`, body);
   },
 
   postToken: <T>(body: T) => {
-    return axiosInstance.post(`/auth/refresh`, body);
+    return axiosInstance.post<RegisterRdo>(`/auth/refresh`, body);
   },
 };
 

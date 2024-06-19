@@ -1,6 +1,8 @@
 import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import { API_BASE_URL } from '@/constants';
 import { getCookie } from '@/utils/cookie';
+import authAxiosInstance from './authAxiosInstance';
+import authApi from './authApi';
 
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
@@ -11,13 +13,10 @@ const axiosInstance = axios.create({
 
 //axiosInterceptor
 const onRequest = (config: InternalAxiosRequestConfig) => {
-  const { method, url } = config;
-  console.log('config', config);
-  console.log(`${method} - ${url}`);
-
   const accessToken = getCookie({ name: 'accessToken' });
-  const token = accessToken ?? '쿠키를 찾을 수 없습니다.';
-  config.headers.Authorization = `Bearer ${token}`;
+  if (accessToken) {
+    config.headers.Authorization = `Bearer ${accessToken}`;
+  }
 
   return config;
 };
@@ -46,9 +45,11 @@ const onRejected = async (error: AxiosError | Error) => {
       if (status === 401 && originalRequest && !originalRequest._retry) {
         originalRequest._retry = true;
         try {
-          const newAccessToken = await refreshToken();
+          const response = await authApi.postToken({ refreshToken });
+          const newAccessToken = response.data.accessToken;
+
           originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-          return axiosInstance(originalRequest);
+          return authAxiosInstance(originalRequest);
         } catch (refreshError) {
           return Promise.reject(refreshError);
         }
