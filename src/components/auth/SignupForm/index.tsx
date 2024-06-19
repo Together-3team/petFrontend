@@ -10,7 +10,7 @@ import signupFormSchema from '@/utils/signupFormSchema';
 import Input from '@/components/common/Input';
 import Button from '@/components/common/Button';
 import UserAgreement from './UserAgreement';
-import authApi, { RegisterRdo } from '@/apis/authApi';
+import authApi from '@/apis/authApi';
 import { useCookies } from 'react-cookie';
 
 import styles from './SignupForm.module.scss';
@@ -24,7 +24,7 @@ export default function SignupForm() {
   const { email, profileToken } = router.query;
   const [cookies, setCookie, removeCookies] = useCookies(['accessToken', 'refreshToken']);
 
-  const mutation = useMutation<RegisterRdo, Error, FormValues>({
+  const mutation = useMutation({
     mutationKey: ['register'],
     mutationFn: async (data: FormValues) => {
       const response = await authApi.postRegisterData({ ...data, profileToken });
@@ -50,6 +50,7 @@ export default function SignupForm() {
 
   const methods = useForm<FormValues>({
     resolver: yupResolver(signupFormSchema),
+    mode: 'onBlur',
   });
   const {
     formState: { errors },

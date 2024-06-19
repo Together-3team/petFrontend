@@ -1,10 +1,11 @@
+import { useState } from 'react';
 import { useForm, SubmitHandler, FormProvider, FieldValues } from 'react-hook-form';
-import { QueryClient, dehydrate } from '@tanstack/react-query';
+import { QueryClient, dehydrate, useMutation } from '@tanstack/react-query';
 import { GetServerSidePropsContext } from 'next';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import useAuth from '@/hooks/useAuth';
-import { fetchMyData } from '@/apis/userApi';
+import { UserEditParams, UserEditProps, fetchMyData, userApi } from '@/apis/userApi';
 import Header from '@/components/common/Layout/Header';
 import ProfileImgBadge from '@/components/common/Badge/ProfileImgBadge';
 import Input from '@/components/common/Input';
@@ -15,20 +16,65 @@ import { nicknameSchema } from '@/utils/signupFormSchema';
 
 import styles from './Profile.module.scss';
 
-type profileValue = Yup.InferType<typeof nicknameSchema>;
+export type ProfileValue = Yup.InferType<typeof nicknameSchema>;
 
 export default function Profile() {
   const { userData } = useAuth();
 
-  const methods = useForm<profileValue & FieldValues>({
-    resolver: yupResolver(nicknameSchema),
+  const [dogChecked, setDogChecked] = useState(userData.preferredPet === 1 || userData.preferredPet === 0);
+  const [catChecked, setCatChecked] = useState(userData.preferredPet === 2 || userData.preferredPet === 0);
+
+  const mutation = useMutation({
+    mutationKey: ['userEdit'],
+    mutationFn: async ({ id, userEditData }: UserEditParams) => {
+      const response = await userApi.put(id, userEditData);
+      console.log(response);
+      return response;
+    },
+    onSuccess: data => {
+      console.log(data);
+    },
+    onError: error => {
+      console.error('회원 정보 수정 실패', error);
+    },
   });
+
+  const methods = useForm<ProfileValue & FieldValues>({
+    resolver: yupResolver(nicknameSchema),
+    mode: 'onBlur',
+  });
+
   const {
     formState: { errors },
   } = methods;
+
   const { register, handleSubmit } = methods;
-  const onSubmit: SubmitHandler<profileValue & FieldValues> = data => console.log(data);
-  console.log(errors);
+
+  const onSubmit: SubmitHandler<ProfileValue & FieldValues> = data => {
+    const preferredPet = data.cat === true && data.dog === false ? 2 : data.dog === true && data.cat === false ? 1 : 0;
+    const userEditData: UserEditProps = {
+      nickname: data.nickname,
+      phoneNumber: userData.phoneNumber,
+      profileImage: userData.profileImage,
+      isSubscribedToPromotions: userData.isSubscribedToPromotions,
+      preferredPet: preferredPet,
+    };
+
+    const params: UserEditParams = {
+      id: userData.id,
+      userEditData,
+    };
+
+    mutation.mutate(params);
+  };
+
+  function handleDogCheckboxChange() {
+    setDogChecked(prev => !prev);
+  }
+
+  function handleCatCheckboxChange() {
+    setCatChecked(prev => !prev);
+  }
 
   function handleImageChange() {}
 
@@ -61,21 +107,34 @@ export default function Profile() {
               label="닉네임"
               isError={errors.nickname && true}
               labelStyle={'label'}
-              placeholder={userData.nickname}
+              defaultValue={userData.nickname}
+              placeholder="2~8자의 한글, 영어, 숫자를 입력해주세요"
               {...register('nickname')}
             />
             {errors.nickname && <span className={styles.errorText}>{errors.nickname.message}</span>}
             <div className={styles.petChoiceLabel}>키우는 반려동물</div>
             <div className={styles.petChoice}>
               <label>
-                <input type="checkbox" className={styles.checkboxInput} {...register('dog')} />
+                <input
+                  type="checkbox"
+                  className={styles.checkboxInput}
+                  checked={dogChecked}
+                  onClick={handleDogCheckboxChange}
+                  {...register('dog')}
+                />
                 <div className={styles.petChoiceButton}>
                   <span className={styles.buttonText}>강아지</span>
                   <div className={styles.checkIcon} />
                 </div>
               </label>
               <label>
-                <input type="checkbox" className={styles.checkboxInput} {...register('cat')} />
+                <input
+                  type="checkbox"
+                  className={styles.checkboxInput}
+                  checked={catChecked}
+                  onClick={handleCatCheckboxChange}
+                  {...register('cat')}
+                />
                 <div className={styles.petChoiceButton}>
                   <span className={styles.buttonText}>고양이</span>
                   <div className={styles.checkIcon} />
@@ -83,7 +142,7 @@ export default function Profile() {
               </label>
             </div>
           </div>
-          <Button size="large" backgroundColor="$color-pink-main">
+          <Button type="submit" size="large" backgroundColor="$color-pink-main">
             저장
           </Button>
         </form>
