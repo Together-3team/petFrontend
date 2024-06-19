@@ -1,5 +1,4 @@
 import classNames from 'classnames/bind';
-import BackButton from '@/components/common/Button/BackButton';
 import Header from '@/components/common/Layout/Header';
 import styles from './Delivery.module.scss';
 import DeliveryCard from '@/components/common/DeliveryCard';
@@ -7,17 +6,149 @@ import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import DeliveryEmptyView from '@/components/delivery/EmptyView';
 import Button from '@/components/common/Button';
 import { DeliveryInfo } from '@/types/components/delivery';
+import axios from '@/apis/axiosInstance';
+import { isAxiosError } from 'axios';
+import useToast from '@/hooks/useToast';
+import { FETCH_ERROR_MESSAGE, SERVER_ERROR_MESSAGE } from '@/constants/errorMessage';
+import CheckedButton from '@/assets/svgs/btn-radio-checked.svg';
+import UncheckedButton from '@/assets/svgs/btn-radio.svg';
+import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
+import LeftArrow from '@/assets/svgs/left-arrow.svg';
 
 const cx = classNames.bind(styles);
 
+const BOTTOM_BOX_ID = 'bottomBox';
+
 export default function PaymentDeliveryPage() {
-  //나중에 1 변경해야함
-  const [selectedOption, setSelectedOption] = useState(1);
+  const deliveries: DeliveryInfo[] = [
+    {
+      id: 1,
+      name: '김견주 집',
+      recipient: '김견주',
+      recipientPhoneNumber: '010-1111-2222',
+      zipCode: 0o2233,
+      address: '서울 마포구 마포로 85 ',
+      detailedAddress: '102동 1012호',
+      isDefault: true,
+    },
+    {
+      id: 2,
+      name: '김견주 회사',
+      recipient: '김견주',
+      recipientPhoneNumber: '010-1111-3333',
+      zipCode: 12393,
+      address: '서울 마포구 마포로 85 ',
+      detailedAddress: '102동 1013호',
+      isDefault: true,
+    },
+    {
+      id: 3,
+      name: '김견주 회사',
+      recipient: '김견주',
+      recipientPhoneNumber: '010-1111-3333',
+      zipCode: 12393,
+      address: '서울 마포구 마포로 85 ',
+      detailedAddress: '102동 1013호',
+      isDefault: true,
+    },
+    {
+      id: 4,
+      name: '김견주 회사',
+      recipient: '김견주',
+      recipientPhoneNumber: '010-1111-3333',
+      zipCode: 12393,
+      address: '서울 마포구 마포로 85 ',
+      detailedAddress: '102동 1013호',
+      isDefault: true,
+    },
+    {
+      id: 5,
+      name: '김견주 회사',
+      recipient: '김견주',
+      recipientPhoneNumber: '010-1111-3333',
+      zipCode: 12393,
+      address: '서울 마포구 마포로 85 ',
+      detailedAddress: '102동 1013호',
+      isDefault: true,
+    },
+    {
+      id: 6,
+      name: '김견주 회사',
+      recipient: '김견주',
+      recipientPhoneNumber: '010-1111-3333',
+      zipCode: 12393,
+      address: '서울 마포구 마포로 85 ',
+      detailedAddress: '102동 1013호',
+      isDefault: true,
+    },
+  ];
+  const [selectedOption, setSelectedOption] = useState<DeliveryInfo | null>(null);
   const buttonRef = useRef<HTMLDivElement>(null);
   const topContentRef = useRef<HTMLDivElement>(null);
+  const { showToast } = useToast(BOTTOM_BOX_ID);
 
   const handleOptionChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSelectedOption(Number(e.target.value));
+    const selected = deliveries.find(option => option.id === parseInt(e.target.value));
+    selected && setSelectedOption(selected);
+  };
+
+  const router = useRouter();
+  const prevPath = router.query?.prevPath;
+
+  const { mutate: updateAddress } = useMutation({
+    mutationFn: async ({ selectedOption, updatedOption }: any) => {
+      const res = await axios.post(`/deliveries/${selectedOption.id}`, JSON.stringify(updatedOption));
+      const data = res.data;
+      console.log('Response:', data);
+      return data;
+    },
+    onSuccess: () => {
+      if (prevPath) {
+        router.push(Array.isArray(prevPath) ? prevPath[0] : prevPath);
+        return;
+      }
+      router.back();
+    },
+
+    onError: error => {
+      if (!isAxiosError(error)) {
+        // `AxiosError`가 아닌 경우
+        showToast({
+          status: 'error',
+          message: FETCH_ERROR_MESSAGE.UNKNOWN,
+        });
+        return;
+      }
+      // `AxiosError`인 경우 에러 처리
+      if (!error.response) {
+        showToast({
+          status: 'error',
+          message: FETCH_ERROR_MESSAGE.REQUEST,
+        });
+        return;
+      }
+      const status = error.response?.status;
+      switch (status) {
+        case 400:
+          showToast({
+            status: 'error',
+            message: SERVER_ERROR_MESSAGE.USER.NOT_FOUND,
+          });
+          return;
+      }
+    },
+  });
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    console.log('abc');
+    e.preventDefault();
+    if (!selectedOption) return;
+
+    // 선택된 옵션 객체를 복사하고 isDefault 값을 true로 변경
+    const updatedOption = { ...selectedOption, isDefault: true };
+
+    updateAddress({ selectedOption, updatedOption });
   };
 
   useEffect(() => {
@@ -41,89 +172,41 @@ export default function PaymentDeliveryPage() {
       button.style.bottom = '32px';
     }
   }, []);
-
-  useEffect(() => {});
-  const deliverlies: DeliveryInfo[] = [
-    {
-      id: 1,
-      name: '김견주 집',
-      recipient: '김견주',
-      recipientPhoneNumber: '010-1111-2222',
-      zipCode: 0o2233,
-      address: '서울 마포구 마포로 85 ',
-      detailedAddress: '102동 1012호',
-      isDefault: true,
-    },
-    {
-      id: 2,
-      name: '김견주 회사',
-      recipient: '김견주',
-      recipientPhoneNumber: '010-1111-3333',
-      zipCode: 12393,
-      address: '서울 마포구 마포로 85 ',
-      detailedAddress: '102동 1013호',
-      isDefault: true,
-    },
-    {
-      id: 2,
-      name: '김견주 회사',
-      recipient: '김견주',
-      recipientPhoneNumber: '010-1111-3333',
-      zipCode: 12393,
-      address: '서울 마포구 마포로 85 ',
-      detailedAddress: '102동 1013호',
-      isDefault: true,
-    },
-    {
-      id: 2,
-      name: '김견주 회사',
-      recipient: '김견주',
-      recipientPhoneNumber: '010-1111-3333',
-      zipCode: 12393,
-      address: '서울 마포구 마포로 85 ',
-      detailedAddress: '102동 1013호',
-      isDefault: true,
-    },
-    {
-      id: 2,
-      name: '김견주 회사',
-      recipient: '김견주',
-      recipientPhoneNumber: '010-1111-3333',
-      zipCode: 12393,
-      address: '서울 마포구 마포로 85 ',
-      detailedAddress: '102동 1013호',
-      isDefault: true,
-    },
-    {
-      id: 2,
-      name: '김견주 회사',
-      recipient: '김견주',
-      recipientPhoneNumber: '010-1111-3333',
-      zipCode: 12393,
-      address: '서울 마포구 마포로 85 ',
-      detailedAddress: '102동 1013호',
-      isDefault: true,
-    },
-  ];
   return (
     <div className={cx('delivery')} ref={topContentRef}>
-      <Header.Root>
-        <Header.Box>
-          <Header.Left>
-            <BackButton />
-          </Header.Left>
-          <h1 className={cx('title')}>배송지 목록</h1>
-        </Header.Box>
-      </Header.Root>
-      {deliverlies.length !== 0 ? (
-        <input id="deliveryInfo" name="deliveryInfo" type="radio" className={cx('deliveries')}>
-          {deliverlies.map(deliveryInfo => {
-            return <DeliveryCard key={deliveryInfo.id} deliveryInfo={deliveryInfo} />;
-          })}
-        </input>
-      ) : (
-        <DeliveryEmptyView />
-      )}
+      <form onSubmit={handleSubmit}>
+        <Header.Root>
+          <Header.Box>
+            <Header.Left>
+              <button className={cx('backButton')} type="submit">
+                <LeftArrow width={24} height={24} alt="뒤로 가기 버튼" />
+              </button>
+            </Header.Left>
+            <h1 className={cx('title')}>배송지 목록</h1>
+          </Header.Box>
+        </Header.Root>
+        {deliveries.length !== 0 ? (
+          <div className={cx('deliveries')}>
+            {deliveries.map(deliveryInfo => {
+              return (
+                <label key={deliveryInfo.id} className={cx('label')}>
+                  <input
+                    type="radio"
+                    value={deliveryInfo.id}
+                    checked={selectedOption?.id === deliveryInfo.id}
+                    onChange={handleOptionChange}
+                    style={{ display: 'none' }}
+                  />
+                  {selectedOption?.id === deliveryInfo.id ? <CheckedButton /> : <UncheckedButton />}
+                  <DeliveryCard key={deliveryInfo.id} deliveryInfo={deliveryInfo} />
+                </label>
+              );
+            })}
+          </div>
+        ) : (
+          <DeliveryEmptyView />
+        )}
+      </form>
       <div className={cx('button')} ref={buttonRef}>
         <Button size="large" backgroundColor="$color-pink-main">
           배송지 추가
