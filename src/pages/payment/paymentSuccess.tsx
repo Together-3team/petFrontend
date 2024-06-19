@@ -25,7 +25,7 @@ export default function PaymentSuccess() {
             paymentKey: paymentKey as string,
             amount: amountValue,
             selectedProductIds: selectedProductIds,
-            groupBuyingId: 0,
+            groupBuyingId: undefined,
             deliveryId: 1,
           };
           const response = await completePayment(postData);

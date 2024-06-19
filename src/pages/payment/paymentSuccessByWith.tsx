@@ -3,7 +3,7 @@ import withSuccess from '@/assets/images/withSuccess.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import Image from 'next/image';
-import { Router, useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 export default function PaymentSuccessByWith() {
   const router = useRouter();
   return (
