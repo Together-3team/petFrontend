@@ -16,7 +16,7 @@ export default function GoogleCallback() {
     return response.data;
   }
 
-  const mutation = useMutation<GoogleAuthResponse, Error, void>({
+  const { mutateAsync: mutation } = useMutation<GoogleAuthResponse, Error, void>({
     mutationKey: ['googleAuth'],
     mutationFn: getGoogleAuth,
     onSuccess: (data: GoogleAuthResponse) => {
@@ -42,7 +42,7 @@ export default function GoogleCallback() {
   } as unknown as UseMutationOptions<GoogleAuthResponse, Error, void>);
 
   useEffect(() => {
-    mutation.mutate();
+    mutation();
   }, [mutation]);
 
   return <div></div>;

@@ -16,7 +16,7 @@ export default function KakaoCallback() {
     return response.data;
   }
 
-  const mutation = useMutation<KakaoAuthResponse, Error, void>({
+  const { mutateAsync: mutation } = useMutation<KakaoAuthResponse, Error, void>({
     mutationKey: ['kakaoAuth'],
     mutationFn: getKakaoAuth,
     onSuccess: (data: KakaoAuthResponse) => {
@@ -42,7 +42,7 @@ export default function KakaoCallback() {
   } as unknown as UseMutationOptions<KakaoAuthResponse, Error, void>);
 
   useEffect(() => {
-    mutation.mutate();
+    mutation();
   }, [mutation]);
 
   return <div></div>;

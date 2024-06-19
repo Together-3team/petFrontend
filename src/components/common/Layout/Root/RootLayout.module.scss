@@ -9,7 +9,9 @@
   }
 
   .homeBackground {
-    background-color: $color-pink-light;
+    background-image: url('/images/pawing-background.png');
+    background-size: cover;
+    background-position: center center;
     position: fixed;
     top: 0;
     left: 0;
@@ -20,29 +22,20 @@
     z-index: $z-index-home-background;
   }
 
-  .heroContainer {
-    $size-home: 50rem;
+  .introViewBox {
+    $size-home: 51.2rem;
 
     display: none;
-    border: 0.1rem solid $color-pink-main;
     position: fixed;
     left: calc((-1 * $size-home) + 50vw);
     width: $size-home;
     height: 100vh;
 
     @include desktop {
-      display: block;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
-  }
-
-  .hero {
-    display: flex;
-    border: 0.1rem solid $color-blue;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    max-width: 40rem;
-    height: 100%;
   }
 
   .appBackground {
@@ -55,21 +48,35 @@
     z-index: $z-index-app-background;
   }
 
-  .main {
-    position: relative;
-    max-width: $size-mobile-max;
+  .mainBox {
     width: 100%;
+    max-width: $size-mobile-max;
 
     @include desktop {
+      display: flex;
+      justify-content: center;
+      max-width: $size-view-box;
+      position: relative;
       left: 50vw;
     }
   }
 
+  .main {
+    width: 100%;
+    max-width: $size-mobile-max;
+  }
+
   .contents {
+    @include nav-shadow;
+
     background-color: $color-white;
+    border-left: 0.1rem solid $color-gray-300;
+    border-right: 0.1rem solid $color-gray-300;
     display: flex;
     flex-direction: column;
+    position: relative;
     width: 100%;
+    max-width: $size-mobile-max;
     min-height: 100vh;
   }
 
