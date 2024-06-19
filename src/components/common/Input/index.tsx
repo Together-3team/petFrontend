@@ -16,12 +16,14 @@ interface InputProps {
   imageProps?: Partial<ImageProps>;
   background?: string;
   readOnly?: boolean;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+  value?: string;
 }
 
 const cx = classNames.bind(styles);
 
 const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
-  { id, label, isError, errorText, labelStyle, size, border, imageProps, background, ...rest },
+  { id, label, isError, errorText, labelStyle, size, border, imageProps, background, onChange, value, ...rest },
   ref
 ) {
   return (
@@ -32,7 +34,13 @@ const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
         </label>
       )}
       <div className={cx({ inputWithIcon: imageProps })}>
-        <input ref={ref} className={cx(border, { error: isError }, size, background)} {...rest} />
+        <input
+          ref={ref}
+          className={cx(border, { error: isError }, size, background)}
+          onChange={onChange}
+          value={value}
+          {...rest}
+        />
         {imageProps && (
           <Image
             src="/images/search.svg"

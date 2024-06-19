@@ -10,7 +10,6 @@ import Header from '@/components/common/Layout/Header';
 import BottomModal from '@/components/common/Modal/Base/BottomModal';
 import Input from '@/components/common/Input';
 import BackButton from '@/components/common/Button/BackButton';
-import { completePayment } from '@/apis/paymentApi';
 import { Product } from '@/pages/cart';
 import clock from '@/assets/images/clock.png';
 import Image from 'next/image';
@@ -25,9 +24,10 @@ export default function Payment() {
   const paymentMethodsWidgetRef = useRef<ReturnType<PaymentWidgetInstance['renderPaymentMethods']> | null>(null);
   const [price, setPrice] = useState(0); // 기본 가격 설정
   const [isModalOpen, setIsModalOpen] = useState(true);
-  const [deliveryMessage, setIsDeliveryMessage] = useState('');
+  const [deliveryMessage, setDeliveryMessage] = useState('');
   const [products, setProducts] = useState<Product[]>([]);
-  const router = useRouter();
+  const PAYMENT_SECRET_KEY = process.env.NEXT_PUBLIC_TOSS_PAYMENTS_SECRET_KEY;
+  console.log(PAYMENT_SECRET_KEY);
 
   useEffect(() => {
     const cartData = sessionStorage.getItem('cartData');
@@ -41,7 +41,7 @@ export default function Payment() {
       );
       setPrice(calculatedPrice);
     }
-  });
+  }, []);
 
   useEffect(() => {
     const script = document.createElement('script');
@@ -97,25 +97,19 @@ export default function Payment() {
       const remainingProductCount = (products?.length || 0) - 1;
       const orderName =
         remainingProductCount > 0 ? `${firstProductTitle} 외 ${remainingProductCount}건` : firstProductTitle;
-      console.log(orderName);
+
+      const selectedProductIds = products.map(product => product.id).join(',');
+      const deliveryMessageValue = deliveryMessage;
+      console.log(deliveryMessage);
+      console.log(selectedProductIds);
+      sessionStorage.setItem('deliveryMessage', deliveryMessageValue);
+      sessionStorage.setItem('selectedProductIds', selectedProductIds);
       const response = await paymentWidget?.requestPayment({
         orderId: nanoid(),
         orderName,
         successUrl: `${window.location.origin}/payment/paymentSuccess`,
         failUrl: `${window.location.origin}/payment/fail`,
       });
-
-      if (response) {
-        const { orderId, paymentKey } = response;
-        const deliveryMessageValue = deliveryMessage;
-        const postData = {
-          deliveryMessage: deliveryMessageValue,
-          orderId,
-          paymentKey,
-        };
-        await completePayment(postData);
-        console.log('결제 완료: ', postData);
-      }
     } catch (error) {
       console.error('Error requesting payment:', error);
     }
@@ -147,6 +141,8 @@ export default function Payment() {
           label="배송메시지"
           labelStyle={'label'}
           placeholder="예) 부재시 집 앞에 놔주세요"
+          value={deliveryMessage}
+          onChange={e => setDeliveryMessage(e.target.value)}
         />
       </div>
       <div className={styles.rectangle}></div>

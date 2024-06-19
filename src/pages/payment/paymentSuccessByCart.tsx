@@ -8,26 +8,7 @@ export default function PaymentSuccessByCart() {
   const [buttonText, setButtonText] = useState('링크 복사하기');
   const [buttonColor, setButtonColor] = useState(styles.copyButton);
   const router = useRouter();
-  const { paymentKey, orderId, amount } = router.query;
 
-  useEffect(() => {
-    const sendPaymentData = async () => {
-      if (paymentKey && orderId && amount) {
-        try {
-          const postData = {
-            deliveryMessage: '',
-            orderId: orderId as string,
-            paymentKey: paymentKey as string,
-          };
-          const response = await completePayment(postData);
-          console.log('결제 완료: ', response);
-        } catch (error) {
-          console.error('Error completing payment:', error);
-        }
-      }
-    };
-    sendPaymentData();
-  }, [paymentKey, orderId, amount]);
   function handleCopyLink() {
     const dummyLink = 'https://example.com/seoleeping';
     navigator.clipboard
