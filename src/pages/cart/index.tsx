@@ -246,12 +246,14 @@ export default function Cart() {
           <div className={styles.noProduct}>아직 담은 상품이 없어요</div>
         )}
       </div>
-      <FloatingBox className={styles.bottomNavCart} id={BOTTOM_BOX_ID}>
-        <Button size="large" backgroundColor="$color-pink-main" onClick={handleOrderButtonClick}>
-          {totalPrice}원 주문하기
-        </Button>
-        <div className={styles.howMuchMinus}>
-          지금 구매하면 <span className={styles.pink}>-{totalOriginalPrice - totalPrice}원&nbsp;</span>할인돼요
+      <FloatingBox id={BOTTOM_BOX_ID}>
+        <div className={styles.bottomNavCart}>
+          <Button size="large" backgroundColor="$color-pink-main" onClick={handleOrderButtonClick}>
+            {totalPrice}원 주문하기
+          </Button>
+          <div className={styles.howMuchMinus}>
+            지금 구매하면 <span className={styles.pink}>-{totalOriginalPrice - totalPrice}원&nbsp;</span>할인돼요
+          </div>
         </div>
       </FloatingBox>
       <BottomModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} hasBackdrop={true}>
