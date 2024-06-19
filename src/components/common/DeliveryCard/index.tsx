@@ -8,17 +8,25 @@ import Button from '../Button';
 import Tag from '../Tag';
 import { DeliveryInfo } from '@/types/components/delivery';
 import useToast from '@/hooks/useToast';
-import { FETCH_ERROR_MESSAGE, SERVER_ERROR_MESSAGE } from '@/constants/errorMessage';
+import { Error_MESSAGE, FETCH_ERROR_MESSAGE, SERVER_ERROR_MESSAGE } from '@/constants/errorMessage';
 import styles from './DeliveryCard.module.scss';
 
 const cx = classNames.bind(styles);
 
 const BOTTOM_BOX_ID = 'bottomBox';
 
-export default function DeliveryCard({ deliveryInfo }: { deliveryInfo: DeliveryInfo }) {
+interface DeliveryCardProps {
+  deliveryInfo: DeliveryInfo;
+  // setIsVisible: (id: number, isVisible: boolean) => void;
+  deliveries: DeliveryInfo[];
+  setDeliveries: React.Dispatch<React.SetStateAction<DeliveryInfo[]>>;
+  checked?: boolean;
+}
+
+export default function DeliveryCard({ deliveryInfo, deliveries, setDeliveries, checked }: DeliveryCardProps) {
   const { id, name, recipient, recipientPhoneNumber, zipCode, address, detailedAddress, isDefault } = deliveryInfo;
   const router = useRouter();
-  const [isVisible, setIsVisible] = useState(true);
+
   const { showToast } = useToast(BOTTOM_BOX_ID);
 
   const handleEditButtonClick = () => {
@@ -27,8 +35,17 @@ export default function DeliveryCard({ deliveryInfo }: { deliveryInfo: DeliveryI
 
   const handleDeleteButtonClick = async () => {
     try {
+      if (checked) {
+        showToast({
+          status: 'error',
+          message: Error_MESSAGE.ISDEFAULT,
+        });
+        return;
+      }
       await axios.delete(`/deliveries/${id}`);
-      setIsVisible(false); // 삭제 성공 시 카드를 숨김
+      // setIsVisible(id, false); // 삭제 성공 시 카드를 숨김
+      const nextDeliveries = deliveries.filter(deliveryInfo => deliveryInfo.id !== id);
+      setDeliveries(nextDeliveries);
     } catch (error) {
       if (!isAxiosError(error)) {
         // `AxiosError`가 아닌 경우
@@ -57,8 +74,6 @@ export default function DeliveryCard({ deliveryInfo }: { deliveryInfo: DeliveryI
       }
     }
   };
-
-  if (!isVisible) return null;
 
   return (
     <div className={cx('deliveryCard')}>

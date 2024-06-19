@@ -20,6 +20,13 @@ const cx = classNames.bind(styles);
 
 const BOTTOM_BOX_ID = 'bottomBox';
 
+const accessToken =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTUsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3MTg2OTIyMDAsImV4cCI6MTcxODY5OTQwMH0.0FbXlHrTeLloQAWOw4BDDQ5xln52l4UzSiI2WP4eskw';
+
+interface VisibleCardsType {
+  [key: number]: boolean;
+}
+
 export default function PaymentDeliveryPage() {
   // const deliveries: DeliveryInfo[] = [
   //   {
@@ -85,14 +92,28 @@ export default function PaymentDeliveryPage() {
   // ];
   const [deliveries, setDeliveries] = useState<DeliveryInfo[]>([]);
   const [selectedOption, setSelectedOption] = useState<DeliveryInfo | null>(null);
+  // const [visibleCards, setVisibleCards] = useState<VisibleCardsType>(
+  //   deliveries.reduce<VisibleCardsType>((acc, deliveries) => {
+  //     acc[deliveries.id] = true;
+  //     return acc;
+  //   }, {})
+  // );
   const buttonRef = useRef<HTMLDivElement>(null);
   const topContentRef = useRef<HTMLDivElement>(null);
   const { showToast } = useToast(BOTTOM_BOX_ID);
 
+  // const setIsVisible = (id: number, isVisible: boolean) => {
+  //   setVisibleCards(prev => ({ ...prev, [id]: isVisible }));
+  // };
+
   useEffect(() => {
     const fetchOptions = async () => {
       try {
-        const res = await axios('/deliveries'); // 서버에서 옵션 데이터를 받아오는 API 엔드포인트
+        const res = await axios('/deliveries', {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }); // 서버에서 옵션 데이터를 받아오는 API 엔드포인트
         const deliveries: DeliveryInfo[] = res.data;
         setDeliveries(deliveries);
 
@@ -143,7 +164,11 @@ export default function PaymentDeliveryPage() {
 
   const { mutate: updateAddress } = useMutation({
     mutationFn: async ({ selectedOption, updatedOption }: any) => {
-      const res = await axios.post(`/deliveries/${selectedOption.id}`, JSON.stringify(updatedOption));
+      const res = await axios.post(`/deliveries/${selectedOption.id}`, JSON.stringify(updatedOption), {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
       const data = res.data;
       console.log('Response:', data);
       return data;
@@ -239,6 +264,7 @@ export default function PaymentDeliveryPage() {
         {deliveries.length !== 0 ? (
           <div className={cx('deliveries')}>
             {deliveries.map(deliveryInfo => {
+              // if (!visibleCards[deliveryInfo.id]) return null;
               return (
                 <label key={deliveryInfo.id} className={cx('label')}>
                   <input
@@ -249,7 +275,14 @@ export default function PaymentDeliveryPage() {
                     style={{ display: 'none' }}
                   />
                   {selectedOption?.id === deliveryInfo.id ? <CheckedButton /> : <UncheckedButton />}
-                  <DeliveryCard key={deliveryInfo.id} deliveryInfo={deliveryInfo} />
+                  <DeliveryCard
+                    key={deliveryInfo.id}
+                    deliveryInfo={deliveryInfo}
+                    // setIsVisible={setIsVisible}
+                    deliveries={deliveries}
+                    setDeliveries={setDeliveries}
+                    checked={selectedOption?.id === deliveryInfo.id}
+                  />
                 </label>
               );
             })}
