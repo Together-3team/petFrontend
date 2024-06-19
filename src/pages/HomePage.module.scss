@@ -1,20 +1,17 @@
 @layer overrides {
-  .container {
-    padding: 0 1.6rem 10rem;
+  .layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .header {
-    padding-top: 2rem;
+    padding: 2rem 1.6rem 0;
     z-index: 3;
 
     &[data-visible='hidden'] {
       transform: translateY(-6.8rem);
     }
-  }
-
-  .test {
-    border: 1px solid black;
-    width: 100%;
   }
 
   .divider {
