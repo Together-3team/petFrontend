@@ -263,7 +263,11 @@ export default function Cart() {
 
       <FloatingBox id={BOTTOM_BOX_ID}>
         <div className={styles.bottomNavCart}>
-          <Button size="large" backgroundColor="$color-pink-main" onClick={handleOrderButtonClick}>
+          <Button
+            size="large"
+            backgroundColor="$color-pink-main"
+            onClick={handleOrderButtonClick}
+            disabled={totalPrice === 0}>
             {totalPrice}원 주문하기
           </Button>
           <div className={styles.howMuchMinus}>
