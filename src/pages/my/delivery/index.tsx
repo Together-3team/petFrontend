@@ -3,16 +3,68 @@ import BackButton from '@/components/common/Button/BackButton';
 import Header from '@/components/common/Layout/Header';
 import styles from './Delivery.module.scss';
 import DeliveryCard from '@/components/common/DeliveryCard';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import DeliveryEmptyView from '@/components/delivery/EmptyView';
 import Button from '@/components/common/Button';
 import { DeliveryInfo } from '@/types/components/delivery';
+import useToast from '@/hooks/useToast';
+import axios from '@/apis/axiosInstance';
+import { isAxiosError } from 'axios';
+import { FETCH_ERROR_MESSAGE, SERVER_ERROR_MESSAGE } from '@/constants/errorMessage';
 
 const cx = classNames.bind(styles);
 
+const BOTTOM_BOX_ID = 'bottomBox';
+
+const accessToken =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTUsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3MTg2OTIyMDAsImV4cCI6MTcxODY5OTQwMH0.0FbXlHrTeLloQAWOw4BDDQ5xln52l4UzSiI2WP4eskw';
+
 export default function MyDeliveryPage() {
+  const [deliveries, setDeliveries] = useState<DeliveryInfo[]>([]);
   const buttonRef = useRef<HTMLDivElement>(null);
   const topContentRef = useRef<HTMLDivElement>(null);
+  const { showToast } = useToast(BOTTOM_BOX_ID);
+
+  useEffect(() => {
+    const fetchOptions = async () => {
+      try {
+        const res = await axios('/deliveries', {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }); // 서버에서 옵션 데이터를 받아오는 API 엔드포인트
+        const deliveries: DeliveryInfo[] = res.data;
+        setDeliveries(deliveries);
+      } catch (error) {
+        if (!isAxiosError(error)) {
+          // `AxiosError`가 아닌 경우
+          showToast({
+            status: 'error',
+            message: FETCH_ERROR_MESSAGE.UNKNOWN,
+          });
+          return;
+        }
+        // `AxiosError`인 경우 에러 처리
+        if (!error.response) {
+          showToast({
+            status: 'error',
+            message: FETCH_ERROR_MESSAGE.REQUEST,
+          });
+          return;
+        }
+        const status = error.response?.status;
+        switch (status) {
+          case 404:
+            showToast({
+              status: 'error',
+              message: SERVER_ERROR_MESSAGE.USER.NOT_FOUND,
+            });
+            return;
+        }
+      }
+    };
+    fetchOptions();
+  }, [showToast]);
 
   useEffect(() => {
     const button = buttonRef.current;
@@ -34,71 +86,8 @@ export default function MyDeliveryPage() {
       button.style.position = 'fixed';
       button.style.bottom = '32px';
     }
-  }, []);
+  }, [deliveries]);
 
-  useEffect(() => {});
-  const deliverlies: DeliveryInfo[] = [
-    {
-      id: 1,
-      name: '김견주 집',
-      recipient: '김견주',
-      recipientPhoneNumber: '010-1111-2222',
-      zipCode: 0o2233,
-      address: '서울 마포구 마포로 85 ',
-      detailedAddress: '102동 1012호',
-      isDefault: true,
-    },
-    {
-      id: 2,
-      name: '김견주 회사',
-      recipient: '김견주',
-      recipientPhoneNumber: '010-1111-3333',
-      zipCode: 12393,
-      address: '서울 마포구 마포로 85 ',
-      detailedAddress: '102동 1013호',
-      isDefault: true,
-    },
-    {
-      id: 2,
-      name: '김견주 회사',
-      recipient: '김견주',
-      recipientPhoneNumber: '010-1111-3333',
-      zipCode: 12393,
-      address: '서울 마포구 마포로 85 ',
-      detailedAddress: '102동 1013호',
-      isDefault: true,
-    },
-    {
-      id: 2,
-      name: '김견주 회사',
-      recipient: '김견주',
-      recipientPhoneNumber: '010-1111-3333',
-      zipCode: 12393,
-      address: '서울 마포구 마포로 85 ',
-      detailedAddress: '102동 1013호',
-      isDefault: true,
-    },
-    {
-      id: 2,
-      name: '김견주 회사',
-      recipient: '김견주',
-      recipientPhoneNumber: '010-1111-3333',
-      zipCode: 12393,
-      address: '서울 마포구 마포로 85 ',
-      detailedAddress: '102동 1013호',
-      isDefault: true,
-    },
-    {
-      id: 2,
-      name: '김견주 회사',
-      recipient: '김견주',
-      recipientPhoneNumber: '010-1111-3333',
-      zipCode: 12393,
-      address: '서울 마포구 마포로 85 ',
-      detailedAddress: '102동 1013호',
-      isDefault: true,
-    },
-  ];
   return (
     <div className={cx('delivery')} ref={topContentRef}>
       <Header.Root>
@@ -109,10 +98,17 @@ export default function MyDeliveryPage() {
           <h1 className={cx('title')}>배송지 목록</h1>
         </Header.Box>
       </Header.Root>
-      {deliverlies.length !== 0 ? (
+      {deliveries.length !== 0 ? (
         <div className={cx('deliveries')}>
-          {deliverlies.map(deliveryInfo => {
-            return <DeliveryCard key={deliveryInfo.id} deliveryInfo={deliveryInfo} />;
+          {deliveries.map(deliveryInfo => {
+            return (
+              <DeliveryCard
+                key={deliveryInfo.id}
+                deliveryInfo={deliveryInfo}
+                deliveries={deliveries}
+                setDeliveries={setDeliveries}
+              />
+            );
           })}
         </div>
       ) : (

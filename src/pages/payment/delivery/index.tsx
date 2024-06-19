@@ -226,28 +226,36 @@ export default function PaymentDeliveryPage() {
   };
 
   useEffect(() => {
-    const button = buttonRef.current;
-    const topContent = topContentRef.current;
+    const adjustButtonPosition = () => {
+      const button = buttonRef.current;
+      const topContent = topContentRef.current;
 
-    if (!button || !topContent) {
-      return;
-    }
+      if (!button || !topContent) {
+        return;
+      }
 
-    const topContentRect = topContent.offsetHeight;
-    const buttonHeight = button.offsetHeight;
+      const topContentRect = topContent.offsetHeight;
+      const buttonHeight = button.offsetHeight;
 
-    if (topContentRect + buttonHeight > window.innerHeight) {
-      button.style.position = 'absolute';
-      button.style.bottom = `32px`;
-      button.style.left = '50%';
-      button.style.transform = 'translate(-50%, 0)';
-    } else {
-      button.style.position = 'fixed';
-      button.style.bottom = '32px';
-      button.style.left = '50%';
-      button.style.transform = 'translate(-50%, 0)';
-    }
-  }, []);
+      if (topContentRect + buttonHeight > window.innerHeight) {
+        button.style.position = 'absolute';
+        button.style.bottom = `32px`;
+        button.style.left = '50%';
+        button.style.transform = 'translate(-50%, 0)';
+      } else {
+        button.style.position = 'fixed';
+        button.style.bottom = '32px';
+        button.style.left = '50%';
+        button.style.transform = 'translate(-50%, 0)';
+      }
+    };
+
+    adjustButtonPosition();
+    window.addEventListener('resize', adjustButtonPosition);
+    return () => {
+      window.removeEventListener('resize', adjustButtonPosition);
+    };
+  }, [deliveries]);
   return (
     <div className={cx('delivery')} ref={topContentRef}>
       <form onSubmit={handleSubmit}>
