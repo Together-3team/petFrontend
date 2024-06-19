@@ -1,4 +1,4 @@
-import { forwardRef, ChangeEvent } from 'react';
+import { forwardRef } from 'react';
 import Image, { ImageProps } from 'next/image';
 import classNames from 'classnames/bind';
 import styles from './Input.module.scss';
@@ -15,9 +15,13 @@ interface InputProps {
   placeholder?: string;
   imageProps?: Partial<ImageProps>;
   background?: string;
+  value?: string;
   readOnly?: boolean;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   value?: string;
+  defaultValue?: string;
+  autoComplete?: string;
+
 }
 
 const cx = classNames.bind(styles);
@@ -52,7 +56,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
           />
         )}
       </div>
-      {isError && <p className={cx('errorText')}>{errorText}</p>}
+      {isError && errorText && <p className={cx('errorText')}>{errorText}</p>}
     </div>
   );
 });
@@ -94,5 +98,6 @@ export default Input;
         placeholder="검색어를 입력해주세요"
         imageProps={{}}
         background={'background'}
-      /> */
+      /> 
+  4. 우편번호 인풋: size='small'*/
 }
