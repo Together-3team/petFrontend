@@ -50,7 +50,7 @@ export default function SignupForm() {
 
   const methods = useForm<FormValues>({
     resolver: yupResolver(signupFormSchema),
-    mode: 'onChange',
+    mode: 'onBlur',
   });
   const {
     formState: { errors },

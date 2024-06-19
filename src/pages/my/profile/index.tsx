@@ -41,7 +41,7 @@ export default function Profile() {
 
   const methods = useForm<ProfileValue & FieldValues>({
     resolver: yupResolver(nicknameSchema),
-    mode: 'onChange',
+    mode: 'onBlur',
   });
 
   const {
