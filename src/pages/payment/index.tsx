@@ -210,12 +210,13 @@ export default function Payment() {
           <Image className={styles.clockImg} src={clock} width={168} height={120} alt="clockImg" />
           <div className={styles.warning}>공동구매는 빨리 성사되지 않으면 취소될 수 있어요</div>
           <div className={styles.detailWarning}>
-            24시간 내 공동구매 참여자가 없거나, 공동구매 성사 전에 품절되면 주문이 취소될 수 있어요.
+            24시간 내 공동구매 참여자가 없거나, <br />
+            공동구매 성사 전에 품절되면 주문이 취소될 수 있어요.
           </div>
-          <Button size="large" backgroundColor="$color-gray-800" onClick={() => setIsModalOpen(false)}>
-            이해했어요
-          </Button>
         </div>
+        <Button size="large" backgroundColor="$color-gray-800" onClick={() => setIsModalOpen(false)}>
+          이해했어요
+        </Button>
       </BottomModal>
     </div>
   );
