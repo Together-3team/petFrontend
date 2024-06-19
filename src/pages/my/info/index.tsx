@@ -51,6 +51,7 @@ export default function Info() {
 
   const methods = useForm<PhoneNumberValue>({
     resolver: yupResolver(phoneNumberSchema),
+    mode: 'onChange',
   });
   const {
     formState: { errors },
