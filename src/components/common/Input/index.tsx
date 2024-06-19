@@ -15,15 +15,17 @@ interface InputProps {
   placeholder?: string;
   imageProps?: Partial<ImageProps>;
   background?: string;
-  readOnly?: boolean;
   value?: string;
+  readOnly?: boolean;
+  defaultValue?: string;
+  autoComplete?: string;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const cx = classNames.bind(styles);
 
 const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
-  { id, label, isError, errorText, labelStyle, size, border, imageProps, background, onChange, value, ...rest },
+  { id, label, isError, errorText, labelStyle, size, border, imageProps, background, autoComplete, ...rest },
   ref
 ) {
   return (
@@ -35,10 +37,10 @@ const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
       )}
       <div className={cx({ inputWithIcon: imageProps })}>
         <input
+          id="input"
           ref={ref}
           className={cx(border, { error: isError }, size, background)}
-          onChange={onChange}
-          value={value}
+          autoComplete={autoComplete}
           {...rest}
         />
         {imageProps && (
