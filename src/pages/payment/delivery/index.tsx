@@ -164,7 +164,7 @@ export default function PaymentDeliveryPage() {
 
   const { mutate: updateAddress } = useMutation({
     mutationFn: async ({ selectedOption, updatedOption }: any) => {
-      const res = await axios.post(`/deliveries/${selectedOption.id}`, JSON.stringify(updatedOption), {
+      const res = await axios.put(`/deliveries/${selectedOption.id}`, JSON.stringify(updatedOption), {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
