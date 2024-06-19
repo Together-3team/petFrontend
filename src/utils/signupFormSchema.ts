@@ -11,7 +11,7 @@ const signupFormSchema = Yup.object().shape({
     .required('닉네임을 입력해주세요.')
     .test('checkNickname', '이미 존재하는 닉네임입니다.', async data => {
       const response = await userApi.checkNickname({ data });
-      return response.data.isAvailable;
+      return !response.data.duplicated;
     }),
   phoneNumber: Yup.string()
     .matches(/^\d{3}-\d{3,4}-\d{4}$/, '연락처 입력 형식을 확인해주세요. (000-0000-0000)')
@@ -35,10 +35,27 @@ export const nicknameSchema = Yup.object({
     .min(2, '2~8자의 한글, 영어, 숫자만 가능합니다.')
     .max(8, '2~8자의 한글, 영어, 숫자만 가능합니다.')
     .required('닉네임을 입력해주세요.')
-    .test('checkNickname', '이미 존재하는 닉네임입니다.', async data => {
-      const response = await userApi.checkNickname({ data });
-      return response.data.isAvailable;
+    .test('checkNickname', '이미 존재하는 닉네임입니다.', async nickname => {
+      if (!nickname) return true;
+      try {
+        const response = await userApi.checkNickname({ nickname });
+        console.log(nickname);
+        return !response.data.duplicated;
+      } catch (error) {
+        console.error('닉네임 중복 검사 오류; ', error);
+        return false;
+      }
     }),
+  // .test('checkNickname', '이미 존재하는 닉네임입니다.', async data => {
+  //   if (!data) return true;
+  //   try {
+  //     const response = await userApi.checkNickname({ data });
+  //     console.log(data);
+  //     return response.data;
+  //   } catch (error) {
+  //     console.error('닉네임 중복 검사 오류', error);
+  //   }
+  // }),
 });
 
 export default signupFormSchema;
