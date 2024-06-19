@@ -68,53 +68,53 @@ export default function Payment() {
       setPrice(calculatedPrice);
     }
   }, []);
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://js.tosspayments.com/v1';
-    script.async = true;
-    script.onload = () => {
-      const fetchPaymentWidget = async () => {
-        try {
-          const loadedWidget = await loadPaymentWidget(widgetClientKey, customerKey);
-          setPaymentWidget(loadedWidget);
-        } catch (error) {
-          console.error('Error fetching payment widget:', error);
-        }
-      };
+  // useEffect(() => {
+  //   const script = document.createElement('script');
+  //   script.src = 'https://js.tosspayments.com/v1';
+  //   script.async = true;
+  //   script.onload = () => {
+  //     const fetchPaymentWidget = async () => {
+  //       try {
+  //         const loadedWidget = await loadPaymentWidget(widgetClientKey, customerKey);
+  //         setPaymentWidget(loadedWidget);
+  //       } catch (error) {
+  //         console.error('Error fetching payment widget:', error);
+  //       }
+  //     };
 
-      fetchPaymentWidget();
-    };
-    document.body.appendChild(script);
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
+  //     fetchPaymentWidget();
+  //   };
+  //   document.body.appendChild(script);
+  //   return () => {
+  //     document.body.removeChild(script);
+  //   };
+  // }, []);
 
-  useEffect(() => {
-    if (paymentWidget == null) {
-      return;
-    }
+  // useEffect(() => {
+  //   if (paymentWidget == null) {
+  //     return;
+  //   }
 
-    const paymentMethodsWidget = paymentWidget.renderPaymentMethods(
-      '#payment-widget',
-      { value: price },
-      { variantKey: 'DEFAULT' }
-    );
+  //   const paymentMethodsWidget = paymentWidget.renderPaymentMethods(
+  //     '#payment-widget',
+  //     { value: price },
+  //     { variantKey: 'DEFAULT' }
+  //   );
 
-    paymentWidget.renderAgreement('#agreement', { variantKey: 'AGREEMENT' });
+  //   paymentWidget.renderAgreement('#agreement', { variantKey: 'AGREEMENT' });
 
-    paymentMethodsWidgetRef.current = paymentMethodsWidget;
-  }, [paymentWidget, price]);
+  //   paymentMethodsWidgetRef.current = paymentMethodsWidget;
+  // }, [paymentWidget, price]);
 
-  useEffect(() => {
-    const paymentMethodsWidget = paymentMethodsWidgetRef.current;
+  // useEffect(() => {
+  //   const paymentMethodsWidget = paymentMethodsWidgetRef.current;
 
-    if (paymentMethodsWidget == null) {
-      return;
-    }
+  //   if (paymentMethodsWidget == null) {
+  //     return;
+  //   }
 
-    paymentMethodsWidget.updateAmount(price);
-  }, [price]);
+  //   paymentMethodsWidget.updateAmount(price);
+  // }, [price]);
 
   // const handlePaymentRequest = async () => {
   //   try {
