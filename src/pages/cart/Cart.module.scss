@@ -1,5 +1,5 @@
 .cart {
-  padding: 1.2rem 3rem 11rem 3rem;
+  padding: 1.2rem 3rem 2.8rem 3rem;
 }
 
 .headerRoot {
@@ -42,6 +42,17 @@
   align-items: center;
 }
 
+.rectangle {
+  width: 100%;
+  height: 0.8rem;
+  background-color: $color-gray-50;
+  margin-top: 1rem;
+}
+
+.recommended {
+  padding-top: 2.4rem;
+  margin-bottom: 15rem;
+}
 .bottomNavCart {
   display: flex;
   flex-direction: column;
