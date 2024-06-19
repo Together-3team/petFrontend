@@ -5,12 +5,12 @@ import { QueryClient, dehydrate, useMutation } from '@tanstack/react-query';
 import { FieldValues, FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import useAuth from '@/hooks/useAuth';
 import { UserEditParams, UserEditProps, fetchMyData, userApi } from '@/apis/userApi';
-import ImageBox from '@/components/common/ImageBox';
-import Button from '@/components/common/Button';
 import selectedDog from '@/assets/images/selected-dog.png';
 import selectedCat from '@/assets/images/selected-cat.png';
 import unselectedCat from '@/assets/images/unselected-cat.png';
 import unselectedDog from '@/assets/images/unselected-dog.png';
+import ImageBox from '@/components/common/ImageBox';
+import Button from '@/components/common/Button';
 
 import styles from './Onboarding.module.scss';
 

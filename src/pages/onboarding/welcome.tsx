@@ -1,12 +1,12 @@
+import { QueryClient, dehydrate } from '@tanstack/react-query';
+import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
 import useAuth from '@/hooks/useAuth';
+import { fetchMyData } from '@/apis/userApi';
 import ImageBox from '@/components/common/ImageBox';
 import welcomeDog from '@/assets/images/welcome-dog.png';
 import welcomeCat from '@/assets/images/welcome-cat.png';
 import welcomePet from '@/assets/images/welcome-pet.png';
-import { fetchMyData } from '@/apis/userApi';
-import { QueryClient, dehydrate } from '@tanstack/react-query';
-import { GetServerSidePropsContext } from 'next';
 
 import styles from './Welcome.module.scss';
 
