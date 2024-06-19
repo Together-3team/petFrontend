@@ -5,6 +5,7 @@ import { GetServerSidePropsContext } from 'next';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import useAuth from '@/hooks/useAuth';
+import { PostToGetPresignedUrlParams, postToGetPresignedUrl, putImageToUrl } from '@/apis/imageAPI';
 import { UserEditParams, UserEditProps, fetchMyData, userApi } from '@/apis/userApi';
 import Header from '@/components/common/Layout/Header';
 import ProfileImgBadge from '@/components/common/Badge/ProfileImgBadge';
@@ -15,12 +16,13 @@ import PlusButton from '@/assets/svgs/plus-button.svg';
 import { nicknameSchema } from '@/utils/signupFormSchema';
 
 import styles from './Profile.module.scss';
-import { postToGetPresignedUrl, putImageToUrl } from '@/apis/imageAPI';
 
 export type ProfileValue = Yup.InferType<typeof nicknameSchema>;
 
 export default function Profile() {
   const { userData } = useAuth();
+  const [profileImage, setProfileImage] = useState<File>();
+  const [profileImageUrl, setProfileImageUrl] = useState<string | null>(userData.profileImage || null);
 
   const [dogChecked, setDogChecked] = useState(userData.preferredPet === 1 || userData.preferredPet === 0);
   const [catChecked, setCatChecked] = useState(userData.preferredPet === 2 || userData.preferredPet === 0);
@@ -29,7 +31,6 @@ export default function Profile() {
     mutationKey: ['userEdit'],
     mutationFn: async ({ id, userEditData }: UserEditParams) => {
       const response = await userApi.put(id, userEditData);
-      console.log(response);
       return response;
     },
     onSuccess: data => {
@@ -46,21 +47,52 @@ export default function Profile() {
   });
 
   const {
+    register,
+    handleSubmit,
+    setValue,
     formState: { errors },
   } = methods;
 
-  const { register, handleSubmit, watch, setValue } = methods;
-
   const hiddenInputRef = useRef<HTMLInputElement | null>(null);
-  const newProfileImage = watch('profileImage');
-  const { ref: registerRef, ...rest } = register('profileImage');
 
-  const onSubmit: SubmitHandler<ProfileValue & FieldValues> = data => {
+  function handleImageChange(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (file) {
+      setProfileImage(file);
+      setProfileImageUrl(URL.createObjectURL(file));
+      setValue('profileImage', file);
+    }
+  }
+
+  const onSubmit: SubmitHandler<ProfileValue & FieldValues> = async data => {
     const preferredPet = data.cat === true && data.dog === false ? 2 : data.dog === true && data.cat === false ? 1 : 0;
+
+    let newProfileImageUrl = userData.profileImage;
+
+    if (profileImage) {
+      const presignedUrlParams: PostToGetPresignedUrlParams = {
+        items: [{ objectKey: profileImage.name, contentType: profileImage.type }],
+        bucketName: 'profile-image-3team',
+      };
+
+      try {
+        const response = await postToGetPresignedUrl(presignedUrlParams);
+        const presignedUrl = response.data.presignedUrl;
+        console.log(response.data.presignedUrl[0].url);
+
+        const newProfileImageUrl = presignedUrl[0].url;
+
+        await putImageToUrl({ image: profileImage, url: newProfileImageUrl });
+      } catch (error) {
+        console.error('이미지 업로드 중 에러가 발생했습니다', error);
+        return;
+      }
+    }
+
     const userEditData: UserEditProps = {
       nickname: data.nickname,
       phoneNumber: userData.phoneNumber,
-      profileImage: userData.profileImage,
+      profileImage: newProfileImageUrl,
       isSubscribedToPromotions: userData.isSubscribedToPromotions,
       preferredPet: preferredPet,
     };
@@ -81,27 +113,9 @@ export default function Profile() {
     setCatChecked(prev => !prev);
   }
 
-  const imageMutation = useMutation({
-    mutationKey: ['imageEdit'],
-    mutationFn: async data => {
-      const response = await postToGetPresignedUrl(data);
-      return response.data;
-    },
-    onSuccess: data => {
-      console.log(data);
-    },
-    onError: error => {
-      console.error('이미지 링크 생성 실패', error);
-    },
-  });
-
-  async function handleImageChange(e: ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-
-    if (file) {
-      const newImageUrl = await putImageToUrl({});
-
-      setValue('profileImage', newImageUrl);
+  function handleClickOpen() {
+    if (hiddenInputRef.current) {
+      hiddenInputRef.current.click();
     }
   }
 
@@ -122,24 +136,10 @@ export default function Profile() {
               <div className={styles.profileImage}>
                 <ProfileImgBadge
                   size="large"
-                  profileImage={newProfileImage ? newProfileImage : userData.profileImage}
+                  profileImage={profileImageUrl ? profileImageUrl : userData.profileImage}
                 />
-                <input
-                  {...rest}
-                  name="profileImage"
-                  type="file"
-                  ref={e => {
-                    registerRef(e);
-                    hiddenInputRef.current = e;
-                  }}
-                  onChange={handleImageChange}
-                />
-                <button
-                  className={styles.plusButton}
-                  type="button"
-                  onClick={() => {
-                    hiddenInputRef.current?.click;
-                  }}>
+                <input type="file" ref={hiddenInputRef} onChange={handleImageChange} />
+                <button className={styles.plusButton} type="button" onClick={handleClickOpen}>
                   <PlusButton />
                 </button>
               </div>
