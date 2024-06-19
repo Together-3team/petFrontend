@@ -106,6 +106,7 @@ export default function MyDeliveryPage() {
                 key={deliveryInfo.id}
                 deliveryInfo={deliveryInfo}
                 deliveries={deliveries}
+                checked={deliveryInfo.isDefault}
                 setDeliveries={setDeliveries}
               />
             );

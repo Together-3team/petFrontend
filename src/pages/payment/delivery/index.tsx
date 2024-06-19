@@ -15,6 +15,7 @@ import UncheckedButton from '@/assets/svgs/btn-radio.svg';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import LeftArrow from '@/assets/svgs/left-arrow.svg';
+import useAuth from '@/hooks/useAuth';
 
 const cx = classNames.bind(styles);
 
@@ -23,88 +24,22 @@ const BOTTOM_BOX_ID = 'bottomBox';
 const accessToken =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTUsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3MTg2OTIyMDAsImV4cCI6MTcxODY5OTQwMH0.0FbXlHrTeLloQAWOw4BDDQ5xln52l4UzSiI2WP4eskw';
 
-interface VisibleCardsType {
-  [key: number]: boolean;
-}
-
 export default function PaymentDeliveryPage() {
-  // const deliveries: DeliveryInfo[] = [
-  //   {
-  //     id: 1,
-  //     name: '김견주 집',
-  //     recipient: '김견주',
-  //     recipientPhoneNumber: '010-1111-2222',
-  //     zipCode: 0o2233,
-  //     address: '서울 마포구 마포로 85 ',
-  //     detailedAddress: '102동 1012호',
-  //     isDefault: true,
-  //   },
-  //   {
-  //     id: 2,
-  //     name: '김견주 회사',
-  //     recipient: '김견주',
-  //     recipientPhoneNumber: '010-1111-3333',
-  //     zipCode: 12393,
-  //     address: '서울 마포구 마포로 85 ',
-  //     detailedAddress: '102동 1013호',
-  //     isDefault: true,
-  //   },
-  //   {
-  //     id: 3,
-  //     name: '김견주 회사',
-  //     recipient: '김견주',
-  //     recipientPhoneNumber: '010-1111-3333',
-  //     zipCode: 12393,
-  //     address: '서울 마포구 마포로 85 ',
-  //     detailedAddress: '102동 1013호',
-  //     isDefault: true,
-  //   },
-  //   {
-  //     id: 4,
-  //     name: '김견주 회사',
-  //     recipient: '김견주',
-  //     recipientPhoneNumber: '010-1111-3333',
-  //     zipCode: 12393,
-  //     address: '서울 마포구 마포로 85 ',
-  //     detailedAddress: '102동 1013호',
-  //     isDefault: true,
-  //   },
-  //   {
-  //     id: 5,
-  //     name: '김견주 회사',
-  //     recipient: '김견주',
-  //     recipientPhoneNumber: '010-1111-3333',
-  //     zipCode: 12393,
-  //     address: '서울 마포구 마포로 85 ',
-  //     detailedAddress: '102동 1013호',
-  //     isDefault: true,
-  //   },
-  //   {
-  //     id: 6,
-  //     name: '김견주 회사',
-  //     recipient: '김견주',
-  //     recipientPhoneNumber: '010-1111-3333',
-  //     zipCode: 12393,
-  //     address: '서울 마포구 마포로 85 ',
-  //     detailedAddress: '102동 1013호',
-  //     isDefault: true,
-  //   },
-  // ];
+  const router = useRouter();
+  const prevPath = router.query?.prevPath;
+  const { isLogin } = useAuth();
+  const { userData } = useAuth();
   const [deliveries, setDeliveries] = useState<DeliveryInfo[]>([]);
   const [selectedOption, setSelectedOption] = useState<DeliveryInfo | null>(null);
-  // const [visibleCards, setVisibleCards] = useState<VisibleCardsType>(
-  //   deliveries.reduce<VisibleCardsType>((acc, deliveries) => {
-  //     acc[deliveries.id] = true;
-  //     return acc;
-  //   }, {})
-  // );
   const buttonRef = useRef<HTMLDivElement>(null);
   const topContentRef = useRef<HTMLDivElement>(null);
-  const { showToast } = useToast(BOTTOM_BOX_ID);
+  const { showToast } = useToast();
 
-  // const setIsVisible = (id: number, isVisible: boolean) => {
-  //   setVisibleCards(prev => ({ ...prev, [id]: isVisible }));
-  // };
+  // useEffect(() => {
+  //   if (!isLogin) {
+  //     router.push('/my');
+  //   }
+  // }, [isLogin, router]);
 
   useEffect(() => {
     const fetchOptions = async () => {
@@ -158,9 +93,6 @@ export default function PaymentDeliveryPage() {
     const selected = deliveries.find(option => option.id === parseInt(e.target.value));
     selected && setSelectedOption(selected);
   };
-
-  const router = useRouter();
-  const prevPath = router.query?.prevPath;
 
   const { mutate: updateAddress } = useMutation({
     mutationFn: async ({ selectedOption, updatedOption }: any) => {
@@ -272,7 +204,6 @@ export default function PaymentDeliveryPage() {
         {deliveries.length !== 0 ? (
           <div className={cx('deliveries')}>
             {deliveries.map(deliveryInfo => {
-              // if (!visibleCards[deliveryInfo.id]) return null;
               return (
                 <label key={deliveryInfo.id} className={cx('label')}>
                   <input
@@ -286,7 +217,6 @@ export default function PaymentDeliveryPage() {
                   <DeliveryCard
                     key={deliveryInfo.id}
                     deliveryInfo={deliveryInfo}
-                    // setIsVisible={setIsVisible}
                     deliveries={deliveries}
                     setDeliveries={setDeliveries}
                     checked={selectedOption?.id === deliveryInfo.id}
