@@ -13,9 +13,9 @@ import BackButton from '@/components/common/Button/BackButton';
 import Button from '@/components/common/Button';
 import PlusButton from '@/assets/svgs/plus-button.svg';
 import { nicknameSchema } from '@/utils/signupFormSchema';
+import CheckNickname from '@/utils/checkNickname';
 
 import styles from './Profile.module.scss';
-import CheckNickname from '@/utils/checkNickname';
 
 export type ProfileValue = Yup.InferType<typeof nicknameSchema>;
 
@@ -61,10 +61,6 @@ export default function Profile() {
       preferredPet: preferredPet,
     };
 
-    const {
-      formState: { errors },
-    } = methods;
-
     const params: UserEditParams = {
       id: userData.id,
       userEditData,
@@ -80,7 +76,7 @@ export default function Profile() {
   function handleCatCheckboxChange() {
     setCatChecked(prev => !prev);
   }
-
+  //TODO: 이미지 삽입 구현
   function handleImageChange() {}
 
   return (
