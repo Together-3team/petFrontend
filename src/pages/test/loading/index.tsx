@@ -1,11 +1,12 @@
-import styles from './404.module.scss';
-import CartButton from '@/components/common/Button/Cart';
-import SearchButton from '@/components/common/Button/Search';
-import LogoFull from '@/components/common/Icon/LogoFull';
-import Header from '@/components/common/Layout/Header';
-import NotFound from '@/components/common/NotFound';
+import Loading from '@/components/common/Loading';
 
-export default function NotFoundPage() {
+import styles from './LoadingPage.module.scss';
+import Header from '@/components/common/Layout/Header';
+import LogoFull from '@/components/common/Icon/LogoFull';
+import SearchButton from '@/components/common/Button/Search';
+import CartButton from '@/components/common/Button/Cart';
+
+export default function LoadingPage() {
   return (
     <div className={styles.layout}>
       <Header.Root>
@@ -20,7 +21,7 @@ export default function NotFoundPage() {
         </Header.Box>
       </Header.Root>
       <div className={styles.contents}>
-        <NotFound />
+        <Loading />
       </div>
     </div>
   );
