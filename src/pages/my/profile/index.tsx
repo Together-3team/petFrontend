@@ -30,6 +30,8 @@ export default function Profile() {
   const onSubmit: SubmitHandler<profileValue & FieldValues> = data => console.log(data);
   console.log(errors);
 
+  function handleImageChange() {}
+
   return (
     <div className={styles.profileLayout}>
       <FormProvider {...methods}>
@@ -46,6 +48,7 @@ export default function Profile() {
             <div className={styles.profileImageBox}>
               <div className={styles.profileImage}>
                 <ProfileImgBadge size="large" profileImage={userData.profileImage} />
+                <input type="file" onChange={handleImageChange} />
                 <div className={styles.plusButton}>
                   <PlusButton />
                 </div>
