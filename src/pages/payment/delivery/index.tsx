@@ -12,10 +12,12 @@ import useToast from '@/hooks/useToast';
 import { FETCH_ERROR_MESSAGE, SERVER_ERROR_MESSAGE } from '@/constants/errorMessage';
 import CheckedButton from '@/assets/svgs/btn-radio-checked.svg';
 import UncheckedButton from '@/assets/svgs/btn-radio.svg';
-import { useMutation } from '@tanstack/react-query';
+import { QueryClient, dehydrate, useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import LeftArrow from '@/assets/svgs/left-arrow.svg';
 import useAuth from '@/hooks/useAuth';
+import { GetServerSidePropsContext } from 'next';
+import { fetchMyData } from '@/apis/userApi';
 
 const cx = classNames.bind(styles);
 
@@ -23,6 +25,20 @@ const BOTTOM_BOX_ID = 'bottomBox';
 
 const accessToken =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTUsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3MTg2OTIyMDAsImV4cCI6MTcxODY5OTQwMH0.0FbXlHrTeLloQAWOw4BDDQ5xln52l4UzSiI2WP4eskw';
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const queryClient = new QueryClient();
+
+  const accessToken = context.req.cookies['accessToken'];
+
+  await queryClient.prefetchQuery({ queryKey: ['user', accessToken], queryFn: fetchMyData });
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
+}
 
 export default function PaymentDeliveryPage() {
   const router = useRouter();
