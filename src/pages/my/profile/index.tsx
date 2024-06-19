@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, ChangeEvent } from 'react';
 import { useForm, SubmitHandler, FormProvider, FieldValues } from 'react-hook-form';
 import { QueryClient, dehydrate, useMutation } from '@tanstack/react-query';
 import { GetServerSidePropsContext } from 'next';
@@ -15,6 +15,7 @@ import PlusButton from '@/assets/svgs/plus-button.svg';
 import { nicknameSchema } from '@/utils/signupFormSchema';
 
 import styles from './Profile.module.scss';
+import { postToGetPresignedUrl, putImageToUrl } from '@/apis/imageAPI';
 
 export type ProfileValue = Yup.InferType<typeof nicknameSchema>;
 
@@ -48,7 +49,11 @@ export default function Profile() {
     formState: { errors },
   } = methods;
 
-  const { register, handleSubmit } = methods;
+  const { register, handleSubmit, watch, setValue } = methods;
+
+  const hiddenInputRef = useRef<HTMLInputElement | null>(null);
+  const newProfileImage = watch('profileImage');
+  const { ref: registerRef, ...rest } = register('profileImage');
 
   const onSubmit: SubmitHandler<ProfileValue & FieldValues> = data => {
     const preferredPet = data.cat === true && data.dog === false ? 2 : data.dog === true && data.cat === false ? 1 : 0;
@@ -76,7 +81,29 @@ export default function Profile() {
     setCatChecked(prev => !prev);
   }
 
-  function handleImageChange() {}
+  const imageMutation = useMutation({
+    mutationKey: ['imageEdit'],
+    mutationFn: async data => {
+      const response = await postToGetPresignedUrl(data);
+      return response.data;
+    },
+    onSuccess: data => {
+      console.log(data);
+    },
+    onError: error => {
+      console.error('이미지 링크 생성 실패', error);
+    },
+  });
+
+  async function handleImageChange(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+
+    if (file) {
+      const newImageUrl = await putImageToUrl({});
+
+      setValue('profileImage', newImageUrl);
+    }
+  }
 
   return (
     <div className={styles.profileLayout}>
@@ -93,11 +120,28 @@ export default function Profile() {
           <div className={styles.formField}>
             <div className={styles.profileImageBox}>
               <div className={styles.profileImage}>
-                <ProfileImgBadge size="large" profileImage={userData.profileImage} />
-                <input type="file" onChange={handleImageChange} />
-                <div className={styles.plusButton}>
+                <ProfileImgBadge
+                  size="large"
+                  profileImage={newProfileImage ? newProfileImage : userData.profileImage}
+                />
+                <input
+                  {...rest}
+                  name="profileImage"
+                  type="file"
+                  ref={e => {
+                    registerRef(e);
+                    hiddenInputRef.current = e;
+                  }}
+                  onChange={handleImageChange}
+                />
+                <button
+                  className={styles.plusButton}
+                  type="button"
+                  onClick={() => {
+                    hiddenInputRef.current?.click;
+                  }}>
                   <PlusButton />
-                </div>
+                </button>
               </div>
             </div>
             <Input
