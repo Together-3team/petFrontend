@@ -25,7 +25,7 @@ export default function DeliveryCard({ deliveryInfo }: { deliveryInfo: DeliveryI
       <p>
         {address}, {detailedAddress}
       </p>
-      <p>{zipCode}</p>
+      <p className={cx('zipCode')}>{zipCode}</p>
       <div className={cx('buttons')}>
         <Button size="extraSmall" backgroundColor="$color-white-gray-gray">
           수정
