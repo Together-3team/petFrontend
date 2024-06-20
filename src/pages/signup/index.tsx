@@ -12,7 +12,7 @@ export default function Signup() {
       <Header.Root>
         <Header.Box>
           <Header.Left>
-            <BackButton />
+            <BackButton href="/my" />
           </Header.Left>
         </Header.Box>
       </Header.Root>

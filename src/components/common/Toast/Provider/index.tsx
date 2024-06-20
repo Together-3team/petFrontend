@@ -71,6 +71,10 @@ export default function ToastProvider({ children }: PropsWithChildren) {
   };
 
   useEffect(() => {
+    if (!activeToastList.length) {
+      return;
+    }
+
     const timer = setTimeout(() => {
       setActiveToastList([]);
     }, TOAST_DURATION + 500);
