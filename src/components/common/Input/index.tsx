@@ -1,4 +1,4 @@
-import { ChangeEvent, forwardRef } from 'react';
+import { forwardRef, ChangeEvent } from 'react';
 import Image, { ImageProps } from 'next/image';
 import classNames from 'classnames/bind';
 import styles from './Input.module.scss';
@@ -20,6 +20,7 @@ interface InputProps {
   readOnly?: boolean;
   defaultValue?: string;
   autoComplete?: string;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const cx = classNames.bind(styles);

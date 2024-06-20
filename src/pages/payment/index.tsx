@@ -1,109 +1,144 @@
 import React, { useEffect, useState, useRef } from 'react';
 import styles from './Payment.module.scss';
 import { loadPaymentWidget, PaymentWidgetInstance } from '@tosspayments/payment-widget-sdk';
+import { loadTossPayments } from '@tosspayments/payment-sdk';
 import { nanoid } from 'nanoid';
 import Button from '@/components/common/Button';
 import PaymentAgree from '@/components/payment/PaymentAgree';
-import exampleProductImg from '@/assets/exampleProductImg.jpg';
 import TotalPay from '@/components/payment/TotalPay';
 import Card from '@/components/payment/Card';
 import Header from '@/components/common/Layout/Header';
+import BottomModal from '@/components/common/Modal/Base/BottomModal';
+import Input from '@/components/common/Input';
 import BackButton from '@/components/common/Button/BackButton';
-import { fetchCartProducts } from '@/apis/cartApi';
 import { Product } from '@/pages/cart';
-import { useQuery } from '@tanstack/react-query';
+import clock from '@/assets/images/clock.png';
+import Image from 'next/image';
 
-const widgetClientKey = 'test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm';
-const customerKey = '-YY27b1BN-PCQD_5Qwp9X';
+// const widgetClientKey = 'test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm';
+const customerKey = nanoid();
 
 export default function Payment() {
   const [checkboxChecked, setCheckboxChecked] = useState(false);
   const [paymentWidget, setPaymentWidget] = useState<PaymentWidgetInstance | null>(null);
   const paymentMethodsWidgetRef = useRef<ReturnType<PaymentWidgetInstance['renderPaymentMethods']> | null>(null);
-  const [price, setPrice] = useState(50000); // 기본 가격 설정
-  const {
-    data: products,
-    isLoading,
-    isError,
-  } = useQuery<Product[]>({
-    queryKey: ['cart'],
-    queryFn: fetchCartProducts,
-  });
+  const [price, setPrice] = useState(0); // 기본 가격 설정
+  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [deliveryMessage, setDeliveryMessage] = useState('');
+  const [products, setProducts] = useState<Product[]>([]);
+  const PAYMENT_SECRET_KEY = process.env.NEXT_PUBLIC_TOSS_PAYMENTS_SECRET_KEY;
+  console.log(PAYMENT_SECRET_KEY);
+
+  const clientKey = 'test_ck_kYG57Eba3G2wwAjdoxB68pWDOxmA';
+  const orderId = nanoid(); // 주문 ID
+
+  const handlePayment = async () => {
+    const firstProductTitle = products?.[0]?.productTitle || '';
+    const remainingProductCount = (products?.length || 0) - 1;
+    const orderName =
+      remainingProductCount > 0 ? `${firstProductTitle} 외 ${remainingProductCount}건` : firstProductTitle;
+
+    const selectedProductIds = products.map(product => product.id).join(',');
+    const deliveryMessageValue = deliveryMessage;
+    console.log(deliveryMessage);
+    console.log(selectedProductIds);
+    sessionStorage.setItem('deliveryMessage', deliveryMessageValue);
+    sessionStorage.setItem('selectedProductIds', selectedProductIds);
+    const tossPayments = await loadTossPayments(clientKey);
+
+    tossPayments.requestPayment('카드', {
+      amount: totalPrice,
+      orderId: orderId,
+      orderName: orderName,
+      successUrl: `${window.location.origin}/payment/paymentSuccess`,
+      failUrl: `${window.location.origin}/payment/fail`,
+    });
+  };
 
   useEffect(() => {
-    if (products) {
-      const calculatedPrice = products.reduce(
+    const cartData = sessionStorage.getItem('cartData');
+    if (cartData) {
+      const parsedProducts = JSON.parse(cartData) as Product[];
+      setProducts(parsedProducts);
+      const calculatedPrice = parsedProducts.reduce(
         (total, product) =>
           total + product.productCost * product.productNumber + product.combinationPrice * product.productNumber,
         0
       );
       setPrice(calculatedPrice);
     }
-  }, [products]);
-
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://js.tosspayments.com/v1';
-    script.async = true;
-    script.onload = () => {
-      const fetchPaymentWidget = async () => {
-        try {
-          const loadedWidget = await loadPaymentWidget(widgetClientKey, customerKey);
-          setPaymentWidget(loadedWidget);
-        } catch (error) {
-          console.error('Error fetching payment widget:', error);
-        }
-      };
-
-      fetchPaymentWidget();
-    };
-    document.body.appendChild(script);
-    return () => {
-      document.body.removeChild(script);
-    };
   }, []);
+  // useEffect(() => {
+  //   const script = document.createElement('script');
+  //   script.src = 'https://js.tosspayments.com/v1';
+  //   script.async = true;
+  //   script.onload = () => {
+  //     const fetchPaymentWidget = async () => {
+  //       try {
+  //         const loadedWidget = await loadPaymentWidget(widgetClientKey, customerKey);
+  //         setPaymentWidget(loadedWidget);
+  //       } catch (error) {
+  //         console.error('Error fetching payment widget:', error);
+  //       }
+  //     };
 
-  useEffect(() => {
-    if (paymentWidget == null) {
-      return;
-    }
+  //     fetchPaymentWidget();
+  //   };
+  //   document.body.appendChild(script);
+  //   return () => {
+  //     document.body.removeChild(script);
+  //   };
+  // }, []);
 
-    const paymentMethodsWidget = paymentWidget.renderPaymentMethods(
-      '#payment-widget',
-      { value: price },
-      { variantKey: 'DEFAULT' }
-    );
+  // useEffect(() => {
+  //   if (paymentWidget == null) {
+  //     return;
+  //   }
 
-    paymentWidget.renderAgreement('#agreement', { variantKey: 'AGREEMENT' });
+  //   const paymentMethodsWidget = paymentWidget.renderPaymentMethods(
+  //     '#payment-widget',
+  //     { value: price },
+  //     { variantKey: 'DEFAULT' }
+  //   );
 
-    paymentMethodsWidgetRef.current = paymentMethodsWidget;
-  }, [paymentWidget, price]);
+  //   paymentWidget.renderAgreement('#agreement', { variantKey: 'AGREEMENT' });
 
-  useEffect(() => {
-    const paymentMethodsWidget = paymentMethodsWidgetRef.current;
+  //   paymentMethodsWidgetRef.current = paymentMethodsWidget;
+  // }, [paymentWidget, price]);
 
-    if (paymentMethodsWidget == null) {
-      return;
-    }
+  // useEffect(() => {
+  //   const paymentMethodsWidget = paymentMethodsWidgetRef.current;
 
-    paymentMethodsWidget.updateAmount(price);
-  }, [price]);
+  //   if (paymentMethodsWidget == null) {
+  //     return;
+  //   }
 
-  const handlePaymentRequest = async () => {
-    try {
-      await paymentWidget?.requestPayment({
-        orderId: nanoid(),
-        orderName: '토스 티셔츠 외 2건',
-        customerName: '김토스',
-        customerEmail: 'customer123@gmail.com',
-        customerMobilePhone: '01012341234',
-        successUrl: `${window.location.origin}/payment/success`,
-        failUrl: `${window.location.origin}/payment/fail`,
-      });
-    } catch (error) {
-      console.error('Error requesting payment:', error);
-    }
-  };
+  //   paymentMethodsWidget.updateAmount(price);
+  // }, [price]);
+
+  // const handlePaymentRequest = async () => {
+  //   try {
+  //     const firstProductTitle = products?.[0]?.productTitle || '';
+  //     const remainingProductCount = (products?.length || 0) - 1;
+  //     const orderName =
+  //       remainingProductCount > 0 ? `${firstProductTitle} 외 ${remainingProductCount}건` : firstProductTitle;
+
+  //     const selectedProductIds = products.map(product => product.id).join(',');
+  //     const deliveryMessageValue = deliveryMessage;
+  //     console.log(deliveryMessage);
+  //     console.log(selectedProductIds);
+  //     sessionStorage.setItem('deliveryMessage', deliveryMessageValue);
+  //     sessionStorage.setItem('selectedProductIds', selectedProductIds);
+  //     await paymentWidget?.requestPayment({
+  //       orderId: nanoid(),
+  //       orderName,
+  //       successUrl: `${window.location.origin}/payment/paymentSuccess`,
+  //       failUrl: `${window.location.origin}/payment/fail`,
+  //     });
+  //   } catch (error) {
+  //     console.error('Error requesting payment:', error);
+  //   }
+  // };
 
   function calculateTotalOriginalPrice() {
     return products ? products.reduce((total, product) => total + product.originalCost * product.productNumber, 0) : 0;
@@ -120,9 +155,21 @@ export default function Payment() {
           <Header.Left>
             <BackButton />
           </Header.Left>
-          <Header.Center className={styles.headerName}>장바구니</Header.Center>
+          <Header.Center className={styles.headerName}>결제</Header.Center>
         </Header.Box>
       </Header.Root>
+      <div className={styles.deliveryMessage}>
+        <Input
+          id="recipient"
+          type="text"
+          size="large"
+          label="배송메시지"
+          labelStyle={'label'}
+          placeholder="예) 부재시 집 앞에 놔주세요"
+          value={deliveryMessage}
+          onChange={e => setDeliveryMessage(e.target.value)}
+        />
+      </div>
       <div className={styles.rectangle}></div>
       <div className={styles.orderProduct}>
         <div className={styles.orderTitle}>
@@ -153,15 +200,24 @@ export default function Payment() {
       <div className={styles.paymentAgree}>
         <PaymentAgree onCheckboxChange={setCheckboxChecked} />
         <div className={styles.paymentButton}>
-          <Button
-            size="large"
-            backgroundColor="$color-pink-main"
-            onClick={handlePaymentRequest}
-            disabled={!checkboxChecked}>
+          <Button size="large" backgroundColor="$color-pink-main" onClick={handlePayment} disabled={!checkboxChecked}>
             {totalPrice}원 주문하기
           </Button>
         </div>
       </div>
+      <BottomModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <div className={styles.modalContent}>
+          <Image className={styles.clockImg} src={clock} width={168} height={120} alt="clockImg" />
+          <div className={styles.warning}>공동구매는 빨리 성사되지 않으면 취소될 수 있어요</div>
+          <div className={styles.detailWarning}>
+            24시간 내 공동구매 참여자가 없거나, <br />
+            공동구매 성사 전에 품절되면 주문이 취소될 수 있어요.
+          </div>
+        </div>
+        <Button size="large" backgroundColor="$color-gray-800" onClick={() => setIsModalOpen(false)}>
+          이해했어요
+        </Button>
+      </BottomModal>
     </div>
   );
 }

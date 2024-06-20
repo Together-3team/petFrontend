@@ -1,0 +1,19 @@
+.fail {
+  padding: 26.4rem 5.1rem 30.4rem 5.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.failTitle {
+  @include font-body1;
+  margin: 2rem 0 1.6rem;
+}
+
+.failExplain {
+  text-align: center;
+  @include font-body6;
+  color: $color-gray-600;
+  margin-bottom: 2.8rem;
+}
