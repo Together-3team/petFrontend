@@ -32,3 +32,27 @@
   justify-content: flex-end;
   gap: 0.8rem;
 }
+
+.modalContents {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5.6rem;
+  margin: 3.6rem 0 0;
+}
+
+.modalTitle {
+  color: $color-black;
+  font-size: 1.3rem;
+  font-weight: 600;
+  line-height: 1.6rem;
+}
+
+.modalButtons {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  gap: 1.2rem;
+}
