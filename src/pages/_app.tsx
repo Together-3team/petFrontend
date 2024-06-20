@@ -9,6 +9,8 @@ import { CookiesProvider } from 'react-cookie';
 import '@/styles/reset.scss';
 import RootLayout from '@/components/common/Layout/Root';
 import ToastProvider from '@/components/common/Toast/Provider';
+import useLoading from '@/hooks/useLoading';
+import Loading from '@/components/common/Loading';
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -20,7 +22,16 @@ type AppPropsWithLayout = AppProps & {
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? (page => page);
+  const { isLoading } = useLoading();
   const [queryClient] = useState(() => new QueryClient());
+
+  if (isLoading) {
+    return (
+      <RootLayout>
+        <Loading />
+      </RootLayout>
+    );
+  }
 
   return (
     <>
