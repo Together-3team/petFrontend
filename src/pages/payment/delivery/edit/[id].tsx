@@ -19,13 +19,22 @@ const cx = classNames.bind(styles);
 
 export type FormValues = Yup.InferType<typeof deliveryFormSchema>;
 
+const accessToken =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTUsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3MTg4OTAyMjksImV4cCI6MTcxODg5NzQyOX0.XOKr7w9e5eLhkZ8NfEJxVvGH_fVCQm7NOJtIdu6N6Gk';
+
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const deliveryId = context.params?.['id'];
   let delivery;
   try {
-    const res = await axiosInstance.get(`/deliveries/${deliveryId}`);
+    const res = await axiosInstance.get(`/deliveries/${deliveryId}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
     delivery = res.data;
-  } catch {
+    console.log(delivery);
+  } catch (error) {
+    console.error(error);
     return {
       notFound: true,
     };
