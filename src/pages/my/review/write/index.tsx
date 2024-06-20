@@ -7,8 +7,12 @@ import Textarea from '@/components/common/review/Textarea';
 import styles from './WritePage.module.scss';
 import { postReview } from './reviewWriteAPI';
 import useToast from '@/hooks/useToast';
+// import { useLocation } from 'react-router-dom';
 
 export default function WritePage() {
+  // const location = useLocation();
+  // const { productId, purchaseProductId } = location.state;
+
   const [rating, setRating] = useState(0);
   const [description, setDescriprion] = useState('');
   const { showToast } = useToast();
@@ -30,16 +34,16 @@ export default function WritePage() {
       const response = await postReview(reviewData);
       console.log(response);
       window.location.href = '/my/review/reviewId';
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
 
-      if (error.status === 401) {
+      if (error.response.status === 401) {
         showToast({
           status: 'error',
           message: '리뷰 작성 실패',
           linkMessage: '다시 로그인하기',
           linkProps: {
-            href: '/auth',
+            href: '/my',
           },
         });
       } else {

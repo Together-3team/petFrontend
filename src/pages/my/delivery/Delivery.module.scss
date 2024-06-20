@@ -1,0 +1,19 @@
+.delivery {
+  margin: 2rem 1.6rem 8rem;
+}
+
+.title {
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 2rem;
+}
+
+.deliveries {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  align-items: center;
+  margin: 0.8rem auto;
+  max-width: 36rem;
+}

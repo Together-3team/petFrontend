@@ -1,0 +1,13 @@
+@layer overrides {
+  .layout {
+    padding: 2rem 1.6rem;
+    height: 100vh;
+  }
+
+  .contents {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90%;
+  }
+}
