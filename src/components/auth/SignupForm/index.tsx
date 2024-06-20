@@ -13,7 +13,9 @@ import Input from '@/components/common/Input';
 import Button from '@/components/common/Button';
 import UserAgreement from './UserAgreement';
 import authApi from '@/apis/authApi';
+import { useCookies } from 'react-cookie';
 import CheckNickname from '@/utils/checkNickname';
+
 
 import styles from './SignupForm.module.scss';
 
