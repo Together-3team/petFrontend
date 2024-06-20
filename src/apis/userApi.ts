@@ -34,6 +34,8 @@ export interface UserEditParams {
   id: UserId;
 }
 
+export type UserEditRdo = Required<UserEditParams>;
+
 export interface DeleteUserRdo {
   raw: object[];
   affected: number;
@@ -44,7 +46,7 @@ export const userApi = {
     return axiosInstance.get(`/users/${id}`);
   },
   put: async <T>(id: UserId, body: T) => {
-    const response = axiosInstance.put<UserEditParams>(`/users/${id}`, body);
+    const response = axiosInstance.put<UserEditRdo>(`/users/${id}`, body);
     return response;
   },
   post: <T>(body: T) => {

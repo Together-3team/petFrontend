@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { forwardRef, ChangeEvent } from 'react';
 import Image, { ImageProps } from 'next/image';
 import classNames from 'classnames/bind';
 import styles from './Input.module.scss';
@@ -10,6 +10,7 @@ interface InputProps {
   size?: string;
   border?: string;
   isError?: boolean;
+  onBlur?: (e: ChangeEvent<HTMLInputElement>) => void;
   errorText?: string;
   labelStyle?: string;
   placeholder?: string;
@@ -19,12 +20,13 @@ interface InputProps {
   readOnly?: boolean;
   defaultValue?: string;
   autoComplete?: string;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const cx = classNames.bind(styles);
 
 const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
-  { id, label, isError, errorText, labelStyle, size, border, imageProps, background, autoComplete, ...rest },
+  { id, label, isError, errorText, labelStyle, size, border, imageProps, background, autoComplete, onBlur, ...rest },
   ref
 ) {
   return (
