@@ -31,7 +31,6 @@ export default function Profile() {
     mutationKey: ['userEdit'],
     mutationFn: async ({ id, userEditData }: UserEditParams) => {
       const response = await userApi.put(id, userEditData);
-      console.log(response);
       return response;
     },
     onSuccess: data => {

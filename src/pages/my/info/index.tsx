@@ -6,7 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useCookies } from 'react-cookie';
 import useModal from '@/hooks/useModal';
 import useAuth from '@/hooks/useAuth';
-import { DeleteUserRdo, UserEditParams, UserId, userApi, UserEditProps, fetchMyData } from '@/apis/userApi';
+import { UserEditParams, UserId, userApi, UserEditProps, fetchMyData } from '@/apis/userApi';
 import Header from '@/components/common/Layout/Header';
 import Input from '@/components/common/Input';
 import Button from '@/components/common/Button';
@@ -23,7 +23,6 @@ type PhoneNumberValue = Yup.InferType<typeof phoneNumberSchema>;
 
 export default function Info() {
   const { userData } = useAuth();
-
   const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken']);
 
   const deleteUsermutation = useMutation({
@@ -42,15 +41,24 @@ export default function Info() {
     },
     onSuccess: data => {
       console.log(data);
+      router.push({
+        pathname: '/my',
+        query: {
+          status: 'success',
+        },
+      });
     },
     onError: error => {
       console.error('회원 정보 수정 실패', error);
+      router.push({
+        pathname: '/my',
+        query: { status: 'error' },
+      });
     },
   });
 
   const methods = useForm<PhoneNumberValue>({
     resolver: yupResolver(phoneNumberSchema),
-    mode: 'onBlur',
   });
   const {
     formState: { errors },
@@ -93,12 +101,6 @@ export default function Info() {
     }
   }
 
-  function handleSaveData() {
-    router.push({
-      pathname: '/my',
-    });
-  }
-
   return (
     <div className={styles.infoLayout}>
       <Header.Root>
@@ -135,7 +137,7 @@ export default function Info() {
             />
             {errors.phoneNumber && <span className={styles.errorText}>{errors.phoneNumber.message}</span>}
           </div>
-          <Button type="submit" size="large" backgroundColor="$color-pink-main" onClick={handleSaveData}>
+          <Button type="submit" size="large" backgroundColor="$color-pink-main">
             저장
           </Button>
         </form>
