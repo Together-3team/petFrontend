@@ -11,37 +11,38 @@ import Button from '@/components/common/Button';
 import AddressInput from '@/components/payment/AddressInput';
 import styles from './Edit.module.scss';
 import { GetServerSidePropsContext } from 'next';
-import axiosInstance from '@/apis/axiosInstance';
-import { notFound } from 'next/navigation';
 import { DeliveryInfo } from '@/types/components/delivery';
+import { httpClient } from '@/apis/httpClient';
 
 const cx = classNames.bind(styles);
 
 export type FormValues = Yup.InferType<typeof deliveryFormSchema>;
 
-const accessToken =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTUsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3MTg4OTAyMjksImV4cCI6MTcxODg5NzQyOX0.XOKr7w9e5eLhkZ8NfEJxVvGH_fVCQm7NOJtIdu6N6Gk';
-
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const deliveryId = context.params?.['id'];
+  const accessToken = context.req.cookies['accessToken'];
+  if (!accessToken) {
+    return {
+      redirect: {
+        destination: '/my',
+        permanent: false,
+      },
+    };
+  }
+
   let delivery;
   try {
-    const res = await axiosInstance.get(`/deliveries/${deliveryId}`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+    delivery = await httpClient().get<DeliveryInfo>(`/deliveries/${deliveryId}`, {
+      headers: { Authorization: `Bearer ${accessToken}` },
     });
-    delivery = res.data;
-    console.log(delivery);
-  } catch (error) {
-    console.error(error);
+  } catch {
     return {
       notFound: true,
     };
   }
   return {
     props: {
-      delivery,
+      delivery: delivery,
     },
   };
 }
