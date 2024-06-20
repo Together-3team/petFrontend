@@ -38,7 +38,6 @@ export default function Info() {
     mutationKey: ['userEdit'],
     mutationFn: async ({ id, userEditData }: UserEditParams) => {
       const response = await userApi.put(id, userEditData);
-      console.log(response);
       return response;
     },
     onSuccess: data => {
@@ -94,6 +93,12 @@ export default function Info() {
     }
   }
 
+  function handleSaveData() {
+    router.push({
+      pathname: '/my',
+    });
+  }
+
   return (
     <div className={styles.infoLayout}>
       <Header.Root>
@@ -130,7 +135,7 @@ export default function Info() {
             />
             {errors.phoneNumber && <span className={styles.errorText}>{errors.phoneNumber.message}</span>}
           </div>
-          <Button type="submit" size="large" backgroundColor="$color-pink-main">
+          <Button type="submit" size="large" backgroundColor="$color-pink-main" onClick={handleSaveData}>
             저장
           </Button>
         </form>

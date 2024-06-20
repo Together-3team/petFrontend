@@ -16,11 +16,13 @@ import { nicknameSchema } from '@/utils/signupFormSchema';
 import CheckNickname from '@/utils/checkNickname';
 
 import styles from './Profile.module.scss';
+import { useRouter } from 'next/router';
 
 export type ProfileValue = Yup.InferType<typeof nicknameSchema>;
 
 export default function Profile() {
   const { userData } = useAuth();
+  const router = useRouter();
 
   const [dogChecked, setDogChecked] = useState(userData.preferredPet === 1 || userData.preferredPet === 0);
   const [catChecked, setCatChecked] = useState(userData.preferredPet === 2 || userData.preferredPet === 0);
@@ -34,9 +36,19 @@ export default function Profile() {
     },
     onSuccess: data => {
       console.log(data);
+      router.push({
+        pathname: '/my',
+        query: {
+          status: 'success',
+        },
+      });
     },
     onError: error => {
       console.error('회원 정보 수정 실패', error);
+      router.push({
+        pathname: '/my',
+        query: { status: 'error' },
+      });
     },
   });
 
