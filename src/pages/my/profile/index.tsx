@@ -121,8 +121,7 @@ export default function Profile() {
                   type="text"
                   size="large"
                   label="닉네임"
-                  isError={errors.nickname ? true : false}
-                  value={!userData.nickname ? userData.nickname : field.value}
+                  isError={errors.nickname && true}
                   onBlur={async (e: ChangeEvent<HTMLInputElement>) => {
                     field.onBlur();
                     await CheckNickname(e);
