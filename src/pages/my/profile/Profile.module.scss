@@ -51,6 +51,8 @@
 
   .errorText {
     @include font-caption1;
+
+    padding-top: 0.8rem;
     color: $color-pink-main;
     align-self: stretch;
   }
