@@ -1,3 +1,4 @@
+import { userApi } from '@/apis/userApi';
 import * as Yup from 'yup';
 
 // TODO: 닉네임 중복 검사
@@ -7,7 +8,18 @@ const signupFormSchema = Yup.object().shape({
     .matches(/^[가-힣a-zA-Z0-9]+$/, '2~8자의 한글, 영어, 숫자만 가능합니다.')
     .min(2, '2~8자의 한글, 영어, 숫자만 가능합니다.')
     .max(8, '2~8자의 한글, 영어, 숫자만 가능합니다.')
-    .required('닉네임을 입력해주세요.'),
+    .required('닉네임을 입력해주세요.')
+    .test('checkNickname', '이미 존재하는 닉네임입니다.', async nickname => {
+      if (!nickname) return true;
+      try {
+        const response = await userApi.checkNickname({ nickname });
+        console.log(nickname);
+        return !response.data.duplicated;
+      } catch (error) {
+        console.error('닉네임 중복 검사 오류; ', error);
+        return false;
+      }
+    }),
   phoneNumber: Yup.string()
     .matches(/^\d{3}-\d{3,4}-\d{4}$/, '연락처 입력 형식을 확인해주세요. (000-0000-0000)')
     .required('연락처를 입력해주세요'),
@@ -29,7 +41,18 @@ export const nicknameSchema = Yup.object({
     .matches(/^[가-힣a-zA-Z0-9]+$/, '2~8자의 한글, 영어, 숫자만 가능합니다.')
     .min(2, '2~8자의 한글, 영어, 숫자만 가능합니다.')
     .max(8, '2~8자의 한글, 영어, 숫자만 가능합니다.')
-    .required('닉네임을 입력해주세요.'),
+    .required('닉네임을 입력해주세요.')
+    .test('checkNickname', '이미 존재하는 닉네임입니다.', async nickname => {
+      if (!nickname) return true;
+      try {
+        const response = await userApi.checkNickname({ nickname });
+        console.log(nickname);
+        return !response.data.duplicated;
+      } catch (error) {
+        console.error('닉네임 중복 검사 오류; ', error);
+        return false;
+      }
+    }),
 });
 
 export default signupFormSchema;

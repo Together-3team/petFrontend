@@ -11,23 +11,22 @@ import Header from '@/components/common/Layout/Header';
 import Input from '@/components/common/Input';
 import Button from '@/components/common/Button';
 import BackButton from '@/components/common/Button/BackButton';
-import BottomShareModal from '@/components/common/Modal/BottomShareModal';
-import Sample from '@/assets/exampleProductImg.jpg';
+import BottomModal from '@/components/common/Modal/Base/BottomModal';
+import sadlyPet from '@/assets/images/sadly-pet.png';
 import ImageBox from '@/components/common/ImageBox';
 import { phoneNumberSchema } from '@/utils/signupFormSchema';
-import { AxiosResponse } from 'axios';
 import { GetServerSidePropsContext } from 'next';
 
 import styles from './Info.module.scss';
 
 type PhoneNumberValue = Yup.InferType<typeof phoneNumberSchema>;
-//TODO: 리다이렉트 시 userData 못 불러오는 이슈
+
 export default function Info() {
   const { userData } = useAuth();
 
   const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken']);
 
-  const deleteUsermutation = useMutation<DeleteUserRdo, Error, UserId>({
+  const deleteUsermutation = useMutation({
     mutationKey: ['deleteUser'],
     mutationFn: async (id: UserId) => {
       const response = await userApi.delete(id);
@@ -35,7 +34,7 @@ export default function Info() {
     },
   });
 
-  const mutation = useMutation<AxiosResponse<UserEditParams>, Error, UserEditParams>({
+  const mutation = useMutation({
     mutationKey: ['userEdit'],
     mutationFn: async ({ id, userEditData }: UserEditParams) => {
       const response = await userApi.put(id, userEditData);
@@ -52,10 +51,12 @@ export default function Info() {
 
   const methods = useForm<PhoneNumberValue>({
     resolver: yupResolver(phoneNumberSchema),
+    mode: 'onBlur',
   });
   const {
     formState: { errors },
   } = methods;
+
   const { register, handleSubmit } = methods;
 
   const onSubmit: SubmitHandler<PhoneNumberValue> = data => {
@@ -93,7 +94,6 @@ export default function Info() {
     }
   }
 
-  //TODO: useOutsideClick 등록
   return (
     <div className={styles.infoLayout}>
       <Header.Root>
@@ -137,17 +137,13 @@ export default function Info() {
         <div className={styles.quitText} onClick={handleModalOpen}>
           회원탈퇴
         </div>
-        <BottomShareModal
-          type="bottom"
-          modalOpen={modalOpen}
-          handleModalOpen={handleModalOpen}
-          handleModalClose={handleModalClose}>
+        <BottomModal isOpen={modalOpen} onClose={handleModalClose}>
           <div className={styles.modalSize}>
             <span className={styles.modalTitle}>정말로 탈퇴하시겠어요?</span>
-            <ImageBox size="modalImage" src={Sample} alt="강아지와 고양이가 울먹거리는 이미지" />
+            <ImageBox size="modalImage" src={sadlyPet} alt="강아지와 고양이가 울먹거리는 이미지" />
             <span className={styles.modalText}>
-              • 찜한 상품 6개와 장바구니 상품 2개가 모두 사라져요
-              <br />• 우리 아이와의 추억이 담긴 리뷰 3개가 모두 사라져요
+              • 찜한 상품들과 장바구니 상품들이 모두 사라져요
+              <br />• 우리 아이와의 추억이 담긴 리뷰들이 모두 사라져요
             </span>
             <div className={styles.modalButtonArea}>
               <Button size="medium" backgroundColor="$color-white" onClick={handleDeleteUser}>
@@ -158,7 +154,7 @@ export default function Info() {
               </Button>
             </div>
           </div>
-        </BottomShareModal>
+        </BottomModal>
       </div>
     </div>
   );

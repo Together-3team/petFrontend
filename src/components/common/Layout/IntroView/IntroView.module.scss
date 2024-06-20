@@ -21,23 +21,4 @@
 
     color: $color-gray-700;
   }
-
-  .shareButton {
-    @include font-body2;
-
-    border: none;
-    border-radius: 10rem;
-    background-color: $color-pink-main;
-    color: $color-white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 3.2rem;
-    padding: 0 1.2rem 0 0.8rem;
-    gap: 0.8rem;
-
-    &[data-copied='true'] {
-      background-color: $color-gray-800;
-    }
-  }
 }
