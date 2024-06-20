@@ -1,57 +1,38 @@
+import { ChangeEvent, useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
+import { GetServerSidePropsContext } from 'next';
+import { QueryClient, dehydrate, useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
+import axios from '@/apis/axiosInstance';
+import { isAxiosError } from 'axios';
+
 import Header from '@/components/common/Layout/Header';
-import styles from './Delivery.module.scss';
 import DeliveryCard from '@/components/common/DeliveryCard';
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import DeliveryEmptyView from '@/components/delivery/EmptyView';
 import Button from '@/components/common/Button';
 import { DeliveryInfo } from '@/types/components/delivery';
-import axios from '@/apis/axiosInstance';
-import { isAxiosError } from 'axios';
 import useToast from '@/hooks/useToast';
 import { FETCH_ERROR_MESSAGE, SERVER_ERROR_MESSAGE } from '@/constants/errorMessage';
 import CheckedButton from '@/assets/svgs/btn-radio-checked.svg';
 import UncheckedButton from '@/assets/svgs/btn-radio.svg';
-import { QueryClient, dehydrate, useMutation } from '@tanstack/react-query';
-import { useRouter } from 'next/router';
 import LeftArrow from '@/assets/svgs/left-arrow.svg';
-import useAuth from '@/hooks/useAuth';
-import { GetServerSidePropsContext } from 'next';
 import { fetchMyData } from '@/apis/userApi';
+import styles from './Delivery.module.scss';
+import { useUpdateAddress } from '@/hooks/useUpdateAddress';
 
 const cx = classNames.bind(styles);
 
 const accessToken =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTUsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3MTg2OTIyMDAsImV4cCI6MTcxODY5OTQwMH0.0FbXlHrTeLloQAWOw4BDDQ5xln52l4UzSiI2WP4eskw';
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const queryClient = new QueryClient();
-
-  const accessToken = context.req.cookies['accessToken'];
-
-  await queryClient.prefetchQuery({ queryKey: ['user', accessToken], queryFn: fetchMyData });
-
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-  };
-}
-
 export default function PaymentDeliveryPage() {
   const router = useRouter();
   const prevPath = router.query?.prevPath;
-  const { isLogin } = useAuth();
-  const { userData } = useAuth();
   const [deliveries, setDeliveries] = useState<DeliveryInfo[]>([]);
   const [selectedOption, setSelectedOption] = useState<DeliveryInfo | null>(null);
   const { showToast } = useToast();
 
-  // useEffect(() => {
-  //   if (!isLogin) {
-  //     router.push('/my');
-  //   }
-  // }, [isLogin, router]);
+  const { mutate: updateAddress } = useUpdateAddress(prevPath);
 
   useEffect(() => {
     const fetchOptions = async () => {
@@ -105,54 +86,6 @@ export default function PaymentDeliveryPage() {
     const selected = deliveries.find(option => option.id === parseInt(e.target.value));
     selected && setSelectedOption(selected);
   };
-
-  const { mutate: updateAddress } = useMutation({
-    mutationFn: async ({ selectedOption, updatedOption }: any) => {
-      const res = await axios.put(`/deliveries/${selectedOption.id}`, JSON.stringify(updatedOption), {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      const data = res.data;
-      console.log('Response:', data);
-      return data;
-    },
-    onSuccess: () => {
-      if (prevPath) {
-        router.push(Array.isArray(prevPath) ? prevPath[0] : prevPath);
-        return;
-      }
-      router.back();
-    },
-
-    onError: error => {
-      if (!isAxiosError(error)) {
-        // `AxiosError`가 아닌 경우
-        showToast({
-          status: 'error',
-          message: FETCH_ERROR_MESSAGE.UNKNOWN,
-        });
-        return;
-      }
-      // `AxiosError`인 경우 에러 처리
-      if (!error.response) {
-        showToast({
-          status: 'error',
-          message: FETCH_ERROR_MESSAGE.REQUEST,
-        });
-        return;
-      }
-      const status = error.response?.status;
-      switch (status) {
-        case 400:
-          showToast({
-            status: 'error',
-            message: SERVER_ERROR_MESSAGE.USER.NOT_FOUND,
-          });
-          return;
-      }
-    },
-  });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     console.log('abc');
@@ -219,4 +152,27 @@ export default function PaymentDeliveryPage() {
       </div>
     </div>
   );
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const queryClient = new QueryClient();
+
+  const accessToken = context.req.cookies['accessToken'];
+
+  if (!accessToken) {
+    return {
+      redirect: {
+        destination: '/my',
+        permanent: false,
+      },
+    };
+  }
+
+  await queryClient.prefetchQuery({ queryKey: ['user', accessToken], queryFn: fetchMyData });
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
 }
