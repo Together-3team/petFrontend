@@ -21,7 +21,7 @@ export interface UserId {
 }
 
 export interface UserEditProps {
-  nickname: string;
+  nickname?: string;
   phoneNumber: string;
   profileImage: string;
   isSubscribedToPromotions: boolean;
