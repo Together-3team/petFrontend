@@ -21,8 +21,6 @@ import { fetchMyData } from '@/apis/userApi';
 
 const cx = classNames.bind(styles);
 
-const BOTTOM_BOX_ID = 'bottomBox';
-
 const accessToken =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTUsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3MTg2OTIyMDAsImV4cCI6MTcxODY5OTQwMH0.0FbXlHrTeLloQAWOw4BDDQ5xln52l4UzSiI2WP4eskw';
 
@@ -47,8 +45,6 @@ export default function PaymentDeliveryPage() {
   const { userData } = useAuth();
   const [deliveries, setDeliveries] = useState<DeliveryInfo[]>([]);
   const [selectedOption, setSelectedOption] = useState<DeliveryInfo | null>(null);
-  const buttonRef = useRef<HTMLDivElement>(null);
-  const topContentRef = useRef<HTMLDivElement>(null);
   const { showToast } = useToast();
 
   // useEffect(() => {
@@ -173,79 +169,50 @@ export default function PaymentDeliveryPage() {
     router.push('/ payment/delivery/add');
   };
 
-  useEffect(() => {
-    const adjustButtonPosition = () => {
-      const button = buttonRef.current;
-      const topContent = topContentRef.current;
-
-      if (!button || !topContent) {
-        return;
-      }
-
-      const topContentRect = topContent.offsetHeight;
-      const buttonHeight = button.offsetHeight;
-
-      if (topContentRect + buttonHeight > window.innerHeight) {
-        button.style.position = 'absolute';
-        button.style.bottom = `32px`;
-        button.style.left = '50%';
-        button.style.transform = 'translate(-50%, 0)';
-      } else {
-        button.style.position = 'fixed';
-        button.style.bottom = '32px';
-        button.style.left = '50%';
-        button.style.transform = 'translate(-50%, 0)';
-      }
-    };
-
-    adjustButtonPosition();
-    window.addEventListener('resize', adjustButtonPosition);
-    return () => {
-      window.removeEventListener('resize', adjustButtonPosition);
-    };
-  }, [deliveries]);
   return (
-    <div className={cx('delivery')} ref={topContentRef}>
-      <form onSubmit={handleSubmit}>
-        <Header.Root>
-          <Header.Box>
-            <Header.Left>
-              <button className={cx('backButton')} type="submit">
-                <LeftArrow width={24} height={24} alt="뒤로 가기 버튼" />
-              </button>
-            </Header.Left>
-            <h1 className={cx('title')}>배송지 목록</h1>
-          </Header.Box>
-        </Header.Root>
-        {deliveries.length !== 0 ? (
-          <div className={cx('deliveries')}>
-            {deliveries.map(deliveryInfo => {
-              return (
-                <label key={deliveryInfo.id} className={cx('label')}>
-                  <input
-                    type="radio"
-                    value={deliveryInfo.id}
-                    checked={selectedOption?.id === deliveryInfo.id}
-                    onChange={handleOptionChange}
-                    style={{ display: 'none' }}
-                  />
-                  {selectedOption?.id === deliveryInfo.id ? <CheckedButton /> : <UncheckedButton />}
-                  <DeliveryCard
-                    key={deliveryInfo.id}
-                    deliveryInfo={deliveryInfo}
-                    deliveries={deliveries}
-                    setDeliveries={setDeliveries}
-                    checked={selectedOption?.id === deliveryInfo.id}
-                  />
-                </label>
-              );
-            })}
-          </div>
-        ) : (
-          <DeliveryEmptyView />
-        )}
-      </form>
-      <div className={cx('button')} ref={buttonRef}>
+    <div className={cx('layout')}>
+      <div className={cx('delivery')}>
+        <form onSubmit={handleSubmit}>
+          <Header.Root>
+            <Header.Box>
+              <Header.Left>
+                <button className={cx('backButton')} type="submit">
+                  <LeftArrow width={24} height={24} alt="뒤로 가기 버튼" />
+                </button>
+              </Header.Left>
+              <h1 className={cx('title')}>배송지 목록</h1>
+            </Header.Box>
+          </Header.Root>
+          {deliveries.length !== 0 ? (
+            <div className={cx('deliveries')}>
+              {deliveries.map(deliveryInfo => {
+                return (
+                  <label key={deliveryInfo.id} className={cx('label')}>
+                    <input
+                      type="radio"
+                      value={deliveryInfo.id}
+                      checked={selectedOption?.id === deliveryInfo.id}
+                      onChange={handleOptionChange}
+                      style={{ display: 'none' }}
+                    />
+                    {selectedOption?.id === deliveryInfo.id ? <CheckedButton /> : <UncheckedButton />}
+                    <DeliveryCard
+                      key={deliveryInfo.id}
+                      deliveryInfo={deliveryInfo}
+                      deliveries={deliveries}
+                      setDeliveries={setDeliveries}
+                      checked={selectedOption?.id === deliveryInfo.id}
+                    />
+                  </label>
+                );
+              })}
+            </div>
+          ) : (
+            <DeliveryEmptyView />
+          )}
+        </form>
+      </div>
+      <div className={cx('button')}>
         <Button size="large" backgroundColor="$color-pink-main" onClick={handleAddDeliveryCardButtonClick}>
           배송지 추가
         </Button>

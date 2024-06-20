@@ -10,6 +10,6 @@ export const FETCH_ERROR_MESSAGE = {
   UNKNOWN: '잠시 후 다시 시도해 주세요.',
 } as const;
 
-export const Error_MESSAGE = {
+export const ERROR_MESSAGE = {
   ISDEFAULT: '기본 배송지는 삭제할 수 없습니다.',
 };

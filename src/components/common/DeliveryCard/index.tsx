@@ -8,7 +8,7 @@ import Button from '../Button';
 import Tag from '../Tag';
 import { DeliveryInfo } from '@/types/components/delivery';
 import useToast from '@/hooks/useToast';
-import { Error_MESSAGE, FETCH_ERROR_MESSAGE, SERVER_ERROR_MESSAGE } from '@/constants/errorMessage';
+import { ERROR_MESSAGE, FETCH_ERROR_MESSAGE, SERVER_ERROR_MESSAGE } from '@/constants/errorMessage';
 import styles from './DeliveryCard.module.scss';
 
 const cx = classNames.bind(styles);
@@ -27,7 +27,7 @@ export default function DeliveryCard({ deliveryInfo, deliveries, setDeliveries, 
   const { id, name, recipient, recipientPhoneNumber, zipCode, address, detailedAddress, isDefault } = deliveryInfo;
   const router = useRouter();
 
-  const { showToast } = useToast(BOTTOM_BOX_ID);
+  const { showToast } = useToast();
 
   const handleEditButtonClick = () => {
     router.push('/payment/delivery/edit');
@@ -38,7 +38,7 @@ export default function DeliveryCard({ deliveryInfo, deliveries, setDeliveries, 
       if (checked) {
         showToast({
           status: 'error',
-          message: Error_MESSAGE.ISDEFAULT,
+          message: ERROR_MESSAGE.ISDEFAULT,
         });
         return;
       }
