@@ -8,6 +8,15 @@
   padding: 2rem 1.6rem 0;
 }
 
+.backButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+}
+
 .title {
   text-align: center;
   font-size: 1.4rem;
@@ -21,7 +30,13 @@
   gap: 0.8rem;
   align-items: center;
   margin: 0.8rem auto;
-  max-width: 32.8rem;
+  max-width: 36rem;
+}
+
+.label {
+  display: flex;
+  width: 100%;
+  gap: 0.6rem;
 }
 
 .button {
