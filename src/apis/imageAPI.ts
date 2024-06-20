@@ -1,3 +1,4 @@
+import axios from 'axios';
 import axiosInstance from './axiosInstance';
 
 export interface PutImageToUrlParams {
@@ -11,7 +12,7 @@ export interface PostToGetPresignedUrlParams {
 }
 
 export interface PostToGetPresignedUrlRdo {
-  presignedUrl: [{ url: string; objectKey: string }];
+  presignedUrl: [{ url: string; objectKey: string; uniqueFileName: string }];
 }
 
 // 이미지 업로드 presigned url 받기
@@ -24,5 +25,5 @@ export async function putImageToUrl({ image, url }: PutImageToUrlParams) {
   const headers = {
     'Content-Type': image.type,
   };
-  return await axiosInstance.put(url, image, { headers });
+  await axios.put(url, image, { headers });
 }

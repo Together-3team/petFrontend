@@ -66,23 +66,23 @@ export default function Profile() {
 
   const onSubmit: SubmitHandler<ProfileValue & FieldValues> = async data => {
     const preferredPet = data.cat === true && data.dog === false ? 2 : data.dog === true && data.cat === false ? 1 : 0;
-
     let newProfileImageUrl = userData.profileImage;
 
     if (profileImage) {
       const presignedUrlParams: PostToGetPresignedUrlParams = {
         items: [{ objectKey: profileImage.name, contentType: profileImage.type }],
-        bucketName: 'profile-image-3team',
+        bucketName: 'review-image-3team',
       };
 
       try {
         const response = await postToGetPresignedUrl(presignedUrlParams);
         const presignedUrl = response.data.presignedUrl;
-        console.log(response.data.presignedUrl[0].url);
+        const newFileName = response.data.presignedUrl[0].uniqueFileName;
+        const newFile = new File([profileImage], newFileName, { type: profileImage.type });
 
-        const newProfileImageUrl = presignedUrl[0].url;
+        newProfileImageUrl = presignedUrl[0].url;
 
-        await putImageToUrl({ image: profileImage, url: newProfileImageUrl });
+        await putImageToUrl({ image: newFile, url: newProfileImageUrl });
       } catch (error) {
         console.error('이미지 업로드 중 에러가 발생했습니다', error);
         return;
