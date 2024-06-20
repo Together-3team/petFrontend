@@ -124,9 +124,11 @@ export default function DeliveryEditPage({ delivery }: { delivery: DeliveryInfo 
                 <span className={cx('errorText', 'isDefaultErrorText')}>{errors.isDefault.message}</span>
               )}
             </div>
-            <Button size="large" backgroundColor="$color-pink-main" disabled={!isValid}>
-              저장
-            </Button>
+            <div className={cx('button')}>
+              <Button size="large" backgroundColor="$color-pink-main" disabled={!isValid}>
+                저장
+              </Button>
+            </div>
           </div>
         </form>
       </FormProvider>
