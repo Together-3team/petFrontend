@@ -1,12 +1,12 @@
 import { ChangeEvent, useState } from 'react';
+import useToast from '@/hooks/useToast';
 import Header from '@/components/common/Layout/Header';
 import BackButton from '@/components/common/Button/BackButton';
 import ReviewProductDataCard from '@/components/common/review/ReviewProductDataCard';
 import StarRating from '@/components/common/review/StarRating';
 import Textarea from '@/components/common/review/Textarea';
+import { postReview } from '../../../../apis/myReviewAPI';
 import styles from './WritePage.module.scss';
-import { postReview } from './reviewWriteAPI';
-import useToast from '@/hooks/useToast';
 // import { useLocation } from 'react-router-dom';
 
 export default function WritePage() {
