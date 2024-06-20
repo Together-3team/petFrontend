@@ -8,6 +8,7 @@ import { useCookies } from 'react-cookie';
 import { yupResolver } from '@hookform/resolvers/yup';
 import classNames from 'classnames/bind';
 import signupFormSchema from '@/utils/signupFormSchema';
+import { ChangeEvent } from 'react';
 import Input from '@/components/common/Input';
 import Button from '@/components/common/Button';
 import UserAgreement from './UserAgreement';
@@ -15,7 +16,6 @@ import authApi from '@/apis/authApi';
 import CheckNickname from '@/utils/checkNickname';
 
 import styles from './SignupForm.module.scss';
-import { ChangeEvent } from 'react';
 
 const cx = classNames.bind(styles);
 
