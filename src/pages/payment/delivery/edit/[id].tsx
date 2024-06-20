@@ -10,15 +10,40 @@ import Input from '@/components/common/Input';
 import Button from '@/components/common/Button';
 import AddressInput from '@/components/payment/AddressInput';
 import styles from './Edit.module.scss';
+import { GetServerSidePropsContext } from 'next';
+import axiosInstance from '@/apis/axiosInstance';
+import { notFound } from 'next/navigation';
+import { DeliveryInfo } from '@/types/components/delivery';
 
 const cx = classNames.bind(styles);
 
 export type FormValues = Yup.InferType<typeof deliveryFormSchema>;
 
-export default function DeliveryEditPage() {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const deliveryId = context.params?.['id'];
+  let delivery;
+  try {
+    const res = await axiosInstance.get(`/deliveries/${deliveryId}`);
+    delivery = res.data;
+  } catch {
+    return {
+      notFound: true,
+    };
+  }
+  return {
+    props: {
+      delivery,
+    },
+  };
+}
+
+export default function DeliveryEditPage({ delivery }: { delivery: DeliveryInfo }) {
   const methods = useForm<FormValues>({
     resolver: yupResolver(deliveryFormSchema),
     mode: 'all',
+    defaultValues: {
+      name: delivery.name,
+    },
   });
   const {
     formState: { errors, isValid },
