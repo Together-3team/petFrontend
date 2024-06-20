@@ -22,9 +22,6 @@ import { useUpdateAddress } from '@/hooks/useUpdateAddress';
 
 const cx = classNames.bind(styles);
 
-const accessToken =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTUsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3MTg2OTIyMDAsImV4cCI6MTcxODY5OTQwMH0.0FbXlHrTeLloQAWOw4BDDQ5xln52l4UzSiI2WP4eskw';
-
 export default function PaymentDeliveryPage() {
   const router = useRouter();
   const prevPath = router.query?.prevPath;
@@ -37,11 +34,7 @@ export default function PaymentDeliveryPage() {
   useEffect(() => {
     const fetchOptions = async () => {
       try {
-        const res = await axios('/deliveries', {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }); // 서버에서 옵션 데이터를 받아오는 API 엔드포인트
+        const res = await axios('/deliveries'); // 서버에서 옵션 데이터를 받아오는 API 엔드포인트
         const deliveries: DeliveryInfo[] = res.data;
         setDeliveries(deliveries);
 

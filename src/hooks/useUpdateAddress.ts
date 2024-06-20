@@ -6,8 +6,7 @@ import useToast from './useToast';
 import { DeliveryInfo } from '@/types/components/delivery';
 import { FETCH_ERROR_MESSAGE, SERVER_ERROR_MESSAGE } from '@/constants/errorMessage';
 
-const accessToken =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTUsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3MTg2OTIyMDAsImV4cCI6MTcxODY5OTQwMH0.0FbXlHrTeLloQAWOw4BDDQ5xln52l4UzSiI2WP4eskw';
+const accessToken = process.env.ACCESS_TOKEN;
 
 interface UpdateAddressParams {
   selectedOption: DeliveryInfo;
@@ -20,11 +19,7 @@ export function useUpdateAddress(prevPath?: string | string[] | undefined) {
 
   return useMutation({
     mutationFn: async ({ selectedOption, updatedOption }: UpdateAddressParams) => {
-      const res = await axios.put(`/deliveries/${selectedOption.id}`, JSON.stringify(updatedOption), {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      const res = await axios.put(`/deliveries/${selectedOption.id}`, JSON.stringify(updatedOption));
       const data = res.data;
       console.log('Response:', data);
       return data;
