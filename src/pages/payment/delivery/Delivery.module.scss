@@ -6,6 +6,11 @@
 
 .delivery {
   padding: 2rem 1.6rem 0;
+  width: 43rem;
+}
+
+.form {
+  width: 100%;
 }
 
 .backButton {
@@ -29,8 +34,8 @@
   flex-direction: column;
   gap: 0.8rem;
   align-items: center;
-  margin: 0.8rem auto;
-  max-width: 36rem;
+  width: 100%;
+  margin: 0.8rem 0;
 }
 
 .label {

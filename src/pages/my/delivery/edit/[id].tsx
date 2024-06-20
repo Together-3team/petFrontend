@@ -76,11 +76,11 @@ export default function DeliveryEditPage({ delivery }: { delivery: DeliveryInfo 
       <FormProvider {...methods}>
         <form className={cx('deliveryEditForm')} onSubmit={handleSubmit(onSubmit)}>
           <div className={cx('inputArea')}>
-            <div>
+            <div className={cx('inputContainer')}>
               <Input
                 id="name"
                 type="text"
-                size="large"
+                size="full"
                 label="배송지명"
                 isError={errors.name && true}
                 labelStyle={'label'}
@@ -89,11 +89,11 @@ export default function DeliveryEditPage({ delivery }: { delivery: DeliveryInfo 
               />
               {errors.name && <span className={cx('errorText')}>{errors.name.message}</span>}
             </div>
-            <div>
+            <div className={cx('inputContainer')}>
               <Input
                 id="recipient"
                 type="text"
-                size="large"
+                size="full"
                 label="받는 사람"
                 isError={errors.recipient && true}
                 labelStyle={'label'}
@@ -102,11 +102,11 @@ export default function DeliveryEditPage({ delivery }: { delivery: DeliveryInfo 
               />
               {errors.recipient && <span className={cx('errorText')}>{errors.recipient.message}</span>}
             </div>
-            <div>
+            <div className={cx('inputContainer')}>
               <Input
                 id="phoneNumber"
                 type="tel"
-                size="large"
+                size="full"
                 label="연락처"
                 isError={errors.phoneNumber && true}
                 labelStyle={'label'}

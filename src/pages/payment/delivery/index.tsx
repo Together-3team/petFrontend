@@ -98,7 +98,7 @@ export default function PaymentDeliveryPage() {
   return (
     <div className={cx('layout')}>
       <div className={cx('delivery')}>
-        <form onSubmit={handleSubmit}>
+        <form className={cx('form')} onSubmit={handleSubmit}>
           <Header.Root>
             <Header.Box>
               <Header.Left>

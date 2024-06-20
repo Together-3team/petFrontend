@@ -45,12 +45,12 @@ export default function AddressInput({ errors, register, setValue }: AddressInpu
   return (
     <div>
       <div className={cx('addressInputContainer')}>
-        <div>
+        <div className={cx('inputContainer')}>
           <div className={cx('zipCode')}>
             <Input
               id="zipCode"
               type="text"
-              size="small"
+              size="full"
               label="우편번호"
               labelStyle={'label'}
               placeholder=""
@@ -72,11 +72,11 @@ export default function AddressInput({ errors, register, setValue }: AddressInpu
             className={cx('postCodeModal')}
           />
         </CenterModal>
-        <div>
+        <div className={cx('inputContainer')}>
           <Input
             id="address"
             type="text"
-            size="large"
+            size="full"
             label="주소"
             labelStyle={'label'}
             placeholder=""
@@ -85,11 +85,11 @@ export default function AddressInput({ errors, register, setValue }: AddressInpu
             {...register('address')}
           />
         </div>
-        <div>
+        <div className={cx('inputContainer')}>
           <Input
             id="detailedAddress"
             type="text"
-            size="large"
+            size="full"
             label="상세 주소"
             isError={errors.detailedAddress && true}
             labelStyle={'label'}
