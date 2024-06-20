@@ -6,7 +6,6 @@ const cx = classNames.bind(styles);
 export default function DeliveryEmptyView() {
   return (
     <>
-      {' '}
       <div className={cx('deliveryEmptyView')}>아직 배송지가 등록되지 않았어요.</div>
     </>
   );

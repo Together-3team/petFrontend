@@ -1,4 +1,4 @@
-import axios from '@/apis/axiosInstance';
+import axiosInstance from '@/apis/axiosInstance';
 
 interface User {
   snsId: string;
@@ -31,7 +31,7 @@ interface Info {
 }
 
 export const getLikeStatus = async (productId: number) => {
-  const response = await axios.get(`/zzims`);
+  const response = await axiosInstance.get(`/zzims`);
   if (response.status === 200) {
     const product = response.data.find((info: Info) => {
       return info.product.id === productId;
@@ -46,7 +46,7 @@ export const getLikeStatus = async (productId: number) => {
 };
 
 export const likeProduct = async (productId: number) => {
-  const response = await axios.post(`zzims`, { productId: productId });
+  const response = await axiosInstance.post(`zzims`, { productId: productId });
 
   if (!(response.status >= 200 && response.status < 300)) {
     throw new Error('상품 찜하기에 실패했습니다.');
@@ -54,7 +54,7 @@ export const likeProduct = async (productId: number) => {
 };
 
 export const unlikeProduct = async (productId: number) => {
-  const response = await axios.delete(`/zzims/${productId}`);
+  const response = await axiosInstance.delete(`/zzims/${productId}`);
 
   if (!(response.status >= 200 && response.status < 300)) {
     throw new Error('상품 찜 해제하기에 실패했습니다.');

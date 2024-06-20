@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 import { GetServerSidePropsContext } from 'next';
 import { QueryClient, dehydrate, useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
-import axios from '@/apis/axiosInstance';
+import axiosInstance from '@/apis/axiosInstance';
 import { isAxiosError } from 'axios';
 
 import Header from '@/components/common/Layout/Header';
@@ -34,7 +34,7 @@ export default function PaymentDeliveryPage() {
   useEffect(() => {
     const fetchOptions = async () => {
       try {
-        const res = await axios('/deliveries'); // 서버에서 옵션 데이터를 받아오는 API 엔드포인트
+        const res = await axiosInstance('/deliveries'); // 서버에서 옵션 데이터를 받아오는 API 엔드포인트
         const deliveries: DeliveryInfo[] = res.data;
         setDeliveries(deliveries);
 

@@ -1,8 +1,7 @@
-import { useState } from 'react';
 import { useRouter } from 'next/router';
 import classNames from 'classnames/bind';
 import { isAxiosError } from 'axios';
-import axios from '@/apis/axiosInstance';
+import axiosInstance from '@/apis/axiosInstance';
 
 import Button from '../Button';
 import Tag from '../Tag';
@@ -13,11 +12,8 @@ import styles from './DeliveryCard.module.scss';
 
 const cx = classNames.bind(styles);
 
-const BOTTOM_BOX_ID = 'bottomBox';
-
 interface DeliveryCardProps {
   deliveryInfo: DeliveryInfo;
-  // setIsVisible: (id: number, isVisible: boolean) => void;
   deliveries: DeliveryInfo[];
   setDeliveries: React.Dispatch<React.SetStateAction<DeliveryInfo[]>>;
   checked?: boolean;
@@ -42,7 +38,7 @@ export default function DeliveryCard({ deliveryInfo, deliveries, setDeliveries, 
         });
         return;
       }
-      await axios.delete(`/deliveries/${id}`);
+      await axiosInstance.delete(`/deliveries/${id}`);
       // setIsVisible(id, false); // 삭제 성공 시 카드를 숨김
       const nextDeliveries = deliveries.filter(deliveryInfo => deliveryInfo.id !== id);
       setDeliveries(nextDeliveries);

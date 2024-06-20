@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import axios from '@/apis/axiosInstance';
+import axiosInstance from '@/apis/axiosInstance';
 import { isAxiosError } from 'axios';
 import { useRouter } from 'next/router';
 import useToast from './useToast';
@@ -19,7 +19,7 @@ export function useUpdateAddress(prevPath?: string | string[] | undefined) {
 
   return useMutation({
     mutationFn: async ({ selectedOption, updatedOption }: UpdateAddressParams) => {
-      const res = await axios.put(`/deliveries/${selectedOption.id}`, JSON.stringify(updatedOption));
+      const res = await axiosInstance.put(`/deliveries/${selectedOption.id}`, JSON.stringify(updatedOption));
       const data = res.data;
       console.log('Response:', data);
       return data;

@@ -8,31 +8,20 @@ import DeliveryEmptyView from '@/components/delivery/EmptyView';
 import Button from '@/components/common/Button';
 import { DeliveryInfo } from '@/types/components/delivery';
 import useToast from '@/hooks/useToast';
-import axios from '@/apis/axiosInstance';
+import axiosInstance from '@/apis/axiosInstance';
 import { isAxiosError } from 'axios';
 import { FETCH_ERROR_MESSAGE, SERVER_ERROR_MESSAGE } from '@/constants/errorMessage';
 
 const cx = classNames.bind(styles);
 
-const BOTTOM_BOX_ID = 'bottomBox';
-
-const accessToken =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTUsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3MTg2OTIyMDAsImV4cCI6MTcxODY5OTQwMH0.0FbXlHrTeLloQAWOw4BDDQ5xln52l4UzSiI2WP4eskw';
-
 export default function MyDeliveryPage() {
   const [deliveries, setDeliveries] = useState<DeliveryInfo[]>([]);
-  const buttonRef = useRef<HTMLDivElement>(null);
-  const topContentRef = useRef<HTMLDivElement>(null);
-  const { showToast } = useToast(BOTTOM_BOX_ID);
+  const { showToast } = useToast();
 
   useEffect(() => {
     const fetchOptions = async () => {
       try {
-        const res = await axios('/deliveries', {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }); // 서버에서 옵션 데이터를 받아오는 API 엔드포인트
+        const res = await axiosInstance('/deliveries'); // 서버에서 옵션 데이터를 받아오는 API 엔드포인트
         const deliveries: DeliveryInfo[] = res.data;
         setDeliveries(deliveries);
       } catch (error) {
@@ -66,56 +55,36 @@ export default function MyDeliveryPage() {
     fetchOptions();
   }, [showToast]);
 
-  useEffect(() => {
-    const button = buttonRef.current;
-    const topContent = topContentRef.current;
-
-    if (!button || !topContent) {
-      return;
-    }
-
-    const topContentRect = topContent.offsetHeight;
-    const buttonHeight = button.offsetHeight;
-
-    if (topContentRect + buttonHeight > window.innerHeight) {
-      button.style.position = 'absolute';
-      button.style.bottom = `32px`;
-      button.style.left = '50%';
-      button.style.transform = 'translate(-50%, 0)';
-    } else {
-      button.style.position = 'fixed';
-      button.style.bottom = '32px';
-    }
-  }, [deliveries]);
-
   return (
-    <div className={cx('delivery')} ref={topContentRef}>
-      <Header.Root>
-        <Header.Box>
-          <Header.Left>
-            <BackButton />
-          </Header.Left>
-          <h1 className={cx('title')}>배송지 목록</h1>
-        </Header.Box>
-      </Header.Root>
-      {deliveries.length !== 0 ? (
-        <div className={cx('deliveries')}>
-          {deliveries.map(deliveryInfo => {
-            return (
-              <DeliveryCard
-                key={deliveryInfo.id}
-                deliveryInfo={deliveryInfo}
-                deliveries={deliveries}
-                checked={deliveryInfo.isDefault}
-                setDeliveries={setDeliveries}
-              />
-            );
-          })}
-        </div>
-      ) : (
-        <DeliveryEmptyView />
-      )}
-      <div className={cx('button')} ref={buttonRef}>
+    <div className={cx('layout')}>
+      <div className={cx('delivery')}>
+        <Header.Root>
+          <Header.Box>
+            <Header.Left>
+              <BackButton />
+            </Header.Left>
+            <h1 className={cx('title')}>배송지 목록</h1>
+          </Header.Box>
+        </Header.Root>
+        {deliveries.length !== 0 ? (
+          <div className={cx('deliveries')}>
+            {deliveries.map(deliveryInfo => {
+              return (
+                <DeliveryCard
+                  key={deliveryInfo.id}
+                  deliveryInfo={deliveryInfo}
+                  deliveries={deliveries}
+                  checked={deliveryInfo.isDefault}
+                  setDeliveries={setDeliveries}
+                />
+              );
+            })}
+          </div>
+        ) : (
+          <DeliveryEmptyView />
+        )}
+      </div>
+      <div className={cx('button')}>
         <Button size="large" backgroundColor="$color-pink-main">
           배송지 추가
         </Button>
