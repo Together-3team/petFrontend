@@ -153,7 +153,7 @@ export default function Profile() {
               </label>
             </div>
           </div>
-          <Button type="submit" size="large" backgroundColor="$color-pink-main" disabled={!errors}>
+          <Button type="submit" size="large" backgroundColor="$color-pink-main">
             저장
           </Button>
         </form>
