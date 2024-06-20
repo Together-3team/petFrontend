@@ -8,37 +8,18 @@ import BannerCarousel from '@/components/common/Carousel/Banner';
 import ProductCarousel from '@/components/common/Carousel/Product';
 import Delivery from '@/assets/svgs/delivery.svg';
 import getFutureDate from '@/utils/getFutureDate';
+import { Product } from '@/types/product';
 
 const cx = classNames.bind(styles);
 
-interface ImagesInfo {
-  src: string;
-  alt: string;
-}
-
-interface ProductInfoProps {
-  productImages: ImagesInfo[];
-  title: string;
-  originalPrice: number;
-  price: number;
-  reviewRating: number;
-  reviewCount: number;
-}
-
-export default function ProductInfo({
-  productImages,
-  title,
-  originalPrice,
-  price,
-  reviewRating,
-  reviewCount,
-}: ProductInfoProps) {
+export default function ProductInfo({ product }: { product: Product }) {
+  const { productImages, title, originalPrice, price, reviewRating, reviewCount } = product;
   const discountRate = Math.ceil((1 - price / originalPrice) * 100);
   const futureDate = getFutureDate(3);
   return (
     <div className={cx('contents')}>
       <div className={cx('imageContainer')}>
-        <ProductCarousel items={productImages} />
+        <ProductCarousel images={productImages} />
       </div>
       <div className={cx('productInfoContent')}>
         <h1 className={cx('title')}>{title}</h1>

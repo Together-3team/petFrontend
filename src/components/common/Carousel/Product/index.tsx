@@ -7,25 +7,24 @@ import { useSelectedSnapDisplay } from '@/hooks/useSelectedSnapDisplay';
 import Share from '@/assets/svgs/btn-share.svg';
 
 interface ProductCarouselProps {
-  items: {
-    src: string;
-    alt: string;
-  }[];
+  images: string;
 }
 
-export default function ProductCarousel({ items }: ProductCarouselProps) {
+export default function ProductCarousel({ images }: ProductCarouselProps) {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
     Autoplay({ playOnInit: true, delay: 2500, stopOnInteraction: false, stopOnMouseEnter: true }),
   ]);
 
   const { selectedSnap, snapCount } = useSelectedSnapDisplay(emblaApi);
 
+  const items = images.split(',');
+
   return (
     <div className={styles.container} ref={emblaRef}>
       <div className={styles.carousel}>
         {items.map((item, index) => (
           <div key={index} className={styles.slide}>
-            <Image src={item.src} alt={item.alt} fill />
+            <Image src={item} alt={'productImages'} fill />
           </div>
         ))}
       </div>
