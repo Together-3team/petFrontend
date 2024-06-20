@@ -69,16 +69,18 @@ export default function DeliveryEditPage() {
             </div>
             <div>
               <Input
-                id="phoneNumber"
+                id="recipientPhoneNumber"
                 type="tel"
                 size="large"
                 label="연락처"
-                isError={errors.phoneNumber && true}
+                isError={errors.recipientPhoneNumber && true}
                 labelStyle={'label'}
                 placeholder="000-0000-0000"
-                {...register('phoneNumber')}
+                {...register('recipientPhoneNumber')}
               />
-              {errors.phoneNumber && <span className={cx('errorText')}>{errors.phoneNumber.message}</span>}
+              {errors.recipientPhoneNumber && (
+                <span className={cx('errorText')}>{errors.recipientPhoneNumber.message}</span>
+              )}
             </div>
             <AddressInput errors={errors} register={register} setValue={setValue} />
           </div>

@@ -48,18 +48,27 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 }
 
 export default function DeliveryEditPage({ delivery }: { delivery: DeliveryInfo }) {
+  const { name, recipient, recipientPhoneNumber, zipCode, address, detailedAddress, isDefault } = delivery;
+
   const methods = useForm<FormValues>({
     resolver: yupResolver(deliveryFormSchema),
     mode: 'all',
-    defaultValues: {
-      name: delivery.name,
-    },
+    // defaultValues: {
+    //   name,
+    //   recipient,
+    //   recipientPhoneNumber,
+    //   zipCode,
+    //   address,
+    //   detailedAddress,
+    //   isDefault,
+    // },
   });
   const {
     formState: { errors, isValid },
   } = methods;
   const { register, handleSubmit, setValue } = methods;
   const onSubmit = (data: FormValues) => {
+    console.log('abc');
     console.log(data);
   };
 
@@ -104,16 +113,18 @@ export default function DeliveryEditPage({ delivery }: { delivery: DeliveryInfo 
             </div>
             <div className={cx('inputContainer')}>
               <Input
-                id="phoneNumber"
+                id="recipientPhoneNumber"
                 type="tel"
                 size="full"
                 label="연락처"
-                isError={errors.phoneNumber && true}
+                isError={errors.recipientPhoneNumber && true}
                 labelStyle={'label'}
                 placeholder="000-0000-0000"
-                {...register('phoneNumber')}
+                {...register('recipientPhoneNumber')}
               />
-              {errors.phoneNumber && <span className={cx('errorText')}>{errors.phoneNumber.message}</span>}
+              {errors.recipientPhoneNumber && (
+                <span className={cx('errorText')}>{errors.recipientPhoneNumber.message}</span>
+              )}
             </div>
             <AddressInput errors={errors} register={register} setValue={setValue} />
           </div>
@@ -126,7 +137,7 @@ export default function DeliveryEditPage({ delivery }: { delivery: DeliveryInfo 
               )}
             </div>
             <div className={cx('button')}>
-              <Button size="large" backgroundColor="$color-pink-main" disabled={!isValid}>
+              <Button size="large" backgroundColor="$color-pink-main" disabled={!isValid} type="submit">
                 저장
               </Button>
             </div>
