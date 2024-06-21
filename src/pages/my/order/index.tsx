@@ -1,15 +1,32 @@
+import { useQuery } from '@tanstack/react-query';
 import classNames from 'classnames/bind';
+import purchaseApi from '@/apis/purchase/api';
 import Header from '@/components/common/Layout/Header';
 import BackButton from '@/components/common/Button/BackButton';
 import rectangleImg from '@/assets/images/rectangle.png';
 import OrderFilterBar from '@/components/order/OrderFilterBar';
+import OrderCard from '@/components/order/OrderCard';
 
 import styles from './Order.module.scss';
-import OrderCard from '@/components/order/OrderCard';
 
 const cx = classNames.bind(styles);
 
 export default function Order() {
+  const { data: purchaseData } = useQuery({ queryKey: ['purchase'], queryFn: purchaseApi.getPurchase });
+  console.log(purchaseData);
+
+  const purchaseId = purchaseData?.data[0].orderId;
+
+  const { data: purchaseDetailData } = useQuery({
+    queryKey: ['purchaseDetail', purchaseId],
+    queryFn: async () => {
+      const response = purchaseApi.getDetailPurchase(purchaseId);
+      return response;
+    },
+  });
+
+  console.log(purchaseDetailData);
+
   //mock 데이터 입니다.
   const productList6 = {
     productId: 6,
