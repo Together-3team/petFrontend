@@ -15,7 +15,6 @@ import { DeliveryInfo } from '@/types/components/delivery';
 import { httpClient } from '@/apis/httpClient';
 import { useAddAddressInfo } from '@/hooks/useAddAddressInfo';
 import styles from './Add.module.scss';
-import { useEffect, useState } from 'react';
 
 const cx = classNames.bind(styles);
 
