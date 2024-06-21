@@ -49,6 +49,13 @@
   accent-color: $color-pink-main;
 }
 
+.checkBoxGray {
+  width: 2rem;
+  height: 2rem;
+  margin: 0.6rem;
+  accent-color: $color-gray-600;
+}
+
 .errorText {
   @include font-caption1;
   color: $color-pink-main;

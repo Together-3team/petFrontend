@@ -13,6 +13,7 @@ import styles from './Edit.module.scss';
 import { GetServerSidePropsContext } from 'next';
 import { DeliveryInfo } from '@/types/components/delivery';
 import { httpClient } from '@/apis/httpClient';
+import { ChangeEvent } from 'react';
 
 const cx = classNames.bind(styles);
 
@@ -49,19 +50,18 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
 export default function DeliveryEditPage({ delivery }: { delivery: DeliveryInfo }) {
   const { name, recipient, recipientPhoneNumber, zipCode, address, detailedAddress, isDefault } = delivery;
-
   const methods = useForm<FormValues>({
     resolver: yupResolver(deliveryFormSchema),
     mode: 'all',
-    // defaultValues: {
-    //   name,
-    //   recipient,
-    //   recipientPhoneNumber,
-    //   zipCode,
-    //   address,
-    //   detailedAddress,
-    //   isDefault,
-    // },
+    defaultValues: {
+      name,
+      recipient,
+      recipientPhoneNumber,
+      zipCode,
+      address,
+      detailedAddress,
+      isDefault,
+    },
   });
   const {
     formState: { errors, isValid },
@@ -130,7 +130,13 @@ export default function DeliveryEditPage({ delivery }: { delivery: DeliveryInfo 
           </div>
           <div className={cx('buttonArea')}>
             <div className={cx('isDefaultInput')}>
-              <input id="isDefault" type="checkbox" className={cx('checkBox')} {...register('isDefault')} />
+              <input
+                id="isDefault"
+                type="checkbox"
+                className={cx(isDefault ? 'checkBoxGray' : 'checkBox')}
+                checked={isDefault ? isDefault : undefined}
+                {...register('isDefault')}
+              />
               <span className={cx('isDefaultText')}>기본 배송지로 등록합니다.</span>
               {errors.isDefault && (
                 <span className={cx('errorText', 'isDefaultErrorText')}>{errors.isDefault.message}</span>
