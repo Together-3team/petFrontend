@@ -28,7 +28,7 @@ export default function DeliveryCard({ deliveryInfo, deliveries, setDeliveries, 
   const { modalOpen, handleModalOpen, handleModalClose } = useModal();
 
   const handleEditButtonClick = () => {
-    router.push('/payment/delivery/edit');
+    router.push(`/my/delivery/edit/${id}`);
   };
 
   const handleModalButtonClick = () => {
