@@ -26,6 +26,30 @@ const BANNER_IMAGES = [
 
 const BOTTOM_BOX_ID = 'bottomBox';
 
+export async function getServerSideProps() {
+  let data;
+  try {
+    const response = await axiosInstance.get('/products?page=1&pageSize=5&petType=0&productType=0&orderBy=0');
+    console.log('API 응답:', response.data);
+  } catch (error: any) {
+    if (error.response) {
+      // 서버가 요청을 받고 응답을 반환했지만, 상태 코드가 2xx가 아닌 경우
+      console.error('서버 응답 오류:', error.response.data);
+    } else if (error.request) {
+      // 서버로 요청을 보냈지만 응답을 받지 못한 경우
+      console.error('서버에 응답 없음:', error.request);
+    } else {
+      // 오류를 발생시킨 요청을 설정하는 중에 오류가 발생한 경우
+      console.error('오류 발생:', error.message);
+    }
+    console.error('상세 정보:', error.config);
+  }
+
+  return {
+    props: {},
+  };
+}
+
 export default function HomePageTEST() {
   const { showToast, setPortalId } = useToast(BOTTOM_BOX_ID);
   console.log('HomePage');
