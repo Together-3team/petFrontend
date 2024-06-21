@@ -38,4 +38,46 @@
     flex: 0 0 100%;
     min-width: 0;
   }
+
+  .modal {
+    padding: 4rem 2rem 2.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.8rem;
+    justify-content: center;
+    align-items: center;
+    width: 23rem;
+  }
+
+  .iconX {
+    position: absolute;
+    top: 0.8rem;
+    right: 0.8rem;
+    border: none;
+    background: none;
+    width: 3.2rem;
+    height: 3.2rem;
+  }
+
+  .modalContent {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .modalTitle {
+    color: $color-black;
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: 600;
+    line-height: 1.8rem; /* 128.571% */
+  }
+
+  .modalDescription {
+    color: $color-gray-500;
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 400;
+    line-height: 1.6rem;
+  }
 }

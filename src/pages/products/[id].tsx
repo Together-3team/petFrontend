@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import axios from '@/apis/authAxiosInstance';
+import axiosInstance from '@/apis/authAxiosInstance';
 
 import CartButton from '@/components/common/Button/Cart';
 import Header from '@/components/common/Layout/Header';
@@ -17,10 +17,12 @@ const cx = classNames.bind(styles);
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const productId = context.params?.['id'];
   let product;
+  console.log('song');
   try {
-    const res = await axios.get(`/products/detail/${productId}`);
+    const res = await axiosInstance.get(`/products/detail/${productId}`);
     product = res.data;
-  } catch {
+  } catch (err) {
+    console.error(err);
     return {
       notFound: true,
     };

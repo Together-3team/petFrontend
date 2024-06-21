@@ -6,9 +6,10 @@ import { useSelectedSnapDisplay } from '@/hooks/useSelectedSnapDisplay';
 import Share from '@/assets/svgs/btn-share.svg';
 import useModal from '@/hooks/useModal';
 import CenterModal from '../../Modal/Base/CenterModal';
-import Mascot from '@/assets/svgs/mascot-share-link.svg';
-import styles from './ProductCarousel.module.scss';
 import ShareButton from '../../Button/Share';
+import Mascot from '@/assets/svgs/mascot-share-link.svg';
+import IconX from '@/assets/svgs/ic-x.svg';
+import styles from './ProductCarousel.module.scss';
 
 interface ProductCarouselProps {
   images: string;
@@ -41,12 +42,21 @@ export default function ProductCarousel({ images }: ProductCarouselProps) {
         </button>
       </div>
       <CenterModal isOpen={modalOpen} onClose={handleModalClose}>
-        <div>
+        <div className={styles.modal}>
+          <button type="button" className={styles.iconX} onClick={handleModalClose}>
+            <IconX />
+          </button>
           <Mascot />
-          <p>집사 친구와 함께</p>
-          <p>더 저렴하게 구매하세요!</p>
-          <p>링크를 통해 친구에게 공유하고</p>
-          <p>더 빨리 공동구매를 성사시켜요.</p>
+          <div className={styles.modalContent}>
+            <div>
+              <p className={styles.modalTitle}>집사 친구와 함께</p>
+              <p className={styles.modalTitle}>더 저렴하게 구매하세요!</p>
+            </div>
+            <div>
+              <p className={styles.modalDescription}>링크를 통해 친구에게 공유하고</p>
+              <p className={styles.modalDescription}>더 빨리 공동구매를 성사시켜요.</p>
+            </div>
+          </div>
           <ShareButton />
         </div>
       </CenterModal>
