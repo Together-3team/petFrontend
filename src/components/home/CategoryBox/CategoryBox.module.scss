@@ -1,0 +1,11 @@
+@layer components {
+  .category {
+    display: flex;
+    flex-direction: column;
+    gap: 2.4rem;
+  }
+
+  .title {
+    @include font-headline1;
+  }
+}
