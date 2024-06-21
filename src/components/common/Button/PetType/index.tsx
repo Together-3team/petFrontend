@@ -1,18 +1,13 @@
 import { useState } from 'react';
 
 import styles from './PetTypeButton.module.scss';
+import { PetType } from '@/types/components/petTypeButton';
 
 const PET_TYPES: PetType[] = [
   { name: '전체', value: '0', isSelected: true },
   { name: '강아지', value: '1', isSelected: false },
   { name: '고양이', value: '2', isSelected: false },
 ];
-
-interface PetType {
-  name: string;
-  value: string;
-  isSelected: boolean;
-}
 
 interface PetTypeButtonProps {
   onClick: (petType: PetType) => void;
