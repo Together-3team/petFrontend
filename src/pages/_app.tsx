@@ -29,6 +29,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
     <>
       <Head>
         <title>포잉마켓</title>
+        <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests" />
       </Head>
       <CookiesProvider cookies={pageProps.cookies}>
         <QueryClientProvider client={queryClient}>
