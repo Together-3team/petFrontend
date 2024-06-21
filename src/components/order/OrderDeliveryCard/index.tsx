@@ -75,12 +75,14 @@ export default function OrderDeliveryCard({ delivery, setDelivery }: DeliveryCar
   };
   return (
     <div className={cx('delivery')}>
-      <label className={cx('title')}>배송지</label>
-      {delivery && (
-        <button type="button" onClick={handleChangeButtonClick} className={cx('changeButton')}>
-          변경
-        </button>
-      )}
+      <div className={cx('titleAndButton')}>
+        <label className={cx('title')}>배송지</label>
+        {delivery && (
+          <button type="button" onClick={handleChangeButtonClick} className={cx('changeButton')}>
+            변경
+          </button>
+        )}
+      </div>
       {delivery ? (
         <div className={cx('deliveryCard')}>
           <div className={cx('addressName')}>
