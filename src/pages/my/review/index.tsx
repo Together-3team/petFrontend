@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import purchaseApi from '@/apis/purchase/api';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import classNames from 'classnames/bind';
+import purchaseApi from '@/apis/purchase/api';
 import { getReviewableData, getWroteReviewList } from '@/apis/myReviewAPI';
 import BackButton from '@/components/common/Button/BackButton';
 import ReviewCard from '@/components/review/ReviewCard';
