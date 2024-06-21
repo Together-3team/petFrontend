@@ -1,0 +1,17 @@
+@layer components {
+  .item {
+    @include font-body2;
+
+    color: $color-gray-500;
+    display: flex;
+    align-items: center;
+    height: 4.4rem;
+    cursor: pointer;
+
+    &.selected {
+      @include font-body1;
+
+      color: $color-black;
+    }
+  }
+}

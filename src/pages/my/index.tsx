@@ -1,8 +1,11 @@
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import { GetServerSidePropsContext } from 'next';
 import Link from 'next/link';
 import { dehydrate, QueryClient } from '@tanstack/react-query';
 import classNames from 'classnames/bind';
 import useAuth from '@/hooks/useAuth';
+import useToast from '@/hooks/useToast';
 import { fetchMyData } from '@/apis/userApi';
 import LoginButton from '@/components/auth/LoginButton';
 import ImageBox from '@/components/common/ImageBox';
@@ -17,6 +20,26 @@ const cx = classNames.bind(styles);
 
 export default function MyPage() {
   const { isLogin } = useAuth();
+  const router = useRouter();
+  const { status } = router.query;
+  const BOTTOM_BOX_ID = 'bottomBox';
+  const { showToast } = useToast(BOTTOM_BOX_ID);
+
+  useEffect(() => {
+    if (status === 'success') {
+      showToast({
+        status: 'success',
+        message: '저장되었습니다.',
+      });
+    }
+    if (status === 'error') {
+      showToast({
+        status: 'error',
+        message: '오류가 발생했습니다. 다시 한 번 시도해 주세요.',
+      });
+    }
+  }, [status]);
+
   if (!isLogin)
     return (
       <div className={cx('myPageLayout')}>
@@ -30,7 +53,7 @@ export default function MyPage() {
         <Link href="/">
           <div className={cx('notRegister')}>일단 둘러볼게요</div>
         </Link>
-        <FloatingBox>
+        <FloatingBox id={BOTTOM_BOX_ID}>
           <NavBottom />
         </FloatingBox>
       </div>
