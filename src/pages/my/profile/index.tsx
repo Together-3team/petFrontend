@@ -2,9 +2,11 @@ import { useState, useRef, ChangeEvent } from 'react';
 import { useForm, SubmitHandler, FormProvider, FieldValues, Controller } from 'react-hook-form';
 import { QueryClient, dehydrate, useMutation } from '@tanstack/react-query';
 import { GetServerSidePropsContext } from 'next';
+import { useRouter } from 'next/router';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import useAuth from '@/hooks/useAuth';
+import CheckNickname from '@/utils/checkNickname';
 import { PostToGetPresignedUrlParams, postToGetPresignedUrl, putImageToUrl } from '@/apis/imageApi';
 import { UserEditParams, UserEditProps, fetchMyData, userApi } from '@/apis/userApi';
 import Header from '@/components/common/Layout/Header';
@@ -16,8 +18,6 @@ import PlusButton from '@/assets/svgs/plus-button.svg';
 import { nicknameSchema } from '@/utils/signupFormSchema';
 
 import styles from './Profile.module.scss';
-import { useRouter } from 'next/router';
-import CheckNickname from '@/utils/checkNickname';
 
 export type ProfileValue = Yup.InferType<typeof nicknameSchema>;
 
