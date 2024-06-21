@@ -3,9 +3,9 @@ import Header from '@/components/common/Layout/Header';
 import BackButton from '@/components/common/Button/BackButton';
 import rectangleImg from '@/assets/images/rectangle.png';
 import OrderFilterBar from '@/components/order/OrderFilterBar';
+import OrderCard from '@/components/order/OrderCard';
 
 import styles from './Order.module.scss';
-import OrderCard from '@/components/order/OrderCard';
 
 const cx = classNames.bind(styles);
 
