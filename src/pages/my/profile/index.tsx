@@ -1,10 +1,11 @@
-import { ChangeEvent, useState } from 'react';
-import { useForm, SubmitHandler, FormProvider, FieldValues, Controller } from 'react-hook-form';
+import { useState, useRef, ChangeEvent } from 'react';
+import { useForm, SubmitHandler, FormProvider, FieldValues } from 'react-hook-form';
 import { QueryClient, dehydrate, useMutation } from '@tanstack/react-query';
 import { GetServerSidePropsContext } from 'next';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import useAuth from '@/hooks/useAuth';
+import { PostToGetPresignedUrlParams, postToGetPresignedUrl, putImageToUrl } from '@/apis/imageAPI';
 import { UserEditParams, UserEditProps, fetchMyData, userApi } from '@/apis/userApi';
 import Header from '@/components/common/Layout/Header';
 import ProfileImgBadge from '@/components/common/Badge/ProfileImgBadge';
@@ -13,7 +14,6 @@ import BackButton from '@/components/common/Button/BackButton';
 import Button from '@/components/common/Button';
 import PlusButton from '@/assets/svgs/plus-button.svg';
 import { nicknameSchema } from '@/utils/signupFormSchema';
-import CheckNickname from '@/utils/checkNickname';
 
 import styles from './Profile.module.scss';
 
@@ -21,6 +21,8 @@ export type ProfileValue = Yup.InferType<typeof nicknameSchema>;
 
 export default function Profile() {
   const { userData } = useAuth();
+  const [profileImage, setProfileImage] = useState<File>();
+  const [profileImageUrl, setProfileImageUrl] = useState<string | null>(userData.profileImage || null);
 
   const [dogChecked, setDogChecked] = useState(userData.preferredPet === 1 || userData.preferredPet === 0);
   const [catChecked, setCatChecked] = useState(userData.preferredPet === 2 || userData.preferredPet === 0);
@@ -29,7 +31,6 @@ export default function Profile() {
     mutationKey: ['userEdit'],
     mutationFn: async ({ id, userEditData }: UserEditParams) => {
       const response = await userApi.put(id, userEditData);
-      console.log(response);
       return response;
     },
     onSuccess: data => {
@@ -46,17 +47,52 @@ export default function Profile() {
   });
 
   const {
+    register,
+    handleSubmit,
+    setValue,
     formState: { errors },
   } = methods;
 
-  const { control, register, handleSubmit } = methods;
+  const hiddenInputRef = useRef<HTMLInputElement | null>(null);
 
-  const onSubmit: SubmitHandler<ProfileValue & FieldValues> = data => {
+  function handleImageChange(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (file) {
+      setProfileImage(file);
+      setProfileImageUrl(URL.createObjectURL(file));
+      setValue('profileImage', file);
+    }
+  }
+
+  const onSubmit: SubmitHandler<ProfileValue & FieldValues> = async data => {
     const preferredPet = data.cat === true && data.dog === false ? 2 : data.dog === true && data.cat === false ? 1 : 0;
+    let newProfileImageUrl = userData.profileImage;
+
+    if (profileImage) {
+      const presignedUrlParams: PostToGetPresignedUrlParams = {
+        items: [{ objectKey: profileImage.name, contentType: profileImage.type }],
+        bucketName: 'review-image-3team',
+      };
+
+      try {
+        const response = await postToGetPresignedUrl(presignedUrlParams);
+        const presignedUrl = response.data.presignedUrl;
+        const newFileName = response.data.presignedUrl[0].uniqueFileName;
+        const newFile = new File([profileImage], newFileName, { type: profileImage.type });
+
+        newProfileImageUrl = presignedUrl[0].url;
+
+        await putImageToUrl({ image: newFile, url: newProfileImageUrl });
+      } catch (error) {
+        console.error('이미지 업로드 중 에러가 발생했습니다', error);
+        return;
+      }
+    }
+
     const userEditData: UserEditProps = {
       nickname: data.nickname,
       phoneNumber: userData.phoneNumber,
-      profileImage: userData.profileImage,
+      profileImage: newProfileImageUrl,
       isSubscribedToPromotions: userData.isSubscribedToPromotions,
       preferredPet: preferredPet,
     };
@@ -76,8 +112,12 @@ export default function Profile() {
   function handleCatCheckboxChange() {
     setCatChecked(prev => !prev);
   }
-  //TODO: 이미지 삽입 구현
-  function handleImageChange() {}
+
+  function handleClickOpen() {
+    if (hiddenInputRef.current) {
+      hiddenInputRef.current.click();
+    }
+  }
 
   return (
     <div className={styles.profileLayout}>
@@ -94,32 +134,25 @@ export default function Profile() {
           <div className={styles.formField}>
             <div className={styles.profileImageBox}>
               <div className={styles.profileImage}>
-                <ProfileImgBadge size="large" profileImage={userData.profileImage} />
-                <input type="file" onChange={handleImageChange} />
-                <div className={styles.plusButton}>
+                <ProfileImgBadge
+                  size="large"
+                  profileImage={profileImageUrl ? profileImageUrl.split('?')[0] : userData.profileImage.split('?')[0]}
+                />
+                <input type="file" ref={hiddenInputRef} onChange={handleImageChange} />
+                <button className={styles.plusButton} type="button" onClick={handleClickOpen}>
                   <PlusButton />
-                </div>
+                </button>
               </div>
             </div>
-            <Controller
-              control={control}
-              render={({ field }) => (
-                <Input
-                  {...field}
-                  id="nickname"
-                  type="text"
-                  size="large"
-                  label="닉네임"
-                  isError={errors.nickname && true}
-                  onBlur={async (e: ChangeEvent<HTMLInputElement>) => {
-                    field.onBlur();
-                    await CheckNickname(e);
-                  }}
-                  labelStyle={'label'}
-                  defaultValue={userData.nickname}
-                  placeholder="2~8자의 한글, 영어, 숫자를 입력해주세요"
-                />
-              )}
+            <Input
+              id="nickname"
+              type="text"
+              size="large"
+              label="닉네임"
+              isError={errors.nickname && true}
+              labelStyle={'label'}
+              defaultValue={userData.nickname}
+              placeholder="2~8자의 한글, 영어, 숫자를 입력해주세요"
               {...register('nickname')}
             />
             {errors.nickname && <span className={styles.errorText}>{errors.nickname.message}</span>}
