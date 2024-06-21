@@ -17,7 +17,7 @@ interface ButtonProps {
   type?: 'button' | 'submit' | 'reset' | undefined;
 }
 
-export default function Button({ size, children, backgroundColor, onClick, disabled, type }: ButtonProps) {
+export default function Button({ type, size, children, backgroundColor, onClick, disabled }: ButtonProps) {
   const sizeClass = styles[size];
   const backgroundColorMap: { [key: string]: string } = {
     '$color-gray-800': styles.backgroundBlack,
