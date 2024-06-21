@@ -14,11 +14,43 @@ import BackButton from '@/components/common/Button/BackButton';
 import { Product } from '@/pages/cart';
 import clock from '@/assets/images/clock.png';
 import Image from 'next/image';
+import { GetServerSidePropsContext } from 'next';
+import { DeliveryInfo } from '@/types/components/delivery';
+import { httpClient } from '@/apis/httpClient';
+import OrderDeliveryCard from '@/components/order/OrderDeliveryCard';
 
 // const widgetClientKey = 'test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm';
 const customerKey = nanoid();
 
-export default function Payment() {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const accessToken = context.req.cookies['accessToken'];
+  if (!accessToken) {
+    return {
+      redirect: {
+        destination: '/my',
+        permanent: false,
+      },
+    };
+  }
+
+  let defaultDelivery;
+  try {
+    defaultDelivery = await httpClient().get<DeliveryInfo>(`/deliveries/default`, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+  } catch {
+    return {
+      notFound: true,
+    };
+  }
+  return {
+    props: {
+      defaultDelivery,
+    },
+  };
+}
+
+export default function Payment({ defaultDelivery }: { defaultDelivery: DeliveryInfo | undefined }) {
   const [checkboxChecked, setCheckboxChecked] = useState(false);
   const [paymentWidget, setPaymentWidget] = useState<PaymentWidgetInstance | null>(null);
   const paymentMethodsWidgetRef = useRef<ReturnType<PaymentWidgetInstance['renderPaymentMethods']> | null>(null);
@@ -158,6 +190,7 @@ export default function Payment() {
           <Header.Center className={styles.headerName}>결제</Header.Center>
         </Header.Box>
       </Header.Root>
+      <OrderDeliveryCard defaultDelivery={defaultDelivery} />
       <div className={styles.deliveryMessage}>
         <Input
           id="recipient"
