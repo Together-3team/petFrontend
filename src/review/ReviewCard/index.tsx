@@ -11,7 +11,6 @@ interface ReviewCardProps {
 export default function ReviewCard({ productInfo, onClick }: ReviewCardProps) {
   return (
     <div className={styles.reviewCardArea}>
-      <hr className={styles.updownBorder} />
       <div className={styles.reviewCardLayout}>
         <Card productInfo={productInfo} direction="row" size="miniImage" />
         <div className={styles.reviewCardButton}>
@@ -19,6 +18,7 @@ export default function ReviewCard({ productInfo, onClick }: ReviewCardProps) {
             리뷰 쓰기
           </Button>
         </div>
+        <hr className={styles.updownBorder} />
       </div>
     </div>
   );
