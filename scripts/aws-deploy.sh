@@ -12,7 +12,7 @@ echo "Installing npm dependencies..."
 npm install
 
 echo "Reloading PM2 process..."
-pm2 restart pawing-fe-app || (pm2 delete pawing-fe-app && pm2 start "npm run start" --name pawing-fe-app)
+pm2 reload pawing-fe-app || pm2 start "npm run start" --name pawing-fe-app
 
 echo "Saving PM2 process list..."
 pm2 save
