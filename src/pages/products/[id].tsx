@@ -53,6 +53,7 @@ export default function ProductDetailPage({ product }: { product: Product }) {
       리뷰 */}
         <DetailedDescription descriptionImages={product.detail.descriptionImages} />
         <div className={cx('cardSlider')}>
+          {/* product.petType, product.productType props*/}
           <CardSliderSimilar />
         </div>
         <OrderPolicy />
