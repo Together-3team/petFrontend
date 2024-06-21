@@ -59,6 +59,7 @@ export default function Payment({ defaultDelivery }: { defaultDelivery: Delivery
   const [deliveryMessage, setDeliveryMessage] = useState('');
   const [products, setProducts] = useState<Product[]>([]);
   const PAYMENT_SECRET_KEY = process.env.NEXT_PUBLIC_TOSS_PAYMENTS_SECRET_KEY;
+  const [delivery, setDelivery] = useState(defaultDelivery);
   console.log(PAYMENT_SECRET_KEY);
 
   const clientKey = 'test_ck_kYG57Eba3G2wwAjdoxB68pWDOxmA';
@@ -76,6 +77,7 @@ export default function Payment({ defaultDelivery }: { defaultDelivery: Delivery
     console.log(selectedProductIds);
     sessionStorage.setItem('deliveryMessage', deliveryMessageValue);
     sessionStorage.setItem('selectedProductIds', selectedProductIds);
+    delivery && sessionStorage.setItem('deliveryId', delivery.id.toString());
     const tossPayments = await loadTossPayments(clientKey);
 
     tossPayments.requestPayment('카드', {
@@ -190,7 +192,7 @@ export default function Payment({ defaultDelivery }: { defaultDelivery: Delivery
           <Header.Center className={styles.headerName}>결제</Header.Center>
         </Header.Box>
       </Header.Root>
-      <OrderDeliveryCard defaultDelivery={defaultDelivery} />
+      <OrderDeliveryCard delivery={delivery} setDelivery={setDelivery} />
       <div className={styles.deliveryMessage}>
         <Input
           id="recipient"
@@ -233,7 +235,11 @@ export default function Payment({ defaultDelivery }: { defaultDelivery: Delivery
       <div className={styles.paymentAgree}>
         <PaymentAgree onCheckboxChange={setCheckboxChecked} />
         <div className={styles.paymentButton}>
-          <Button size="large" backgroundColor="$color-pink-main" onClick={handlePayment} disabled={!checkboxChecked}>
+          <Button
+            size="large"
+            backgroundColor="$color-pink-main"
+            onClick={handlePayment}
+            disabled={!checkboxChecked || !delivery}>
             {totalPrice}원 주문하기
           </Button>
         </div>

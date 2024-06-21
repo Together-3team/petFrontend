@@ -18,18 +18,16 @@ import UncheckedButton from '@/assets/svgs/btn-radio.svg';
 import LeftArrow from '@/assets/svgs/left-arrow.svg';
 import { fetchMyData } from '@/apis/userApi';
 import styles from './Delivery.module.scss';
-import { useUpdateAddress } from '@/hooks/useUpdateAddress';
 
 const cx = classNames.bind(styles);
 
 export default function PaymentDeliveryPage() {
   const router = useRouter();
-  const prevPath = router.query?.prevPath;
+  const { selectedAddress } = router.query;
+  const selectedAddressId = Number(selectedAddress);
   const [deliveries, setDeliveries] = useState<DeliveryInfo[]>([]);
   const [selectedOption, setSelectedOption] = useState<DeliveryInfo | null>(null);
   const { showToast } = useToast();
-
-  const { mutate: updateAddress } = useUpdateAddress(prevPath);
 
   useEffect(() => {
     const fetchOptions = async () => {
@@ -38,8 +36,8 @@ export default function PaymentDeliveryPage() {
         const deliveries: DeliveryInfo[] = res.data;
         setDeliveries(deliveries);
 
-        // isDefault 값이 true인 객체를 찾음
-        const defaultOption = deliveries.find(option => option.isDefault === true);
+        // 선택되어 있는 배송지를 찾음
+        const defaultOption = deliveries.find(option => option.id === selectedAddressId);
         if (defaultOption) {
           setSelectedOption(defaultOption);
         }
@@ -73,7 +71,7 @@ export default function PaymentDeliveryPage() {
     };
 
     fetchOptions();
-  }, [showToast]);
+  }, [showToast, selectedAddressId]);
 
   const handleOptionChange = (e: ChangeEvent<HTMLInputElement>) => {
     const selected = deliveries.find(option => option.id === parseInt(e.target.value));
@@ -83,11 +81,7 @@ export default function PaymentDeliveryPage() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!selectedOption) return;
-
-    // 선택된 옵션 객체를 복사하고 isDefault 값을 true로 변경
-    const updatedOption = { ...selectedOption, isDefault: true };
-
-    updateAddress({ selectedOption, updatedOption });
+    router.push(`/payment?selectedAddress=${selectedOption.id}`);
   };
 
   const handleAddDeliveryCardButtonClick = () => {
