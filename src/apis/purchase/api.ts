@@ -45,10 +45,10 @@ export interface PutProductRdo {
 }
 
 const purchaseApi = {
-  get: () => {
+  getPurchase: () => {
     return axiosInstance.get(`/purchases`);
   },
-  getDetail: (id: number) => {
+  getDetailPurchase: (id: number) => {
     return axiosInstance.get(`/purchases/${id}`);
   },
   post: (body: PostPurchaseParams) => {
