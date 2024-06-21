@@ -1,5 +1,5 @@
 import { useState, useRef, ChangeEvent } from 'react';
-import { useForm, SubmitHandler, FormProvider, FieldValues, Controller } from 'react-hook-form';
+import { useForm, SubmitHandler, FormProvider, FieldValues } from 'react-hook-form';
 import { QueryClient, dehydrate, useMutation } from '@tanstack/react-query';
 import { GetServerSidePropsContext } from 'next';
 import * as Yup from 'yup';
@@ -14,7 +14,6 @@ import BackButton from '@/components/common/Button/BackButton';
 import Button from '@/components/common/Button';
 import PlusButton from '@/assets/svgs/plus-button.svg';
 import { nicknameSchema } from '@/utils/signupFormSchema';
-import CheckNickname from '@/utils/checkNickname';
 
 import styles from './Profile.module.scss';
 
@@ -48,7 +47,6 @@ export default function Profile() {
   });
 
   const {
-    control,
     register,
     handleSubmit,
     setValue,
@@ -95,7 +93,6 @@ export default function Profile() {
       nickname: data.nickname,
       phoneNumber: userData.phoneNumber,
       profileImage: newProfileImageUrl,
- userData.profileImage,
       isSubscribedToPromotions: userData.isSubscribedToPromotions,
       preferredPet: preferredPet,
     };
@@ -147,25 +144,15 @@ export default function Profile() {
                 </button>
               </div>
             </div>
-            <Controller
-              control={control}
-              render={({ field }) => (
-                <Input
-                  {...field}
-                  id="nickname"
-                  type="text"
-                  size="large"
-                  label="닉네임"
-                  isError={errors.nickname && true}
-                  onBlur={async (e: ChangeEvent<HTMLInputElement>) => {
-                    field.onBlur();
-                    await CheckNickname(e);
-                  }}
-                  labelStyle={'label'}
-                  defaultValue={userData.nickname}
-                  placeholder="2~8자의 한글, 영어, 숫자를 입력해주세요"
-                />
-              )}
+            <Input
+              id="nickname"
+              type="text"
+              size="large"
+              label="닉네임"
+              isError={errors.nickname && true}
+              labelStyle={'label'}
+              defaultValue={userData.nickname}
+              placeholder="2~8자의 한글, 영어, 숫자를 입력해주세요"
               {...register('nickname')}
             />
             {errors.nickname && <span className={styles.errorText}>{errors.nickname.message}</span>}
