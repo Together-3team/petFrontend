@@ -5,7 +5,7 @@ import { GetServerSidePropsContext } from 'next';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import useAuth from '@/hooks/useAuth';
-import { PostToGetPresignedUrlParams, postToGetPresignedUrl, putImageToUrl } from '@/apis/imageAPI';
+import { PostToGetPresignedUrlParams, postToGetPresignedUrl, putImageToUrl } from '@/apis/imageApi';
 import { UserEditParams, UserEditProps, fetchMyData, userApi } from '@/apis/userApi';
 import Header from '@/components/common/Layout/Header';
 import ProfileImgBadge from '@/components/common/Badge/ProfileImgBadge';
