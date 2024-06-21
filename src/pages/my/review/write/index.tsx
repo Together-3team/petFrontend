@@ -1,17 +1,58 @@
 import { ChangeEvent, useState } from 'react';
+import useToast from '@/hooks/useToast';
 import Header from '@/components/common/Layout/Header';
 import BackButton from '@/components/common/Button/BackButton';
 import ReviewProductDataCard from '@/components/common/review/ReviewProductDataCard';
 import StarRating from '@/components/common/review/StarRating';
 import Textarea from '@/components/common/review/Textarea';
+import { postReview } from '../../../../apis/myReviewAPI';
 import styles from './WritePage.module.scss';
+// import { useLocation } from 'react-router-dom';
 
 export default function WritePage() {
+  // const location = useLocation();
+  // const { productId, purchaseProductId } = location.state;
+
   const [rating, setRating] = useState(0);
   const [description, setDescriprion] = useState('');
+  const { showToast } = useToast();
 
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setDescriprion(event.target.value);
+  };
+
+  const handleSaveReview = async () => {
+    const reviewData = {
+      productId: 0,
+      purchaseProductId: 0,
+      rating,
+      description,
+      reviewImages: '',
+    };
+
+    try {
+      const response = await postReview(reviewData);
+      console.log(response);
+      window.location.href = '/my/review/reviewId';
+    } catch (error: any) {
+      console.log(error);
+
+      if (error.response.status === 401) {
+        showToast({
+          status: 'error',
+          message: '리뷰 작성 실패',
+          linkMessage: '다시 로그인하기',
+          linkProps: {
+            href: '/my',
+          },
+        });
+      } else {
+        showToast({
+          status: 'error',
+          message: '리뷰 작성 실패',
+        });
+      }
+    }
   };
 
   const isBtnDisabled = rating === 0 || description.trim() === '';
@@ -43,7 +84,7 @@ export default function WritePage() {
             onChange={handleChange}
           />
         </div>
-        <button className={styles.reviewSaveBtn} disabled={isBtnDisabled}>
+        <button className={styles.reviewSaveBtn} disabled={isBtnDisabled} onClick={handleSaveReview}>
           저장
         </button>
       </div>
