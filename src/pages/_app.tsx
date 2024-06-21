@@ -25,14 +25,6 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const { isLoading } = useLoading();
   const [queryClient] = useState(() => new QueryClient());
 
-  if (isLoading) {
-    return (
-      <RootLayout>
-        <Loading />
-      </RootLayout>
-    );
-  }
-
   return (
     <>
       <Head>
@@ -42,7 +34,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
         <QueryClientProvider client={queryClient}>
           <ToastProvider>
             <HydrationBoundary state={pageProps.dehydratedState}>
-              <RootLayout>{getLayout(<Component {...pageProps} />)}</RootLayout>
+              <RootLayout>{isLoading ? <Loading /> : <>{getLayout(<Component {...pageProps} />)}</>}</RootLayout>
               <ReactQueryDevtools initialIsOpen={false} />
             </HydrationBoundary>
           </ToastProvider>

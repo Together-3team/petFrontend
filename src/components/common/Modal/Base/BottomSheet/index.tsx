@@ -5,6 +5,7 @@ import classNames from 'classnames/bind';
 
 import styles from './BottomSheet.module.scss';
 import usePreviousValue from '@/hooks/usePreviousValue';
+import Portal from '@/components/common/Portal';
 
 const cx = classNames.bind(styles);
 
@@ -67,10 +68,10 @@ export default function BottomSheet({ id, isOpen, onClose, hasBackdrop = true, c
     const toggleModal = () => {
       if (prevIsOpen && !isOpen) {
         controls.start('hidden');
-        document.body.style.overflowY = 'auto';
+        // document.body.style.overflowY = 'auto';
       } else if (!prevIsOpen && isOpen) {
         controls.start('visible');
-        document.body.style.overflowY = 'hidden';
+        // document.body.style.overflowY = 'hidden';
       }
     };
     toggleModal();
@@ -78,7 +79,7 @@ export default function BottomSheet({ id, isOpen, onClose, hasBackdrop = true, c
   }, [controls, isOpen, prevIsOpen]);
 
   return (
-    <>
+    <Portal id="rootModal">
       {isOpen && <motion.div className={cx('backdrop', { show: hasBackdrop })} onClick={onClose} />}
       <motion.div
         id={id}
@@ -116,6 +117,6 @@ export default function BottomSheet({ id, isOpen, onClose, hasBackdrop = true, c
           </div>
         )}
       </motion.div>
-    </>
+    </Portal>
   );
 }
