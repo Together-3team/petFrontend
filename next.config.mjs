@@ -3,11 +3,11 @@ const nextConfig = {
   reactStrictMode: false,
   images: {
     domains: [
-      'review-image-3team.s3.ap-northeast-2.amazonaws.com',
-      't1.kakaocdn.net',
       'shopping-phinf.pstatic.net',
+      't1.kakaocdn.net',
       'k.kakaocdn.net',
       'lh3.googleusercontent.com',
+      'review-image-3team.s3.ap-northeast-2.amazonaws.com',
     ],
   },
   sassOptions: {
