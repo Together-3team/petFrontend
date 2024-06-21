@@ -5,6 +5,8 @@ import Autoplay from 'embla-carousel-autoplay';
 import styles from './ProductCarousel.module.scss';
 import { useSelectedSnapDisplay } from '@/hooks/useSelectedSnapDisplay';
 import Share from '@/assets/svgs/btn-share.svg';
+import useModal from '@/hooks/useModal';
+import CenterModal from '../../Modal/Base/CenterModal';
 
 interface ProductCarouselProps {
   images: string;
@@ -14,26 +16,31 @@ export default function ProductCarousel({ images }: ProductCarouselProps) {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
     Autoplay({ playOnInit: true, delay: 2500, stopOnInteraction: false, stopOnMouseEnter: true }),
   ]);
-
+  const { modalOpen, handleModalOpen, handleModalClose } = useModal();
   const { selectedSnap, snapCount } = useSelectedSnapDisplay(emblaApi);
 
   const items = images.split(',');
 
   return (
-    <div className={styles.container} ref={emblaRef}>
-      <div className={styles.carousel}>
-        {items.map((item, index) => (
-          <div key={index} className={styles.slide}>
-            <Image src={item} alt={'productImages'} fill />
-          </div>
-        ))}
+    <>
+      <div className={styles.container} ref={emblaRef}>
+        <div className={styles.carousel}>
+          {items.map((item, index) => (
+            <div key={index} className={styles.slide}>
+              <Image src={item} alt={'productImages'} fill />
+            </div>
+          ))}
+        </div>
+        <div className={styles.snap}>
+          {selectedSnap + 1} / {snapCount}
+        </div>
+        <button type="button" className={styles.share} onClick={handleModalOpen}>
+          <Share width={40} height={40} viewBox="0 0 44 44" />
+        </button>
       </div>
-      <div className={styles.snap}>
-        {selectedSnap + 1} / {snapCount}
-      </div>
-      <button type="button" className={styles.share}>
-        <Share width={40} height={40} viewBox="0 0 44 44" />
-      </button>
-    </div>
+      <CenterModal isOpen={modalOpen} onClose={handleModalClose}>
+        <div>모달 내용</div>
+      </CenterModal>
+    </>
   );
 }
