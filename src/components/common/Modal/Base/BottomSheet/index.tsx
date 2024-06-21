@@ -68,10 +68,10 @@ export default function BottomSheet({ id, isOpen, onClose, hasBackdrop = true, c
     const toggleModal = () => {
       if (prevIsOpen && !isOpen) {
         controls.start('hidden');
-        document.body.style.overflowY = 'auto';
+        // document.body.style.overflowY = 'auto';
       } else if (!prevIsOpen && isOpen) {
         controls.start('visible');
-        document.body.style.overflowY = 'hidden';
+        // document.body.style.overflowY = 'hidden';
       }
     };
     toggleModal();
