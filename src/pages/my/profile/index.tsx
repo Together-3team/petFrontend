@@ -81,6 +81,7 @@ export default function Profile() {
         const newFile = new File([profileImage], newFileName, { type: profileImage.type });
 
         newProfileImageUrl = presignedUrl[0].url;
+        //.split('?')[0]
 
         await putImageToUrl({ image: newFile, url: newProfileImageUrl });
       } catch (error) {
@@ -136,7 +137,7 @@ export default function Profile() {
               <div className={styles.profileImage}>
                 <ProfileImgBadge
                   size="large"
-                  profileImage={profileImageUrl ? profileImageUrl : userData.profileImage}
+                  profileImage={profileImageUrl ? profileImageUrl.split('?')[0] : userData.profileImage.split('?')[0]}
                 />
                 <input type="file" ref={hiddenInputRef} onChange={handleImageChange} />
                 <button className={styles.plusButton} type="button" onClick={handleClickOpen}>
