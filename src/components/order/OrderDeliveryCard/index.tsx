@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 
 import { DeliveryInfo } from '@/types/components/delivery';
 import styles from './OrderDeliveryCard.module.scss';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import axiosInstance from '@/apis/axiosInstance';
 import { isAxiosError } from 'axios';
 import useToast from '@/hooks/useToast';
@@ -64,7 +64,7 @@ export default function OrderDeliveryCard({ delivery, setDelivery }: DeliveryCar
   }, [selectedAddressId, showToast, setDelivery]);
 
   const handleChangeButtonClick = () => {
-    router.push(`payment/delivery?selectedAddress=${delivery?.id}`);
+    router.replace(`payment/delivery?selectedAddress=${delivery?.id}`);
   };
 
   const handleAddDeliveryButtonClick = () => {

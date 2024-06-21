@@ -18,6 +18,7 @@ import { GetServerSidePropsContext } from 'next';
 import { DeliveryInfo } from '@/types/components/delivery';
 import { httpClient } from '@/apis/httpClient';
 import OrderDeliveryCard from '@/components/order/OrderDeliveryCard';
+import { useRouter } from 'next/router';
 
 // const widgetClientKey = 'test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm';
 const customerKey = nanoid();
@@ -55,11 +56,13 @@ export default function Payment({ defaultDelivery }: { defaultDelivery: Delivery
   const [paymentWidget, setPaymentWidget] = useState<PaymentWidgetInstance | null>(null);
   const paymentMethodsWidgetRef = useRef<ReturnType<PaymentWidgetInstance['renderPaymentMethods']> | null>(null);
   const [price, setPrice] = useState(0); // 기본 가격 설정
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [deliveryMessage, setDeliveryMessage] = useState('');
   const [products, setProducts] = useState<Product[]>([]);
   const PAYMENT_SECRET_KEY = process.env.NEXT_PUBLIC_TOSS_PAYMENTS_SECRET_KEY;
   const [delivery, setDelivery] = useState(defaultDelivery);
+  const router = useRouter();
+
   console.log(PAYMENT_SECRET_KEY);
 
   const clientKey = 'test_ck_kYG57Eba3G2wwAjdoxB68pWDOxmA';
@@ -182,6 +185,12 @@ export default function Payment({ defaultDelivery }: { defaultDelivery: Delivery
   const totalPrice = price;
   const productCount = products ? products.length : 0;
 
+  useEffect(() => {
+    if (router.query['action'] !== 'done') {
+      setIsModalOpen(true);
+    }
+  }, [router.query]);
+
   return (
     <div className={styles.payment}>
       <Header.Root className={styles.headerRoot}>
@@ -197,7 +206,7 @@ export default function Payment({ defaultDelivery }: { defaultDelivery: Delivery
         <Input
           id="recipient"
           type="text"
-          size="large"
+          size="full"
           label="배송메시지"
           labelStyle={'label'}
           placeholder="예) 부재시 집 앞에 놔주세요"

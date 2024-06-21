@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import { GetServerSidePropsContext } from 'next';
-import { QueryClient, dehydrate, useMutation } from '@tanstack/react-query';
+import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import axiosInstance from '@/apis/axiosInstance';
 import { isAxiosError } from 'axios';
@@ -86,7 +86,10 @@ export default function PaymentDeliveryPage() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!selectedOption) return;
-    router.push(`/payment?selectedAddress=${selectedOption.id}`);
+    router.replace({
+      pathname: `/payment`,
+      query: { selectedAddress: selectedOption.id, action: 'done' },
+    });
   };
 
   const handleAddDeliveryCardButtonClick = () => {
