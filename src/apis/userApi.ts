@@ -23,7 +23,7 @@ export interface UserId {
 export interface UserEditProps {
   nickname?: string;
   phoneNumber: string;
-  profileImage: string;
+  profileImage?: string;
   isSubscribedToPromotions: boolean;
   preferredPet: number;
 }

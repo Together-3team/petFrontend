@@ -1,4 +1,4 @@
-import { PropsWithChildren, createContext, useCallback, useEffect, useState } from 'react';
+import { PropsWithChildren, createContext, useCallback, useEffect, useMemo, useState } from 'react';
 
 import { ToastType, ToastParameters } from '@/types/components/toast';
 import Portal from '@/components/common/Portal';
@@ -24,6 +24,7 @@ const TOAST_DURATION = 3 * 1000;
 
 export default function ToastProvider({ children }: PropsWithChildren) {
   const [activeToastList, setActiveToastList] = useState<ToastType[]>([]);
+  const toastList = useMemo(() => activeToastList, [activeToastList]);
   const [portalId, setPortalId] = useState<string>(PORTAL_ID.TOAST);
 
   const hideToastHandler = useCallback((id: string) => {
@@ -64,7 +65,7 @@ export default function ToastProvider({ children }: PropsWithChildren) {
   }, []);
 
   const value = {
-    toastList: activeToastList,
+    toastList: toastList,
     showToast: showToastHandler,
     hideToast: hideToastHandler,
     setPortalId: setPortalIdHandler,
