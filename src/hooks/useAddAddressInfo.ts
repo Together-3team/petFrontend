@@ -10,18 +10,13 @@ import { deliveryFormSchema } from '@/utils/deliveryFormSchema';
 
 export type FormValues = Yup.InferType<typeof deliveryFormSchema>;
 
-interface UpdateAddressInfoParams {
-  id: number;
-  addressInfo: FormValues;
-}
-
-export function useUpdateAddressInfo(prevPath?: string | string[] | undefined) {
+export function useAddAddressInfo(prevPath?: string | string[] | undefined) {
   const router = useRouter();
   const { showToast } = useToast();
 
   return useMutation({
-    mutationFn: async ({ id, addressInfo }: UpdateAddressInfoParams) => {
-      const res = await axiosInstance.put(`/deliveries/${id}`, JSON.stringify(addressInfo));
+    mutationFn: async ({ addressInfo }: { addressInfo: FormValues }) => {
+      const res = await axiosInstance.post(`/deliveries`, JSON.stringify(addressInfo));
       const data = res.data;
       console.log('Response:', data);
       return data;
