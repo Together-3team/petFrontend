@@ -28,6 +28,7 @@ const BOTTOM_BOX_ID = 'bottomBox';
 
 export default function HomePage() {
   const { showToast, setPortalId } = useToast(BOTTOM_BOX_ID);
+  console.log('HomePage');
 
   return (
     <div className={styles.layout}>

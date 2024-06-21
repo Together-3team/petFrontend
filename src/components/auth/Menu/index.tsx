@@ -1,6 +1,8 @@
+import { QueryClient, dehydrate } from '@tanstack/react-query';
+import { GetServerSidePropsContext } from 'next';
 import { useCookies } from 'react-cookie';
-import { useRouter } from 'next/router';
 import useAuth from '@/hooks/useAuth';
+import { fetchMyData } from '@/apis/userApi';
 import ProfileImgBadge from '@/components/common/Badge/ProfileImgBadge';
 import NextButton from '@/components/common/Button/NextButton';
 import NavBottom from '@/components/common/Nav/Bottom';
@@ -10,7 +12,6 @@ import styles from './Menu.module.scss';
 
 export default function Menu() {
   const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken']);
-  const router = useRouter();
   const { userData } = useAuth();
 
   function handleLogout() {
@@ -22,7 +23,7 @@ export default function Menu() {
     <div className={styles.menuLayout}>
       <h1>마이페이지</h1>
       <div className={styles.profileArea}>
-        <ProfileImgBadge size="large" profileImage={userData.profileImage} />
+        <ProfileImgBadge size="large" profileImage={userData.profileImage.split('?')[0]} />
         <h2>{userData.nickname}</h2>
       </div>
       <div className={styles.centerBorder} />
@@ -43,4 +44,18 @@ export default function Menu() {
       </FloatingBox>
     </div>
   );
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const queryClient = new QueryClient();
+
+  const accessToken = context.req.cookies['accessToken'];
+
+  await queryClient.prefetchQuery({ queryKey: ['user', accessToken], queryFn: fetchMyData });
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
 }
