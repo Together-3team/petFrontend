@@ -25,8 +25,8 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: `${process.env.NEXT_PUBLIC_FRONT_API_BASE_URL}/:path*`,
-        destination: `${process.env.NEXT_PUBLIC_BACK_API_BASE_URL}/:path*`,
+        source: '/api/:path*',
+        destination: 'http://ec2-43-203-126-173.ap-northeast-2.compute.amazonaws.com/:path*',
       },
     ];
   },
