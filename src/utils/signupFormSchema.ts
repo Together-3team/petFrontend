@@ -41,7 +41,6 @@ export const nicknameSchema = Yup.object({
     .matches(/^[가-힣a-zA-Z0-9]+$/, '2~8자의 한글, 영어, 숫자만 가능합니다.')
     .min(2, '2~8자의 한글, 영어, 숫자만 가능합니다.')
     .max(8, '2~8자의 한글, 영어, 숫자만 가능합니다.')
-    .required('닉네임을 입력해주세요.')
     .test('checkNickname', '이미 존재하는 닉네임입니다.', async nickname => {
       if (!nickname) return true;
       try {

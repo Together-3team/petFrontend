@@ -16,11 +16,13 @@ import PlusButton from '@/assets/svgs/plus-button.svg';
 import { nicknameSchema } from '@/utils/signupFormSchema';
 
 import styles from './Profile.module.scss';
+import { useRouter } from 'next/router';
 
 export type ProfileValue = Yup.InferType<typeof nicknameSchema>;
 
 export default function Profile() {
   const { userData } = useAuth();
+  const router = useRouter();
   const [profileImage, setProfileImage] = useState<File>();
   const [profileImageUrl, setProfileImageUrl] = useState<string | null>(userData.profileImage || null);
 
@@ -35,9 +37,19 @@ export default function Profile() {
     },
     onSuccess: data => {
       console.log(data);
+      router.push({
+        pathname: '/my',
+        query: {
+          status: 'success',
+        },
+      });
     },
     onError: error => {
       console.error('회원 정보 수정 실패', error);
+      router.push({
+        pathname: '/my',
+        query: { status: 'error' },
+      });
     },
   });
 
