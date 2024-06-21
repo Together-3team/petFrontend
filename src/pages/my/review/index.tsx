@@ -5,10 +5,10 @@ import { useRouter } from 'next/router';
 import classNames from 'classnames/bind';
 import { getReviewableData, getWroteReviewList } from '@/apis/myReviewAPI';
 import BackButton from '@/components/common/Button/BackButton';
-import ReviewCard from '@/review/ReviewCard';
+import ReviewCard from '@/components/review/ReviewCard';
 import { ProductInfo } from '@/components/common/Card';
 import Header from '@/components/common/Layout/Header';
-import WroteReviewCard from '@/review/WroteReviewCard';
+import WroteReviewCard from '@/components/review/WroteReviewCard';
 
 import styles from './Review.module.scss';
 

@@ -42,9 +42,9 @@
 
   .noReview {
     display: flex;
-    width: 360px;
-    height: 160px;
-    padding: var(--min-24, 32px) var(--selectpayment, 0px);
+    width: 36rem;
+    height: 16rem;
+    padding: var(--min-24, 3.2rem) var(--selectpayment, 0px);
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -57,10 +57,10 @@
 
   .reviewCardList {
     display: flex;
-    padding: 12px var(--selectpayment, 0px);
+    padding: 1.2rem var(--selectpayment, 0px);
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 12px;
+    gap: 1.2rem;
   }
 }
