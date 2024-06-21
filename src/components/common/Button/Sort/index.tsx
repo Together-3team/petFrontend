@@ -21,10 +21,21 @@ const cx = classNames.bind(styles);
 /*
   사용⭐️)
 
-  export default function Example({ sort }) {
-    const router = useRouter();
-    const sort = router.query['sort'] || '0';
+  export function getServerSideProps(context: GetServerSidePropsContext) {
+    const sort = context.query['sort'] || '0';
 
+    return {
+      props: {
+        sort,
+      },
+    };
+  }
+
+  interface ExampleProps {
+    sort: string;
+  }
+
+  export default function Example({ sort }: ExampleProps) {
     return (
       <div>
         <SortButton
