@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import classNames from 'classnames/bind';
 
-import { getLikeStatus, likeProduct, unlikeProduct } from '@/utils/zzim';
+import { getLikeStatus, likeProduct, unlikeProduct } from '@/apis/zzim';
 import Sole from '@/assets/svgs/sole.svg';
 import RedSole from '@/assets/svgs/sole-red.svg';
 import GraySole from '@/assets/svgs/sole-gray.svg';

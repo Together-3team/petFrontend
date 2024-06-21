@@ -25,24 +25,17 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const { isLoading } = useLoading();
   const [queryClient] = useState(() => new QueryClient());
 
-  if (isLoading) {
-    return (
-      <RootLayout>
-        <Loading />
-      </RootLayout>
-    );
-  }
-
   return (
     <>
       <Head>
         <title>포잉마켓</title>
+        <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests" />
       </Head>
       <CookiesProvider cookies={pageProps.cookies}>
         <QueryClientProvider client={queryClient}>
           <ToastProvider>
             <HydrationBoundary state={pageProps.dehydratedState}>
-              <RootLayout>{getLayout(<Component {...pageProps} />)}</RootLayout>
+              <RootLayout>{isLoading ? <Loading /> : <>{getLayout(<Component {...pageProps} />)}</>}</RootLayout>
               <ReactQueryDevtools initialIsOpen={false} />
             </HydrationBoundary>
           </ToastProvider>
