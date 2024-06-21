@@ -8,6 +8,7 @@ import useModal from '@/hooks/useModal';
 import CenterModal from '../../Modal/Base/CenterModal';
 import Mascot from '@/assets/svgs/mascot-share-link.svg';
 import styles from './ProductCarousel.module.scss';
+import ShareButton from '../../Button/Share';
 
 interface ProductCarouselProps {
   images: string;
@@ -42,6 +43,11 @@ export default function ProductCarousel({ images }: ProductCarouselProps) {
       <CenterModal isOpen={modalOpen} onClose={handleModalClose}>
         <div>
           <Mascot />
+          <p>집사 친구와 함께</p>
+          <p>더 저렴하게 구매하세요!</p>
+          <p>링크를 통해 친구에게 공유하고</p>
+          <p>더 빨리 공동구매를 성사시켜요.</p>
+          <ShareButton />
         </div>
       </CenterModal>
     </>

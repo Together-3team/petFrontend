@@ -9,7 +9,6 @@ const nextConfig = {
       'shop-phinf.pstatic.net',
       'k.kakaocdn.net',
       'lh3.googleusercontent.com',
-      ,
     ],
   },
   sassOptions: {
