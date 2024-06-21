@@ -5,19 +5,23 @@ import { useRouter } from 'next/router';
 import useToast from './useToast';
 import { DeliveryInfo } from '@/types/components/delivery';
 import { FETCH_ERROR_MESSAGE, SERVER_ERROR_MESSAGE } from '@/constants/errorMessage';
+import * as Yup from 'yup';
+import { deliveryFormSchema } from '@/utils/deliveryFormSchema';
 
-interface UpdateAddressParams {
-  selectedOption: DeliveryInfo;
-  updatedOption: DeliveryInfo;
+export type FormValues = Yup.InferType<typeof deliveryFormSchema>;
+
+interface UpdateAddressInfoParams {
+  id: number;
+  addressInfo: FormValues;
 }
 
-export function useUpdateAddress(prevPath?: string | string[] | undefined) {
+export function useUpdateAddressInfo(prevPath?: string | string[] | undefined) {
   const router = useRouter();
   const { showToast } = useToast();
 
   return useMutation({
-    mutationFn: async ({ selectedOption, updatedOption }: UpdateAddressParams) => {
-      const res = await axiosInstance.put(`/deliveries/${selectedOption.id}`, JSON.stringify(updatedOption));
+    mutationFn: async ({ id, addressInfo }: UpdateAddressInfoParams) => {
+      const res = await axiosInstance.put(`/deliveries/${id}`, JSON.stringify(addressInfo));
       const data = res.data;
       console.log('Response:', data);
       return data;

@@ -1,4 +1,5 @@
 import classNames from 'classnames/bind';
+import { useRouter } from 'next/router';
 import * as Yup from 'yup';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -13,7 +14,7 @@ import styles from './Edit.module.scss';
 import { GetServerSidePropsContext } from 'next';
 import { DeliveryInfo } from '@/types/components/delivery';
 import { httpClient } from '@/apis/httpClient';
-import { ChangeEvent } from 'react';
+import { useUpdateAddressInfo } from '@/hooks/useUpdateAddressInfo';
 
 const cx = classNames.bind(styles);
 
@@ -49,7 +50,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 }
 
 export default function DeliveryEditPage({ delivery }: { delivery: DeliveryInfo }) {
-  const { name, recipient, recipientPhoneNumber, zipCode, address, detailedAddress, isDefault } = delivery;
+  const { id, name, recipient, recipientPhoneNumber, zipCode, address, detailedAddress, isDefault } = delivery;
   const methods = useForm<FormValues>({
     resolver: yupResolver(deliveryFormSchema),
     mode: 'all',
@@ -67,9 +68,12 @@ export default function DeliveryEditPage({ delivery }: { delivery: DeliveryInfo 
     formState: { errors, isValid },
   } = methods;
   const { register, handleSubmit, setValue } = methods;
-  const onSubmit = (data: FormValues) => {
-    console.log('abc');
-    console.log(data);
+  const router = useRouter();
+  const prevPath = router.query?.prevPath;
+  const { mutate: updateAddressInfo } = useUpdateAddressInfo(prevPath);
+
+  const onSubmit = (addressInfo: FormValues) => {
+    updateAddressInfo({ id, addressInfo });
   };
 
   return (
