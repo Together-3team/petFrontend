@@ -29,8 +29,8 @@ export default function PetTypeButton({ onClick }: PetTypeButtonProps) {
 
   return (
     <ul className={styles.list}>
-      {petTypes.map(petType => (
-        <li key={petType.name} className={styles.item}>
+      {petTypes.map((petType, index) => (
+        <li key={index} className={styles.item}>
           <button
             type="button"
             className={styles.button}
