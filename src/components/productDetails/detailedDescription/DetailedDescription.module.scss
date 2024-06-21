@@ -12,11 +12,16 @@
   padding: 2.8rem 1.6rem 1.6rem;
 }
 
-.imageWrapper {
-  position: relative;
+.imageContainer {
   width: 100%;
+  height: 42rem;
   overflow: hidden;
-  height: auto-10px;
+  transition: height 0.5s ease;
+  position: relative;
+}
+
+.imageContainer.showAll {
+  height: auto;
 }
 
 .gradientOverlay {

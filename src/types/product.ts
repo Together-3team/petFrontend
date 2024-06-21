@@ -1,6 +1,7 @@
 export interface Option {
   id: number;
   optionValue: string;
+  optionPrice: number;
 }
 
 export interface OptionCombination {
@@ -11,20 +12,39 @@ export interface OptionCombination {
   amount: number;
 }
 
-export interface Product {
+export interface ProductDetail {
+  description: string;
+  id: number;
   productImages: string;
   descriptionImages: string;
+}
+
+export interface ProductReview {
+  id: number;
+  rating: number;
+  reviewImages: string;
+  description: string;
+  reviewerName: string;
+  reviewerProfileImage: string;
+}
+
+export interface Product {
+  id: number;
+  petType: number;
+  productType: number;
   thumbNailImage: string;
   title: string;
   originalPrice: number;
   price: number;
-  reviewRating: number;
+  averageRating: number;
   reviewCount: number;
-  productId: number;
-  category: number;
+  totalAmount: number;
+  isZzimed: boolean;
   options: {
     '선택 1'?: Option[];
     '선택 2'?: Option[];
   };
   optionCombinations: OptionCombination[];
+  detail: ProductDetail;
+  reviews: ProductReview[];
 }

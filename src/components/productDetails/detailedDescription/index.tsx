@@ -9,7 +9,7 @@ import { useState } from 'react';
 const cx = classNames.bind(styles);
 
 interface DetailedDescriptionProps {
-  descriptionImages: string[];
+  descriptionImages: string;
 }
 
 export default function DetailedDescription({ descriptionImages }: DetailedDescriptionProps) {
@@ -19,28 +19,23 @@ export default function DetailedDescription({ descriptionImages }: DetailedDescr
     setShowAll(!showAll);
   };
 
-  // 보여줄 이미지 수 (전체보기 이전에는 2장만)
-  const imagesToShow = showAll ? descriptionImages : descriptionImages.slice(0, 1);
   return (
     <div className={cx('contents')}>
       <h2 className={cx('title')}>상품 설명</h2>
-      {imagesToShow.map((image, i) => {
-        return (
-          <div key={i} className={styles.imageWrapper}>
-            <Image
-              src={image}
-              alt={`상품 상세 이미지${i}`}
-              layout="responsive"
-              width={100}
-              height={100}
-              blurDataURL={'@/assets/svgs/rectangle.svg'}
-              placeholder="blur"
-              style={{ display: 'block' }}
-            />
-            {!showAll && i === 0 && <div className={styles.gradientOverlay}></div>}
-          </div>
-        );
-      })}
+      <div className={cx('imageContainer', showAll ? 'showAll' : '')}>
+        <Image
+          src={descriptionImages}
+          alt={`상품 상세 이미지`}
+          layout="responsive"
+          width={100}
+          height={100}
+          blurDataURL={'@/assets/svgs/rectangle.svg'}
+          placeholder="blur"
+          style={{ display: 'block' }}
+        />
+        {!showAll && <div className={styles.gradientOverlay}></div>}
+      </div>
+
       {!showAll && (
         <div style={{ margin: '16px' }}>
           <Button size="large" backgroundColor="$color-white-pink" onClick={handleToggle}>

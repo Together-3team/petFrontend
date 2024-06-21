@@ -13,7 +13,8 @@ import { Product } from '@/types/product';
 const cx = classNames.bind(styles);
 
 export default function ProductInfo({ product }: { product: Product }) {
-  const { productImages, title, originalPrice, price, reviewRating, reviewCount } = product;
+  const { detail, title, originalPrice, price, averageRating, reviewCount } = product;
+  const { productImages } = detail;
   const discountRate = Math.ceil((1 - price / originalPrice) * 100);
   const futureDate = getFutureDate(3);
   return (
@@ -30,8 +31,8 @@ export default function ProductInfo({ product }: { product: Product }) {
         </div>
         <div className={cx('review')}>
           <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
-            <StarRating rating={reviewRating} />
-            <span className={cx('reviewRating')}>{reviewRating}</span>
+            <StarRating rating={averageRating} />
+            <span className={cx('reviewRating')}>{averageRating}</span>
           </div>
           <span className={cx('reviewCount')}>리뷰 {reviewCount}개</span>
         </div>
