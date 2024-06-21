@@ -10,6 +10,7 @@ import Header from '@/components/common/Layout/Header';
 import classNames from 'classnames/bind';
 
 import styles from './Review.module.scss';
+import WroteReviewCard from '@/review/WroteReviewCard';
 
 const cx = classNames.bind(styles);
 
@@ -72,11 +73,17 @@ export default function Review() {
 
   function handleClickWriteReview() {
     router.push({
-      pathname: `/my/review/${reviewId || purchaseProductId}`,
+      pathname: `/my/review/write`,
       query: {
         productId: purchaseData && purchaseData.data[0].id,
         purchaseProductId: purchaseData && purchaseData.data[0].purchaseProducts[0].productId,
       },
+    });
+  }
+
+  function handleClickWroteReview() {
+    router.push({
+      pathname: `/my/review/${reviewId || purchaseProductId}`,
     });
   }
 
@@ -122,7 +129,12 @@ export default function Review() {
         ) : purchaseData ? (
           <div className={styles.reviewCardList}>
             {reviewableList.map((purchase: ProductInfo) => (
-              <Card key={purchase.productId} productInfo={purchase} size="small" direction="row" />
+              <WroteReviewCard
+                href=""
+                key={purchase.productId}
+                productInfo={purchase}
+                onClick={handleClickWroteReview}
+              />
             ))}
           </div>
         ) : (

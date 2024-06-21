@@ -28,6 +28,7 @@ interface CardProps {
   direction?: 'column' | 'row';
   size: 'big' | 'small' | 'miniImage';
   tagText?: string;
+  href?: string;
 }
 
 const cx = classNames.bind(styles);
@@ -35,7 +36,14 @@ const cx = classNames.bind(styles);
 // direction="row"는 꼭 size="small" 또는 "miniImage"와 함께 사용
 // option은 string으로 받는 것으로 생각 ex) 닭고기/ 가슴살
 
-export default function Card({ productInfo, isZzim = false, direction = 'column', size = 'big', tagText }: CardProps) {
+export default function Card({
+  href,
+  productInfo,
+  isZzim = false,
+  direction = 'column',
+  size = 'big',
+  tagText,
+}: CardProps) {
   const {
     productId,
     title,
@@ -52,7 +60,7 @@ export default function Card({ productInfo, isZzim = false, direction = 'column'
   const discountRate = Math.ceil((1 - price / originalPrice) * 100);
 
   return (
-    <Link href={`/product/${title}`} className={cx('card')} data-direction={direction} data-size={size}>
+    <Link href={href || `/product/${title}`} className={cx('card')} data-direction={direction} data-size={size}>
       <div className={cx('cardImage')} data-direction={direction} data-size={size}>
         <Image
           src={thumbNailImage}
