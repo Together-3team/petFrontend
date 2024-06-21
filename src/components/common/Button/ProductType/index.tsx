@@ -4,18 +4,13 @@ import styles from './ProductTypeButton.module.scss';
 import PetFoodIcon from '@/assets/svgs/pet-food.svg';
 import PetSnackIcon from '@/assets/svgs/pet-snack.svg';
 import PetGoodsIcon from '@/assets/svgs/pet-goods.svg';
+import { ProductType } from '@/types/components/productTypeButton';
 
 const PRODUCT_TYPES = [
   { name: '사료', value: '1', isSelected: false, Icon: PetFoodIcon },
   { name: '간식', value: '2', isSelected: false, Icon: PetSnackIcon },
   { name: '용품', value: '3', isSelected: false, Icon: PetGoodsIcon },
 ];
-
-interface ProductType {
-  name: string;
-  value: string;
-  isSelected: boolean;
-}
 
 interface ProductTypeButtonProps {
   initialProductType?: string;
