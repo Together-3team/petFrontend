@@ -35,7 +35,7 @@ export default function Button({ size, children, backgroundColor, onClick, disab
 
   return (
     <div className={styles.buttonContainer}>
-      <button className={className} onClick={onClick} disabled={disabled}>
+      <button className={className} onClick={onClick} disabled={disabled} type="button">
         {children}
       </button>
     </div>
