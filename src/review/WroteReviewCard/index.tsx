@@ -1,7 +1,7 @@
 import Card, { ProductInfo } from '@/components/common/Card';
-
-import styles from './WrotereviewCard.module.scss';
 import NextButtonTemp from '@/components/common/Button/NextButtonTemp';
+
+import styles from './WroteReviewCard.module.scss';
 
 interface WroteReviewCardProps {
   href: string;
@@ -11,12 +11,12 @@ interface WroteReviewCardProps {
 
 export default function WroteReviewCard({ href, productInfo, onClick }: WroteReviewCardProps) {
   return (
-    <div className={styles.reviewCardArea}>
-      <div className={styles.reviewCardLayout}>
-        <Card productInfo={productInfo} direction="row" size="miniImage" />
+    <div className={styles.wroteReviewCardArea}>
+      <div className={styles.wroteReviewCardLayout}>
+        <Card href={href} productInfo={productInfo} direction="row" size="miniImage" />
         <NextButtonTemp href={href} />
-        <hr className={styles.updownBorder} />
       </div>
+      <hr className={styles.updownBorder} />
     </div>
   );
 }

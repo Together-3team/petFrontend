@@ -130,7 +130,7 @@ export default function Review() {
           <div className={styles.reviewCardList}>
             {reviewableList.map((purchase: ProductInfo) => (
               <WroteReviewCard
-                href=""
+                href={`/my/review/${reviewId || purchaseProductId}`}
                 key={purchase.productId}
                 productInfo={purchase}
                 onClick={handleClickWroteReview}

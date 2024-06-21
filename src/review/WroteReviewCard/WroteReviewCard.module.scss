@@ -1,5 +1,5 @@
 @layer components {
-  .reviewCardArea {
+  .wroteReviewCardArea {
     display: flex;
     width: 95%;
     flex-direction: column;
@@ -7,14 +7,15 @@
     gap: 1.2rem;
   }
 
-  .reviewCardLayout {
-    display: flex;
-    flex-direction: column;
+  .wroteReviewCardLayout {
+    display: grid;
+    grid-template-columns: 8fr 1fr;
+    padding: 1.2rem 0.6rem 1.6rem 0.6rem;
     align-items: flex-start;
-    gap: 1.2rem;
+    gap: 8px;
   }
 
-  .reviewCardButton {
+  .wroteReviewCardButton {
     width: 100%;
     margin-top: 1rem;
     gap: 1.2rem;

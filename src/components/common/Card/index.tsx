@@ -60,7 +60,7 @@ export default function Card({
   const discountRate = Math.ceil((1 - price / originalPrice) * 100);
 
   return (
-    <Link href={href || `/product/${title}`} className={cx('card')} data-direction={direction} data-size={size}>
+    <Link href={href || `/product/${productId}`} className={cx('card')} data-direction={direction} data-size={size}>
       <div className={cx('cardImage')} data-direction={direction} data-size={size}>
         <Image
           src={thumbNailImage}
