@@ -9,48 +9,10 @@ import NavBottom from '@/components/common/Nav/Bottom';
 import FloatingBox from '@/components/common/Layout/Footer/FloatingBox';
 
 import styles from './Menu.module.scss';
-import purchaseApi from '@/apis/purchase/api';
-import { useRouter } from 'next/router';
 
 export default function Menu() {
   const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken']);
   const { userData } = useAuth();
-  const router = useRouter();
-
-  const { data: purchaseData } = useQuery({ queryKey: ['purchase'], queryFn: purchaseApi.getPurchase });
-  console.log(purchaseData);
-
-  const purchaseId = purchaseData?.data[0].orderId;
-
-  const { data: purchaseDetailData } = useQuery({
-    queryKey: ['purchaseDetail', purchaseId],
-    queryFn: async () => {
-      const response = purchaseApi.getDetailPurchase(purchaseId);
-      return response;
-    },
-  });
-
-  console.log(purchaseDetailData);
-
-  function handleClickOrder() {
-    router.push({
-      pathname: '/my/order',
-      query: {
-        productId: purchaseData && purchaseData.data[0].purchaseProducts.id,
-        purchaseProductId: purchaseData && purchaseData.data[0].purchaseProducts.productId,
-      },
-    });
-  }
-
-  function handleClickReview() {
-    router.push({
-      pathname: '/my/review',
-      query: {
-        productId: purchaseData && purchaseData.data[0].purchaseProducts.id,
-        purchaseProductId: purchaseData && purchaseData.data[0].purchaseProducts.productId,
-      },
-    });
-  }
 
   function handleLogout() {
     removeCookie('accessToken', { path: '/' });
@@ -66,12 +28,8 @@ export default function Menu() {
       </div>
       <div className={styles.centerBorder} />
       <div className={styles.menuList}>
-        <NextButton href="/my/order" onClick={handleClickOrder}>
-          주문내역
-        </NextButton>
-        <NextButton href="/my/review" onClick={handleClickReview}>
-          내 리뷰
-        </NextButton>
+        <NextButton href="/my/order">주문내역</NextButton>
+        <NextButton href="/my/review">내 리뷰</NextButton>
         <hr />
         <NextButton href="/my/info">회원정보</NextButton>
         <NextButton href="/my/profile">프로필 수정</NextButton>

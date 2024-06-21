@@ -19,6 +19,7 @@ export interface ProductInfo {
   stock: number;
   option?: string;
   quantity?: number;
+  combinationName?: string;
 }
 
 interface CardProps {
@@ -70,7 +71,7 @@ export default function Card({ productInfo, isZzim = false, direction = 'column'
         {isZzim && <Zzim className={cx('zzim')} color="white" productId={productId} />}
       </div>
       <div className={cx('cardContent')} data-direction={direction} data-size={size}>
-        {size === 'miniImage' && (
+        {size === 'miniImage' && tagText && (
           <Tag size="medium" color="$color-gray-100">
             {tagText}
           </Tag>
@@ -82,7 +83,7 @@ export default function Card({ productInfo, isZzim = false, direction = 'column'
         </div>
         {option && quantity && (
           <p className={cx('option')}>
-            {option}|{quantity}개
+            {option} | {quantity}개
           </p>
         )}
         {stock === 0 && <p className={cx('outOfStock')}>품절된 상품이에요</p>}

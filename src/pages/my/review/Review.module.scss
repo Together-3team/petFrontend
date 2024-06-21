@@ -54,4 +54,13 @@
 
     @include font-body5;
   }
+
+  .reviewCardList {
+    display: flex;
+    padding: 12px var(--selectpayment, 0px);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+  }
 }
