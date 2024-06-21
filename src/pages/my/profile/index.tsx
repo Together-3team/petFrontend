@@ -81,7 +81,6 @@ export default function Profile() {
         const newFile = new File([profileImage], newFileName, { type: profileImage.type });
 
         newProfileImageUrl = presignedUrl[0].url;
-        //.split('?')[0]
 
         await putImageToUrl({ image: newFile, url: newProfileImageUrl });
       } catch (error) {
