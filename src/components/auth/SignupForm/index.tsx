@@ -1,17 +1,20 @@
 'use client';
 
 import { useRouter } from 'next/router';
-import { useForm, FormProvider } from 'react-hook-form';
+import { useForm, FormProvider, Controller } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import * as Yup from 'yup';
+import { useCookies } from 'react-cookie';
 import { yupResolver } from '@hookform/resolvers/yup';
 import classNames from 'classnames/bind';
 import signupFormSchema from '@/utils/signupFormSchema';
+import { ChangeEvent } from 'react';
 import Input from '@/components/common/Input';
 import Button from '@/components/common/Button';
 import UserAgreement from './UserAgreement';
 import authApi from '@/apis/authApi';
 import { useCookies } from 'react-cookie';
+import CheckNickname from '@/utils/checkNickname';
 
 import styles from './SignupForm.module.scss';
 
@@ -55,7 +58,7 @@ export default function SignupForm() {
   const {
     formState: { errors },
   } = methods;
-  const { register, handleSubmit } = methods;
+  const { register, handleSubmit, control } = methods;
   const onSubmit = (data: FormValues) => {
     console.log(data);
     mutation.mutate(data);
@@ -78,14 +81,24 @@ export default function SignupForm() {
             {...register}
           />
           <div>
-            <Input
-              id="nickname"
-              type="text"
-              size="large"
-              label="닉네임"
-              isError={errors.nickname && true}
-              labelStyle={'label'}
-              placeholder="2~8자의 한글, 영어, 숫자를 입력해주세요"
+            <Controller
+              control={control}
+              render={({ field }) => (
+                <Input
+                  {...field}
+                  id="nickname"
+                  type="text"
+                  size="large"
+                  label="닉네임"
+                  isError={errors.nickname && true}
+                  onBlur={async (e: ChangeEvent<HTMLInputElement>) => {
+                    field.onBlur();
+                    await CheckNickname(e);
+                  }}
+                  labelStyle={'label'}
+                  placeholder="2~8자의 한글, 영어, 숫자를 입력해주세요"
+                />
+              )}
               {...register('nickname')}
             />
             {errors.nickname && <span className={cx('errorText')}>{errors.nickname.message}</span>}

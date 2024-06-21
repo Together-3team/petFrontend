@@ -10,6 +10,7 @@ interface InputProps {
   size?: string;
   border?: string;
   isError?: boolean;
+  onBlur?: (e: ChangeEvent<HTMLInputElement>) => void;
   errorText?: string;
   labelStyle?: string;
   placeholder?: string;
@@ -25,7 +26,7 @@ interface InputProps {
 const cx = classNames.bind(styles);
 
 const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
-  { id, label, isError, errorText, labelStyle, size, border, imageProps, background, autoComplete, ...rest },
+  { id, label, isError, errorText, labelStyle, size, border, imageProps, background, autoComplete, onBlur, ...rest },
   ref
 ) {
   return (
