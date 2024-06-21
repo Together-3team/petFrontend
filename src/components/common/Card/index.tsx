@@ -19,6 +19,7 @@ export interface ProductInfo {
   stock: number;
   option?: string;
   quantity?: number;
+  combinationName?: string;
 }
 
 interface CardProps {
@@ -27,6 +28,7 @@ interface CardProps {
   direction?: 'column' | 'row';
   size: 'big' | 'small' | 'miniImage';
   tagText?: string;
+  href?: string;
 }
 
 const cx = classNames.bind(styles);
@@ -34,7 +36,14 @@ const cx = classNames.bind(styles);
 // direction="row"는 꼭 size="small" 또는 "miniImage"와 함께 사용
 // option은 string으로 받는 것으로 생각 ex) 닭고기/ 가슴살
 
-export default function Card({ productInfo, isZzim = false, direction = 'column', size = 'big', tagText }: CardProps) {
+export default function Card({
+  href,
+  productInfo,
+  isZzim = false,
+  direction = 'column',
+  size = 'big',
+  tagText,
+}: CardProps) {
   const {
     productId,
     title,
@@ -51,7 +60,7 @@ export default function Card({ productInfo, isZzim = false, direction = 'column'
   const discountRate = Math.ceil((1 - price / originalPrice) * 100);
 
   return (
-    <Link href={`/product/${title}`} className={cx('card')} data-direction={direction} data-size={size}>
+    <Link href={href || `/products/${productId}`} className={cx('card')} data-direction={direction} data-size={size}>
       <div className={cx('cardImage')} data-direction={direction} data-size={size}>
         <Image
           src={thumbNailImage}
@@ -70,7 +79,7 @@ export default function Card({ productInfo, isZzim = false, direction = 'column'
         {isZzim && <Zzim className={cx('zzim')} color="white" productId={productId} />}
       </div>
       <div className={cx('cardContent')} data-direction={direction} data-size={size}>
-        {size === 'miniImage' && (
+        {size === 'miniImage' && tagText && (
           <Tag size="medium" color="$color-gray-100">
             {tagText}
           </Tag>
@@ -82,7 +91,7 @@ export default function Card({ productInfo, isZzim = false, direction = 'column'
         </div>
         {option && quantity && (
           <p className={cx('option')}>
-            {option}|{quantity}개
+            {option} | {quantity}개
           </p>
         )}
         {stock === 0 && <p className={cx('outOfStock')}>품절된 상품이에요</p>}

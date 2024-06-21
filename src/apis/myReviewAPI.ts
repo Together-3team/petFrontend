@@ -1,4 +1,5 @@
 import { httpClient } from '@/apis/httpClient';
+import axiosInstance from './axiosInstance';
 
 interface ReviewData {
   productId: number;
@@ -20,3 +21,13 @@ export async function postReview(data: ReviewData) {
 
 // 상세보기 리뷰 보여주기
 export async function name(data: any) {}
+
+// 리뷰 가능한 상품 목록 조회
+export async function getReviewableData() {
+  return axiosInstance.get(`/review/reviewable`);
+}
+
+// 작성한 리뷰 목록 조회
+export async function getWroteReviewList() {
+  return axiosInstance.get(`/review/wrote-reviews`);
+}
