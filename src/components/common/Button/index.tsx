@@ -14,10 +14,10 @@ interface ButtonProps {
     | '$color-white-pink';
   onClick?: () => void;
   disabled?: boolean;
-  type?: string;
+  type?: 'button' | 'submit' | 'reset' | undefined;
 }
 
-export default function Button({ size, children, backgroundColor, onClick, disabled }: ButtonProps) {
+export default function Button({ size, children, backgroundColor, onClick, disabled, type }: ButtonProps) {
   const sizeClass = styles[size];
   const backgroundColorMap: { [key: string]: string } = {
     '$color-gray-800': styles.backgroundBlack,
@@ -35,7 +35,7 @@ export default function Button({ size, children, backgroundColor, onClick, disab
 
   return (
     <div className={styles.buttonContainer}>
-      <button className={className} onClick={onClick} disabled={disabled} type="button">
+      <button className={className} onClick={onClick} disabled={disabled} type={type || 'button'}>
         {children}
       </button>
     </div>
