@@ -1,4 +1,4 @@
-import { QueryClient, dehydrate } from '@tanstack/react-query';
+import { QueryClient, dehydrate, useQuery } from '@tanstack/react-query';
 import { GetServerSidePropsContext } from 'next';
 import { useCookies } from 'react-cookie';
 import useAuth from '@/hooks/useAuth';
@@ -29,11 +29,11 @@ export default function Menu() {
       <div className={styles.centerBorder} />
       <div className={styles.menuList}>
         <NextButton href="/my/order">주문내역</NextButton>
-        <NextButton href="">내 리뷰</NextButton>
+        <NextButton href="/my/review">내 리뷰</NextButton>
         <hr />
         <NextButton href="/my/info">회원정보</NextButton>
         <NextButton href="/my/profile">프로필 수정</NextButton>
-        <NextButton href="">배송지 목록</NextButton>
+        <NextButton href="/my/delivery">배송지 목록</NextButton>
         <hr />
         <NextButton href="/" onClick={handleLogout}>
           로그아웃
