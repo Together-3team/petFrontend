@@ -1,5 +1,5 @@
 import { useState, useRef, ChangeEvent } from 'react';
-import { useForm, SubmitHandler, FormProvider, FieldValues } from 'react-hook-form';
+import { useForm, SubmitHandler, FormProvider, FieldValues, Controller } from 'react-hook-form';
 import { QueryClient, dehydrate, useMutation } from '@tanstack/react-query';
 import { GetServerSidePropsContext } from 'next';
 import * as Yup from 'yup';
@@ -17,6 +17,7 @@ import { nicknameSchema } from '@/utils/signupFormSchema';
 
 import styles from './Profile.module.scss';
 import { useRouter } from 'next/router';
+import CheckNickname from '@/utils/checkNickname';
 
 export type ProfileValue = Yup.InferType<typeof nicknameSchema>;
 
@@ -55,10 +56,10 @@ export default function Profile() {
 
   const methods = useForm<ProfileValue & FieldValues>({
     resolver: yupResolver(nicknameSchema),
-    mode: 'onBlur',
   });
 
   const {
+    control,
     register,
     handleSubmit,
     setValue,
@@ -156,15 +157,25 @@ export default function Profile() {
                 </button>
               </div>
             </div>
-            <Input
-              id="nickname"
-              type="text"
-              size="large"
-              label="닉네임"
-              isError={errors.nickname && true}
-              labelStyle={'label'}
-              defaultValue={userData.nickname}
-              placeholder="2~8자의 한글, 영어, 숫자를 입력해주세요"
+            <Controller
+              control={control}
+              render={({ field }) => (
+                <Input
+                  {...field}
+                  id="nickname"
+                  type="text"
+                  size="large"
+                  label="닉네임"
+                  defaultValue={userData.nickname}
+                  isError={errors.nickname && true}
+                  onBlur={async (e: ChangeEvent<HTMLInputElement>) => {
+                    field.onBlur();
+                    await CheckNickname(e);
+                  }}
+                  labelStyle={'label'}
+                  placeholder="2~8자의 한글, 영어, 숫자를 입력해주세요"
+                />
+              )}
               {...register('nickname')}
             />
             {errors.nickname && <span className={styles.errorText}>{errors.nickname.message}</span>}
