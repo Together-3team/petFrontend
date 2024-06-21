@@ -14,7 +14,7 @@ import styles from './Review.module.scss';
 
 const cx = classNames.bind(styles);
 
-interface PurchaseDataProps {
+export interface PurchaseDataProps {
   purchaseProducts: ProductInfo[];
 }
 

@@ -17,13 +17,11 @@
   .orderList {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    width: 85%;
+    width: 90%;
     gap: 1.6rem;
   }
 
   .orderInfo {
-    width: 33rem;
     height: 4rem;
     display: flex;
     flex-direction: column;

@@ -3,9 +3,10 @@ import classNames from 'classnames/bind';
 import purchaseApi from '@/apis/purchase/api';
 import Header from '@/components/common/Layout/Header';
 import BackButton from '@/components/common/Button/BackButton';
-import rectangleImg from '@/assets/images/rectangle.png';
+import { ProductInfo } from '@/components/common/Card';
 import OrderFilterBar from '@/components/order/OrderFilterBar';
 import OrderCard from '@/components/order/OrderCard';
+import { PurchaseDataProps } from '@/pages/my/review';
 
 import styles from './Order.module.scss';
 
@@ -27,17 +28,21 @@ export default function Order() {
 
   console.log(purchaseDetailData);
 
-  //mock 데이터 입니다.
-  const productList6 = {
-    productId: 6,
-    title: '진짜 육포입니다람쥐이이이이이이이이이이이이이이이이ㅣ이이이이이이',
-    thumbNailImage: rectangleImg.src,
-    originalPrice: 12000,
-    price: 10800,
-    option: '닭가슴살맛',
-    quantity: 2,
-    stock: 4,
-  };
+  const purchaseList =
+    purchaseData &&
+    purchaseData.data.flatMap((item: PurchaseDataProps) =>
+      item.purchaseProducts.map((product: ProductInfo) => ({
+        productId: product.productId,
+        title: product.title,
+        thumbNailImage: product.thumbNailImage,
+        originalPrice: product.originalPrice,
+        price: product.price,
+        option: product.combinationName,
+        quantity: product.quantity,
+        stock: 1,
+        status: product.status,
+      }))
+    );
 
   return (
     <div className={styles.orderLayout}>
@@ -59,15 +64,24 @@ export default function Order() {
           <span className={styles.orderNumber}>주문번호</span>
         </div>
         <div className={styles.orderCards}>
-          <OrderCard productInfo={productList6} tagText="공동구매 대기" />
-          <OrderCard productInfo={productList6} tagText="공동구매 대기" />
-          <OrderCard productInfo={productList6} tagText="공동구매 대기" />
-          <OrderCard productInfo={productList6} tagText="공동구매 대기" />
-          <OrderCard productInfo={productList6} tagText="공동구매 대기" />
-          <OrderCard productInfo={productList6} tagText="공동구매 대기" />
-          <OrderCard productInfo={productList6} tagText="공동구매 대기" />
-          <OrderCard productInfo={productList6} tagText="공동구매 대기" />
-          <OrderCard productInfo={productList6} tagText="공동구매 대기" />
+          {purchaseData &&
+            purchaseList.map((purchase: ProductInfo) => (
+              <OrderCard
+                key={purchase.productId}
+                productInfo={purchase}
+                tagText={
+                  purchase.status === 2
+                    ? '주문 완료'
+                    : purchase.status === 3
+                      ? '배송 준비'
+                      : purchase.status === 4
+                        ? '배송 중'
+                        : purchase.status === 5
+                          ? '배송 완료'
+                          : '취소 / 환불'
+                }
+              />
+            ))}
         </div>
       </div>
     </div>
