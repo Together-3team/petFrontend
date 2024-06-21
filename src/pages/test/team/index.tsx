@@ -2,8 +2,12 @@ import Header from '@/components/common/Layout/Header';
 import BackButton from '@/components/common/Button/BackButton';
 import TeamDataCard from '@/components/common/Team/TeamDataCard';
 import styles from './TeamPage.module.scss';
+import useModal from '@/hooks/useModal';
+import OptionBottomSheet from '@/components/product/OptionBottomSheet';
 
 export default function TeamPage() {
+  const { modalOpen, handleModalOpen, handleModalClose } = useModal();
+
   const testData = [
     {
       id: 1,
@@ -105,20 +109,23 @@ export default function TeamPage() {
   ];
 
   return (
-    <div className={styles.teamPageLayout}>
-      <Header.Root>
-        <Header.Box>
-          <Header.Left>
-            <BackButton />
-          </Header.Left>
-          <Header.Center className={styles.pageTitle}>페이지 전체보기</Header.Center>
-        </Header.Box>
-      </Header.Root>
-      <div>
-        {testData.map(data => (
-          <TeamDataCard key={data.id} data={data} />
-        ))}
+    <>
+      <div className={styles.teamPageLayout}>
+        <Header.Root>
+          <Header.Box>
+            <Header.Left>
+              <BackButton />
+            </Header.Left>
+            <Header.Center className={styles.pageTitle}>페이지 전체보기</Header.Center>
+          </Header.Box>
+        </Header.Root>
+        <div>
+          {testData.map(data => (
+            <TeamDataCard key={data.id} data={data} onClick={handleModalOpen} />
+          ))}
+        </div>
       </div>
-    </div>
+      <OptionBottomSheet isOpen={modalOpen} onClose={handleModalClose} />
+    </>
   );
 }
