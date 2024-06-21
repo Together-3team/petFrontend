@@ -22,11 +22,53 @@ export const purchaseQueries = {
 export const purchaseDetailQueries = {
   getQueryKey: key.purchaseDetail,
   removeQuery: () => queryClient.removeQueries({ queryKey: purchaseQueries.getQueryKey() }),
-  queryOptions: () => {
+  queryOptions: (id: number) => {
     return queryOptions({
-      queryKey: purchaseDetailQueries.getQueryKey(),
-      queryFn: async id => {
-        const response = purchaseApi.getDetailPurchase({ id });
+      queryKey: [purchaseDetailQueries.getQueryKey(), id],
+      queryFn: async () => {
+        const response = purchaseApi.getDetailPurchase(id);
+        return response;
+      },
+    });
+  },
+};
+
+export const purchaseDetailQueries = {
+  getQueryKey: key.purchaseDetail,
+  removeQuery: () => queryClient.removeQueries({ queryKey: purchaseQueries.getQueryKey() }),
+  queryOptions: (id: number) => {
+    return queryOptions({
+      queryKey: [purchaseDetailQueries.getQueryKey(), id],
+      queryFn: async () => {
+        const response = purchaseApi.getDetailPurchase(id);
+        return response;
+      },
+    });
+  },
+};
+
+export const purchaseDetailQueries = {
+  getQueryKey: key.purchaseDetail,
+  removeQuery: () => queryClient.removeQueries({ queryKey: purchaseQueries.getQueryKey() }),
+  queryOptions: (id: number) => {
+    return queryOptions({
+      queryKey: [purchaseDetailQueries.getQueryKey(), id],
+      queryFn: async () => {
+        const response = purchaseApi.getDetailPurchase(id);
+        return response;
+      },
+    });
+  },
+};
+
+export const purchaseDetailQueries = {
+  getQueryKey: key.purchaseDetail,
+  removeQuery: () => queryClient.removeQueries({ queryKey: purchaseQueries.getQueryKey() }),
+  queryOptions: (id: number) => {
+    return queryOptions({
+      queryKey: [purchaseDetailQueries.getQueryKey(), id],
+      queryFn: async () => {
+        const response = purchaseApi.getDetailPurchase(id);
         return response;
       },
     });
