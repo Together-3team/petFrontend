@@ -39,6 +39,13 @@ export default function Review() {
           내가 쓴 리뷰
         </button>
       </div>
+      <div>
+        {reviewWrite ? (
+          <div className={styles.noReview}>지금은 리뷰를 작성해야 할 상품이 없어요.</div>
+        ) : (
+          <div className={styles.noReview}>아직 내가 쓴 리뷰가 없어요.</div>
+        )}
+      </div>
     </div>
   );
 }
