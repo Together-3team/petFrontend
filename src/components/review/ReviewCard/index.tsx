@@ -1,7 +1,7 @@
 import Card, { ProductInfo } from '@/components/common/Card';
 import Button from '@/components/common/Button';
 
-import styles from './reviewCard.module.scss';
+import styles from './ReviewCard.module.scss';
 
 interface ReviewCardProps {
   href?: string;
