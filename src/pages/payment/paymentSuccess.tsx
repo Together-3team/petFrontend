@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import styles from './PaymentSuccess.module.scss';
 import Lottie from 'react-lottie-player';
-import check from '@/assets/images/check.json';
+import check from '@/assets/lotties/check.json';
 import { completePayment } from '@/apis/paymentApi';
 
 export default function PaymentSuccess() {
