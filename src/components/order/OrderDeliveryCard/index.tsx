@@ -61,7 +61,7 @@ export default function OrderDeliveryCard({ delivery, setDelivery }: DeliveryCar
       }
     };
     setSelectedDelivery();
-  });
+  }, [selectedAddressId, showToast, setDelivery]);
 
   const handleChangeButtonClick = () => {
     router.push(`payment/delivery?selectedAddress=${delivery?.id}`);
