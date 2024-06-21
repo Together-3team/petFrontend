@@ -15,6 +15,7 @@ import { DeliveryInfo } from '@/types/components/delivery';
 import { httpClient } from '@/apis/httpClient';
 import { useAddAddressInfo } from '@/hooks/useAddAddressInfo';
 import styles from './Add.module.scss';
+import { useEffect, useState } from 'react';
 
 const cx = classNames.bind(styles);
 
@@ -57,7 +58,8 @@ export default function DeliveryAddPage({ isInitial }: { isInitial: boolean }) {
   } = methods;
   const { register, handleSubmit, setValue } = methods;
   const router = useRouter();
-  const prevPath = router.query?.prevPath;
+  const prevPath = router.asPath.split('?')[1];
+
   const { mutate: addAddressInfo } = useAddAddressInfo(prevPath);
 
   const onSubmit = (addressInfo: FormValues) => {
@@ -71,7 +73,7 @@ export default function DeliveryAddPage({ isInitial }: { isInitial: boolean }) {
           <Header.Left>
             <BackButton />
           </Header.Left>
-          <h1 className={cx('header')}>배송지 수정</h1>
+          <h1 className={cx('header')}>배송지 추가</h1>
         </Header.Box>
       </Header.Root>
       <FormProvider {...methods}>

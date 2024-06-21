@@ -59,7 +59,10 @@ export default function MyDeliveryPage() {
   }, [showToast]);
 
   const handleAddDeliveryButton = () => {
-    router.push(`/my/delivery/add`);
+    router.push({
+      pathname: `/my/delivery/add`,
+      query: router.asPath,
+    });
   };
 
   return (

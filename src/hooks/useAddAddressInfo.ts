@@ -26,7 +26,11 @@ export function useAddAddressInfo(prevPath?: string | string[] | undefined) {
         router.push(Array.isArray(prevPath) ? prevPath[0] : prevPath);
         return;
       }
-      router.back();
+      if (window.history.length > 2) {
+        router.back();
+      } else {
+        router.push('/my/delivery'); // 이전 페이지가 없는 경우 기본 경로로 이동
+      }
     },
 
     onError: error => {
