@@ -9,6 +9,18 @@
   line-height: 2rem;
 }
 
+.deliveryCard {
+  display: flex;
+  padding: 1.6rem 1.2rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 0.8rem;
+  align-self: stretch;
+  border-radius: 1.2rem;
+  background: $color-gray-50;
+}
+
 .noDeliveryContainer {
   display: flex;
   padding: 3.2rem 0;

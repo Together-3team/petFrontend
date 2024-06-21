@@ -77,7 +77,7 @@ export default function OrderDeliveryCard({ delivery, setDelivery }: DeliveryCar
     <div className={cx('delivery')}>
       <label className={cx('title')}>배송지</label>
       {delivery && (
-        <button type="button" onClick={handleChangeButtonClick}>
+        <button type="button" onClick={handleChangeButtonClick} className={cx('changeButton')}>
           변경
         </button>
       )}
@@ -89,7 +89,7 @@ export default function OrderDeliveryCard({ delivery, setDelivery }: DeliveryCar
           <p className={cx('recipientInfo')}>
             {delivery.recipient} ･ {delivery.recipientPhoneNumber}
           </p>
-          <p>
+          <p className={cx('addressInfo')}>
             {delivery.address}, {delivery.detailedAddress}
           </p>
           <p className={cx('zipCode')}>{delivery.zipCode}</p>

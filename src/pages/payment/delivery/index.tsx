@@ -36,6 +36,11 @@ export default function PaymentDeliveryPage() {
         const deliveries: DeliveryInfo[] = res.data;
         setDeliveries(deliveries);
 
+        //isDefault가 true인 배송지를 찾음
+        const isDefaultTrueOption = deliveries.find(option => option.isDefault === true);
+        if (isDefaultTrueOption) {
+          setSelectedOption(isDefaultTrueOption);
+        }
         // 선택되어 있는 배송지를 찾음
         const defaultOption = deliveries.find(option => option.id === selectedAddressId);
         if (defaultOption) {
