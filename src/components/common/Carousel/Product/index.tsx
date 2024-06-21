@@ -2,11 +2,12 @@ import Image from 'next/image';
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 
-import styles from './ProductCarousel.module.scss';
 import { useSelectedSnapDisplay } from '@/hooks/useSelectedSnapDisplay';
 import Share from '@/assets/svgs/btn-share.svg';
 import useModal from '@/hooks/useModal';
 import CenterModal from '../../Modal/Base/CenterModal';
+import Mascot from '@/assets/svgs/mascot-share-link.svg';
+import styles from './ProductCarousel.module.scss';
 
 interface ProductCarouselProps {
   images: string;
@@ -39,7 +40,9 @@ export default function ProductCarousel({ images }: ProductCarouselProps) {
         </button>
       </div>
       <CenterModal isOpen={modalOpen} onClose={handleModalClose}>
-        <div>모달 내용</div>
+        <div>
+          <Mascot />
+        </div>
       </CenterModal>
     </>
   );
