@@ -31,8 +31,8 @@ export default function AddressInput({ errors, register, setValue }: AddressInpu
   };
 
   const postCodeStyle = {
-    width: '340px',
-    height: '470px',
+    width: '34rem',
+    height: '47rem',
   };
 
   //data는 사용자가 선택한 주소 정보(zonecode, address...)를 담고 있는 객체
