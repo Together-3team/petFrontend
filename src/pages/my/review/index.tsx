@@ -2,15 +2,15 @@ import { useState } from 'react';
 import purchaseApi from '@/apis/purchase/api';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
+import classNames from 'classnames/bind';
 import { getReviewableData, getWroteReviewList } from '@/apis/myReviewAPI';
 import BackButton from '@/components/common/Button/BackButton';
 import ReviewCard from '@/review/ReviewCard';
-import Card, { ProductInfo } from '@/components/common/Card';
+import { ProductInfo } from '@/components/common/Card';
 import Header from '@/components/common/Layout/Header';
-import classNames from 'classnames/bind';
+import WroteReviewCard from '@/review/WroteReviewCard';
 
 import styles from './Review.module.scss';
-import WroteReviewCard from '@/review/WroteReviewCard';
 
 const cx = classNames.bind(styles);
 
@@ -53,7 +53,7 @@ export default function Review() {
       }))
     );
 
-  //TODO: 리뷰 작성 후 테스트
+  //TODO: 리뷰 작성 후 테스트 때 적용
   const myReviewList =
     wroteReviews &&
     wroteReviews.data.flatMap((item: PurchaseDataProps) =>
@@ -78,12 +78,6 @@ export default function Review() {
         productId: purchaseData && purchaseData.data[0].id,
         purchaseProductId: purchaseData && purchaseData.data[0].purchaseProducts[0].productId,
       },
-    });
-  }
-
-  function handleClickWroteReview() {
-    router.push({
-      pathname: `/my/review/${reviewId || purchaseProductId}`,
     });
   }
 
@@ -133,7 +127,6 @@ export default function Review() {
                 href={`/my/review/${reviewId || purchaseProductId}`}
                 key={purchase.productId}
                 productInfo={purchase}
-                onClick={handleClickWroteReview}
               />
             ))}
           </div>
