@@ -1,4 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
 import classNames from 'classnames/bind';
 import purchaseApi from '@/apis/purchase/api';
 import Header from '@/components/common/Layout/Header';
@@ -13,10 +14,14 @@ import styles from './Order.module.scss';
 const cx = classNames.bind(styles);
 
 export default function Order() {
+  const router = useRouter();
+
   const { data: purchaseData } = useQuery({ queryKey: ['purchase'], queryFn: purchaseApi.getPurchase });
   console.log(purchaseData);
 
-  const purchaseId = purchaseData?.data[0].orderId;
+  const purchaseId = purchaseData?.data.map((item: PurchaseDataProps) => {
+    return item.id;
+  });
 
   const { data: purchaseDetailData } = useQuery({
     queryKey: ['purchaseDetail', purchaseId],
@@ -44,6 +49,26 @@ export default function Order() {
       }))
     );
 
+  // const { mutateAsync: mutation } = useMutation({
+  //   mutationKey: ['changePurchaseStatus'],
+  //   mutationFn: async ({ id, body }: { id: number; body: number }) => {
+  //     const response = await purchaseApi.putPaymentStatus(id, body);
+  //     return response;
+  //   },
+  // });
+
+  // function handleClick() {
+  //   mutation;
+  // }
+  function handleMoveOrderDetail(purchaseId: number) {
+    router.push({
+      pathname: `/my/order/${purchaseId}`,
+      query: {
+        purchaseData: purchaseDetailData?.data,
+      },
+    });
+  }
+
   return (
     <div className={styles.orderLayout}>
       <Header.Root>
@@ -59,9 +84,11 @@ export default function Order() {
         <div className={styles.orderInfo}>
           <div className={styles.orderInfoUp}>
             <span className={styles.orderDate}>2024.05.21</span>
-            <span className={styles.orderDetail}>주문상세</span>
+            <div className={styles.orderDetail} onClick={() => handleMoveOrderDetail(purchaseId)}>
+              주문상세
+            </div>
           </div>
-          <span className={styles.orderNumber}>주문번호</span>
+          <span className={styles.orderNumber}>주문번호 No. {purchaseId}</span>
         </div>
         <div className={styles.orderCards}>
           {purchaseData &&
@@ -69,6 +96,7 @@ export default function Order() {
               <OrderCard
                 key={purchase.productId}
                 productInfo={purchase}
+                href="/my/order"
                 tagText={
                   purchase.status === 2
                     ? '주문 완료'

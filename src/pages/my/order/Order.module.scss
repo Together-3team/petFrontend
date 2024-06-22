@@ -47,6 +47,7 @@
   .orderDetail {
     color: $color-gray-500;
     text-align: center;
+    cursor: pointer;
 
     @include font-headline3;
   }

@@ -6,14 +6,15 @@ import styles from './OrderCard.module.scss';
 interface OrderCardProps {
   productInfo: ProductInfo;
   tagText: string;
+  href?: string;
 }
 
-export default function OrderCard({ productInfo, tagText }: OrderCardProps) {
+export default function OrderCard({ href, productInfo, tagText }: OrderCardProps) {
   return (
     <>
       <hr className={styles.updownBorder} />
       <div className={styles.orderCardLayout}>
-        <Card productInfo={productInfo} direction="row" size="miniImage" tagText={tagText} />
+        <Card productInfo={productInfo} direction="row" size="miniImage" tagText={tagText} href={href} />
         <div className={styles.orderCardButtons}>
           <Button size="small" backgroundColor="$color-white-gray">
             주문 취소
