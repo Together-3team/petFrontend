@@ -1,39 +1,46 @@
-import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import TeamDataCard from './TeamDataCard';
+import { httpClient } from '@/apis/httpClient';
 import styles from './HighlightTeam.module.scss';
 
-export default function HighlightTeam() {
-  // 타이머, 웹소켓, 주문버튼 연결
+interface GroupUser {
+  nickname: string;
+}
 
-  const testData = [
-    {
-      id: 1,
-      status: '진행중',
-      creator: '해피사랑',
-      createdAt: '2024-06-01T10:00:00Z',
-      participants: [{ name: '해피사랑', joinedAt: '2024-06-01T10:00:00Z' }],
-    },
-    {
-      id: 2,
-      status: '완료',
-      creator: '뽀수니',
-      createdAt: '2024-05-20T14:30:00Z',
-      participants: [
-        { name: '뽀수니', joinedAt: '2024-05-20T14:30:00Z' },
-        { name: '춘배', joinedAt: '2024-05-22T09:45:00Z' },
-      ],
-    },
-    {
-      id: 3,
-      status: '완료',
-      creator: '탱고',
-      createdAt: '2024-05-15T11:20:00Z',
-      participants: [
-        { name: '탱고', joinedAt: '2024-05-15T11:20:00Z' },
-        { name: '탱자', joinedAt: '2024-05-18T13:35:00Z' },
-      ],
-    },
-  ];
+interface GroupBuyingData {
+  id: number;
+  status: number;
+  groupUsers: GroupUser[];
+}
+
+export default function HighlightTeam({ productId }: any) {
+  const router = useRouter();
+
+  const [teamData, setTeamData] = useState<GroupBuyingData[]>([]);
+
+  useEffect(() => {
+    const fetchGroupBuyingData = async () => {
+      try {
+        const response = await httpClient().get<GroupBuyingData[]>(`group-buying/${productId}`);
+        console.log(response.slice(0, 3));
+        setTeamData(response.slice(0, 3));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchGroupBuyingData();
+  }, []);
+
+  const handleAllTeamPageLick = () => {
+    router.push({
+      pathname: `/team`,
+      query: {
+        productId: productId,
+      },
+    });
+  };
 
   return (
     <section className={styles.highlightTeamLayout}>
@@ -41,16 +48,16 @@ export default function HighlightTeam() {
         <p className={styles.title}>2인 공동구매</p>
         <p className={styles.description}>주문참여로 기다림 없이 바로 주문해보세요</p>
       </div>
-      {testData.length > 0 ? (
+      {teamData.length > 0 ? (
         <>
           <div className={styles.teamBox}>
-            {testData.map(data => (
+            {teamData.map(data => (
               <TeamDataCard key={data.id} data={data} />
             ))}
           </div>
-          <Link href="/test/team" className={styles.allTeamLinkBtn}>
+          <button className={styles.allTeamLinkBtn} onClick={handleAllTeamPageLick}>
             참여자 전체보기
-          </Link>
+          </button>
         </>
       ) : (
         <div className={styles.noTeamBox}>
