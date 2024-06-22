@@ -17,7 +17,6 @@ import useModal from '@/hooks/useModal';
 import Zzim from '@/components/common/Zzim';
 import Button from '@/components/common/Button';
 import BottomModal from '@/components/common/Modal/Base/BottomModal';
-import useSecondModal from '@/hooks/useSecondModal';
 import useAuth from '@/hooks/useAuth';
 
 const cx = classNames.bind(styles);
@@ -43,7 +42,11 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
 export default function ProductDetailPage({ product }: { product: Product }) {
   const { modalOpen, handleModalOpen, handleModalClose } = useModal();
-  const { secondModalOpen, handleSecondModalOpen, handleSecondModalClose } = useSecondModal();
+  const {
+    modalOpen: secondModalOpen,
+    handleModalOpen: handleSecondModalOpen,
+    handleModalClose: handleSecondModalClose,
+  } = useModal();
   const router = useRouter();
   const { id } = router.query;
   const productId = Number(id);
@@ -89,7 +92,8 @@ export default function ProductDetailPage({ product }: { product: Product }) {
           </Button>
         </div>
       </div>
-      <OptionBottomSheet isOpen={modalOpen} onClose={handleModalClose} productId={productId} />
+      {/* <OptionBottomSheet isOpen={modalOpen} onClose={handleModalClose} productId={productId} type="purchaseOnly" /> */}
+      <OptionBottomSheet isOpen={modalOpen} onClose={handleModalClose} productId={productId} type="cartPurchase" />
       <BottomModal isOpen={secondModalOpen} onClose={handleSecondModalClose}>
         <div className={cx('modalContents')}>
           <p className={cx('modalTitle')}>

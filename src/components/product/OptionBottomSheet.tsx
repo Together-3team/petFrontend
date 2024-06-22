@@ -50,7 +50,14 @@ interface ResponseData {
   reviews: Review[];
 }
 
-export default function OptionBottomSheet({ isOpen, onClose, productId }: any) {
+interface OptionBottomSheetProps {
+  isOpen: boolean;
+  onClose: () => void;
+  productId: number;
+  type: string;
+}
+
+export default function OptionBottomSheet({ isOpen, onClose, productId, type }: OptionBottomSheetProps) {
   const [productOptions, setProductOptions] = useState<Option[][]>([]);
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [optionCombinations, setOptionCombinations] = useState<OptionCombination[]>([]);
@@ -62,7 +69,7 @@ export default function OptionBottomSheet({ isOpen, onClose, productId }: any) {
   useEffect(() => {
     const fetchProductOption = async () => {
       try {
-        const response = await httpClient().get<ResponseData>('products/detail/1');
+        const response = await httpClient().get<ResponseData>(`products/detail/${productId}`);
         const optionsArray = Object.values(response.options);
 
         setProductOptions(optionsArray);
@@ -76,7 +83,7 @@ export default function OptionBottomSheet({ isOpen, onClose, productId }: any) {
     };
 
     fetchProductOption();
-  }, []);
+  }, [productId]);
 
   const formatOptions = (data: { id: number; optionValue: string }[]) => {
     return data.map(item => ({
