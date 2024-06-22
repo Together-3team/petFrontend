@@ -5,6 +5,7 @@ import Button from '@/components/common/Button';
 import ArrowDown from '@/assets/svgs/arrow-down-pink.svg';
 import ArrowUp from '@/assets/svgs/arrow-up-pink.svg';
 import { useState } from 'react';
+import rectangle from '@/assets/images/rectangle.png';
 
 const cx = classNames.bind(styles);
 
@@ -24,7 +25,7 @@ export default function DetailedDescription({ descriptionImages }: DetailedDescr
       <h2 className={cx('title')}>상품 설명</h2>
       <div className={cx('imageContainer', showAll ? 'showAll' : '')}>
         <Image
-          src={descriptionImages}
+          src={descriptionImages || rectangle.src}
           alt={`상품 상세 이미지`}
           layout="responsive"
           width={100}
