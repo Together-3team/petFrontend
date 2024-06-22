@@ -57,6 +57,7 @@
   height: 2.4rem;
   border: 0.1rem solid $color-gray-300;
   border-radius: 0.6rem;
+  box-sizing: border-box;
 }
 
 .productNumber:focus {
