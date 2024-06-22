@@ -12,9 +12,12 @@ export default function PaymentSuccess() {
   useEffect(() => {
     const deliveryMessage = sessionStorage.getItem('deliveryMessage') || '';
     const selectedProductIds = sessionStorage.getItem('selectedProductIds') || '';
+    const deliveryId = sessionStorage.getItem('deliveryId') || '';
     console.log(deliveryMessage);
     console.log(selectedProductIds);
     const amountValue: number = parseFloat(amount as string);
+    const deliveryIdValue: number = parseInt(deliveryId, 10);
+    console.log(deliveryIdValue);
 
     const sendPaymentData = async () => {
       if (paymentKey && orderId && amount) {
@@ -26,7 +29,7 @@ export default function PaymentSuccess() {
             amount: amountValue,
             selectedProductIds: selectedProductIds,
             groupBuyingId: undefined,
-            deliveryId: 1,
+            deliveryId: deliveryIdValue,
           };
           const response = await completePayment(postData);
           console.log('결제 완료: ', response);
@@ -38,32 +41,6 @@ export default function PaymentSuccess() {
     sendPaymentData();
   }, [paymentKey, orderId, amount]);
 
-  // useEffect(() => {
-  //   // function fetchData() {
-  //   //   try {
-  //   //     const postData = {
-  //   //       selectedProductIds,
-  //   //       amount,
-  //   //       deliveryMessage,
-  //   //       orderId,
-  //   //       paymentKey,
-  //   //     };
-  //   //     await completePayment(postData);
-
-  //   //   }
-  //   // }
-  //   // const isGroupBuying = !!postData.g
-
-  //   const timer = setTimeout(() => {
-  //     const { paymentKey, orderId, amount } = router.query;
-  //     router.push({
-  //       pathname: '/payment/paymentSuccessByCart',
-  //       query: { paymentKey, orderId, amount },
-  //     });
-  //   }, 2000);
-
-  //   return () => clearTimeout(timer);
-  // }, [router]);
   return (
     <div className={styles.paymentSuccess}>
       <Lottie
