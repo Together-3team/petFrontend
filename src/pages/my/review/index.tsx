@@ -16,6 +16,7 @@ const cx = classNames.bind(styles);
 
 export interface PurchaseDataProps {
   id: number;
+  createdAt: string;
   purchaseProducts: ProductInfo[];
 }
 
@@ -41,7 +42,7 @@ export default function Review() {
 
   const reviewableList =
     purchaseData &&
-    purchaseData.data.flatMap((item: PurchaseDataProps) =>
+    purchaseData.data.map((item: PurchaseDataProps) =>
       item.purchaseProducts.map((product: ProductInfo) => ({
         productId: product.productId,
         title: product.title,
@@ -53,11 +54,13 @@ export default function Review() {
         stock: 1,
       }))
     );
+
+  console.log(purchaseData?.data);
 
   //TODO: 리뷰 작성 후 테스트 때 적용
   const myReviewList =
     wroteReviews &&
-    wroteReviews.data.flatMap((item: PurchaseDataProps) =>
+    wroteReviews.data.map((item: PurchaseDataProps) =>
       item.purchaseProducts.map((product: ProductInfo) => ({
         productId: product.productId,
         title: product.title,
@@ -70,7 +73,9 @@ export default function Review() {
       }))
     );
 
-  const purchaseProductId = purchaseData?.data[0].purchaseProducts[0].productId;
+  const purchaseProductId = purchaseData?.data.map((item: PurchaseDataProps) => {
+    return item.id;
+  });
 
   function handleClickWriteReview() {
     router.push({
@@ -112,7 +117,7 @@ export default function Review() {
       </div>
       <>
         {reviewWrite ? (
-          purchaseData ? (
+          purchaseData?.data[0].purchaseProducts.length > 0 ? (
             <div className={styles.reviewCardList}>
               {reviewableList.map((purchase: ProductInfo) => (
                 <ReviewCard key={purchase.productId} productInfo={purchase} onClick={handleClickWriteReview} />
@@ -121,7 +126,7 @@ export default function Review() {
           ) : (
             <div className={styles.noReview}>지금은 리뷰를 작성해야 할 상품이 없어요.</div>
           )
-        ) : purchaseData ? (
+        ) : purchaseData?.data[0].purchaseProducts.length > 0 ? (
           <div className={styles.reviewCardList}>
             {reviewableList.map((purchase: ProductInfo) => (
               <WroteReviewCard

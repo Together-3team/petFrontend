@@ -18,9 +18,9 @@ export interface ProductInfo {
   reviewCount?: number;
   stock: number;
   option?: string;
-  quantity?: number;
+  quantity: number;
   combinationName?: string;
-  status?: number;
+  paymentStatus?: number;
 }
 
 interface CardProps {
