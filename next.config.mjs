@@ -9,6 +9,11 @@ const nextConfig = {
       'lh3.googleusercontent.com',
       'review-image-3team.s3.ap-northeast-2.amazonaws.com',
     ],
+    remotePatterns: [
+      {
+        hostname: '**',
+      },
+    ],
   },
   sassOptions: {
     includePaths: ['styles'],
