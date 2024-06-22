@@ -8,17 +8,27 @@ import { useEffect, useState } from 'react';
 import { httpClient } from '@/apis/httpClient';
 import { useRouter } from 'next/router';
 
+interface GroupUser {
+  nickname: string;
+}
+
+interface GroupBuyingData {
+  id: number;
+  status: number;
+  groupUsers: GroupUser[];
+}
+
 export default function TeamPage() {
   const router = useRouter();
   const { productId } = router.query;
 
   const { modalOpen, handleModalOpen, handleModalClose } = useModal();
-  const [teamData, setTeamData] = useState([]);
+  const [teamData, setTeamData] = useState<GroupBuyingData[]>([]);
 
   useEffect(() => {
     const fetchGroupBuyingData = async () => {
       try {
-        const response = await httpClient().get(`group-buying/${productId}`);
+        const response = await httpClient().get<GroupBuyingData[]>(`group-buying/${productId}`);
         console.log(response);
         setTeamData(response);
       } catch (error) {
