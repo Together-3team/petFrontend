@@ -23,8 +23,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   try {
     const res = await axiosInstance.get(`/products/detail/${productId}`);
     product = res.data;
-  } catch (err) {
-    console.error(err);
+  } catch {
     return {
       notFound: true,
     };
