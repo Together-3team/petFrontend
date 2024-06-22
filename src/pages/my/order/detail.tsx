@@ -107,7 +107,6 @@ export default function OrderDetail() {
       <div className={styles.orderDetailBottom}>
         <div className={styles.rectangle} />
         <div className={styles.orderPriceArea}>
-          <TotalPay title={`결제 금액`} totalPrice={totalPrice} totalOriginalPrice={totalOriginalPrice} productCount={orderCount} />
         </div>
         <div className={styles.paymentMethod}>
           <div className={styles.rectangle} />
