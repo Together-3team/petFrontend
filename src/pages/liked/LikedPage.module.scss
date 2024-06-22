@@ -8,14 +8,13 @@
   }
 
   .header {
-    padding: 2rem 1.6rem 0;
+    padding: 2rem 1.6rem 0 2.4rem;
   }
 
-  .sortBox {
-    display: flex;
-    width: 100%;
-    padding: 0.8rem 1.6rem;
-    justify-content: flex-end;
+  .title {
+    @include font-headline2;
+
+    color: $color-black;
   }
 
   .divider {
@@ -25,7 +24,7 @@
   }
 
   .contents {
-    min-height: 100vh;
+    min-height: calc(100vh - 21.6rem);
     padding: 2rem 0;
   }
 
