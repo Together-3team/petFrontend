@@ -1,20 +1,35 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { GetServerSidePropsContext } from 'next';
 import Header from '@/components/common/Layout/Header';
 import BackButton from '@/components/common/Button/BackButton';
 import RatingBox from '@/components/common/review/RatingBox';
 import ReviewBox from '@/components/common/review/ReviewBox';
+import SortButton from '@/components/common/Button/Sort';
 import { httpClient } from '@/apis/httpClient';
 import { Product, ProductReview } from '@/types/product';
 import styles from './ReviewPage.module.scss';
 
-export default function ReviewPage() {
+export function getServerSideProps(context: GetServerSidePropsContext) {
+  const sort = context.query['sort'] || '0';
+
+  return {
+    props: {
+      sort,
+    },
+  };
+}
+
+interface ReviewPageProps {
+  sort: string;
+}
+
+export default function ReviewPage({ sort }: ReviewPageProps) {
   const router = useRouter();
   const productId = router.query.id;
 
   const [reviewData, setReviewData] = useState<ProductReview[]>([]);
   const [averageRating, setAverageRating] = useState<string>('');
-  const [sortOption, setSortOption] = useState('최신순');
 
   useEffect(() => {
     const fetchReviewData = async () => {
@@ -35,22 +50,24 @@ export default function ReviewPage() {
     fetchReviewData();
   }, [productId]);
 
-  const sortData = (option: string) => {
+  const sortData = (value: string) => {
     let sorted: ProductReview[] = [];
-    if (option === '최신순') {
-      sorted = [...reviewData].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-    } else if (option === '별점 높은 순') {
-      sorted = [...reviewData].sort((a, b) => b.rating - a.rating);
-    } else if (option === '별점 낮은 순') {
-      sorted = [...reviewData].sort((a, b) => a.rating - b.rating);
-    }
-    setReviewData(sorted);
-  };
 
-  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const option = e.target.value;
-    setSortOption(option);
-    sortData(option);
+    switch (value) {
+      case '0':
+        sorted = [...reviewData].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        break;
+      case '1':
+        sorted = [...reviewData].sort((a, b) => b.rating - a.rating);
+        break;
+      case '2':
+        sorted = [...reviewData].sort((a, b) => a.rating - b.rating);
+        break;
+      default:
+        break;
+    }
+
+    setReviewData(sorted);
   };
 
   return (
@@ -68,11 +85,15 @@ export default function ReviewPage() {
       <div>
         <RatingBox rating={averageRating} totalReviewer={reviewData.length} className={styles.ratingBoxStyle} />
         <div className={styles.dropdown}>
-          <select value={sortOption} onChange={handleSortChange}>
-            <option value="최신순">최신순</option>
-            <option value="별점 높은 순">별점 높은 순</option>
-            <option value="별점 낮은 순">별점 낮은 순</option>
-          </select>
+          <SortButton
+            options={[
+              { name: '최신순', value: '0' },
+              { name: '별점 높은 순', value: '1' },
+              { name: '별점 낮은 순', value: '2' },
+            ]}
+            initialOptionValue={sort}
+            onClick={value => sortData(value)}
+          />
         </div>
       </div>
       <div className={styles.reviewContainer}>
