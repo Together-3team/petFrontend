@@ -2,6 +2,7 @@ import { PropsWithChildren, useEffect } from 'react';
 import classNames from 'classnames/bind';
 
 import styles from './BottomModal.module.scss';
+import Portal from '@/components/common/Portal';
 
 const cx = classNames.bind(styles);
 
@@ -35,9 +36,9 @@ export default function BottomModal({ id, isOpen, onClose, hasBackdrop = true, c
   useEffect(() => {
     const toggleModal = () => {
       if (isOpen) {
-        document.body.style.overflowY = 'hidden';
+        // document.body.style.overflowY = 'hidden';
       } else {
-        document.body.style.overflowY = 'auto';
+        // document.body.style.overflowY = 'auto';
       }
     };
     toggleModal();
@@ -45,11 +46,11 @@ export default function BottomModal({ id, isOpen, onClose, hasBackdrop = true, c
   }, [isOpen]);
 
   return (
-    <>
+    <Portal id="rootModal">
       {isOpen && <div className={cx('backdrop', { show: hasBackdrop })} onClick={onClose} />}
       <div id={id} className={styles.container}>
         {isOpen && <div className={styles.modal}>{children}</div>}
       </div>
-    </>
+    </Portal>
   );
 }

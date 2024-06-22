@@ -1,0 +1,21 @@
+@layer overrides {
+  .layout {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    gap: 1.6rem;
+  }
+
+  .lottie {
+    width: 22rem;
+    height: 10rem;
+  }
+
+  .text {
+    @include font-body3;
+
+    color: $color-gray-600;
+  }
+}
