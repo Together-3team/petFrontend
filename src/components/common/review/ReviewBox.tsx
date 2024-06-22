@@ -28,9 +28,7 @@ export default function ReviewBox({ reviewData, className }: any) {
           <div className={styles.productDetail}>
             <p className={styles.option}>
               옵션
-              <span className={styles.optionDetail}>
-                {reviewData.option} | {reviewData.quantity}개
-              </span>
+              <span className={styles.optionDetail}>{reviewData.optionCombination}</span>
             </p>
           </div>
         </div>
