@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import TeamDataCard from './TeamDataCard';
 import { httpClient } from '@/apis/httpClient';
 import styles from './HighlightTeam.module.scss';
@@ -33,8 +32,6 @@ export default function HighlightTeam({ productId }: any) {
     });
   };
 
-  console.log(productId);
-
   return (
     <section className={styles.highlightTeamLayout}>
       <div className={styles.sectionTitleBox}>
@@ -51,7 +48,6 @@ export default function HighlightTeam({ productId }: any) {
           <button className={styles.allTeamLinkBtn} onClick={handleAllTeamPageLick}>
             참여자 전체보기
           </button>
-          {/* <Link href="/test/team" className={styles.allTeamLinkBtn}></Link> */}
         </>
       ) : (
         <div className={styles.noTeamBox}>
