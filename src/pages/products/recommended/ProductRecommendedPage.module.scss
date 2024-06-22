@@ -9,7 +9,6 @@
 
   .header {
     padding: 2rem 1.6rem 0;
-    z-index: 3;
 
     &[data-visible='hidden'] {
       transform: translateY(-6.8rem);
