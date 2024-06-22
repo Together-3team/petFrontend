@@ -38,10 +38,6 @@ export default function OptionBottomSheet({ isOpen, onClose, productId }: any) {
     }));
   };
 
-  console.log(productOptions);
-  console.log(optionCombinations);
-  console.log(selectedOptions);
-
   const handleOptionChange = (index: number, value: string) => {
     const newSelectedOptions = [...selectedOptions];
     newSelectedOptions[index] = value;
