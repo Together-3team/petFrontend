@@ -27,7 +27,7 @@ interface CardProps {
   productInfo: ProductInfo;
   isZzim?: boolean;
   direction?: 'column' | 'row';
-  size: 'big' | 'small' | 'miniImage';
+  size: 'extraLarge' | 'large' | 'small' | 'miniImage';
   tagText?: string;
   href?: string;
 }
@@ -35,14 +35,13 @@ interface CardProps {
 const cx = classNames.bind(styles);
 
 // direction="row"는 꼭 size="small" 또는 "miniImage"와 함께 사용
-// option은 string으로 받는 것으로 생각 ex) 닭고기/ 가슴살
 
 export default function Card({
   href,
   productInfo,
   isZzim = false,
   direction = 'column',
-  size = 'big',
+  size = 'large',
   tagText,
 }: CardProps) {
   const {
@@ -53,9 +52,8 @@ export default function Card({
     price,
     starRating,
     reviewCount = 0,
-    stock,
-    option,
     quantity,
+    stock,
   } = productInfo;
 
   const discountRate = Math.ceil((1 - price / originalPrice) * 100);
@@ -76,11 +74,13 @@ export default function Card({
           blurDataURL={'@/assets/svgs/rectangle.svg'}
           placeholder="blur"
           sizes={
-            size === 'big'
-              ? '(max-width: 140px) 100vw, 140px'
-              : size === 'small'
-                ? '(max-width: 100px) 100vw, 100px'
-                : '(max-width: 80px) 80vw, 80px'
+            size === 'extraLarge'
+              ? '(max-width: 156px) 100vw, 150px'
+              : size === 'large'
+                ? '(max-width: 140px) 100vw, 140px'
+                : size === 'small'
+                  ? '(max-width: 100px) 100vw, 100px'
+                  : '(max-width: 80px) 80vw, 80px'
           }
           onError={handleImgError}
         />
@@ -97,11 +97,6 @@ export default function Card({
             {title}
           </div>
         </div>
-        {option && quantity && (
-          <p className={cx('option')}>
-            {option} | {quantity}개
-          </p>
-        )}
         {stock === 0 && <p className={cx('outOfStock')}>품절된 상품이에요</p>}
         {stock > 0 && (
           <p className={cx('originalPrice')} data-direction={direction} data-size={size}>
@@ -129,12 +124,12 @@ export default function Card({
         {direction === 'column' && stock > 0 && (
           <div className={cx('tags')} data-size={size}>
             {stock <= 10 && (
-              <Tag size={size === 'big' ? 'large' : 'small'} type="stock" color="#FFF3F3">
+              <Tag size={size === 'large' || 'extraLarge' ? 'large' : 'small'} type="stock" color="#FFF3F3">
                 10개 미만
               </Tag>
             )}
             {reviewCount >= 100 && (
-              <Tag size={size === 'big' ? 'large' : 'small'} type="thumbsUp" color="#E5FAFC">
+              <Tag size={size === 'large' || 'extraLarge' ? 'large' : 'small'} type="thumbsUp" color="#E5FAFC">
                 리뷰 100+
               </Tag>
             )}

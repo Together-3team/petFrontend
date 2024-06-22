@@ -66,7 +66,7 @@ export default function CardSliderRecommended({ title }: CardSliderRecommendedPr
                 reviewCount: product.reviewCount,
                 starRating: product.averageRating,
               }}
-              size="big"
+              size="large"
               isZzim
             />
           </CardSlider.Item>
