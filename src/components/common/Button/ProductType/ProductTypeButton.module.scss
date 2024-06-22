@@ -1,0 +1,26 @@
+@layer components {
+  .list {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 1.6rem;
+  }
+
+  .button {
+    @include font-body4;
+
+    background-color: transparent;
+    border: none;
+    color: $color-gray-900;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.2rem;
+
+    &[data-selected='true'] circle {
+      fill: $color-pink-middle;
+    }
+  }
+}
