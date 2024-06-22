@@ -6,42 +6,6 @@ import { useEffect, useState } from 'react';
 import { httpClient } from '@/apis/httpClient';
 import { Product, ProductReview } from '@/types/product';
 
-const testData = [
-  {
-    id: 1,
-    nickname: '서리핑1',
-    option: '소고기맛/선물포장',
-    quantity: 3,
-    rating: 4,
-    description:
-      '설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워',
-    createdAt: '2024-05-24T14:35:22.000Z',
-  },
-  {
-    id: 2,
-    nickname: '서리핑2',
-    option: '닭고기맛/선물포장',
-    quantity: 5,
-    rating: 1,
-    description:
-      '설이는 정말 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워',
-    createdAt: '2024-05-24T14:35:22.000Z',
-  },
-  {
-    id: 3,
-    nickname: '서리핑3',
-    option: '소고기맛',
-    quantity: 2,
-    rating: 3,
-    description:
-      '정말 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워',
-    createdAt: '2024-05-24T14:35:22.000Z',
-  },
-];
-
-const rating = 4.5;
-const totalReviewer = 180;
-
 export default function HighlightReview({ productId }: any) {
   const [reviewData, setReviewData] = useState<ProductReview[]>([]);
   const [averageRating, setAverageRating] = useState<string>('');
@@ -75,7 +39,7 @@ export default function HighlightReview({ productId }: any) {
               <ReviewBox key={data.id} reviewData={data} className={styles.reviewBoxStyle} />
             ))}
           </div>
-          <Link href="/test/review" className={styles.allReviewLinkBtn}>
+          <Link href={`${productId}/review`} className={styles.allReviewLinkBtn}>
             리뷰 전체보기
           </Link>
         </>

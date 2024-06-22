@@ -34,15 +34,6 @@ export default function HighlightTeam({ productId }: any) {
     fetchGroupBuyingData();
   }, []);
 
-  const handleAllTeamPageLick = () => {
-    router.push({
-      pathname: `/team`,
-      query: {
-        productId: productId,
-      },
-    });
-  };
-
   return (
     <section className={styles.highlightTeamLayout}>
       <div className={styles.sectionTitleBox}>
@@ -56,9 +47,6 @@ export default function HighlightTeam({ productId }: any) {
               <TeamDataCard key={data.id} data={data} />
             ))}
           </div>
-          {/* <button className={styles.allTeamLinkBtn} onClick={handleAllTeamPageLick}>
-            참여자 전체보기
-          </button> */}
           <Link className={styles.allTeamLinkBtn} href={`${productId}/team`}>
             참여자 전체보기
           </Link>
