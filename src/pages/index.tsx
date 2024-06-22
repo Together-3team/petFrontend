@@ -17,6 +17,10 @@ import CategoryBox from '@/components/home/CategoryBox';
 import CardSliderRecommended from '@/components/common/Card/CardSlider/Recommended';
 import CardSliderHot from '@/components/common/Card/CardSlider/Hot';
 import LogoFull from '@/components/common/Icon/LogoFull';
+import { productsHotQueries, productsRecommendedQueries } from '@/apis/product/queries';
+import { dehydrate } from '@tanstack/react-query';
+import { queryClient } from '@/utils/queryClient';
+import CardSliderSimilar from '@/components/common/Card/CardSlider/Similar';
 
 const BANNER_IMAGES = [
   { src: banner1.src, alt: '배너1' },
@@ -25,6 +29,17 @@ const BANNER_IMAGES = [
   { src: banner4.src, alt: '배너4' },
   { src: banner5.src, alt: '배너5' },
 ];
+
+export async function getServerSideProps() {
+  await productsRecommendedQueries.prefetchQuery({ page: 1, pageSize: 8 });
+  await productsHotQueries.prefetchQuery({ page: 1, pageSize: 8 });
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
+}
 
 export default function HomePage() {
   return (
@@ -47,6 +62,9 @@ export default function HomePage() {
       </div>
       <div className={styles.hotBox}>
         <CardSliderHot />
+      </div>
+      <div className={styles.hotBox}>
+        <CardSliderSimilar />
       </div>
       <div className={styles.categoryBox}>
         <CategoryBox />
