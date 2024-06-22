@@ -3,17 +3,8 @@ import Link from 'next/link';
 import { io } from 'socket.io-client';
 import TeamDataCard from './TeamDataCard';
 import { httpClient } from '@/apis/httpClient';
+import { GroupBuyingData } from '@/types/apis/groupBuying';
 import styles from './HighlightTeam.module.scss';
-
-interface GroupUser {
-  nickname: string;
-}
-
-interface GroupBuyingData {
-  id: number;
-  status: number;
-  groupUsers: GroupUser[];
-}
 
 interface HighlightTeamProps {
   productId: number;

@@ -7,17 +7,8 @@ import TeamDataCard from '@/components/common/Team/TeamDataCard';
 import useModal from '@/hooks/useModal';
 import OptionBottomSheet from '@/components/product/OptionBottomSheet';
 import { httpClient } from '@/apis/httpClient';
+import { GroupBuyingData } from '@/types/apis/groupBuying';
 import styles from './TeamPage.module.scss';
-
-interface GroupUser {
-  nickname: string;
-}
-
-interface GroupBuyingData {
-  id: number;
-  status: number;
-  groupUsers: GroupUser[];
-}
 
 export default function TeamPage() {
   const router = useRouter();
