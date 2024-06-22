@@ -10,6 +10,7 @@ import ShareButton from '@/components/common/Button/Share';
 import Mascot from '@/assets/svgs/mascot-share-link.svg';
 import IconX from '@/assets/svgs/ic-x.svg';
 import styles from './ProductCarousel.module.scss';
+import rectangle from '@/assets/images/rectangle.png';
 
 interface ProductCarouselProps {
   images: string;
@@ -22,7 +23,7 @@ export default function ProductCarousel({ images }: ProductCarouselProps) {
   const { modalOpen, handleModalOpen, handleModalClose } = useModal();
   const { selectedSnap, snapCount } = useSelectedSnapDisplay(emblaApi);
 
-  const items = images.split(',');
+  const items = images !== '' ? images.split(',') : [rectangle.src, rectangle.src];
 
   return (
     <>

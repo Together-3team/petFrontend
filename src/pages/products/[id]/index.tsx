@@ -29,8 +29,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   try {
     const res = await axiosInstance.get(`/products/detail/${productId}`);
     product = res.data;
-  } catch (err) {
-    console.error(err);
+    console.log(product);
+  } catch {
     return {
       notFound: true,
     };
@@ -74,7 +74,7 @@ export default function ProductDetailPage({ product }: { product: Product }) {
         <ProductInfo product={product} />
         <HighlightTeam productId={productId} />
         <HighlightReview productId={productId} />
-        <DetailedDescription descriptionImages={product.detail.descriptionImages} />
+        <DetailedDescription descriptionImages={product.detail?.descriptionImages} />
         <div className={cx('cardSlider')}>
           {/* product.petType, product.productType props*/}
           <CardSliderSimilar />
