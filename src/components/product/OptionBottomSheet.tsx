@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
+import classNames from 'classnames/bind';
 import BottomSheet from '../common/Modal/Base/BottomSheet';
-import Dropdown from '../common/Dropdown';
 import { httpClient } from '@/apis/httpClient';
+import { ProductDropdown } from '../common/ProductDropdown';
+import styles from './OptionBottomSheet.module.scss';
+
+const cx = classNames.bind(styles);
 
 interface Option {
   id: number;
@@ -64,6 +68,7 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type }: 
   const [selectedCombinationName, setSelectedCombinationName] = useState('');
   const [combinationPrice, setCombinationPrice] = useState(0);
   const [originalPrice, setOriginalPrice] = useState(0);
+  const [placeholderList, setPlaceholderList] = useState<string[]>([]);
   const [price, setPrice] = useState(0);
 
   useEffect(() => {
@@ -71,7 +76,7 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type }: 
       try {
         const response = await httpClient().get<ResponseData>(`products/detail/${productId}`);
         const optionsArray = Object.values(response.options);
-
+        setPlaceholderList(Object.keys(response.options));
         setProductOptions(optionsArray);
         setOptionCombinations(response.optionCombinations);
         setSelectedOptions(new Array(optionsArray.length).fill(''));
@@ -110,18 +115,28 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type }: 
 
   return (
     <BottomSheet isOpen={isOpen} onClose={onClose}>
-      {productOptions.map((options, index) => (
+      {/* {productOptions.map((options, index) => (
         <Dropdown
           key={index}
           size="large"
           options={formatOptions(options)}
-          placeholder={`선택 ${index + 1}`}
+          placeholder={`${placeholderList[index]}`}
           onClick={(value: string) => handleOptionChange(index, value)}
         />
-      ))}
+      ))} */}
+      <div className={cx('productOptions')}>
+        {productOptions.map((options, index) => (
+          <ProductDropdown
+            key={index}
+            data={formatOptions(options)}
+            placeholder={`${placeholderList[index]}`}
+            onClick={(value: string) => handleOptionChange(index, value)}
+          />
+        ))}
+      </div>
       {selectedOptions.every(option => option !== '') && <div> {selectedCombinationName} </div>}
       <div>
-        <p>정가 {originalPrice}원</p>
+        <p>정가 {`${originalPrice + combinationPrice}`}원</p>
         <p>할인가 {`${price + combinationPrice}`}원</p>
       </div>
     </BottomSheet>

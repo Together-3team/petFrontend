@@ -41,9 +41,7 @@ export interface Product {
   totalAmount: number;
   isZzimed: boolean;
   options: {
-    additionalProp1?: Option[];
-    additionalProp2?: Option[];
-    additionalProp3?: Option[];
+    [key: string]: Option[];
   };
   optionCombinations: OptionCombination[];
   detail: ProductDetail;
