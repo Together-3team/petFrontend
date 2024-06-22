@@ -17,7 +17,7 @@ export default function TeamPage() {
   const { modalOpen, handleModalOpen, handleModalClose } = useModal();
   const [teamData, setTeamData] = useState<GroupBuyingData[]>([]);
 
-  const socket = io('http://ec2-13-209-80-36.ap-northeast-2.compute.amazonaws.com/');
+  const socket = io(`${process.env.NEXT_PUBLIC_API_BASE_URL}`);
 
   useEffect(() => {
     const fetchGroupBuyingData = async () => {
