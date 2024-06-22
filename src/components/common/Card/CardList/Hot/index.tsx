@@ -1,11 +1,11 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
+import classNames from 'classnames/bind';
 
 import styles from './CardListHot.module.scss';
 import Card from '@/components/common/Card';
 import { infiniteProductsHotQueries } from '@/apis/product/queries';
-import classNames from 'classnames/bind';
 import useIntersect from '@/hooks/useIntersect';
-import CardPlaceholder from '../../CardPlaceholder';
+import CardPlaceholder from '@/components/common/Card/CardPlaceholder';
 
 interface CardListHotProps {
   className?: string;

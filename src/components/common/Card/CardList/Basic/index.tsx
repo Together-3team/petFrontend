@@ -1,30 +1,38 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import classNames from 'classnames/bind';
 
-import styles from './CardListRecommended.module.scss';
+import styles from './CardListBasic.module.scss';
 import Card from '@/components/common/Card';
-import { infiniteProductsRecommendedQueries } from '@/apis/product/queries';
+import { infiniteProductsQueries } from '@/apis/product/queries';
 import useIntersect from '@/hooks/useIntersect';
 import CardPlaceholder from '@/components/common/Card/CardPlaceholder';
 
-interface CardListRecommendedProps {
+interface CardListBasicProps {
   className?: string;
   petType?: string;
+  productType?: string;
   orderBy?: string;
+  keyword?: string;
 }
 
 const cx = classNames.bind(styles);
 
 const PAGE_SIZE = 8;
 
-export default function CardListRecommended({ className, petType = '0', orderBy = '0' }: CardListRecommendedProps) {
+export default function CardListBasic({
+  className,
+  petType = '0',
+  productType = '0',
+  orderBy = '0',
+  keyword,
+}: CardListBasicProps) {
   const {
     data: productsData,
     hasNextPage,
     fetchNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    ...infiniteProductsRecommendedQueries.queryOptions({ page: 1, pageSize: PAGE_SIZE, petType, orderBy }),
+    ...infiniteProductsQueries.queryOptions({ page: 1, pageSize: PAGE_SIZE, petType, productType, orderBy, keyword }),
   });
 
   const targetRef = useIntersect(async (entry, observer) => {
