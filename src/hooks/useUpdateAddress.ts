@@ -21,7 +21,6 @@ export function useUpdateAddress(prevPath?: string | string[] | undefined) {
     mutationFn: async ({ selectedOption, updatedOption }: UpdateAddressParams) => {
       const res = await axiosInstance.put(`/deliveries/${selectedOption.id}`, JSON.stringify(updatedOption));
       const data = res.data;
-      console.log('Response:', data);
       return data;
     },
     onSuccess: () => {

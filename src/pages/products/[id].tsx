@@ -18,7 +18,6 @@ const cx = classNames.bind(styles);
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const productId = context.params?.['id'];
   let product;
-  console.log('song');
   try {
     const res = await axiosInstance.get(`/products/detail/${productId}`);
     product = res.data;

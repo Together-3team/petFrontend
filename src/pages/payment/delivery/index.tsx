@@ -81,7 +81,6 @@ export default function PaymentDeliveryPage() {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    console.log('abc');
     e.preventDefault();
     if (!selectedOption) return;
 
