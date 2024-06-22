@@ -1,8 +1,7 @@
 import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
-import { dehydrate } from '@tanstack/react-query';
 
-import styles from './ProductRecommendedPage.module.scss';
+import styles from './ProductCategoryPage.module.scss';
 import Header from '@/components/common/Layout/Header';
 import LogoFull from '@/components/common/Icon/LogoFull';
 import SearchButton from '@/components/common/Button/Search';
@@ -15,7 +14,8 @@ import SortButton from '@/components/common/Button/Sort';
 import useToast from '@/hooks/useToast';
 import PetToggleButton from '@/components/common/Button/PetToggle';
 import ScrollTopButton from '@/components/common/Button/ScrollTop';
-import CardListRecommended from '@/components/common/Card/CardList/Recommended';
+import ProductTypeButton from '@/components/common/Button/ProductType';
+import CardListBasic from '@/components/common/Card/CardList/Basic';
 
 const SORT_OPTIONS = [
   { name: '최신순', value: '0' },
@@ -28,22 +28,24 @@ const SORT_OPTIONS = [
 const BOTTOM_BOX_ID = 'bottomBox';
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const { petType, orderBy } = context.query;
+  const { petType, productType, orderBy } = context.query;
 
   return {
     props: {
       petType: petType || '0',
+      productType: productType || '0',
       orderBy: orderBy || '0',
     },
   };
 }
 
-interface ProductRecommendedPageProps {
+interface ProductCategoryPageProps {
   petType: string;
+  productType: string;
   orderBy: string;
 }
 
-export default function ProductRecommendedPage({ petType, orderBy }: ProductRecommendedPageProps) {
+export default function ProductCategoryPage({ petType, productType, orderBy }: ProductCategoryPageProps) {
   const router = useRouter();
   const { showToast, setPortalId } = useToast(BOTTOM_BOX_ID);
 
@@ -61,13 +63,27 @@ export default function ProductRecommendedPage({ petType, orderBy }: ProductReco
         </Header.Box>
         <NavTop />
       </Header.Root>
+      <div className={styles.productTypeBox}>
+        <ProductTypeButton
+          initialProductType={productType}
+          onClick={productType =>
+            router.replace({
+              pathname: '/products/category',
+              query: {
+                ...router.query,
+                productType: productType.isSelected ? productType.value : '0',
+              },
+            })
+          }
+        />
+      </div>
       <div className={styles.sortBox}>
         <SortButton
           options={SORT_OPTIONS}
           initialOptionValue={orderBy}
           onClick={value => {
             router.replace({
-              pathname: '/products/recommended',
+              pathname: '/products/category',
               query: {
                 ...router.query,
                 orderBy: value,
@@ -78,7 +94,7 @@ export default function ProductRecommendedPage({ petType, orderBy }: ProductReco
       </div>
       <div className={styles.divider} />
       <div className={styles.contents}>
-        <CardListRecommended petType={petType} orderBy={orderBy} />
+        <CardListBasic petType={petType} productType={productType} orderBy={orderBy} />
       </div>
       <GitHubBox />
       <FloatingBox id={BOTTOM_BOX_ID}>
@@ -89,7 +105,7 @@ export default function ProductRecommendedPage({ petType, orderBy }: ProductReco
             initialPetType={petType}
             onClick={petType => {
               router.replace({
-                pathname: '/products/recommended',
+                pathname: '/products/category',
                 query: {
                   ...router.query,
                   petType: petType.value,
