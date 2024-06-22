@@ -19,7 +19,12 @@ export default function HighlightReview({ productId }: HighlightReviewProps) {
     const fetchReviewData = async () => {
       try {
         const response = await httpClient().get<Product>(`products/detail/${productId}`);
-        setReviewData(response.reviews.slice(0, 3));
+
+        const sortedReviews = response.reviews.sort(
+          (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+
+        setReviewData(sortedReviews.slice(0, 3));
         setReviewCount(response.reviews.length);
         setAverageRating(response.averageRating.toFixed(1));
       } catch (error) {

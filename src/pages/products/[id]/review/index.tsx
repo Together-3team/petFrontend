@@ -20,7 +20,12 @@ export default function ReviewPage() {
     const fetchReviewData = async () => {
       try {
         const response = await httpClient().get<Product>(`products/detail/${productId}`);
-        setReviewData(response.reviews);
+
+        const sortedReviews = response.reviews.sort(
+          (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+
+        setReviewData(sortedReviews);
         setAverageRating(response.averageRating.toFixed(1));
       } catch (error) {
         console.log(error);
@@ -31,7 +36,7 @@ export default function ReviewPage() {
   }, [productId]);
 
   const sortData = (option: string) => {
-    let sorted: any[] = [];
+    let sorted: ProductReview[] = [];
     if (option === '최신순') {
       sorted = [...reviewData].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
     } else if (option === '별점 높은 순') {
