@@ -67,10 +67,16 @@ export default function ProductDetailPage({ product }: { product: Product }) {
         <OrderPolicy productId={productId} />
       </div>
       <div className={cx('fixedCta')}>
-        <Zzim color="gray" productId={productId} />
-        <Button size="large" backgroundColor="$color-pink-main" />
+        <div className={cx('zzim')}>
+          <Zzim color="gray" productId={productId} />
+        </div>
+        <div className={cx('button')}>
+          <Button size="large" backgroundColor="$color-pink-main" onClick={handleModalOpen}>
+            구매하기
+          </Button>
+        </div>
       </div>
-      <OptionBottomSheet isOpen={modalOpen} onClose={handleModalClose} />
+      <OptionBottomSheet isOpen={modalOpen} onClose={handleModalClose} productId={productId} />
     </>
   );
 }

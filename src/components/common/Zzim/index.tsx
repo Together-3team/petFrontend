@@ -6,6 +6,10 @@ import Sole from '@/assets/svgs/sole.svg';
 import RedSole from '@/assets/svgs/sole-red.svg';
 import GraySole from '@/assets/svgs/sole-gray.svg';
 import styles from './Zzim.module.scss';
+import { isAxiosError } from 'axios';
+import useToast from '@/hooks/useToast';
+import { FETCH_ERROR_MESSAGE, SERVER_ERROR_MESSAGE } from '@/constants/errorMessage';
+import useAuth from '@/hooks/useAuth';
 
 interface Zzim {
   className?: string;
@@ -23,10 +27,13 @@ const cx = classNames.bind(styles);
 //className에서 zzim 위치 조정
 export default function Zzim({ className, color, productId }: Zzim) {
   const queryClient = useQueryClient();
+  const { showToast } = useToast();
+  const { isLogin } = useAuth();
 
   const { data: isProductLikedByCurrentUser } = useQuery({
     queryKey: ['likeStatus', productId],
     queryFn: () => getLikeStatus(productId),
+    enabled: isLogin,
   });
 
   const likesMutation = useMutation({
@@ -47,8 +54,34 @@ export default function Zzim({ className, color, productId }: Zzim) {
 
       return { prevLikeStatus };
     },
-    onError: (err, { productId }, context) => {
+    onError: (error, { productId }, context) => {
       queryClient.setQueryData(['likeStatus', productId], context?.prevLikeStatus);
+      if (!isAxiosError(error)) {
+        // `AxiosError`가 아닌 경우
+        showToast({
+          status: 'error',
+          message: FETCH_ERROR_MESSAGE.UNKNOWN,
+        });
+        return;
+      }
+      // `AxiosError`인 경우 에러 처리
+      if (!error.response) {
+        showToast({
+          status: 'error',
+          message: FETCH_ERROR_MESSAGE.REQUEST,
+        });
+        return;
+      }
+      const status = error.response?.status;
+      console.log(status);
+      switch (status) {
+        case 500:
+          showToast({
+            status: 'error',
+            message: SERVER_ERROR_MESSAGE.DEFAULT,
+          });
+          return;
+      }
     },
     onSettled: (data, err, { productId }) => {
       queryClient.invalidateQueries({
