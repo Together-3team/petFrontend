@@ -66,10 +66,10 @@ export default function Card({
             <div className={styles.productTitle}>{productTitle}</div>
             <div className={styles.option}>{option}</div>
             <div className={styles.moneyContainerRight}>
-              <div className={styles.productCost}>{originalCost.toLocaleString('ko-KR')}원</div>
+              <div className={styles.productCost}>{originalCost}원</div>
               <div className={styles.realPrice}>
                 <div className={styles.discountRate}>{discountRate.toFixed(0)}%</div>
-                <div className={styles.realMoney}>{productCost.toLocaleString('ko-KR')}원</div>
+                <div className={styles.realMoney}>{productCost}원</div>
               </div>
             </div>
           </div>

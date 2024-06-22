@@ -11,6 +11,7 @@ import { PurchaseDataProps } from '@/pages/my/review';
 import Empty from '@/components/order/Empty';
 
 import styles from './Order.module.scss';
+import formatDate from '@/utils/formatDate';
 
 const cx = classNames.bind(styles);
 
@@ -19,16 +20,6 @@ export default function Order() {
 
   const { data: purchaseData } = useQuery({ queryKey: ['purchase'], queryFn: purchaseApi.getPurchase });
   console.log(purchaseData);
-
-  const purchaseId = purchaseData?.data.map((item: PurchaseDataProps) => {
-    return item.id;
-  });
-
-  const purchaseDate = purchaseData?.data.map((item: PurchaseDataProps) => {
-    return item.createdAt;
-  });
-
-  console.log(purchaseDate);
 
   const purchaseList = purchaseData?.data.flatMap((item: PurchaseDataProps) =>
     item.purchaseProducts.map((product: ProductInfo) => ({
@@ -44,10 +35,10 @@ export default function Order() {
     }))
   );
 
-  function handleMoveOrderDetail(purchaseId: number) {
+  function handleMoveOrderDetail({ purchaseId, purchaseDate }: { purchaseId: number; purchaseDate: string }) {
     router.push({
       pathname: `/my/order/${purchaseId}`,
-      query: { purchaseId },
+      query: { purchaseId, purchaseDate },
     });
   }
 
@@ -62,8 +53,7 @@ export default function Order() {
   // function handleClick() {
   //   mutation;
   // }
-  if (!purchaseData) return <Empty />;
-  if (purchaseList.length <= 0) return <Empty />;
+
   return (
     <div className={styles.orderLayout}>
       <Header.Root>
@@ -76,43 +66,54 @@ export default function Order() {
       </Header.Root>
       <OrderFilterBar />
       <div className={styles.orderList}>
-        {purchaseData.data.map((item: PurchaseDataProps) => {
-          <>
-            <div className={styles.orderInfo}>
-              <div className={styles.orderInfoUp}>
-                <span className={styles.orderDate}>{item.createdAt}</span>
-                <div className={styles.orderDetail} onClick={() => handleMoveOrderDetail(item.id)}>
-                  주문상세
+        {purchaseData && purchaseData.data && purchaseData.data.length > 0 ? (
+          purchaseData.data.map((item: PurchaseDataProps) => (
+            <div key={item.id}>
+              <div className={styles.orderInfo}>
+                <div className={styles.orderInfoUp}>
+                  <span className={styles.orderDate}>{formatDate(item.createdAt)}</span>
+                  <div
+                    className={styles.orderDetail}
+                    onClick={() => handleMoveOrderDetail({ purchaseId: item.id, purchaseDate: item.createdAt })}>
+                    주문상세
+                  </div>
                 </div>
+                <span className={styles.orderNumber}>주문번호 No. {item.id}</span>
               </div>
-              <span className={styles.orderNumber}>주문번호 No. {item.id}</span>
+              <div className={styles.orderCards}>
+                {purchaseList &&
+                  (purchaseList.length > 0 ? (
+                    purchaseList.map((purchase: ProductInfo) => (
+                      <OrderCard
+                        key={purchase.productId}
+                        productInfo={purchase}
+                        href="/my/order"
+                        tagText={
+                          purchase.paymentStatus === 0
+                            ? '공동구매 대기'
+                            : purchase.paymentStatus === 1
+                              ? '공동구매 완료'
+                              : purchase.paymentStatus === 2
+                                ? '주문 완료'
+                                : purchase.paymentStatus === 3
+                                  ? '배송 준비'
+                                  : purchase.paymentStatus === 4
+                                    ? '배송 중'
+                                    : purchase.paymentStatus === 5
+                                      ? '배송 완료'
+                                      : '취소/환불'
+                        }
+                      />
+                    ))
+                  ) : (
+                    <div>주문한 상품이 없습니다.</div>
+                  ))}
+              </div>
             </div>
-            <div className={styles.orderCards}>
-              {purchaseList.map((purchase: ProductInfo) => (
-                <OrderCard
-                  key={purchase.productId}
-                  productInfo={purchase}
-                  href="/my/order"
-                  tagText={
-                    purchase.paymentStatus === 0
-                      ? '공동구매 대기'
-                      : purchase.paymentStatus === 1
-                        ? '공동구매 완료'
-                        : purchase.paymentStatus === 2
-                          ? '주문 완료'
-                          : purchase.paymentStatus === 3
-                            ? '배송 준비'
-                            : purchase.paymentStatus === 4
-                              ? '배송 중'
-                              : purchase.paymentStatus === 5
-                                ? '배송 완료'
-                                : '취소/환불'
-                  }
-                />
-              ))}
-            </div>
-          </>;
-        })}
+          ))
+        ) : (
+          <Empty />
+        )}
       </div>
     </div>
   );

@@ -8,10 +8,11 @@ import OrderCard from '@/components/order/OrderCard';
 import TotalPay from '@/components/cart/TotalPay';
 
 import styles from './Order.module.scss';
+import formatDate from '@/utils/formatDate';
 
 export default function OrderDetail() {
   const router = useRouter();
-  const { purchaseId } = router.query;
+  const { purchaseId, purchaseDate } = router.query;
 
   const { data: purchaseDetailData } = useQuery({
     queryKey: ['purchaseDetail', purchaseId],
@@ -47,6 +48,7 @@ export default function OrderDetail() {
   };
 
   console.log(orderList);
+  console.log(purchaseDate);
 
   function calculateTotalOriginalPrice() {
     return purchaseDetailData?.data.purchaseProducts.reduce(
@@ -78,7 +80,7 @@ export default function OrderDetail() {
       </Header.Root>
       <div className={styles.orderDetailTop}>
         <div className={styles.orderDetailHeader}>
-          <h3></h3>
+          <h3>{purchaseDate && formatDate(purchaseDate as string)}</h3>
           <span>주문번호 No. {purchaseId}</span>
         </div>
 

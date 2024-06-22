@@ -19,7 +19,7 @@ export interface ProductInfo {
   reviewCount?: number;
   stock: number;
   option?: string;
-  quantity: number;
+  quantity?: number;
   combinationName?: string;
   paymentStatus?: number;
 }
@@ -106,7 +106,7 @@ export default function Card({
         {stock === 0 && <p className={cx('outOfStock')}>품절된 상품이에요</p>}
         {stock > 0 && (
           <p className={cx('originalPrice')} data-direction={direction} data-size={size}>
-            {originalPrice.toLocaleString('ko-KR')}원
+            {originalPrice}원
           </p>
         )}
         {stock > 0 && (
@@ -115,7 +115,7 @@ export default function Card({
               {discountRate}%
             </p>
             <p className={cx('price')} data-direction={direction} data-size={size}>
-              {price.toLocaleString('ko-KR')}원
+              {price}원
             </p>
           </div>
         )}
