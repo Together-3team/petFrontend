@@ -1,13 +1,13 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import classNames from 'classnames/bind';
 
-import styles from './CardListBasic.module.scss';
+import styles from './CardListZzim.module.scss';
 import Card from '@/components/common/Card';
 import { infiniteProductsQueries } from '@/apis/product/queries';
+import classNames from 'classnames/bind';
 import useIntersect from '@/hooks/useIntersect';
-import CardPlaceholder from '@/components/common/Card/CardPlaceholder';
+import CardPlaceholder from '../../CardPlaceholder';
 
-interface CardListBasicProps {
+interface CardListZzimProps {
   className?: string;
   petType?: string;
   productType?: string;
@@ -19,13 +19,13 @@ const cx = classNames.bind(styles);
 
 const PAGE_SIZE = 8;
 
-export default function CardListBasic({
+export default function CardListZzim({
   className,
   petType = '0',
   productType = '0',
   orderBy = '0',
   keyword,
-}: CardListBasicProps) {
+}: CardListZzimProps) {
   const {
     data: productsData,
     hasNextPage,
