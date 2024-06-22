@@ -4,6 +4,7 @@ import ReviewBox from './ReviewBox';
 import styles from './HighlightReview.module.scss';
 import { useEffect, useState } from 'react';
 import { httpClient } from '@/apis/httpClient';
+import { Product, ProductReview } from '@/types/product';
 
 const testData = [
   {
@@ -42,14 +43,14 @@ const rating = 4.5;
 const totalReviewer = 180;
 
 export default function HighlightReview({ productId }: any) {
-  const [reviewData, setReviewData] = useState([]);
-  const [averageRating, setAverageRating] = useState(0);
+  const [reviewData, setReviewData] = useState<ProductReview[]>([]);
+  const [averageRating, setAverageRating] = useState<string>('');
 
   useEffect(() => {
     const fetchReviewData = async () => {
       try {
-        const response = await httpClient().get(`products/detail/${productId}`);
-        console.log(response.reviews);
+        const response = await httpClient().get<Product>(`products/detail/${productId}`);
+        console.log(response);
         setReviewData(response.reviews);
         setAverageRating(response.averageRating.toFixed(1));
       } catch (error) {

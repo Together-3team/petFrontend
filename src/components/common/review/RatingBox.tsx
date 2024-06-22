@@ -3,7 +3,7 @@ import StarRating from './StarRating';
 import styles from './RatingBox.module.scss';
 
 interface RatingBoxProps {
-  rating: number;
+  rating: number | string;
   totalReviewer: number;
   className?: string;
 }

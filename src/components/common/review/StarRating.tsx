@@ -12,7 +12,7 @@ interface StarProps {
 interface StarRatingProps {
   starStyle?: string;
   starRatingStyle?: string;
-  rating: number;
+  rating: number | string;
   editable?: boolean;
   onRate?: (rating: number) => void;
 }
