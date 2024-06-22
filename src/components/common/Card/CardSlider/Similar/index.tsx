@@ -51,7 +51,7 @@ export default function CardSliderSimilar({ petType = '0', productType = '0' }: 
                 reviewCount: product.reviewCount && 1000,
                 starRating: product.averageRating,
               }}
-              size="big"
+              size="large"
               isZzim
             />
           </CardSlider.Item>

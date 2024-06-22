@@ -37,10 +37,10 @@ export default function Empty() {
         </div>
         <div className={styles.customCardContainer}>
           <div className={styles.customCard}>
-            <Card size="big" productInfo={productList2} />
-            <Card size="big" productInfo={productList2} />
-            <Card size="big" productInfo={productList2} />
-            <Card size="big" productInfo={productList2} />
+            <Card size="large" productInfo={productList2} />
+            <Card size="large" productInfo={productList2} />
+            <Card size="large" productInfo={productList2} />
+            <Card size="large" productInfo={productList2} />
           </div>
         </div>
       </div>
