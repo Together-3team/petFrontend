@@ -1,18 +1,28 @@
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import TeamDataCard from './TeamDataCard';
 import { httpClient } from '@/apis/httpClient';
 import styles from './HighlightTeam.module.scss';
-import { useRouter } from 'next/router';
+
+interface GroupUser {
+  nickname: string;
+}
+
+interface GroupBuyingData {
+  id: number;
+  status: number;
+  groupUsers: GroupUser[];
+}
 
 export default function HighlightTeam({ productId }: any) {
   const router = useRouter();
 
-  const [teamData, setTeamData] = useState([]);
+  const [teamData, setTeamData] = useState<GroupBuyingData[]>([]);
 
   useEffect(() => {
     const fetchGroupBuyingData = async () => {
       try {
-        const response = await httpClient().get(`group-buying/${productId}`);
+        const response = await httpClient().get<GroupBuyingData[]>(`group-buying/${productId}`);
         console.log(response.slice(0, 3));
         setTeamData(response.slice(0, 3));
       } catch (error) {
