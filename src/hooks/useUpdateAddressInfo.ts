@@ -23,7 +23,6 @@ export function useUpdateAddressInfo(prevPath?: string | string[] | undefined) {
     mutationFn: async ({ id, addressInfo }: UpdateAddressInfoParams) => {
       const res = await axiosInstance.put(`/deliveries/${id}`, JSON.stringify(addressInfo));
       const data = res.data;
-      console.log('Response:', data);
       return data;
     },
     onSuccess: () => {

@@ -13,6 +13,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { deleteAllProducts, deleteProductById, fetchCartProducts, updateProductQuantity } from '@/apis/cartApi';
 import Header from '@/components/common/Layout/Header';
 import { useRouter } from 'next/router';
+import CardSliderRecommended from '@/components/common/Card/CardSlider/Recommended';
 
 export interface Product {
   id: number;
@@ -44,8 +45,12 @@ export default function Cart() {
 
   useEffect(() => {
     if (productsData) {
-      setProducts(productsData);
-      setSelectAll(productsData.every(product => product.isChecked));
+      setProducts(
+        productsData.map(product => ({
+          ...product,
+          isChecked: products.find(p => p.id === product.id)?.isChecked ?? product.isChecked,
+        }))
+      );
     }
   }, [productsData]);
 
@@ -240,15 +245,29 @@ export default function Cart() {
                 }}
               />
             ))}
-            <TotalPay totalPrice={totalPrice} totalOriginalPrice={totalOriginalPrice} productCount={productCount} />
+            <TotalPay
+              totalPrice={totalPrice}
+              title={`결제 상품 총 ${products.length}개`}
+              totalOriginalPrice={totalOriginalPrice}
+              productCount={productCount}
+            />
           </>
         ) : (
           <div className={styles.noProduct}>아직 담은 상품이 없어요</div>
         )}
       </div>
+      <div className={styles.rectangle}></div>
+      <div className={styles.recommended}>
+        <CardSliderRecommended title="이 상품은 어떠세요?" />
+      </div>
+
       <FloatingBox id={BOTTOM_BOX_ID}>
         <div className={styles.bottomNavCart}>
-          <Button size="large" backgroundColor="$color-pink-main" onClick={handleOrderButtonClick}>
+          <Button
+            size="large"
+            backgroundColor="$color-pink-main"
+            onClick={handleOrderButtonClick}
+            disabled={totalPrice === 0}>
             {totalPrice}원 주문하기
           </Button>
           <div className={styles.howMuchMinus}>
