@@ -1,8 +1,8 @@
 @layer components {
   .container {
     background-color: $color-gray-100;
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     align-items: center;
     width: 100%;
     padding: 2rem 1.6rem;
@@ -12,16 +12,22 @@
     @include font-body5;
 
     color: $color-black;
+    grid-column: 1 / 2;
+    justify-self: left;
   }
 
   .teamText {
     @include font-body6;
 
     color: $color-gray-500;
+    grid-column: 2 / 3;
+    justify-self: center;
   }
 
   .github {
     width: 2rem;
     height: 2rem;
+    grid-column: 3 / 4;
+    justify-self: right;
   }
 }
