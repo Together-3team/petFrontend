@@ -111,7 +111,7 @@ export default function OrderDetail() {
         {purchaseDetailData &&
           orderList.length > 0 &&
           orderList.map((order: ProductInfo) => (
-            <OrderCard key={order.productId} productInfo={order} tagText={getTagText(order.status)} />
+            <OrderCard key={order.productId} productInfo={{ ...order }} tagText={getTagText(order.status)} />
           ))}
       </div>
       <div className={styles.orderDetailBottom}>
