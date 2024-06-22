@@ -1,0 +1,18 @@
+@layer overrides {
+  .layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 8rem;
+    padding-top: 2rem;
+  }
+
+  .header {
+    padding: 0 1.6rem;
+  }
+
+  .recommendedBox {
+    margin-top: 3.2rem;
+    width: 100%;
+  }
+}
