@@ -35,9 +35,9 @@ export default function CenterModal({ isOpen, onClose, hasBackdrop = true, child
   useEffect(() => {
     const toggleModal = () => {
       if (isOpen) {
-        document.body.style.overflowY = 'hidden';
+        // document.body.style.overflowY = 'hidden';
       } else {
-        document.body.style.overflowY = 'auto';
+        // document.body.style.overflowY = 'auto';
       }
     };
     toggleModal();

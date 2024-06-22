@@ -1,0 +1,80 @@
+.deliveryEditPage {
+  margin: 2rem 1.6rem;
+}
+
+.header {
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 2rem;
+}
+
+.deliveryEditForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.4rem;
+  margin: 0.8rem auto;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.inputArea {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1.2rem;
+}
+
+.isDefaultInput {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.isDefaultText {
+  @include font-body3;
+}
+
+.checkBox {
+  width: 2rem;
+  height: 2rem;
+  margin: 0.6rem;
+  accent-color: $color-pink-main;
+}
+
+.checkBoxGray {
+  width: 2rem;
+  height: 2rem;
+  margin: 0.6rem;
+  accent-color: $color-gray-600;
+}
+
+.errorText {
+  @include font-caption1;
+  color: $color-pink-main;
+  align-self: stretch;
+}
+
+.isDefaultErrorText {
+  padding-top: 0.8rem;
+  padding-left: 1rem;
+}
+
+.buttonArea {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  gap: 2.4rem;
+}
+
+.button {
+  width: 100%;
+}
