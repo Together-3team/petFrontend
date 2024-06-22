@@ -9,6 +9,7 @@ import TotalPay from '@/components/cart/TotalPay';
 
 import styles from './Order.module.scss';
 import formatDate from '@/utils/formatDate';
+import getTagText from '@/utils/getTagText';
 
 export default function OrderDetail() {
   const router = useRouter();
@@ -110,25 +111,7 @@ export default function OrderDetail() {
         {purchaseDetailData &&
           orderList.length > 0 &&
           orderList.map((order: ProductInfo) => (
-            <OrderCard
-              key={order.productId}
-              productInfo={order}
-              tagText={
-                order.status === 0
-                  ? '공동구매 대기'
-                  : order.status === 1
-                    ? '공동구매 완료'
-                    : order.status === 2
-                      ? '주문 완료'
-                      : order.status === 3
-                        ? '배송 준비'
-                        : order.status === 4
-                          ? '배송 중'
-                          : order.status === 5
-                            ? '배송 완료'
-                            : '취소/환불'
-              }
-            />
+            <OrderCard key={order.productId} productInfo={order} tagText={getTagText(order.status)} />
           ))}
       </div>
       <div className={styles.orderDetailBottom}>
