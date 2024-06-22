@@ -4,6 +4,7 @@ const nextConfig = {
   images: {
     domains: [
       'shopping-phinf.pstatic.net',
+      'shop-phinf.pstatic.net',
       't1.kakaocdn.net',
       'k.kakaocdn.net',
       'lh3.googleusercontent.com',
