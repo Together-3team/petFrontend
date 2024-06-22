@@ -3,10 +3,57 @@ import BottomSheet from '../common/Modal/Base/BottomSheet';
 import Dropdown from '../common/Dropdown';
 import { httpClient } from '@/apis/httpClient';
 
+interface Option {
+  id: number;
+  optionValue: string;
+  optionPrice: number;
+}
+
+interface Product {
+  id: number;
+  originalPrice: number;
+  price: number;
+  title: string;
+  thumbNailImage: string;
+}
+
+interface OptionCombination {
+  id: number;
+  product: Product;
+  optionCombination: string;
+  combinationName: string;
+  combinationPrice: number;
+  amount: number;
+}
+
+interface Review {
+  id: number;
+  rating: number;
+  reviewImages: string;
+  description: string;
+}
+
+interface ResponseData {
+  id: number;
+  originalPrice: number;
+  price: number;
+  title: string;
+  thumbNailImage: string;
+  petType: number;
+  productType: number;
+  averageRating: number;
+  reviewCount: number;
+  totalAmount: number;
+  isZzimed: boolean;
+  options: { [key: string]: Option[] };
+  optionCombinations: OptionCombination[];
+  reviews: Review[];
+}
+
 export default function OptionBottomSheet({ isOpen, onClose, productId }: any) {
-  const [productOptions, setProductOptions] = useState([]);
-  const [selectedOptions, setSelectedOptions] = useState([]);
-  const [optionCombinations, setOptionCombinations] = useState([]);
+  const [productOptions, setProductOptions] = useState<Option[][]>([]);
+  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+  const [optionCombinations, setOptionCombinations] = useState<OptionCombination[]>([]);
   const [selectedCombinationName, setSelectedCombinationName] = useState('');
   const [combinationPrice, setCombinationPrice] = useState(0);
   const [originalPrice, setOriginalPrice] = useState(0);
@@ -15,7 +62,7 @@ export default function OptionBottomSheet({ isOpen, onClose, productId }: any) {
   useEffect(() => {
     const fetchProductOption = async () => {
       try {
-        const response = await httpClient().get('products/detail/1');
+        const response = await httpClient().get<ResponseData>('products/detail/1');
         const optionsArray = Object.values(response.options);
 
         setProductOptions(optionsArray);
