@@ -24,7 +24,11 @@ export default function Order() {
     return item.id;
   });
 
-  console.log(purchaseId);
+  const purchaseDate = purchaseData?.data.map((item: PurchaseDataProps) => {
+    return item.createdAt;
+  });
+
+  console.log(purchaseDate);
 
   const purchaseList = purchaseData?.data.flatMap((item: PurchaseDataProps) =>
     item.purchaseProducts.map((product: ProductInfo) => ({
@@ -72,40 +76,43 @@ export default function Order() {
       </Header.Root>
       <OrderFilterBar />
       <div className={styles.orderList}>
-        <div className={styles.orderInfo}>
-          <div className={styles.orderInfoUp}>
-            <span className={styles.orderDate}>2024.05.21</span>
-            <div className={styles.orderDetail} onClick={() => handleMoveOrderDetail(purchaseId)}>
-              주문상세
+        {purchaseData.data.map((item: PurchaseDataProps) => {
+          <>
+            <div className={styles.orderInfo}>
+              <div className={styles.orderInfoUp}>
+                <span className={styles.orderDate}>{item.createdAt}</span>
+                <div className={styles.orderDetail} onClick={() => handleMoveOrderDetail(item.id)}>
+                  주문상세
+                </div>
+              </div>
+              <span className={styles.orderNumber}>주문번호 No. {item.id}</span>
             </div>
-          </div>
-          <span className={styles.orderNumber}>주문번호 No. {purchaseId}</span>
-        </div>
-        <div className={styles.orderCards}>
-          {purchaseData &&
-            purchaseList.map((purchase: ProductInfo) => (
-              <OrderCard
-                key={purchase.productId}
-                productInfo={purchase}
-                href="/my/order"
-                tagText={
-                  purchase.paymentStatus === 0
-                    ? '공동구매 대기'
-                    : purchase.paymentStatus === 1
-                      ? '공동구매 완료'
-                      : purchase.paymentStatus === 2
-                        ? '주문 완료'
-                        : purchase.paymentStatus === 3
-                          ? '배송 준비'
-                          : purchase.paymentStatus === 4
-                            ? '배송 중'
-                            : purchase.paymentStatus === 5
-                              ? '배송 완료'
-                              : '취소/환불'
-                }
-              />
-            ))}
-        </div>
+            <div className={styles.orderCards}>
+              {purchaseList.map((purchase: ProductInfo) => (
+                <OrderCard
+                  key={purchase.productId}
+                  productInfo={purchase}
+                  href="/my/order"
+                  tagText={
+                    purchase.paymentStatus === 0
+                      ? '공동구매 대기'
+                      : purchase.paymentStatus === 1
+                        ? '공동구매 완료'
+                        : purchase.paymentStatus === 2
+                          ? '주문 완료'
+                          : purchase.paymentStatus === 3
+                            ? '배송 준비'
+                            : purchase.paymentStatus === 4
+                              ? '배송 중'
+                              : purchase.paymentStatus === 5
+                                ? '배송 완료'
+                                : '취소/환불'
+                  }
+                />
+              ))}
+            </div>
+          </>;
+        })}
       </div>
     </div>
   );

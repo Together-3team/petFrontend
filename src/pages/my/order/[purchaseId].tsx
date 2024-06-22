@@ -78,7 +78,7 @@ export default function OrderDetail() {
       </Header.Root>
       <div className={styles.orderDetailTop}>
         <div className={styles.orderDetailHeader}>
-          <h3>2024.04.21</h3>
+          <h3></h3>
           <span>주문번호 No. {purchaseId}</span>
         </div>
 

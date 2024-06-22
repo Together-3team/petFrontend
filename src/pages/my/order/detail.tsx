@@ -106,8 +106,7 @@ export default function OrderDetail() {
       </div>
       <div className={styles.orderDetailBottom}>
         <div className={styles.rectangle} />
-        <div className={styles.orderPriceArea}>
-        </div>
+        <div className={styles.orderPriceArea}></div>
         <div className={styles.paymentMethod}>
           <div className={styles.rectangle} />
           <div className={styles.paymentMethodTitle}>
