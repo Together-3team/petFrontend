@@ -14,13 +14,13 @@ const cx = classNames.bind(styles);
 
 export default function ProductInfo({ product }: { product: Product }) {
   const { detail, title, originalPrice, price, averageRating, reviewCount, totalAmount } = product;
-  const { productImages } = detail;
+  let productImages: string[] = [];
   const discountRate = Math.ceil((1 - price / originalPrice) * 100);
   const futureDate = getFutureDate(3);
   return (
     <div className={cx('contents')}>
       <div className={cx('imageContainer')}>
-        <ProductCarousel images={productImages} />
+        <ProductCarousel images={detail?.productImages || ''} />
       </div>
       <div className={cx('productInfoContent')}>
         <h1 className={cx('title')}>{title}</h1>
