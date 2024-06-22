@@ -12,6 +12,10 @@ import OrderPolicy from '@/components/productDetails/orderPolicy';
 import CardSliderSimilar from '@/components/common/Card/CardSlider/Similar';
 import { Product } from '@/types/product';
 import styles from './ProductDetail.module.scss';
+import OptionBottomSheet from '@/components/product/OptionBottomSheet';
+import useModal from '@/hooks/useModal';
+import Zzim from '@/components/common/Zzim';
+import Button from '@/components/common/Button';
 
 const cx = classNames.bind(styles);
 
@@ -35,6 +39,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 }
 
 export default function ProductDetailPage({ product }: { product: Product }) {
+  const { modalOpen, handleModalOpen, handleModalClose } = useModal();
   const router = useRouter();
   const { id } = router.query;
   const productId = Number(id);
@@ -61,6 +66,11 @@ export default function ProductDetailPage({ product }: { product: Product }) {
         </div>
         <OrderPolicy productId={productId} />
       </div>
+      <div className={cx('fixedCta')}>
+        <Zzim color="gray" productId={productId} />
+        <Button size="large" backgroundColor="$color-pink-main" />
+      </div>
+      <OptionBottomSheet isOpen={modalOpen} onClose={handleModalClose} />
     </>
   );
 }
