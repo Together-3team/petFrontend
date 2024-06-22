@@ -1,18 +1,28 @@
 import classNames from 'classnames/bind';
+import { useRouter } from 'next/router';
 
 import Header from '@/components/common/Layout/Header';
-import BackButton from '@/components/common/Button/BackButton';
+import LeftArrow from '@/assets/svgs/left-arrow.svg';
 import styles from './Policy.module.scss';
 
 const cx = classNames.bind(styles);
 
 export default function RefundPolicy() {
+  const router = useRouter();
+  const { productId } = router.query;
+
+  const handleBackButtonClick = () => {
+    router.replace(`/products/${productId}`);
+  };
+
   return (
     <>
       <Header.Root className={cx('headerRoot')}>
         <Header.Box>
           <Header.Left>
-            <BackButton />
+            <button className={cx('backButton')} onClick={handleBackButtonClick}>
+              <LeftArrow width={24} height={24} alt="뒤로 가기 버튼" />
+            </button>
           </Header.Left>
           <div className={cx('title')}>
             <Header.Center>주문 취소/교환/반품 안내</Header.Center>

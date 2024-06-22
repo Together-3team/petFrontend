@@ -4,10 +4,10 @@ import styles from './OrderPolicy.module.scss';
 import { useRouter } from 'next/router';
 
 const cx = classNames.bind(styles);
-export default function OrderPolicy() {
+export default function OrderPolicy({ productId }: { productId: number }) {
   const router = useRouter();
   const handlePolicyButtonClick = () => {
-    router.replace('/refund/policy');
+    router.replace({ pathname: '/refund/policy', query: `productId=${productId}` });
   };
   return (
     <div className={cx('contents')}>
