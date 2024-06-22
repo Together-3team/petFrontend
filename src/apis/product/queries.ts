@@ -128,4 +128,10 @@ export const zzimsQueries = {
   prefetchQuery: () => {
     queryClient.prefetchQuery(zzimsQueries.queryOptions());
   },
+  removeQueries: () => {
+    queryClient.removeQueries({ queryKey: zzimsQueries.queryKey() });
+  },
+  invalidateQueries: () => {
+    queryClient.invalidateQueries({ queryKey: zzimsQueries.queryKey() });
+  },
 };
