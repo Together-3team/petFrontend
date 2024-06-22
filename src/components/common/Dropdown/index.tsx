@@ -12,6 +12,7 @@ interface DropdownProps {
   placeholder?: string;
   size: 'large' | 'small';
   onClick: (value: any) => void;
+  // value: any;
 }
 
 export default function Dropdown({ size, options, placeholder, onClick }: DropdownProps) {

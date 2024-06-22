@@ -108,7 +108,6 @@ export default function OptionBottomSheet({ isOpen, onClose, productId }: any) {
           key={index}
           size="large"
           options={formatOptions(options)}
-          value={selectedOptions[index]}
           placeholder={`선택 ${index + 1}`}
           onClick={(value: string) => handleOptionChange(index, value)}
         />
