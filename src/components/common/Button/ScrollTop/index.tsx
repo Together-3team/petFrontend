@@ -8,10 +8,11 @@ const cx = classNames.bind(styles);
 
 interface ScrollTopButtonProps {
   className?: string;
+  minHeight?: number;
 }
 
-export default function ScrollTopButton({ className }: ScrollTopButtonProps) {
-  const { isUp } = useScrollUpAndDown(200);
+export default function ScrollTopButton({ className, minHeight = 200 }: ScrollTopButtonProps) {
+  const { isUp } = useScrollUpAndDown(minHeight);
 
   const handleClick = () => {
     window.scroll({
