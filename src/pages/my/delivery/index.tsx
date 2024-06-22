@@ -1,22 +1,25 @@
+import { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
+import { useRouter } from 'next/router';
+import { isAxiosError } from 'axios';
+
+import axiosInstance from '@/apis/axiosInstance';
 import BackButton from '@/components/common/Button/BackButton';
 import Header from '@/components/common/Layout/Header';
-import styles from './Delivery.module.scss';
 import DeliveryCard from '@/components/common/DeliveryCard';
-import { useEffect, useRef, useState } from 'react';
 import DeliveryEmptyView from '@/components/delivery/EmptyView';
 import Button from '@/components/common/Button';
 import { DeliveryInfo } from '@/types/components/delivery';
 import useToast from '@/hooks/useToast';
-import axiosInstance from '@/apis/axiosInstance';
-import { isAxiosError } from 'axios';
 import { FETCH_ERROR_MESSAGE, SERVER_ERROR_MESSAGE } from '@/constants/errorMessage';
+import styles from './Delivery.module.scss';
 
 const cx = classNames.bind(styles);
 
 export default function MyDeliveryPage() {
   const [deliveries, setDeliveries] = useState<DeliveryInfo[]>([]);
   const { showToast } = useToast();
+  const router = useRouter();
 
   useEffect(() => {
     const fetchOptions = async () => {
@@ -55,6 +58,13 @@ export default function MyDeliveryPage() {
     fetchOptions();
   }, [showToast]);
 
+  const handleAddDeliveryButton = () => {
+    router.push({
+      pathname: `/my/delivery/add`,
+      query: router.asPath,
+    });
+  };
+
   return (
     <div className={cx('layout')}>
       <div className={cx('delivery')}>
@@ -85,7 +95,7 @@ export default function MyDeliveryPage() {
         )}
       </div>
       <div className={cx('button')}>
-        <Button size="large" backgroundColor="$color-pink-main">
+        <Button size="large" backgroundColor="$color-pink-main" onClick={handleAddDeliveryButton}>
           배송지 추가
         </Button>
       </div>

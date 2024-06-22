@@ -34,7 +34,7 @@ export default function OrderDetail() {
       option: product.combinationName,
       quantity: product.quantity,
       stock: 1,
-      status: product.status,
+      status: product.paymentStatus,
     }));
 
   const deliveryInfo = purchaseDetailData && {
@@ -112,15 +112,19 @@ export default function OrderDetail() {
               key={order.productId}
               productInfo={order}
               tagText={
-                order.status === 2
-                  ? '주문 완료'
-                  : order.status === 3
-                    ? '배송 준비'
-                    : order.status === 4
-                      ? '배송 중'
-                      : order.status === 5
-                        ? '배송 완료'
-                        : '취소 / 환불'
+                order.paymentStatus === 0
+                  ? '공동구매 대기'
+                  : order.paymentStatus === 1
+                    ? '공동구매 완료'
+                    : order.paymentStatus === 2
+                      ? '주문 완료'
+                      : order.paymentStatus === 3
+                        ? '배송 준비'
+                        : order.paymentStatus === 4
+                          ? '배송 중'
+                          : order.paymentStatus === 5
+                            ? '배송 완료'
+                            : '취소/환불'
               }
             />
           ))}
@@ -128,7 +132,12 @@ export default function OrderDetail() {
       <div className={styles.orderDetailBottom}>
         <div className={styles.rectangle} />
         <div className={styles.orderPriceArea}>
-          <TotalPay totalPrice={totalPrice} totalOriginalPrice={totalOriginalPrice} productCount={orderCount} />
+          <TotalPay
+            title="결제 금액"
+            totalPrice={totalPrice}
+            totalOriginalPrice={totalOriginalPrice}
+            productCount={orderCount}
+          />
         </div>
         <div className={styles.paymentMethod}>
           <div className={styles.rectangle} />

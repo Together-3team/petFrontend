@@ -4,7 +4,7 @@ import Input from '@/components/common/Input';
 import BottomShareModal from '@/components/common/Modal/BottomShareModal';
 import Button from '@/components/common/Button';
 import styles from './My.module.scss';
-import CategoryButton from '@/components/common/Button/Category';
+import PetToggleButton from '@/components/common/Button/PetToggle';
 import Header from '@/components/common/Layout/Header';
 import NavTop from '@/components/common/Nav/Top';
 import NavBottom from '@/components/common/Nav/Bottom';
@@ -19,7 +19,7 @@ export default function My() {
   return (
     <>
       <div className={styles.floatingBox}>
-        <CategoryButton
+        <PetToggleButton
           categories={CATEGORIES}
           initialActiveCategory={CATEGORIES[0]}
           onClick={category => console.log(category)}

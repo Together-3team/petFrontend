@@ -1,4 +1,5 @@
 import classNames from 'classnames/bind';
+import { useRouter } from 'next/router';
 import * as Yup from 'yup';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -9,13 +10,44 @@ import Header from '@/components/common/Layout/Header';
 import Input from '@/components/common/Input';
 import Button from '@/components/common/Button';
 import AddressInput from '@/components/payment/AddressInput';
-import styles from './Edit.module.scss';
+import { GetServerSidePropsContext } from 'next';
+import { DeliveryInfo } from '@/types/components/delivery';
+import { httpClient } from '@/apis/httpClient';
+import { useAddAddressInfo } from '@/hooks/useAddAddressInfo';
+import styles from './Add.module.scss';
 
 const cx = classNames.bind(styles);
 
 export type FormValues = Yup.InferType<typeof deliveryFormSchema>;
 
-export default function DeliveryEditPage() {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const accessToken = context.req.cookies['accessToken'];
+  if (!accessToken) {
+    return {
+      redirect: {
+        destination: '/my',
+        permanent: false,
+      },
+    };
+  }
+
+  let deliveries;
+  try {
+    deliveries = await httpClient().get<DeliveryInfo[]>(`/deliveries`, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+  } catch {
+    return {
+      notFound: true,
+    };
+  }
+  return {
+    props: {
+      isInitial: deliveries.length === 0 ? true : false,
+    },
+  };
+}
+export default function DeliveryAddPage({ isInitial }: { isInitial: boolean }) {
   const methods = useForm<FormValues>({
     resolver: yupResolver(deliveryFormSchema),
     mode: 'all',
@@ -24,8 +56,13 @@ export default function DeliveryEditPage() {
     formState: { errors, isValid },
   } = methods;
   const { register, handleSubmit, setValue } = methods;
-  const onSubmit = (data: FormValues) => {
-    console.log(data);
+  const router = useRouter();
+  const prevPath = router.asPath.split('?')[1];
+
+  const { mutate: addAddressInfo } = useAddAddressInfo(prevPath);
+
+  const onSubmit = (addressInfo: FormValues) => {
+    addAddressInfo({ addressInfo });
   };
 
   return (
@@ -35,17 +72,17 @@ export default function DeliveryEditPage() {
           <Header.Left>
             <BackButton />
           </Header.Left>
-          <h1 className={cx('header')}>배송지 수정</h1>
+          <h1 className={cx('header')}>배송지 추가</h1>
         </Header.Box>
       </Header.Root>
       <FormProvider {...methods}>
         <form className={cx('deliveryEditForm')} onSubmit={handleSubmit(onSubmit)}>
           <div className={cx('inputArea')}>
-            <div>
+            <div className={cx('inputContainer')}>
               <Input
                 id="name"
                 type="text"
-                size="large"
+                size="full"
                 label="배송지명"
                 isError={errors.name && true}
                 labelStyle={'label'}
@@ -54,11 +91,11 @@ export default function DeliveryEditPage() {
               />
               {errors.name && <span className={cx('errorText')}>{errors.name.message}</span>}
             </div>
-            <div>
+            <div className={cx('inputContainer')}>
               <Input
                 id="recipient"
                 type="text"
-                size="large"
+                size="full"
                 label="받는 사람"
                 isError={errors.recipient && true}
                 labelStyle={'label'}
@@ -67,31 +104,39 @@ export default function DeliveryEditPage() {
               />
               {errors.recipient && <span className={cx('errorText')}>{errors.recipient.message}</span>}
             </div>
-            <div>
+            <div className={cx('inputContainer')}>
               <Input
-                id="phoneNumber"
+                id="recipientPhoneNumber"
                 type="tel"
-                size="large"
+                size="full"
                 label="연락처"
-                isError={errors.phoneNumber && true}
+                isError={errors.recipientPhoneNumber && true}
                 labelStyle={'label'}
                 placeholder="000-0000-0000"
-                {...register('phoneNumber')}
+                {...register('recipientPhoneNumber')}
               />
-              {errors.phoneNumber && <span className={cx('errorText')}>{errors.phoneNumber.message}</span>}
+              {errors.recipientPhoneNumber && (
+                <span className={cx('errorText')}>{errors.recipientPhoneNumber.message}</span>
+              )}
             </div>
             <AddressInput errors={errors} register={register} setValue={setValue} />
           </div>
           <div className={cx('buttonArea')}>
             <div className={cx('isDefaultInput')}>
-              <input id="isDefault" type="checkbox" className={cx('checkBox')} {...register('isDefault')} />
+              <input
+                id="isDefault"
+                type="checkbox"
+                className={cx(isInitial ? 'checkBoxGray' : 'checkBox')}
+                checked={isInitial ? isInitial : undefined}
+                {...register('isDefault')}
+              />
               <span className={cx('isDefaultText')}>기본 배송지로 등록합니다.</span>
               {errors.isDefault && (
                 <span className={cx('errorText', 'isDefaultErrorText')}>{errors.isDefault.message}</span>
               )}
             </div>
             <div className={cx('button')}>
-              <Button size="large" backgroundColor="$color-pink-main" disabled={!isValid}>
+              <Button size="large" backgroundColor="$color-pink-main" disabled={!isValid} type="submit">
                 저장
               </Button>
             </div>
