@@ -2,6 +2,8 @@ import Link from 'next/link';
 import RatingBox from './RatingBox';
 import ReviewBox from './ReviewBox';
 import styles from './HighlightReview.module.scss';
+import { useEffect, useState } from 'react';
+import { httpClient } from '@/apis/httpClient';
 
 const testData = [
   {
@@ -39,18 +41,36 @@ const testData = [
 const rating = 4.5;
 const totalReviewer = 180;
 
-export default function HighlightReview({ reviewData = testData }: any) {
+export default function HighlightReview({ productId }: any) {
+  const [reviewData, setReviewData] = useState([]);
+  const [averageRating, setAverageRating] = useState(0);
+
+  useEffect(() => {
+    const fetchReviewData = async () => {
+      try {
+        const response = await httpClient().get(`products/detail/${productId}`);
+        console.log(response.reviews);
+        setReviewData(response.reviews);
+        setAverageRating(response.averageRating.toFixed(1));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchReviewData();
+  }, []);
+
   return (
     <div className={styles.highlightReviewLayout}>
       {reviewData.length > 0 ? (
         <>
           <div className={styles.sectionTitleBox}>
             <p className={styles.sectionTitle}>리뷰</p>
-            <p className={styles.totalReview}>{totalReviewer}</p>
+            <p className={styles.totalReview}>{reviewData.length}</p>
           </div>
-          <RatingBox rating={rating} totalReviewer={totalReviewer} className={styles.ratingBoxStyle} />
+          <RatingBox rating={averageRating} totalReviewer={reviewData.length} className={styles.ratingBoxStyle} />
           <div className={styles.reviewContainer}>
-            {testData.map(data => (
+            {reviewData.map(data => (
               <ReviewBox key={data.id} reviewData={data} className={styles.reviewBoxStyle} />
             ))}
           </div>

@@ -13,6 +13,7 @@ import CardSliderSimilar from '@/components/common/Card/CardSlider/Similar';
 import { Product } from '@/types/product';
 import styles from './ProductDetail.module.scss';
 import HighlightTeam from '@/components/common/Team/HighlightTeam';
+import HighlightReview from '@/components/common/review/HighlightReview';
 
 const cx = classNames.bind(styles);
 
@@ -54,8 +55,7 @@ export default function ProductDetailPage({ product }: { product: Product }) {
       <div className={cx('contents')}>
         <ProductInfo product={product} />
         <HighlightTeam productId={productId} />
-        {/* 공동구매 & 
-      리뷰 */}
+        <HighlightReview productId={productId} />
         <DetailedDescription descriptionImages={product.detail.descriptionImages} />
         <div className={cx('cardSlider')}>
           {/* product.petType, product.productType props*/}
