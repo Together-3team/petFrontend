@@ -11,7 +11,7 @@ import rectangleImg from '@/assets/images/rectangle.png';
 
 export interface ProductInfo {
   productId: number;
-  id: number;
+  id?: number;
   title: string;
   thumbNailImage: string;
   originalPrice: number;
