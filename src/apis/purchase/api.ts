@@ -57,8 +57,12 @@ const purchaseApi = {
   putPaymentStatus: (id: number, body: number) => {
     return axiosInstance.put<PurchaseRdo>(`/purchases/${id}`, body);
   },
-  putProducts: (id: number, body: PutProductsParams) => {
+  putPurchase: (id: number, body: PutProductsParams) => {
     return axiosInstance.put<PutProductRdo>(`/purchases/products/${id}`, body);
+  },
+  delete: async (id: number) => {
+    const response = await axiosInstance.delete(`/purchases/${id}`);
+    return response;
   },
 };
 
