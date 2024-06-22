@@ -7,6 +7,7 @@ import ProfileImgBadge from '@/components/common/Badge/ProfileImgBadge';
 import NextButton from '@/components/common/Button/NextButton';
 import NavBottom from '@/components/common/Nav/Bottom';
 import FloatingBox from '@/components/common/Layout/Footer/FloatingBox';
+import { cartQueries } from '@/apis/cart/queries';
 
 import styles from './Menu.module.scss';
 
@@ -17,6 +18,7 @@ export default function Menu() {
   function handleLogout() {
     removeCookie('accessToken', { path: '/' });
     removeCookie('refreshToken', { path: '/' });
+    cartQueries.removeQueries();
   }
 
   return (
