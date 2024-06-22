@@ -35,7 +35,7 @@ export default function OrderDetail() {
       option: product.combinationName,
       quantity: product.quantity,
       stock: 1,
-      status: product.paymentStatus,
+      status: product.status,
     }));
 
   const deliveryInfo = purchaseDetailData && {
@@ -52,14 +52,14 @@ export default function OrderDetail() {
 
   function calculateTotalOriginalPrice() {
     return purchaseDetailData?.data.purchaseProducts.reduce(
-      (total: number, order: ProductInfo) => total + order.originalPrice * order.quantity,
+      (total: number, order: ProductInfo) => order.quantity && total + order.originalPrice * order.quantity,
       0
     );
   }
 
   function calculateTotalPrice() {
     return purchaseDetailData?.data.purchaseProducts.reduce(
-      (total: number, order: ProductInfo) => total + order.price * order.quantity,
+      (total: number, order: ProductInfo) => order.quantity && total + order.price * order.quantity,
       0
     );
   }
@@ -114,17 +114,17 @@ export default function OrderDetail() {
               key={order.productId}
               productInfo={order}
               tagText={
-                order.paymentStatus === 0
+                order.status === 0
                   ? '공동구매 대기'
-                  : order.paymentStatus === 1
+                  : order.status === 1
                     ? '공동구매 완료'
-                    : order.paymentStatus === 2
+                    : order.status === 2
                       ? '주문 완료'
-                      : order.paymentStatus === 3
+                      : order.status === 3
                         ? '배송 준비'
-                        : order.paymentStatus === 4
+                        : order.status === 4
                           ? '배송 중'
-                          : order.paymentStatus === 5
+                          : order.status === 5
                             ? '배송 완료'
                             : '취소/환불'
               }

@@ -21,6 +21,7 @@ export interface ProductInfo {
   option?: string;
   quantity?: number;
   combinationName?: string;
+  status?: number;
   paymentStatus?: number;
 }
 

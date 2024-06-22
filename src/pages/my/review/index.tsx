@@ -17,6 +17,7 @@ const cx = classNames.bind(styles);
 export interface PurchaseDataProps {
   id: number;
   createdAt: string;
+  paymentStatus: number;
   purchaseProducts: ProductInfo[];
 }
 

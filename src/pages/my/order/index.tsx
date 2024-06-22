@@ -12,6 +12,7 @@ import Empty from '@/components/order/Empty';
 
 import styles from './Order.module.scss';
 import formatDate from '@/utils/formatDate';
+import Loading from '@/components/common/Loading';
 
 const cx = classNames.bind(styles);
 
@@ -31,9 +32,11 @@ export default function Order() {
       option: product.combinationName,
       quantity: product.quantity,
       stock: 1,
-      status: product.paymentStatus,
+      status: product.status,
     }))
   );
+
+  const paymentStatus = purchaseData?.data.flatMap((item: PurchaseDataProps) => item.paymentStatus);
 
   function handleMoveOrderDetail({ purchaseId, purchaseDate }: { purchaseId: number; purchaseDate: string }) {
     router.push({
@@ -53,7 +56,7 @@ export default function Order() {
   // function handleClick() {
   //   mutation;
   // }
-
+  if (!purchaseData) return <Loading />;
   return (
     <div className={styles.orderLayout}>
       <Header.Root>
@@ -89,17 +92,17 @@ export default function Order() {
                         productInfo={purchase}
                         href="/my/order"
                         tagText={
-                          purchase.paymentStatus === 0
+                          purchase.status === 0
                             ? '공동구매 대기'
-                            : purchase.paymentStatus === 1
+                            : purchase.status === 1
                               ? '공동구매 완료'
-                              : purchase.paymentStatus === 2
+                              : purchase.status === 2
                                 ? '주문 완료'
-                                : purchase.paymentStatus === 3
+                                : purchase.status === 3
                                   ? '배송 준비'
-                                  : purchase.paymentStatus === 4
+                                  : purchase.status === 4
                                     ? '배송 중'
-                                    : purchase.paymentStatus === 5
+                                    : purchase.status === 5
                                       ? '배송 완료'
                                       : '취소/환불'
                         }
