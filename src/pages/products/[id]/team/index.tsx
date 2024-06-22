@@ -20,7 +20,7 @@ interface GroupBuyingData {
 
 export default function TeamPage() {
   const router = useRouter();
-  const { productId } = router.query;
+  const productId = router.query.id;
 
   const { modalOpen, handleModalOpen, handleModalClose } = useModal();
   const [teamData, setTeamData] = useState<GroupBuyingData[]>([]);
@@ -37,7 +37,7 @@ export default function TeamPage() {
     };
 
     fetchGroupBuyingData();
-  }, []);
+  }, [productId]);
 
   console.log(productId);
 

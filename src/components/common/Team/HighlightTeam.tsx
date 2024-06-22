@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import TeamDataCard from './TeamDataCard';
 import { httpClient } from '@/apis/httpClient';
 import styles from './HighlightTeam.module.scss';
+import Link from 'next/link';
 
 interface GroupUser {
   nickname: string;
@@ -55,9 +56,12 @@ export default function HighlightTeam({ productId }: any) {
               <TeamDataCard key={data.id} data={data} />
             ))}
           </div>
-          <button className={styles.allTeamLinkBtn} onClick={handleAllTeamPageLick}>
+          {/* <button className={styles.allTeamLinkBtn} onClick={handleAllTeamPageLick}>
             참여자 전체보기
-          </button>
+          </button> */}
+          <Link className={styles.allTeamLinkBtn} href={`${productId}/team`}>
+            참여자 전체보기
+          </Link>
         </>
       ) : (
         <div className={styles.noTeamBox}>
