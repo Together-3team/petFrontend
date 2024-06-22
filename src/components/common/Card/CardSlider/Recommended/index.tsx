@@ -1,35 +1,44 @@
+import { useQuery } from '@tanstack/react-query';
+import Link from 'next/link';
+
 import styles from './CardSliderRecommended.module.scss';
 import NextButtonTemp from '@/components/common/Button/NextButtonTemp';
 import CardSlider from '@/components/common/Card/CardSlider/Base';
-import rectangleImg from '@/assets/images/rectangle.png';
 import Card from '@/components/common/Card';
-import CardPlaceholder from '../../CardPlaceholder';
-import Link from 'next/link';
-
-const PRODUCT = {
-  productId: 2,
-  title: '진짜 육포입니다람쥐이이이이이이이이이',
-  thumbNailImage: rectangleImg.src,
-  originalPrice: 12000,
-  price: 10800,
-  starRating: 4.5,
-  reviewCount: 200,
-  stock: 3,
-} as const;
+import CardPlaceholder from '@/components/common/Card/CardPlaceholder';
+import { productsRecommendedQueries } from '@/apis/product/queries';
+import useAuth from '@/hooks/useAuth';
 
 interface CardSliderRecommendedProps {
   title: string;
 }
 
-export default function CardSliderRecommended({ title }: CardSliderRecommendedProps) {
-  // 인증/인가 구현되면 변경 예정
-  const isLogin = true;
-  const user = { name: '해피사랑' };
+/*
+  사용⭐️)
 
-  /**
-   * @TODO 리액트쿼리 추가
-   */
-  const PRODUCT_LIST = Array(8).fill(PRODUCT);
+  * SSR, SSG를 사용해서 prefetch를 하실 경우 추가
+  export async function getServerSideProps() {
+    await productsRecommendedQueries.prefetchQuery({ page: 1, pageSize: 8 });
+
+    return {
+      props: {
+        dehydratedState: dehydrate(queryClient),
+      },
+    };
+  }
+
+  export default function Example() {
+    return (
+      <CardSliderRecommended title="이런 상품 찾고 있나요?" />
+    )
+  }
+*/
+export default function CardSliderRecommended({ title }: CardSliderRecommendedProps) {
+  const { isLogin, userData: user } = useAuth();
+
+  const { data: products } = useQuery({
+    ...productsRecommendedQueries.queryOptions({ page: 1, pageSize: 8 }),
+  });
 
   return (
     <CardSlider.Root>
@@ -38,7 +47,7 @@ export default function CardSliderRecommended({ title }: CardSliderRecommendedPr
         <CardSlider.Description>
           {isLogin ? (
             <>
-              <span className={styles.user}>{user.name}</span>님에게 딱 맞는 상품을 추천해드려요
+              <span className={styles.user}>{user.nickname}</span>님에게 딱 맞는 상품을 추천해드려요
             </>
           ) : (
             <>공구로 더 저렴하게! 친구와 함께 할인받으세요</>
@@ -47,9 +56,19 @@ export default function CardSliderRecommended({ title }: CardSliderRecommendedPr
         <NextButtonTemp className={styles.nextButton} href="/products/recommended" />
       </CardSlider.Header>
       <CardSlider.List>
-        {PRODUCT_LIST.map((product, index) => (
+        {products?.data.map((product, index) => (
           <CardSlider.Item key={index}>
-            <Card productInfo={product} size="big" isZzim />
+            <Card
+              productInfo={{
+                ...product,
+                productId: product.id,
+                stock: product.totalAmount || 0,
+                reviewCount: product.reviewCount && 1000,
+                starRating: product.averageRating,
+              }}
+              size="big"
+              isZzim
+            />
           </CardSlider.Item>
         ))}
         <CardSlider.Item>
