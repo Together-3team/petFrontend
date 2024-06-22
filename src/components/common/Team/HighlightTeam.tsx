@@ -3,8 +3,11 @@ import Link from 'next/link';
 import TeamDataCard from './TeamDataCard';
 import { httpClient } from '@/apis/httpClient';
 import styles from './HighlightTeam.module.scss';
+import { useRouter } from 'next/router';
 
 export default function HighlightTeam({ productId }: any) {
+  const router = useRouter();
+
   const [teamData, setTeamData] = useState([]);
 
   useEffect(() => {
@@ -21,6 +24,17 @@ export default function HighlightTeam({ productId }: any) {
     fetchGroupBuyingData();
   }, []);
 
+  const handleAllTeamPageLick = () => {
+    router.push({
+      pathname: `/team`,
+      query: {
+        productId: productId,
+      },
+    });
+  };
+
+  console.log(productId);
+
   return (
     <section className={styles.highlightTeamLayout}>
       <div className={styles.sectionTitleBox}>
@@ -34,9 +48,10 @@ export default function HighlightTeam({ productId }: any) {
               <TeamDataCard key={data.id} data={data} />
             ))}
           </div>
-          <Link href="/test/team" className={styles.allTeamLinkBtn}>
+          <button className={styles.allTeamLinkBtn} onClick={handleAllTeamPageLick}>
             참여자 전체보기
-          </Link>
+          </button>
+          {/* <Link href="/test/team" className={styles.allTeamLinkBtn}></Link> */}
         </>
       ) : (
         <div className={styles.noTeamBox}>
