@@ -12,6 +12,7 @@ import OrderPolicy from '@/components/productDetails/orderPolicy';
 import CardSliderSimilar from '@/components/common/Card/CardSlider/Similar';
 import { Product } from '@/types/product';
 import styles from './ProductDetail.module.scss';
+import HighlightTeam from '@/components/common/Team/HighlightTeam';
 
 const cx = classNames.bind(styles);
 
@@ -52,6 +53,7 @@ export default function ProductDetailPage({ product }: { product: Product }) {
       </Header.Root>
       <div className={cx('contents')}>
         <ProductInfo product={product} />
+        <HighlightTeam productId={productId} />
         {/* 공동구매 & 
       리뷰 */}
         <DetailedDescription descriptionImages={product.detail.descriptionImages} />

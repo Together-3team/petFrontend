@@ -1,9 +1,22 @@
 import Link from 'next/link';
 import TeamDataCard from './TeamDataCard';
 import styles from './HighlightTeam.module.scss';
+import { httpClient } from '@/apis/httpClient';
+import { useEffect } from 'react';
 
-export default function HighlightTeam() {
-  // 타이머, 웹소켓, 주문버튼 연결
+export default function HighlightTeam({ productId }: any) {
+  useEffect(() => {
+    const fetchGroupBuyingData = async () => {
+      try {
+        const response = await httpClient().get(`group-buying/${productId}`);
+        console.log(response.slice(0, 3));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchGroupBuyingData();
+  }, []);
 
   const testData = [
     {
