@@ -56,7 +56,7 @@ export default function ProductDetailPage({ product }: { product: Product }) {
         <ProductInfo product={product} />
         <HighlightTeam productId={productId} />
         <HighlightReview productId={productId} />
-        <DetailedDescription descriptionImages={product.detail.descriptionImages} />
+        <DetailedDescription descriptionImages={product.detail?.descriptionImages} />
         <div className={cx('cardSlider')}>
           {/* product.petType, product.productType props*/}
           <CardSliderSimilar />
