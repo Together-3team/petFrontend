@@ -1,3 +1,5 @@
+import { dehydrate } from '@tanstack/react-query';
+
 import styles from './HomePage.module.scss';
 import BannerCarousel from '@/components/common/Carousel/Banner';
 
@@ -18,9 +20,7 @@ import CardSliderRecommended from '@/components/common/Card/CardSlider/Recommend
 import CardSliderHot from '@/components/common/Card/CardSlider/Hot';
 import LogoFull from '@/components/common/Icon/LogoFull';
 import { productsHotQueries, productsRecommendedQueries } from '@/apis/product/queries';
-import { dehydrate } from '@tanstack/react-query';
 import { queryClient } from '@/utils/queryClient';
-import CardSliderSimilar from '@/components/common/Card/CardSlider/Similar';
 
 const BANNER_IMAGES = [
   { src: banner1.src, alt: '배너1' },
@@ -62,9 +62,6 @@ export default function HomePage() {
       </div>
       <div className={styles.hotBox}>
         <CardSliderHot />
-      </div>
-      <div className={styles.hotBox}>
-        <CardSliderSimilar />
       </div>
       <div className={styles.categoryBox}>
         <CategoryBox />
