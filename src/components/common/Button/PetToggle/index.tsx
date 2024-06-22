@@ -1,15 +1,15 @@
 import { MouseEvent, useRef, useState } from 'react';
 
-import styles from './CategoryButton.module.scss';
+import styles from './PetToggleButton.module.scss';
 import useOutsideClick from '@/hooks/useOutsideClick';
 
-interface CategoryButtonProps {
+interface PetToggleButtonProps {
   categories: string[];
   initialActiveCategory: string;
   onClick: (category: string) => void;
 }
 
-export default function CategoryButton({ categories, initialActiveCategory, onClick }: CategoryButtonProps) {
+export default function PetToggleButton({ categories, initialActiveCategory, onClick }: PetToggleButtonProps) {
   const [isOpen, setIsOpen] = useState(false);
   const uniqueCategories = Array.from(new Set([...categories, initialActiveCategory]));
   const [activeCategory, setActiveCategory] = useState(initialActiveCategory);

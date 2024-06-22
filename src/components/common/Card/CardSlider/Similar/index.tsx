@@ -1,24 +1,39 @@
+import { useQuery } from '@tanstack/react-query';
+
 import styles from './CardSliderSimilar.module.scss';
 import CardSlider from '@/components/common/Card/CardSlider/Base';
-import rectangleImg from '@/assets/images/rectangle.png';
 import Card from '@/components/common/Card';
+import { productsQueries } from '@/apis/product/queries';
 
-const PRODUCT = {
-  productId: 2,
-  title: '진짜 육포입니다람쥐이이이이이이이이이',
-  thumbNailImage: rectangleImg.src,
-  originalPrice: 12000,
-  price: 10800,
-  starRating: 4.5,
-  reviewCount: 200,
-  stock: 3,
-} as const;
+interface CardSliderSimilarProps {
+  petType?: string;
+  productType?: string;
+}
 
-export default function CardSliderSimilar() {
-  /**
-   * @TODO 리액트쿼리 추가
-   */
-  const PRODUCT_LIST = Array(8).fill(PRODUCT);
+/*
+  사용⭐️)
+
+  * SSR, SSG를 사용해서 prefetch를 하실 경우 추가
+  export async function getServerSideProps() {
+    await productsQueries.prefetchQuery({ page: 1, pageSize: 8 });
+
+    return {
+      props: {
+        dehydratedState: dehydrate(queryClient),
+      },
+    };
+  }
+
+  export default function Example() {
+    return (
+      <CardSliderSimilar petType="1" productType="0" />
+    )
+  }
+*/
+export default function CardSliderSimilar({ petType = '0', productType = '0' }: CardSliderSimilarProps) {
+  const { data: products } = useQuery({
+    ...productsQueries.queryOptions({ page: 1, pageSize: 8, petType, productType }),
+  });
 
   return (
     <CardSlider.Root>
@@ -26,9 +41,19 @@ export default function CardSliderSimilar() {
         <CardSlider.Title>비슷한 상품</CardSlider.Title>
       </CardSlider.Header>
       <CardSlider.List>
-        {PRODUCT_LIST.map((product, index) => (
+        {products?.data.map((product, index) => (
           <CardSlider.Item key={index}>
-            <Card productInfo={product} size="big" isZzim />
+            <Card
+              productInfo={{
+                ...product,
+                productId: product.id,
+                stock: product.totalAmount || 0,
+                reviewCount: product.reviewCount && 1000,
+                starRating: product.averageRating,
+              }}
+              size="big"
+              isZzim
+            />
           </CardSlider.Item>
         ))}
       </CardSlider.List>

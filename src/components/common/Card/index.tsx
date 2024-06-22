@@ -7,6 +7,7 @@ import Tag from '../Tag';
 import Zzim from '../Zzim';
 import StarIcon from '@/assets/svgs/star.svg';
 import styles from './Card.module.scss';
+import rectangleImg from '@/assets/images/rectangle.png';
 
 export interface ProductInfo {
   productId: number;
@@ -59,11 +60,17 @@ export default function Card({
 
   const discountRate = Math.ceil((1 - price / originalPrice) * 100);
 
+  const [imageSrc, setImgSrc] = useState(thumbNailImage);
+
+  const handleImgError = () => {
+    setImgSrc(rectangleImg.src);
+  };
+
   return (
     <Link href={href || `/products/${productId}`} className={cx('card')} data-direction={direction} data-size={size}>
       <div className={cx('cardImage')} data-direction={direction} data-size={size}>
         <Image
-          src={thumbNailImage}
+          src={imageSrc}
           alt={title}
           fill
           blurDataURL={'@/assets/svgs/rectangle.svg'}
@@ -75,6 +82,7 @@ export default function Card({
                 ? '(max-width: 100px) 100vw, 100px'
                 : '(max-width: 80px) 80vw, 80px'
           }
+          onError={handleImgError}
         />
         {isZzim && <Zzim className={cx('zzim')} color="white" productId={productId} />}
       </div>
