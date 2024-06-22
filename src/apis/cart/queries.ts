@@ -21,4 +21,7 @@ export const cartQueries = {
   removeQueries: () => {
     queryClient.removeQueries({ queryKey: cartQueries.queryKey() });
   },
+  invalidateQueries: () => {
+    queryClient.invalidateQueries({ queryKey: cartQueries.queryKey() });
+  },
 };
