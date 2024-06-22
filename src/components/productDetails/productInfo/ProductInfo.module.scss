@@ -1,0 +1,76 @@
+.contents {
+  background-color: white;
+}
+
+.imageContainer {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  position: relative;
+}
+
+.productInfoContent {
+  padding: 1.6rem 1.6rem 2.8rem;
+}
+
+.title {
+  color: #111111;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 2.8rem;
+}
+
+.originalPrice {
+  color: #b5b9c6;
+  font-family: SUIT;
+  font-size: 1.3rem;
+  font-weight: 400;
+  line-height: 1.6rem;
+  text-decoration: line-through;
+  margin: 0.8rem 0 0.4rem;
+}
+
+.discountRate {
+  color: #fe5a65;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 2.8rem;
+}
+
+.price {
+  color: #111111;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 2.8rem; /* 140% */
+}
+
+.review {
+  display: flex;
+  gap: 1.8rem;
+  align-items: center;
+  margin: 0.8rem 0 1.6rem;
+}
+
+.reviewCount,
+.reviewRating {
+  font-size: 1.2rem;
+}
+
+.tags {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.shippingInfo {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.8rem;
+  background-color: #f9fafc;
+  border-radius: 0.8rem;
+  color: #9196a7;
+  font-size: 1.2rem;
+  font-weight: 400;
+  line-height: 1.6rem;
+  margin: 1.6rem 0 0;
+}

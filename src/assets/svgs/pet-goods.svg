@@ -1,0 +1,15 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Group 92">
+<circle id="Ellipse 8" cx="32" cy="32" r="32" fill="#FFF3F3"/>
+<g id="Group 94">
+<g id="Group 93">
+<path id="Rectangle 56" d="M48.0003 32.2159V38.3288C42.2047 35.2109 37.4396 33.5905 32.4831 33.5842C27.4977 33.5778 22.4175 35.2049 16.0003 38.3821V32.2184C22.4097 29.4636 27.3428 28.1551 32.179 28.1723C37.0114 28.1896 41.826 29.5308 48.0003 32.2159Z" fill="#FFF3F3" stroke="#1A1D20" stroke-width="1.6"/>
+<path id="Rectangle 55" d="M16.0002 39.9885V33.7527C22.2012 36.6833 27.1881 38.1511 32.1692 38.1299C37.139 38.1086 42.0165 36.6052 48.0002 33.7565V39.9854C41.6952 43.3017 36.8415 44.9381 32.0303 44.9551C27.2196 44.9721 22.3453 43.37 16.0002 39.9885Z" fill="#FE5A65" stroke="#1A1D20" stroke-width="1.6"/>
+<circle id="Ellipse 24" cx="35.6001" cy="45.28" r="5.2" fill="white" stroke="#1A1D20" stroke-width="1.6"/>
+<circle id="Ellipse 25" cx="35.84" cy="44.6801" r="1" fill="#1A1D20" stroke="#1A1D20" stroke-width="1.6"/>
+<path id="Vector 120" d="M34.8003 40.0801L35.6003 44.0801" stroke="#1A1D20" stroke-width="1.6" stroke-linejoin="bevel"/>
+<path id="Vector 121" d="M19.2002 16C24.2706 24.4181 28.9448 21.7736 31.3692 19.344C33.0002 17.7095 31.3692 15.392 28.9481 17.2529C26.6798 18.9963 24.0002 25.2 31.3692 28.0258" stroke="#1A1D20" stroke-width="1.6" stroke-linejoin="bevel"/>
+</g>
+</g>
+</g>
+</svg>
