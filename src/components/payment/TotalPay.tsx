@@ -4,7 +4,7 @@ interface TotalPayProps {
   totalPrice: number;
   totalOriginalPrice: number;
   productCount: number; // 전체 상품 수
-  title: string;
+  title?: string;
 }
 
 export default function TotalPay({ totalPrice, totalOriginalPrice, title, productCount }: TotalPayProps) {
