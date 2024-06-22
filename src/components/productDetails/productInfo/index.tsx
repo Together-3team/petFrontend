@@ -13,7 +13,7 @@ import { Product } from '@/types/product';
 const cx = classNames.bind(styles);
 
 export default function ProductInfo({ product }: { product: Product }) {
-  const { detail, title, originalPrice, price, averageRating, reviewCount } = product;
+  const { detail, title, originalPrice, price, averageRating, reviewCount, totalAmount } = product;
   const { productImages } = detail;
   const discountRate = Math.ceil((1 - price / originalPrice) * 100);
   const futureDate = getFutureDate(3);
@@ -37,12 +37,16 @@ export default function ProductInfo({ product }: { product: Product }) {
           <span className={cx('reviewCount')}>리뷰 {reviewCount}개</span>
         </div>
         <div className={cx('tags')}>
-          <Tag size="extraLarge" type="stock" color="#FFF3F3" fontColor="#FE5A65">
-            10개 미만
-          </Tag>
-          <Tag size="extraLarge" type="thumbsUp" color="#E5FAFC" fontColor="#34BACC">
-            리뷰 100+
-          </Tag>
+          {totalAmount <= 10 && (
+            <Tag size="extraLarge" type="stock" color="#FFF3F3" fontColor="#FE5A65">
+              10개 미만
+            </Tag>
+          )}
+          {reviewCount >= 100 && (
+            <Tag size="extraLarge" type="thumbsUp" color="#E5FAFC" fontColor="#34BACC">
+              리뷰 100+
+            </Tag>
+          )}
         </div>
         <div className={cx('shippingInfo')}>
           <Delivery width={24} height={24} />
