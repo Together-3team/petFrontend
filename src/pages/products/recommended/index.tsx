@@ -15,10 +15,7 @@ import SortButton from '@/components/common/Button/Sort';
 import useToast from '@/hooks/useToast';
 import PetToggleButton from '@/components/common/Button/PetToggle';
 import ScrollTopButton from '@/components/common/Button/ScrollTop';
-import CardList from '@/components/common/Card/CardList/Recommended';
-import { infiniteProductsRecommendedQueries } from '@/apis/product/queries';
-import getFirstQueryParam from '@/utils/getFirstQueryParam';
-import { queryClient } from '@/utils/queryClient';
+import CardListRecommended from '@/components/common/Card/CardList/Recommended';
 
 const SORT_OPTIONS = [
   { name: '최신순', value: '0' },
@@ -81,7 +78,7 @@ export default function ProductRecommendedPage({ petType, orderBy }: ProductReco
       </div>
       <div className={styles.divider} />
       <div className={styles.contents}>
-        <CardList petType={petType} orderBy={orderBy} />
+        <CardListRecommended petType={petType} orderBy={orderBy} />
       </div>
       <GitHubBox />
       <FloatingBox id={BOTTOM_BOX_ID}>
