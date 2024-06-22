@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import Minus from '@/assets/svgs/btn-minus.svg';
+import Plus from '@/assets/svgs/btn-plus.svg';
+import styles from './NumberInput.module.scss';
 
 export default function NumberInput({ initialAmount }: { initialAmount: number }) {
   const [count, setCount] = useState(initialAmount);
@@ -14,10 +17,16 @@ export default function NumberInput({ initialAmount }: { initialAmount: number }
   };
 
   return (
-    <div>
-      <h2>현재 숫자: {count}</h2>
-      <button onClick={increment}>증가</button>
-      <button onClick={decrement}>감소</button>
+    <div className={styles.input}>
+      <button className={styles.leftButton} onClick={decrement}>
+        <Minus className={styles.icon} />
+      </button>
+      <div className={styles.numberBackground}>
+        <h2 className={styles.number}>{count}</h2>
+      </div>
+      <button className={styles.rightButton} onClick={increment}>
+        <Plus className={styles.icon} />
+      </button>
     </div>
   );
 }
