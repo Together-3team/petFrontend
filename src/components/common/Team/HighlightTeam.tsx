@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import Link from 'next/link';
+import { io } from 'socket.io-client';
 import TeamDataCard from './TeamDataCard';
 import { httpClient } from '@/apis/httpClient';
 import styles from './HighlightTeam.module.scss';
-import Link from 'next/link';
 
 interface GroupUser {
   nickname: string;
@@ -15,16 +15,20 @@ interface GroupBuyingData {
   groupUsers: GroupUser[];
 }
 
-export default function HighlightTeam({ productId }: any) {
-  const router = useRouter();
+interface HighlightTeamProps {
+  productId: number;
+}
 
+export default function HighlightTeam({ productId }: HighlightTeamProps) {
+  console.log(productId);
   const [teamData, setTeamData] = useState<GroupBuyingData[]>([]);
+
+  const socket = io('http://ec2-13-209-80-36.ap-northeast-2.compute.amazonaws.com/');
 
   useEffect(() => {
     const fetchGroupBuyingData = async () => {
       try {
         const response = await httpClient().get<GroupBuyingData[]>(`group-buying/${productId}`);
-        console.log(response.slice(0, 3));
         setTeamData(response.slice(0, 3));
       } catch (error) {
         console.log(error);
@@ -32,7 +36,19 @@ export default function HighlightTeam({ productId }: any) {
     };
 
     fetchGroupBuyingData();
-  }, []);
+
+    // 소켓 이벤트 처리
+    socket.emit('subscribeToProduct', productId);
+    socket.on('productUpdate', update => {
+      console.log(update);
+      fetchGroupBuyingData();
+    });
+
+    return () => {
+      socket.emit('unsubscribeFromProduct', productId);
+      socket.off('productUpdate');
+    };
+  }, [productId]);
 
   return (
     <section className={styles.highlightTeamLayout}>
