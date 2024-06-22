@@ -1,45 +1,50 @@
-import { MouseEvent, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 import styles from './PetToggleButton.module.scss';
 import useOutsideClick from '@/hooks/useOutsideClick';
 
 interface PetToggleButtonProps {
-  categories: string[];
-  initialActiveCategory: string;
-  onClick: (category: string) => void;
+  initialPetType: string;
+  onClick: (petType: PetType) => void;
 }
 
-export default function PetToggleButton({ categories, initialActiveCategory, onClick }: PetToggleButtonProps) {
+const PET_TYPES = [
+  { name: '전체', value: '0' },
+  { name: '강아지', value: '1' },
+  { name: '고양이', value: '2' },
+];
+
+interface PetType {
+  name: string;
+  value: string;
+}
+
+export default function PetToggleButton({ initialPetType: initialData, onClick }: PetToggleButtonProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const uniqueCategories = Array.from(new Set([...categories, initialActiveCategory]));
-  const [activeCategory, setActiveCategory] = useState(initialActiveCategory);
+  const initialPetType = PET_TYPES.find(petType => petType.value === initialData) || PET_TYPES[0];
+  const [activePetType, setActivePetType] = useState(initialPetType);
 
   const containerRef = useRef<HTMLDivElement>(null);
   useOutsideClick(containerRef, () => setIsOpen(false));
 
-  const handleClick = (e: MouseEvent) => {
-    if (!(e.target instanceof HTMLButtonElement) || !e.target.dataset.category) {
-      return;
-    }
-
-    const nextCategory = e.target.dataset.category;
-    setActiveCategory(nextCategory);
+  const handleClick = (petType: PetType) => {
+    setActivePetType(petType);
     setIsOpen(false);
-    onClick(nextCategory);
+    onClick(petType);
   };
 
   return (
     <div className={styles.container} ref={containerRef} data-isopen={isOpen}>
       {isOpen && (
-        <ul className={styles.categories} onClick={handleClick}>
-          {uniqueCategories.map(category => {
-            if (category === activeCategory) {
+        <ul className={styles.categories}>
+          {PET_TYPES.map(petType => {
+            if (petType.value === activePetType.value) {
               return;
             }
             return (
-              <li key={category}>
-                <button type="button" className={styles.category} data-category={category}>
-                  {category}
+              <li key={petType.name}>
+                <button type="button" className={styles.category} onClick={() => handleClick(petType)}>
+                  {petType.name}
                 </button>
               </li>
             );
@@ -47,7 +52,7 @@ export default function PetToggleButton({ categories, initialActiveCategory, onC
         </ul>
       )}
       <button type="button" className={styles.toggler} onClick={() => setIsOpen(prev => !prev)}>
-        {activeCategory}
+        {activePetType.name}
       </button>
     </div>
   );
