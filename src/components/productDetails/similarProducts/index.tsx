@@ -24,7 +24,7 @@ export default function SimilarProducts({ productList }: { productList: ProductI
       <h2 className={cx('title')}>비슷한 상품</h2>
       <div className={cx('productList')}>
         {productList.map(productInfo => {
-          return <Card size="big" key={productInfo.productId} productInfo={productInfo} isZzim />;
+          return <Card size="large" key={productInfo.productId} productInfo={productInfo} isZzim />;
         })}
       </div>
     </div>

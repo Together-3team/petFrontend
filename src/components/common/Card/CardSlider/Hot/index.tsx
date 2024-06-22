@@ -51,7 +51,7 @@ export default function CardSliderHot() {
                 reviewCount: product.reviewCount && 1000,
                 starRating: product.averageRating,
               }}
-              size="big"
+              size="large"
               isZzim
             />
           </CardSlider.Item>
