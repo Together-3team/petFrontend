@@ -56,14 +56,14 @@ export default function CardSliderRecommended({ title }: CardSliderRecommendedPr
         <NextButtonTemp className={styles.nextButton} href="/products/recommended" />
       </CardSlider.Header>
       <CardSlider.List>
-        {products?.data.map((product, index) => (
+        {products?.data?.map((product, index) => (
           <CardSlider.Item key={index}>
             <Card
               productInfo={{
                 ...product,
                 productId: product.id,
                 stock: product.totalAmount || 0,
-                reviewCount: product.reviewCount && 1000,
+                reviewCount: product.reviewCount,
                 starRating: product.averageRating,
               }}
               size="large"

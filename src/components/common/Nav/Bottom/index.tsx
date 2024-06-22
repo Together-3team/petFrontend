@@ -16,16 +16,7 @@ const MENUS = [
     id: 'home',
     title: '홈 페이지',
     url: '/',
-    matchedUrl: [
-      '/',
-      '/test/products/1',
-      '/test/products/2',
-      '/test/products/3',
-      '/test/products/4',
-      '/test/products/5',
-      '/test/products/6',
-      '/test/events',
-    ],
+    matchedUrl: ['/', '/products/recommended', '/products/hot', '/products/category'],
     Icon: <HomeIcon />,
   },
   {
