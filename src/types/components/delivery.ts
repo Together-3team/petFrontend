@@ -3,7 +3,7 @@ export interface DeliveryInfo {
   name: string;
   recipient: string;
   recipientPhoneNumber: string;
-  zipCode: number;
+  zipCode: string;
   address: string;
   detailedAddress: string;
   isDefault: boolean;

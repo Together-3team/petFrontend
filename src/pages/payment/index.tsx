@@ -14,19 +14,55 @@ import BackButton from '@/components/common/Button/BackButton';
 import { Product } from '@/pages/cart';
 import clock from '@/assets/images/clock.png';
 import Image from 'next/image';
+import { GetServerSidePropsContext } from 'next';
+import { DeliveryInfo } from '@/types/components/delivery';
+import { httpClient } from '@/apis/httpClient';
+import OrderDeliveryCard from '@/components/order/OrderDeliveryCard';
+import { useRouter } from 'next/router';
 
 // const widgetClientKey = 'test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm';
 const customerKey = nanoid();
 
-export default function Payment() {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const accessToken = context.req.cookies['accessToken'];
+  if (!accessToken) {
+    return {
+      redirect: {
+        destination: '/my',
+        permanent: false,
+      },
+    };
+  }
+
+  let defaultDelivery;
+  try {
+    defaultDelivery = await httpClient().get<DeliveryInfo>(`/deliveries/default`, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+  } catch {
+    return {
+      notFound: true,
+    };
+  }
+  return {
+    props: {
+      defaultDelivery,
+    },
+  };
+}
+
+export default function Payment({ defaultDelivery }: { defaultDelivery: DeliveryInfo | undefined }) {
   const [checkboxChecked, setCheckboxChecked] = useState(false);
   const [paymentWidget, setPaymentWidget] = useState<PaymentWidgetInstance | null>(null);
   const paymentMethodsWidgetRef = useRef<ReturnType<PaymentWidgetInstance['renderPaymentMethods']> | null>(null);
   const [price, setPrice] = useState(0); // 기본 가격 설정
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [deliveryMessage, setDeliveryMessage] = useState('');
   const [products, setProducts] = useState<Product[]>([]);
   const PAYMENT_SECRET_KEY = process.env.NEXT_PUBLIC_TOSS_PAYMENTS_SECRET_KEY;
+  const [delivery, setDelivery] = useState(defaultDelivery);
+  const router = useRouter();
+
   console.log(PAYMENT_SECRET_KEY);
 
   const clientKey = 'test_ck_kYG57Eba3G2wwAjdoxB68pWDOxmA';
@@ -44,6 +80,7 @@ export default function Payment() {
     console.log(selectedProductIds);
     sessionStorage.setItem('deliveryMessage', deliveryMessageValue);
     sessionStorage.setItem('selectedProductIds', selectedProductIds);
+    delivery && sessionStorage.setItem('deliveryId', delivery.id.toString());
     const tossPayments = await loadTossPayments(clientKey);
 
     tossPayments.requestPayment('카드', {
@@ -148,6 +185,12 @@ export default function Payment() {
   const totalPrice = price;
   const productCount = products ? products.length : 0;
 
+  useEffect(() => {
+    if (router.query['action'] !== 'done') {
+      setIsModalOpen(true);
+    }
+  }, [router.query]);
+
   return (
     <div className={styles.payment}>
       <Header.Root className={styles.headerRoot}>
@@ -158,11 +201,12 @@ export default function Payment() {
           <Header.Center className={styles.headerName}>결제</Header.Center>
         </Header.Box>
       </Header.Root>
+      <OrderDeliveryCard delivery={delivery} setDelivery={setDelivery} />
       <div className={styles.deliveryMessage}>
         <Input
           id="recipient"
           type="text"
-          size="large"
+          size="full"
           label="배송메시지"
           labelStyle={'label'}
           placeholder="예) 부재시 집 앞에 놔주세요"
@@ -200,7 +244,11 @@ export default function Payment() {
       <div className={styles.paymentAgree}>
         <PaymentAgree onCheckboxChange={setCheckboxChecked} />
         <div className={styles.paymentButton}>
-          <Button size="large" backgroundColor="$color-pink-main" onClick={handlePayment} disabled={!checkboxChecked}>
+          <Button
+            size="large"
+            backgroundColor="$color-pink-main"
+            onClick={handlePayment}
+            disabled={!checkboxChecked || !delivery}>
             {totalPrice}원 주문하기
           </Button>
         </div>
