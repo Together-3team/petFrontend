@@ -1,27 +1,37 @@
+import { useQuery } from '@tanstack/react-query';
+import Link from 'next/link';
+
 import styles from './CardSliderHot.module.scss';
 import NextButtonTemp from '@/components/common/Button/NextButtonTemp';
 import CardSlider from '@/components/common/Card/CardSlider/Base';
-import rectangleImg from '@/assets/images/rectangle.png';
 import Card from '@/components/common/Card';
-import CardPlaceholder from '../../CardPlaceholder';
-import Link from 'next/link';
+import CardPlaceholder from '@/components/common/Card/CardPlaceholder';
+import { productsHotQueries } from '@/apis/product/queries';
 
-const PRODUCT = {
-  productId: 2,
-  title: '진짜 육포입니다람쥐이이이이이이이이이',
-  thumbNailImage: rectangleImg.src,
-  originalPrice: 12000,
-  price: 10800,
-  starRating: 4.5,
-  reviewCount: 200,
-  stock: 3,
-} as const;
+/*
+  사용⭐️)
 
+  * SSR, SSG를 사용해서 prefetch를 하실 경우 추가
+  export async function getServerSideProps() {
+    await productsHotQueries.prefetchQuery({ page: 1, pageSize: 8 });
+
+    return {
+      props: {
+        dehydratedState: dehydrate(queryClient),
+      },
+    };
+  }
+
+  export default function Example() {
+    return (
+      <CardSliderHot />
+    )
+  }
+*/
 export default function CardSliderHot() {
-  /**
-   * @TODO 리액트쿼리 추가
-   */
-  const PRODUCT_LIST = Array(8).fill(PRODUCT);
+  const { data: products } = useQuery({
+    ...productsHotQueries.queryOptions({ page: 1, pageSize: 8 }),
+  });
 
   return (
     <CardSlider.Root>
@@ -31,9 +41,19 @@ export default function CardSliderHot() {
         <NextButtonTemp className={styles.nextButton} href="/products/hot" />
       </CardSlider.Header>
       <CardSlider.List>
-        {PRODUCT_LIST.map((product, index) => (
+        {products?.data.map((product, index) => (
           <CardSlider.Item key={index}>
-            <Card productInfo={product} size="big" isZzim />
+            <Card
+              productInfo={{
+                ...product,
+                productId: product.id,
+                stock: product.totalAmount || 0,
+                reviewCount: product.reviewCount && 1000,
+                starRating: product.averageRating,
+              }}
+              size="big"
+              isZzim
+            />
           </CardSlider.Item>
         ))}
         <CardSlider.Item>

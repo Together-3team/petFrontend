@@ -14,18 +14,21 @@ export default function ReviewBox({ reviewData, className }: any) {
   return (
     <div className={cx('reviewBoxLayout', className)}>
       <div className={styles.userInfo}>
-        <ProfileImgBadge size={'small'} />
+        <ProfileImgBadge
+          size={'small'}
+          profileImage={reviewData.reviewerName === '탈퇴한 사용자입니다' ? '' : reviewData.reviewerProfileImage}
+        />
         <div className={styles.userInfoDetail}>
           <div className={styles.nicknameAndDate}>
-            <p className={styles.nickname}>{reviewData.nickname}</p>
+            <p className={reviewData.reviewerName === '탈퇴한 사용자입니다' ? styles.deletedUser : styles.nickname}>
+              {reviewData.reviewerName}
+            </p>
             <p className={styles.date}>{formattedDate}</p>
           </div>
           <div className={styles.productDetail}>
             <p className={styles.option}>
               옵션
-              <span className={styles.optionDetail}>
-                {reviewData.option} | {reviewData.quantity}개
-              </span>
+              <span className={styles.optionDetail}>{reviewData.optionCombination}</span>
             </p>
           </div>
         </div>
