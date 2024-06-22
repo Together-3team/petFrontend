@@ -1,11 +1,9 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
+import classNames from 'classnames/bind';
 
 import styles from './CardListZzim.module.scss';
+import { zzimsQueries } from '@/apis/product/queries';
 import Card from '@/components/common/Card';
-import { infiniteProductsQueries } from '@/apis/product/queries';
-import classNames from 'classnames/bind';
-import useIntersect from '@/hooks/useIntersect';
-import CardPlaceholder from '../../CardPlaceholder';
 
 interface CardListZzimProps {
   className?: string;
@@ -17,62 +15,29 @@ interface CardListZzimProps {
 
 const cx = classNames.bind(styles);
 
-const PAGE_SIZE = 8;
-
-export default function CardListZzim({
-  className,
-  petType = '0',
-  productType = '0',
-  orderBy = '0',
-  keyword,
-}: CardListZzimProps) {
-  const {
-    data: productsData,
-    hasNextPage,
-    fetchNextPage,
-    isFetchingNextPage,
-  } = useInfiniteQuery({
-    ...infiniteProductsQueries.queryOptions({ page: 1, pageSize: PAGE_SIZE, petType, productType, orderBy, keyword }),
+export default function CardListZzim({ className }: CardListZzimProps) {
+  const { data: products } = useQuery({
+    ...zzimsQueries.queryOptions(),
   });
-
-  const targetRef = useIntersect(async (entry, observer) => {
-    observer.unobserve(entry.target);
-    if (hasNextPage) {
-      fetchNextPage();
-    }
-  });
-
-  const productsPages = productsData?.pages ?? [];
-  const hasTargetRef = !isFetchingNextPage && hasNextPage;
 
   return (
     <div className={cx('container', className)}>
       <ul className={styles.list}>
-        {productsPages.map(productsPage =>
-          productsPage.data.map(product => (
-            <li key={product.id}>
-              <Card
-                key={product.id}
-                productInfo={{
-                  ...product,
-                  productId: product.id,
-                  stock: product.totalAmount || 0,
-                  reviewCount: product.reviewCount,
-                  starRating: product.averageRating,
-                }}
-                size="extraLarge"
-                isZzim
-              />
-            </li>
-          ))
-        )}
-        {isFetchingNextPage &&
-          Array(8).map((_, index) => (
-            <li key={index}>
-              <CardPlaceholder />
-            </li>
-          ))}
-        {hasTargetRef && <div ref={targetRef} />}
+        {products?.map((product, index) => (
+          <li key={index}>
+            <Card
+              productInfo={{
+                ...product,
+                productId: product.id,
+                stock: product.totalAmount || 0,
+                reviewCount: product.reviewCount,
+                starRating: product.averageRating,
+              }}
+              size="large"
+              isZzim
+            />
+          </li>
+        ))}
       </ul>
     </div>
   );
