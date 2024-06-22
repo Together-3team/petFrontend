@@ -21,7 +21,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const productId = context.params?.['id'];
   let product;
   try {
-    const res = await axiosInstance.get(`/products/${productId}`);
+    const res = await axiosInstance.get(`/products/detail/${productId}`);
     product = res.data;
   } catch (err) {
     console.error(err);
