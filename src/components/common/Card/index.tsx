@@ -75,7 +75,7 @@ export default function Card({
           placeholder="blur"
           sizes={
             size === 'extraLarge'
-              ? '(max-width: 150px) 100vw, 150px'
+              ? '(max-width: 156px) 100vw, 150px'
               : size === 'large'
                 ? '(max-width: 140px) 100vw, 140px'
                 : size === 'small'
