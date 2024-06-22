@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import styles from './Dropdown.module.scss';
-import { useEffect, useState, useId } from 'react';
+import { useState, useId } from 'react';
 import DropDownItem from './DropDownItem';
 import { UseFormRegisterReturn } from 'react-hook-form';
 import arrow from '@/assets/images/arrow-down.jpg';

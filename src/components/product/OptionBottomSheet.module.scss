@@ -5,3 +5,18 @@
   align-items: center;
   gap: 2rem;
 }
+
+.selectOption {
+  display: flex;
+  height: 4.4rem;
+  padding: 0 0.8rem 0 1.2rem;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+  border-radius: 0.8rem;
+  background: $color-gray-50;
+  color: $color-black;
+  font-size: 1.4rem;
+  font-weight: 600;
+  line-height: 1.8rem; /* 128.571% */
+}
