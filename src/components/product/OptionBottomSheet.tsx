@@ -6,6 +6,7 @@ import { ProductDropdown } from '../common/ProductDropdown';
 import styles from './OptionBottomSheet.module.scss';
 import Image from 'next/image';
 import arrow from '@/assets/images/arrow-down.jpg';
+import NumberInput from './NumberInput';
 
 const cx = classNames.bind(styles);
 
@@ -174,21 +175,23 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type }: 
             <div>옵션 선택</div>
             <Image src={arrow.src} width="12" height="12" alt="아래를 가르키는 화살표 이미지" priority />
           </div>
-          {Object.keys(selectedOptionsObject).map((objectKey, i) => {
-            const selectedIds = objectKey.split(',');
-            const { combinationPrice } = calculateCombinationPriceAndName(selectedIds);
-
-            return (
-              <div key={i}>
-                <div> {objectKey} </div>
-                <div>
-                  <p>정가 {`${originalPrice + combinationPrice}`}원</p>
-                  <p>할인가 {`${price + combinationPrice}`}원</p>
+          <div>
+            {Object.keys(selectedOptionsObject).map((objectKey, i) => {
+              const selectedIds = objectKey.split(',');
+              const { combinationPrice, selectedCombinationName } = calculateCombinationPriceAndName(selectedIds);
+              return (
+                <div key={i} className={cx('chosenBox')}>
+                  <div className={cx('selectedCombinationName')}> {selectedCombinationName} </div>
+                  {selectedOptionsObject[objectKey]}개
+                  <NumberInput initialAmount={selectedOptionsObject[objectKey]} />
+                  <div>
+                    <p>정가 {`${originalPrice + combinationPrice}`}원</p>
+                    <p>할인가 {`${price + combinationPrice}`}원</p>
+                  </div>
                 </div>
-                {selectedOptionsObject[objectKey]}개
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </>
       )}
     </BottomSheet>
