@@ -67,7 +67,7 @@ export function ProductDropdown({ placeholder, data, register, setValue, onClick
   };
 
   return (
-    <>
+    <div className={styles.productDropdown}>
       <div className={`${styles.initial}`}>
         <input type="hidden" {...register} />
         <div onClick={e => handleDropdownOn(e)} className={styles.dropdownOn}>
@@ -84,6 +84,6 @@ export function ProductDropdown({ placeholder, data, register, setValue, onClick
           ))}
         </ul>
       )}
-    </>
+    </div>
   );
 }
