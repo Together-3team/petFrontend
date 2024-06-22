@@ -13,11 +13,13 @@ import Empty from '@/components/order/Empty';
 import styles from './Order.module.scss';
 import formatDate from '@/utils/formatDate';
 import Loading from '@/components/common/Loading';
+import useToast from '@/hooks/useToast';
 
 const cx = classNames.bind(styles);
 
 export default function Order() {
   const router = useRouter();
+  const { showToast } = useToast();
 
   const { data: purchaseData } = useQuery({ queryKey: ['purchase'], queryFn: purchaseApi.getPurchase });
   console.log(purchaseData);
@@ -25,6 +27,7 @@ export default function Order() {
   const purchaseList = purchaseData?.data.flatMap((item: PurchaseDataProps) =>
     item.purchaseProducts.map((product: ProductInfo) => ({
       productId: product.productId,
+      id: product.id,
       title: product.title,
       thumbNailImage: product.thumbNailImage,
       originalPrice: product.originalPrice,
@@ -36,13 +39,31 @@ export default function Order() {
     }))
   );
 
-  const paymentStatus = purchaseData?.data.flatMap((item: PurchaseDataProps) => item.paymentStatus);
+  console.log(purchaseList);
 
   function handleMoveOrderDetail({ purchaseId, purchaseDate }: { purchaseId: number; purchaseDate: string }) {
     router.push({
       pathname: `/my/order/${purchaseId}`,
       query: { purchaseId, purchaseDate },
     });
+  }
+
+  const cancelMutation = useMutation({
+    mutationKey: ['cancelPurchase'],
+    mutationFn: async (id: number) => {
+      const response = await purchaseApi.delete(id);
+      return response.data;
+    },
+  });
+
+  async function handleCancelPurchase(id: number) {
+    try {
+      await cancelMutation.mutateAsync(id);
+      showToast({ status: 'success', message: '해당 상품 주문을 취소했습니다.' });
+    } catch (error) {
+      showToast({ status: 'error', message: '오류가 발생했습니다. 다시 한 번 시도해 주세요.' });
+      console.error('Error cancel purchase:', error);
+    }
   }
 
   // const { mutateAsync: mutation } = useMutation({
@@ -84,33 +105,34 @@ export default function Order() {
                 <span className={styles.orderNumber}>주문번호 No. {item.id}</span>
               </div>
               <div className={styles.orderCards}>
-                {purchaseList &&
-                  (purchaseList.length > 0 ? (
-                    purchaseList.map((purchase: ProductInfo) => (
-                      <OrderCard
-                        key={purchase.productId}
-                        productInfo={purchase}
-                        href="/my/order"
-                        tagText={
-                          purchase.status === 0
-                            ? '공동구매 대기'
-                            : purchase.status === 1
-                              ? '공동구매 완료'
-                              : purchase.status === 2
-                                ? '주문 완료'
-                                : purchase.status === 3
-                                  ? '배송 준비'
-                                  : purchase.status === 4
-                                    ? '배송 중'
-                                    : purchase.status === 5
-                                      ? '배송 완료'
-                                      : '취소/환불'
-                        }
-                      />
-                    ))
-                  ) : (
-                    <div>주문한 상품이 없습니다.</div>
-                  ))}
+                {item.purchaseProducts && item.purchaseProducts.length > 0 ? (
+                  item.purchaseProducts.map((purchase: ProductInfo) => (
+                    <OrderCard
+                      key={purchase.id}
+                      productInfo={{ ...purchase, stock: 1, option: purchase.combinationName }}
+                      href="/my/order"
+                      onClick={() => handleCancelPurchase(item.id)}
+                      tagText={
+                        purchase.status === 0
+                          ? '공동구매 대기'
+                          : purchase.status === 1
+                            ? '공동구매 완료'
+                            : purchase.status === 2
+                              ? '주문 완료'
+                              : purchase.status === 3
+                                ? '배송 준비'
+                                : purchase.status === 4
+                                  ? '배송 중'
+                                  : purchase.status === 5
+                                    ? '배송 완료'
+                                    : '취소/환불'
+                      }
+                    />
+                  ))
+                ) : (
+                  <div>주문한 상품이 없습니다.</div>
+                )}
+                <div className={styles.rectangle} />
               </div>
             </div>
           ))
