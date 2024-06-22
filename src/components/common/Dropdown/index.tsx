@@ -12,9 +12,10 @@ interface DropdownProps {
   placeholder?: string;
   size: 'large' | 'small';
   onClick: (value: any) => void;
+  value?: any;
 }
 
-export default function Dropdown({ size, options, placeholder, onClick }: DropdownProps) {
+export default function Dropdown({ size, options, placeholder, onClick, value }: DropdownProps) {
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
   const sizeClass = styles[size];
 
