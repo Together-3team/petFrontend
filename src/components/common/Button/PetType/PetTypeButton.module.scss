@@ -1,0 +1,34 @@
+@layer components {
+  .list {
+    background-color: $color-pink-light;
+    border-radius: 1.6rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.4rem;
+  }
+
+  .item {
+    width: 100%;
+  }
+
+  .button {
+    @include font-body2;
+
+    background-color: transparent;
+    border: none;
+    color: $color-black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 0.8rem;
+
+    &[data-selected='true'] {
+      background-color: $color-white;
+      border-radius: 10rem;
+      color: $color-pink-main;
+    }
+  }
+}

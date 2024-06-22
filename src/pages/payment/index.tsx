@@ -1,6 +1,5 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './Payment.module.scss';
-import { loadPaymentWidget, PaymentWidgetInstance } from '@tosspayments/payment-widget-sdk';
 import { loadTossPayments } from '@tosspayments/payment-sdk';
 import { nanoid } from 'nanoid';
 import Button from '@/components/common/Button';
@@ -19,9 +18,6 @@ import { DeliveryInfo } from '@/types/components/delivery';
 import { httpClient } from '@/apis/httpClient';
 import OrderDeliveryCard from '@/components/order/OrderDeliveryCard';
 import { useRouter } from 'next/router';
-
-// const widgetClientKey = 'test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm';
-const customerKey = nanoid();
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const accessToken = context.req.cookies['accessToken'];
@@ -53,8 +49,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
 export default function Payment({ defaultDelivery }: { defaultDelivery: DeliveryInfo | undefined }) {
   const [checkboxChecked, setCheckboxChecked] = useState(false);
-  const [paymentWidget, setPaymentWidget] = useState<PaymentWidgetInstance | null>(null);
-  const paymentMethodsWidgetRef = useRef<ReturnType<PaymentWidgetInstance['renderPaymentMethods']> | null>(null);
   const [price, setPrice] = useState(0); // 기본 가격 설정
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deliveryMessage, setDeliveryMessage] = useState('');
@@ -105,77 +99,6 @@ export default function Payment({ defaultDelivery }: { defaultDelivery: Delivery
       setPrice(calculatedPrice);
     }
   }, []);
-  // useEffect(() => {
-  //   const script = document.createElement('script');
-  //   script.src = 'https://js.tosspayments.com/v1';
-  //   script.async = true;
-  //   script.onload = () => {
-  //     const fetchPaymentWidget = async () => {
-  //       try {
-  //         const loadedWidget = await loadPaymentWidget(widgetClientKey, customerKey);
-  //         setPaymentWidget(loadedWidget);
-  //       } catch (error) {
-  //         console.error('Error fetching payment widget:', error);
-  //       }
-  //     };
-
-  //     fetchPaymentWidget();
-  //   };
-  //   document.body.appendChild(script);
-  //   return () => {
-  //     document.body.removeChild(script);
-  //   };
-  // }, []);
-
-  // useEffect(() => {
-  //   if (paymentWidget == null) {
-  //     return;
-  //   }
-
-  //   const paymentMethodsWidget = paymentWidget.renderPaymentMethods(
-  //     '#payment-widget',
-  //     { value: price },
-  //     { variantKey: 'DEFAULT' }
-  //   );
-
-  //   paymentWidget.renderAgreement('#agreement', { variantKey: 'AGREEMENT' });
-
-  //   paymentMethodsWidgetRef.current = paymentMethodsWidget;
-  // }, [paymentWidget, price]);
-
-  // useEffect(() => {
-  //   const paymentMethodsWidget = paymentMethodsWidgetRef.current;
-
-  //   if (paymentMethodsWidget == null) {
-  //     return;
-  //   }
-
-  //   paymentMethodsWidget.updateAmount(price);
-  // }, [price]);
-
-  // const handlePaymentRequest = async () => {
-  //   try {
-  //     const firstProductTitle = products?.[0]?.productTitle || '';
-  //     const remainingProductCount = (products?.length || 0) - 1;
-  //     const orderName =
-  //       remainingProductCount > 0 ? `${firstProductTitle} 외 ${remainingProductCount}건` : firstProductTitle;
-
-  //     const selectedProductIds = products.map(product => product.id).join(',');
-  //     const deliveryMessageValue = deliveryMessage;
-  //     console.log(deliveryMessage);
-  //     console.log(selectedProductIds);
-  //     sessionStorage.setItem('deliveryMessage', deliveryMessageValue);
-  //     sessionStorage.setItem('selectedProductIds', selectedProductIds);
-  //     await paymentWidget?.requestPayment({
-  //       orderId: nanoid(),
-  //       orderName,
-  //       successUrl: `${window.location.origin}/payment/paymentSuccess`,
-  //       failUrl: `${window.location.origin}/payment/fail`,
-  //     });
-  //   } catch (error) {
-  //     console.error('Error requesting payment:', error);
-  //   }
-  // };
 
   function calculateTotalOriginalPrice() {
     return products ? products.reduce((total, product) => total + product.originalCost * product.productNumber, 0) : 0;
@@ -237,7 +160,12 @@ export default function Payment({ defaultDelivery }: { defaultDelivery: Delivery
         />
       ))}
       <div className={styles.rectangle}></div>
-      <TotalPay totalPrice={totalPrice} totalOriginalPrice={totalOriginalPrice} productCount={productCount} />
+      <TotalPay
+        totalPrice={totalPrice}
+        title="결제금액"
+        totalOriginalPrice={totalOriginalPrice}
+        productCount={productCount}
+      />
       <div className={styles.rectangle}></div>
       <div id="payment-widget"></div>
       <div id="agreement"></div>
@@ -248,7 +176,7 @@ export default function Payment({ defaultDelivery }: { defaultDelivery: Delivery
             size="large"
             backgroundColor="$color-pink-main"
             onClick={handlePayment}
-            disabled={!checkboxChecked || !delivery}>
+            disabled={!checkboxChecked || !delivery || !deliveryMessage}>
             {totalPrice}원 주문하기
           </Button>
         </div>

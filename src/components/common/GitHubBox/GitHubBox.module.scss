@@ -1,0 +1,27 @@
+@layer components {
+  .container {
+    background-color: $color-gray-100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 2rem 1.6rem;
+  }
+
+  .logoText {
+    @include font-body5;
+
+    color: $color-black;
+  }
+
+  .teamText {
+    @include font-body6;
+
+    color: $color-gray-500;
+  }
+
+  .github {
+    width: 2rem;
+    height: 2rem;
+  }
+}
