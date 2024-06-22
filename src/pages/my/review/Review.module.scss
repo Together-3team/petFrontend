@@ -1,0 +1,66 @@
+@layer overrides {
+  .reviewLayout {
+    display: flex;
+    width: 100%;
+    padding: 2rem 1.6rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .reviewLayout h1 {
+    @include font-headline3;
+
+    text-align: center;
+  }
+
+  .reviewSelector {
+    display: flex;
+    width: 100%;
+  }
+
+  .reviewSelectButton {
+    display: flex;
+    padding: 0.8rem 0.8rem 1rem 0.8rem;
+    justify-content: center;
+    align-items: center;
+    gap: 0.8rem;
+    flex: 1 0 0;
+    background-color: transparent;
+    border: none;
+    border-bottom: var(--product-cnt, 1px) solid $color-gray-100;
+    color: $color-gray-400;
+
+    @include font-body1;
+  }
+
+  .clickButton {
+    border-bottom: var(--min-03, 2px) solid $color-pink-main;
+    color: $color-black;
+  }
+
+  .noReview {
+    display: flex;
+    width: 36rem;
+    height: 16rem;
+    padding: var(--min-24, 3.2rem) var(--selectpayment, 0px);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.2rem;
+    border-radius: 1.2rem;
+    color: $color-gray-400;
+
+    @include font-body5;
+  }
+
+  .reviewCardList {
+    display: flex;
+    padding: 1.2rem var(--selectpayment, 0px);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.2rem;
+  }
+}

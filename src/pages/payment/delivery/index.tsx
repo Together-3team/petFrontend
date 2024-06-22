@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import { GetServerSidePropsContext } from 'next';
-import { QueryClient, dehydrate, useMutation } from '@tanstack/react-query';
+import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import axiosInstance from '@/apis/axiosInstance';
 import { isAxiosError } from 'axios';
@@ -18,18 +18,16 @@ import UncheckedButton from '@/assets/svgs/btn-radio.svg';
 import LeftArrow from '@/assets/svgs/left-arrow.svg';
 import { fetchMyData } from '@/apis/userApi';
 import styles from './Delivery.module.scss';
-import { useUpdateAddress } from '@/hooks/useUpdateAddress';
 
 const cx = classNames.bind(styles);
 
 export default function PaymentDeliveryPage() {
   const router = useRouter();
-  const prevPath = router.query?.prevPath;
+  const { selectedAddress } = router.query;
+  const selectedAddressId = Number(selectedAddress);
   const [deliveries, setDeliveries] = useState<DeliveryInfo[]>([]);
   const [selectedOption, setSelectedOption] = useState<DeliveryInfo | null>(null);
   const { showToast } = useToast();
-
-  const { mutate: updateAddress } = useUpdateAddress(prevPath);
 
   useEffect(() => {
     const fetchOptions = async () => {
@@ -38,8 +36,13 @@ export default function PaymentDeliveryPage() {
         const deliveries: DeliveryInfo[] = res.data;
         setDeliveries(deliveries);
 
-        // isDefault 값이 true인 객체를 찾음
-        const defaultOption = deliveries.find(option => option.isDefault === true);
+        //isDefault가 true인 배송지를 찾음
+        const isDefaultTrueOption = deliveries.find(option => option.isDefault === true);
+        if (isDefaultTrueOption) {
+          setSelectedOption(isDefaultTrueOption);
+        }
+        // 선택되어 있는 배송지를 찾음
+        const defaultOption = deliveries.find(option => option.id === selectedAddressId);
         if (defaultOption) {
           setSelectedOption(defaultOption);
         }
@@ -73,7 +76,7 @@ export default function PaymentDeliveryPage() {
     };
 
     fetchOptions();
-  }, [showToast]);
+  }, [showToast, selectedAddressId]);
 
   const handleOptionChange = (e: ChangeEvent<HTMLInputElement>) => {
     const selected = deliveries.find(option => option.id === parseInt(e.target.value));
@@ -81,24 +84,25 @@ export default function PaymentDeliveryPage() {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    console.log('abc');
     e.preventDefault();
     if (!selectedOption) return;
-
-    // 선택된 옵션 객체를 복사하고 isDefault 값을 true로 변경
-    const updatedOption = { ...selectedOption, isDefault: true };
-
-    updateAddress({ selectedOption, updatedOption });
+    router.replace({
+      pathname: `/payment`,
+      query: { selectedAddress: selectedOption.id, action: 'done' },
+    });
   };
 
   const handleAddDeliveryCardButtonClick = () => {
-    router.push('/ payment/delivery/add');
+    router.push({
+      pathname: `/my/delivery/add`,
+      query: router.asPath,
+    });
   };
 
   return (
     <div className={cx('layout')}>
       <div className={cx('delivery')}>
-        <form onSubmit={handleSubmit}>
+        <form className={cx('form')} onSubmit={handleSubmit}>
           <Header.Root>
             <Header.Box>
               <Header.Left>
