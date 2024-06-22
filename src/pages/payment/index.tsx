@@ -160,7 +160,12 @@ export default function Payment({ defaultDelivery }: { defaultDelivery: Delivery
         />
       ))}
       <div className={styles.rectangle}></div>
-      <TotalPay totalPrice={totalPrice} totalOriginalPrice={totalOriginalPrice} productCount={productCount} />
+      <TotalPay
+        totalPrice={totalPrice}
+        title="결제금액"
+        totalOriginalPrice={totalOriginalPrice}
+        productCount={productCount}
+      />
       <div className={styles.rectangle}></div>
       <div id="payment-widget"></div>
       <div id="agreement"></div>
@@ -171,7 +176,7 @@ export default function Payment({ defaultDelivery }: { defaultDelivery: Delivery
             size="large"
             backgroundColor="$color-pink-main"
             onClick={handlePayment}
-            disabled={!checkboxChecked || !delivery}>
+            disabled={!checkboxChecked || !delivery || !deliveryMessage}>
             {totalPrice}원 주문하기
           </Button>
         </div>
