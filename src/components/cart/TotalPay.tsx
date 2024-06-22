@@ -8,6 +8,7 @@ interface TotalPayProps {
 
 export default function TotalPay({ totalPrice, totalOriginalPrice, productCount }: TotalPayProps) {
   const discountAmount = totalOriginalPrice - totalPrice;
+  const discountPrice = totalOriginalPrice - discountAmount;
 
   return (
     <>
@@ -16,15 +17,15 @@ export default function TotalPay({ totalPrice, totalOriginalPrice, productCount 
         <div className={styles.individualCost}>
           <div className={`${styles.pricePair} ${styles.gray}`}>
             <div>원가</div>
-            <div>{totalOriginalPrice}원</div>
+            <div>{totalOriginalPrice.toLocaleString('ko-KR')}원</div>
           </div>
           <div className={styles.pricePair}>
             <div>할인가</div>
-            <div>{totalOriginalPrice - discountAmount}원</div>
+            <div>{discountPrice.toLocaleString('ko-KR')}원</div>
           </div>
           <div className={`${styles.pricePair} ${styles.pink}`}>
             <div>할인 금액</div>
-            <div>-{discountAmount}원</div>
+            <div>-{discountAmount.toLocaleString('ko-KR')}원</div>
           </div>
           <div className={styles.pricePair}>
             <div>배송비</div>
@@ -34,7 +35,7 @@ export default function TotalPay({ totalPrice, totalOriginalPrice, productCount 
         <div className={styles.line}></div>
         <div className={styles.totalPrice}>
           <div>총 결제 금액</div>
-          <div>{totalPrice}원</div>
+          <div>{totalPrice.toLocaleString('ko-KR')}원</div>
         </div>
       </div>
     </>

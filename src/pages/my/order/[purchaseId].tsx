@@ -1,66 +1,71 @@
+import { useRouter } from 'next/router';
+import { useQuery } from '@tanstack/react-query';
+import purchaseApi from '@/apis/purchase/api';
+import { ProductInfo } from '@/components/common/Card';
 import BackButton from '@/components/common/Button/BackButton';
 import Header from '@/components/common/Layout/Header';
 import OrderCard from '@/components/order/OrderCard';
 import TotalPay from '@/components/cart/TotalPay';
-import rectangleImg from '@/assets/exampleProductImg.jpg';
 
 import styles from './Order.module.scss';
 
-const orderList = [
-  {
-    productId: 6,
-    title: '진짜 육포입니다람쥐이이이이이이이이이이이이이이이이ㅣ이이이이이이',
-    thumbNailImage: rectangleImg.src,
-    originalPrice: 12000,
-    price: 10800,
-    option: '닭가슴살맛',
-    quantity: 2,
-    stock: 4,
-  },
-  {
-    productId: 6,
-    title: '진짜 육포입니다람쥐이이이이이이이이이이이이이이이이ㅣ이이이이이이',
-    thumbNailImage: rectangleImg.src,
-    originalPrice: 12000,
-    price: 10800,
-    option: '닭가슴살맛',
-    quantity: 2,
-    stock: 4,
-  },
-  {
-    productId: 6,
-    title: '진짜 육포입니다람쥐이이이이이이이이이이이이이이이이ㅣ이이이이이이',
-    thumbNailImage: rectangleImg.src,
-    originalPrice: 12000,
-    price: 10800,
-    option: '닭가슴살맛',
-    quantity: 2,
-    stock: 4,
-  },
-];
-
-const deliveryInfo = {
-  recipient: '김견주',
-  recipientPhoneNumber: '010-1111-1111',
-  address: '서울시 마포구 마포로 11',
-  detailedAddress: '102동 1104호',
-  zipCode: '10102',
-};
-
 export default function OrderDetail() {
+  const router = useRouter();
+  const { purchaseId } = router.query;
+
+  const { data: purchaseDetailData } = useQuery({
+    queryKey: ['purchaseDetail', purchaseId],
+    queryFn: async () => {
+      const response = purchaseApi.getDetailPurchase(Number(purchaseId));
+      return response;
+    },
+  });
+
+  console.log(purchaseDetailData);
+
+  const orderList =
+    purchaseDetailData &&
+    purchaseDetailData.data.purchaseProducts.map((product: ProductInfo) => ({
+      productId: product.productId,
+      title: product.title,
+      thumbNailImage: product.thumbNailImage,
+      originalPrice: product.originalPrice,
+      price: product.price,
+      option: product.combinationName,
+      quantity: product.quantity,
+      stock: 1,
+      status: product.status,
+    }));
+
+  const deliveryInfo = purchaseDetailData && {
+    recipient: purchaseDetailData.data.recipient,
+    recipientPhoneNumber: purchaseDetailData.data.recipientPhoneNumber,
+    address: purchaseDetailData.data.address,
+    detailedAddress: purchaseDetailData.data.detailedAddress,
+    zipCode: purchaseDetailData.data.zipCode,
+    message: purchaseDetailData.data.deliveryMessage,
+  };
+
+  console.log(orderList);
+
   function calculateTotalOriginalPrice() {
-    return orderList.reduce((total, order) => total + order.originalPrice * order.quantity, 0);
+    return purchaseDetailData?.data.purchaseProducts.reduce(
+      (total: number, order: ProductInfo) => total + order.originalPrice * order.quantity,
+      0
+    );
   }
 
   function calculateTotalPrice() {
-    return orderList.reduce((total, order) => total + order.price * order.quantity, 0);
+    return purchaseDetailData?.data.purchaseProducts.reduce(
+      (total: number, order: ProductInfo) => total + order.price * order.quantity,
+      0
+    );
   }
 
   const totalOriginalPrice = calculateTotalOriginalPrice();
   const totalPrice = calculateTotalPrice();
-  const orderCount = orderList.length;
+  const orderCount = purchaseDetailData?.data.purchaseProducts.length;
 
-  console.log(orderList[1]);
   return (
     <div className={styles.orderDetailLayout}>
       <Header.Root>
@@ -74,35 +79,51 @@ export default function OrderDetail() {
       <div className={styles.orderDetailTop}>
         <div className={styles.orderDetailHeader}>
           <h3>2024.04.21</h3>
-          <span>주문번호 No. 0102020202</span>
+          <span>주문번호 No. {purchaseId}</span>
         </div>
 
         <div className={styles.deliveryArea}>
           <h3>배송지</h3>
           <div className={styles.deliveryCard}>
-            <h4>{deliveryInfo.recipient} 집</h4>
+            <h4>{deliveryInfo?.recipient} 집</h4>
             <span>
-              {deliveryInfo.recipient} · {deliveryInfo.recipientPhoneNumber}
+              {deliveryInfo?.recipient} · {deliveryInfo?.recipientPhoneNumber}
               <br />
-              {deliveryInfo.address}, {deliveryInfo.detailedAddress}
+              {deliveryInfo?.address}, {deliveryInfo?.detailedAddress}
               <br />
-              {deliveryInfo.zipCode}
+              {deliveryInfo?.zipCode}
             </span>
           </div>
         </div>
         <div className={styles.deliveryMessageArea}>
           <h3>배송메시지</h3>
-          <span className={styles.deliveryMessage}>부재시 경비실에 맡겨주세요</span>
+          <span className={styles.deliveryMessage}>{deliveryInfo?.message}</span>
         </div>
         <div className={styles.rectangle} />
       </div>
       <div className={styles.orderListArea}>
         <h3>
-          주문 상품 <span>{orderList.length}개</span>
+          주문 상품 <span>{orderCount}개</span>
         </h3>
-        {orderList.map(order => (
-          <OrderCard key={order.productId} productInfo={order} tagText="공동구매 대기" />
-        ))}
+        {purchaseDetailData &&
+          orderList.length > 0 &&
+          orderList.map((order: ProductInfo) => (
+            <OrderCard
+              key={order.productId}
+              productInfo={order}
+              tagText={
+                order.status === 2
+                  ? '주문 완료'
+                  : order.status === 3
+                    ? '배송 준비'
+                    : order.status === 4
+                      ? '배송 중'
+                      : order.status === 5
+                        ? '배송 완료'
+                        : '취소 / 환불'
+              }
+            />
+          ))}
       </div>
       <div className={styles.orderDetailBottom}>
         <div className={styles.rectangle} />

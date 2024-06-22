@@ -23,16 +23,6 @@ export default function Order() {
     return item.id;
   });
 
-  const { data: purchaseDetailData } = useQuery({
-    queryKey: ['purchaseDetail', purchaseId],
-    queryFn: async () => {
-      const response = purchaseApi.getDetailPurchase(purchaseId);
-      return response;
-    },
-  });
-
-  console.log(purchaseDetailData);
-
   const purchaseList =
     purchaseData &&
     purchaseData.data.flatMap((item: PurchaseDataProps) =>
@@ -64,7 +54,7 @@ export default function Order() {
     router.push({
       pathname: `/my/order/${purchaseId}`,
       query: {
-        purchaseData: purchaseDetailData?.data,
+        purchaseId: purchaseId,
       },
     });
   }

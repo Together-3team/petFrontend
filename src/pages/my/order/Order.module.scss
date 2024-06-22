@@ -17,7 +17,7 @@
   .orderList {
     display: flex;
     flex-direction: column;
-    width: 90%;
+    width: 100%;
     gap: 1.6rem;
   }
 
@@ -163,11 +163,11 @@
   }
 
   .orderDetailTop {
-    width: 85%;
+    width: 100%;
   }
 
   .orderDetailBottom {
-    width: 85%;
+    width: 100%;
   }
 
   .orderDetailHeader {
@@ -232,7 +232,6 @@
   .orderListArea {
     display: flex;
     flex-direction: column;
-    width: 85%;
     padding-top: 1.2rem;
     padding-bottom: 1.2rem;
     gap: 1.2rem;
