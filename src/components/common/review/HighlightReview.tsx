@@ -6,7 +6,11 @@ import { httpClient } from '@/apis/httpClient';
 import { Product, ProductReview } from '@/types/product';
 import styles from './HighlightReview.module.scss';
 
-export default function HighlightReview({ productId }: any) {
+interface HighlightReviewProps {
+  productId: number;
+}
+
+export default function HighlightReview({ productId }: HighlightReviewProps) {
   const [reviewData, setReviewData] = useState<ProductReview[]>([]);
   const [averageRating, setAverageRating] = useState<string>('');
   const [reviewCount, setReviewCount] = useState<number>(0);
