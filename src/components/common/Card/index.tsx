@@ -67,7 +67,11 @@ export default function Card({
   };
 
   return (
-    <Link href={href || `/products/${productId}`} className={cx('card')} data-direction={direction} data-size={size}>
+    <Link
+      href={href || `/products/detail/${productId}`}
+      className={cx('card')}
+      data-direction={direction}
+      data-size={size}>
       <div className={cx('cardImage')} data-direction={direction} data-size={size}>
         <Image
           src={imageSrc}

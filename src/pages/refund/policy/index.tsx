@@ -12,7 +12,7 @@ export default function RefundPolicy() {
   const { productId } = router.query;
 
   const handleBackButtonClick = () => {
-    router.replace(`/products/${productId}`);
+    router.replace(`/products/detail/${productId}`);
   };
 
   return (
