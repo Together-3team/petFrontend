@@ -19,6 +19,10 @@
   color: $color-gray-400;
 }
 
+.priceBold {
+  @include font-body1;
+}
+
 .line {
   width: 100%;
   height: 0.15rem;
@@ -29,4 +33,5 @@
   margin-top: 1rem;
   display: flex;
   justify-content: space-between;
+  @include font-headline2;
 }
