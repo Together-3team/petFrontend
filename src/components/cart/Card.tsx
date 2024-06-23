@@ -29,7 +29,6 @@ export default function Card({
   onQuantityChange,
   onRemove,
 }: CardProps) {
-  // 추후 백에서 장바구니에 담은 제품 갯수로 초기화하는 로직 추가
   const [productNumber, setProductNumber] = useState(initialProductNumber);
 
   const discountAmount = originalCost - productCost;
@@ -46,7 +45,9 @@ export default function Card({
     onQuantityChange(newQuantity);
   }
 
-  console.log(imageUrl);
+  const formattedOriginalCost = originalCost.toLocaleString('ko-KR');
+  const formattedProductCost = productCost.toLocaleString('ko-KR');
+
   return (
     <>
       <div className={styles.oneCheckbox}>
@@ -66,10 +67,10 @@ export default function Card({
             <div className={styles.productTitle}>{productTitle}</div>
             <div className={styles.option}>{option}</div>
             <div className={styles.moneyContainerRight}>
-              <div className={styles.productCost}>{originalCost}원</div>
+              <div className={styles.productCost}>{formattedOriginalCost}원</div>
               <div className={styles.realPrice}>
                 <div className={styles.discountRate}>{discountRate.toFixed(0)}%</div>
-                <div className={styles.realMoney}>{productCost}원</div>
+                <div className={styles.realMoney}>{formattedProductCost}원</div>
               </div>
             </div>
           </div>
