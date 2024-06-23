@@ -9,6 +9,13 @@ export async function getProducts(params: ProductsQueryDto) {
   return products;
 }
 
+export async function getProductsSearch(params: ProductsQueryDto) {
+  const searchParams = getProductsSearchParams(params);
+
+  const products = await httpClient().get<ProductsRdo>(`/products/search?${searchParams}`);
+  return products;
+}
+
 export async function getProductsRecommended(params: ProductsQueryDto) {
   const searchParams = getProductsSearchParams(params);
 

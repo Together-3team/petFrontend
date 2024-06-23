@@ -14,6 +14,7 @@ import { httpClient } from '@/apis/httpClient';
 import { UserResponse } from '@/apis/userApi';
 import { queryClient } from '@/utils/queryClient';
 import { zzimsQueries } from '@/apis/product/queries';
+import FloatingActionBox from '@/components/common/Layout/Footer/FloatingActionBox';
 
 const BOTTOM_BOX_ID = 'bottomBox';
 
@@ -60,9 +61,9 @@ export default function LikedPage() {
       <GitHubBox />
       <FloatingBox id={BOTTOM_BOX_ID}>
         <NavBottom />
-        <div className={styles.floatingActionBox}>
+        <FloatingActionBox>
           <ScrollTopButton />
-        </div>
+        </FloatingActionBox>
       </FloatingBox>
     </div>
   );

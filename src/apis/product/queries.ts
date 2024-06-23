@@ -1,7 +1,7 @@
 import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query';
 
 import { FilterQuery, ProductsQueryDto } from '@/types/apis/product.types';
-import { getProducts, getProductsHot, getProductsRecommended, getZzims } from './api';
+import { getProducts, getProductsHot, getProductsRecommended, getProductsSearch, getZzims } from './api';
 import { queryClient } from '@/utils/queryClient';
 
 export const keys = {
@@ -9,6 +9,8 @@ export const keys = {
   productsByFilter: (params: ProductsQueryDto) => [...keys.products(), 'byFilter', params],
   productsInfinity: () => [...keys.products(), 'infinityQuery'],
   ProductsInfinityByFilter: (params: FilterQuery) => [...keys.productsInfinity(), 'byfilter', params],
+  productsSearch: () => [...keys.products(), 'search'],
+  productsSearchInfinity: (params: ProductsQueryDto) => [...keys.productsSearch(), 'infinityQuery', params],
   productsRecommended: () => [...keys.products(), 'recommended'],
   productsRecommendedByFilter: (params: ProductsQueryDto) => [...keys.productsRecommended(), 'byFilter', params],
   productsRecommendedInfinity: () => [...keys.productsRecommended(), 'infinityQuery'],
@@ -46,12 +48,42 @@ export const infiniteProductsQueries = {
       initialPageParam: 1,
       getNextPageParam: (lastPage, allPages, lastPageParam) => {
         const { page, pageSize, totalCount } = lastPage;
-        return Math.ceil(totalCount / pageSize) !== page ? lastPageParam + 1 : undefined;
+        const totalPage = Math.ceil(totalCount / pageSize);
+
+        if (totalPage < 1) {
+          return undefined;
+        }
+
+        return totalPage !== page ? lastPageParam + 1 : undefined;
       },
     });
   },
   prefetchQuery: (params: ProductsQueryDto) => {
     queryClient.prefetchQuery(infiniteProductsQueries.queryOptions(params));
+  },
+};
+
+export const infiniteProductsSearchQueries = {
+  queryKey: (params: FilterQuery) => keys.productsSearchInfinity(params),
+  queryOptions: (params: ProductsQueryDto) => {
+    return infiniteQueryOptions({
+      queryKey: infiniteProductsSearchQueries.queryKey(params),
+      queryFn: ({ pageParam }) => getProductsSearch({ ...params, page: pageParam }),
+      initialPageParam: 1,
+      getNextPageParam: (lastPage, allPages, lastPageParam) => {
+        const { page, pageSize, totalCount } = lastPage;
+        const totalPage = Math.ceil(totalCount / pageSize);
+
+        if (totalPage < 1) {
+          return undefined;
+        }
+
+        return totalPage !== page ? lastPageParam + 1 : undefined;
+      },
+    });
+  },
+  prefetchQuery: (params: ProductsQueryDto) => {
+    queryClient.prefetchQuery(infiniteProductsSearchQueries.queryOptions(params));
   },
 };
 
@@ -77,7 +109,13 @@ export const infiniteProductsRecommendedQueries = {
       initialPageParam: 1,
       getNextPageParam: (lastPage, allPages, lastPageParam) => {
         const { page, pageSize, totalCount } = lastPage;
-        return Math.ceil(totalCount / pageSize) !== page ? lastPageParam + 1 : undefined;
+        const totalPage = Math.ceil(totalCount / pageSize);
+
+        if (totalPage < 1) {
+          return undefined;
+        }
+
+        return totalPage !== page ? lastPageParam + 1 : undefined;
       },
     });
   },
@@ -108,7 +146,13 @@ export const infiniteProductsHotQueries = {
       initialPageParam: 1,
       getNextPageParam: (lastPage, allPages, lastPageParam) => {
         const { page, pageSize, totalCount } = lastPage;
-        return Math.ceil(totalCount / pageSize) !== page ? lastPageParam + 1 : undefined;
+        const totalPage = Math.ceil(totalCount / pageSize);
+
+        if (totalPage < 1) {
+          return undefined;
+        }
+
+        return totalPage !== page ? lastPageParam + 1 : undefined;
       },
     });
   },
