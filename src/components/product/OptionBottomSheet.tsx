@@ -10,6 +10,8 @@ import NumberInput from './NumberInput';
 import Button from '../common/Button';
 import { useRouter } from 'next/router';
 import X from '@/assets/svgs/btn-x.svg';
+import useToast from '@/hooks/useToast';
+import { ToastParameters } from '@/types/components/toast';
 
 const cx = classNames.bind(styles);
 
@@ -95,19 +97,20 @@ export interface PostOrdersResponseData {
   id: number;
 }
 
-interface OptionBottomSheetProps {
-  isOpen: boolean;
-  onClose: () => void;
-  productId: number;
-  type: 'cartPurchase' | 'purchaseOnly';
-}
-
 export interface PostItem {
   optionCombinationId: number;
   quantity: number;
 }
 
-export default function OptionBottomSheet({ isOpen, onClose, productId, type }: OptionBottomSheetProps) {
+interface OptionBottomSheetProps {
+  isOpen: boolean;
+  onClose: () => void;
+  productId: number;
+  type: 'cartPurchase' | 'purchaseOnly';
+  showToast: (toast: ToastParameters) => void;
+}
+
+export default function OptionBottomSheet({ isOpen, onClose, productId, type, showToast }: OptionBottomSheetProps) {
   const [productOptions, setProductOptions] = useState<Option[][]>([]);
   const [productOptionsOn, setProductOptionsOn] = useState(true);
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
@@ -124,6 +127,7 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type }: 
   const [countChanged, setCountChanged] = useState(false);
   const [dropdownOn, setDropdownOn] = useState(Array.from({ length: productOptions.length }, (v, i) => i === 0));
   const [ordersIdObject, setOrdersIdObject] = useState<{ [key: string]: number }>({});
+  const [countWithNoOption, setCountWithNoOption] = useState(1);
   const router = useRouter();
 
   useEffect(() => {
@@ -216,6 +220,7 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type }: 
 
   const handleCartButtonClick = async () => {
     try {
+      await httpClient().delete('selected-products/orders');
       const response = await httpClient().get('selected-products/orders');
       console.log('주문 목록: ', response);
       await httpClient().put('selected-products/orders-to-carts');
@@ -224,6 +229,8 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type }: 
     } catch (err) {
       console.log(err);
     }
+    setSelectedOptionsObject({});
+    setCountChanged(false);
   };
 
   useEffect(() => {
@@ -271,9 +278,13 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type }: 
         setProductOptionsOn(false);
         return;
       }
+      if (productOptions.length === 0) {
+        setProductOptionsOn(false);
+        return;
+      }
       setProductOptionsOn(true);
     }
-  }, [isOpen, selectedOptionsObject]);
+  }, [isOpen, selectedOptionsObject, productOptions]);
 
   useEffect(() => {
     console.log(selectedOptionsObject);
@@ -319,11 +330,6 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type }: 
     // productOptions가 업데이트될 때마다 dropdownOn을 다시 설정
     const initialDropdownOn = Array.from({ length: productOptions.length }, (v, i) => i === 0);
     setDropdownOn(initialDropdownOn);
-  }, [productOptions]);
-  useEffect(() => {
-    if (productOptions.length === 0) {
-      setProductOptionsOn(false);
-    }
   }, [productOptions]);
 
   return (
@@ -386,7 +392,11 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type }: 
             <div>
               <div className={cx('chosenBox')}>
                 <div className={cx('selectedCombinationName')}> 수량 선택 </div>
-                <NumberInput setCountChanged={setCountChanged} />
+                <NumberInput
+                  setCountChanged={setCountChanged}
+                  countWithNoOption={countWithNoOption}
+                  setCountWithNoOption={setCountWithNoOption}
+                />
                 <div>
                   <p>정가 {`${originalPrice}`}원</p>
                   <p>할인가 {`${price}`}원</p>
@@ -410,7 +420,21 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type }: 
       {type === 'cartPurchase' && !productOptionsOn && (
         <div className={cx('buttons')}>
           <div className={cx('button')}>
-            <Button size="large" backgroundColor="$color-white-pink" onClick={handleCartButtonClick}>
+            <Button
+              size="large"
+              backgroundColor="$color-white-pink"
+              onClick={() => {
+                handleCartButtonClick();
+                onClose();
+                showToast({
+                  status: 'success',
+                  message: '장바구니에 담겼어요!',
+                  linkMessage: '장바구니로 가기',
+                  linkProps: {
+                    href: '/cart',
+                  },
+                });
+              }}>
               장바구니
             </Button>
           </div>

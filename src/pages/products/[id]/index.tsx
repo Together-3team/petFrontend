@@ -22,6 +22,7 @@ import BottomModal from '@/components/common/Modal/Base/BottomModal';
 import useAuth from '@/hooks/useAuth';
 import { useEffect } from 'react';
 import { httpClient } from '@/apis/httpClient';
+import useToast from '@/hooks/useToast';
 
 const cx = classNames.bind(styles);
 
@@ -54,6 +55,7 @@ export default function ProductDetailPage({ product }: { product: Product }) {
   const { id } = router.query;
   const productId = Number(id);
   const { isLogin } = useAuth();
+  const { showToast } = useToast('fixedCta');
 
   const handleLoginButtonClick = () => {
     router.replace({ pathname: '/my', query: { prevPath: router.asPath } });
@@ -100,7 +102,7 @@ export default function ProductDetailPage({ product }: { product: Product }) {
         </div>
         <OrderPolicy productId={productId} />
       </div>
-      <div className={cx('fixedCta')}>
+      <div className={cx('fixedCta')} id="fixedCta">
         <div className={cx('zzim')}>
           <Zzim color="gray" productId={productId} initialIsZzimed={product ? product.isZzimed : undefined} />
         </div>
@@ -114,7 +116,13 @@ export default function ProductDetailPage({ product }: { product: Product }) {
         </div>
       </div>
       {/* <OptionBottomSheet isOpen={modalOpen} onClose={handleModalClose} productId={productId} type="purchaseOnly" /> */}
-      <OptionBottomSheet isOpen={modalOpen} onClose={handleModalClose} productId={productId} type="cartPurchase" />
+      <OptionBottomSheet
+        isOpen={modalOpen}
+        onClose={handleModalClose}
+        productId={productId}
+        type="cartPurchase"
+        showToast={showToast}
+      />
       <BottomModal isOpen={secondModalOpen} onClose={handleSecondModalClose}>
         <div className={cx('modalContents')}>
           <p className={cx('modalTitle')}>

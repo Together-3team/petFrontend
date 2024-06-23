@@ -12,6 +12,9 @@ interface NumberInput {
   setCountChanged: React.Dispatch<React.SetStateAction<boolean>>;
   combinationId?: number;
   ordersId?: number;
+  //옵션이 없을 때 count
+  countWithNoOption?: number;
+  setCountWithNoOption?: React.Dispatch<SetStateAction<number>>;
 }
 
 export default function NumberInput({

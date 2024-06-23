@@ -16,7 +16,7 @@ export function httpClient() {
     return response.data;
   }
 
-  async function put<T, P>(url: string, data: P, options?: { headers?: any }) {
+  async function put<T, P>(url: string, data?: P, options?: { headers?: any }) {
     const response = await axiosInstance.put<T>(url, data, options);
     return response.data;
   }
