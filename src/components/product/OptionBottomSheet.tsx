@@ -7,6 +7,7 @@ import styles from './OptionBottomSheet.module.scss';
 import Image from 'next/image';
 import arrow from '@/assets/images/arrow-down.jpg';
 import NumberInput from './NumberInput';
+import Button from '../common/Button';
 
 const cx = classNames.bind(styles);
 
@@ -83,7 +84,7 @@ interface OptionBottomSheetProps {
   isOpen: boolean;
   onClose: () => void;
   productId: number;
-  type: string;
+  type: 'cartPurchase' | 'purchaseOnly';
 }
 
 export default function OptionBottomSheet({ isOpen, onClose, productId, type }: OptionBottomSheetProps) {
@@ -101,6 +102,7 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type }: 
   const [totalPriceOfOptions, setTotalPriceOfOptions] = useState(0);
   const [totalOriginalPriceOfOptions, setTotalOriginalPriceOfOptions] = useState(0);
   const [countChanged, setCountChanged] = useState(false);
+  const [dropdownOn, setDropdownOn] = useState(Array.from({ length: productOptions.length }, (v, i) => i === 0));
 
   useEffect(() => {
     const fetchProductOption = async () => {
@@ -147,6 +149,9 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type }: 
 
   const handleProductOptionsOn = () => {
     setProductOptionsOn(true);
+    // productOptions가 업데이트될 때마다 dropdownOn을 다시 설정
+    const initialDropdownOn = Array.from({ length: productOptions.length }, (v, i) => i === 0);
+    setDropdownOn(initialDropdownOn);
   };
 
   const handleOptionChange = (index: number, value: string) => {
@@ -245,7 +250,6 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type }: 
     };
   }, []);
 
-  const [dropdownOn, setDropdownOn] = useState(Array.from({ length: productOptions.length }, (v, i) => i === 0));
   useEffect(() => {
     // productOptions가 업데이트될 때마다 dropdownOn을 다시 설정
     const initialDropdownOn = Array.from({ length: productOptions.length }, (v, i) => i === 0);
@@ -294,11 +298,31 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type }: 
               );
             })}
           </div>
-          <div></div>
+          <div className={cx('divider')}></div>
           <p>총 {totalAmountOfOptions}개 상품금액</p>
           <p>정가 {totalOriginalPriceOfOptions}</p>
           <p>할인가 {totalPriceOfOptions}</p>
         </>
+      )}
+      {type !== 'cartPurchase' ? (
+        <div>
+          <Button size="large" backgroundColor="$color-pink-main">
+            바로구매
+          </Button>
+        </div>
+      ) : (
+        <div className={cx('buttons')}>
+          <div className={cx('button')}>
+            <Button size="large" backgroundColor="$color-white-pink">
+              장바구니
+            </Button>
+          </div>
+          <div className={cx('button')}>
+            <Button size="large" backgroundColor="$color-pink-main">
+              바로구매
+            </Button>
+          </div>
+        </div>
       )}
     </BottomSheet>
   );
