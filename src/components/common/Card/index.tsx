@@ -56,6 +56,7 @@ export default function Card({
     starRating,
     reviewCount = 0,
     quantity,
+    option,
     stock,
   } = productInfo;
 
@@ -100,10 +101,15 @@ export default function Card({
             {title}
           </div>
         </div>
+        {option && quantity && (
+          <p className={cx('option')}>
+            {option} | {quantity}개
+          </p>
+        )}
         {stock === 0 && <p className={cx('outOfStock')}>품절된 상품이에요</p>}
         {stock > 0 && (
           <p className={cx('originalPrice')} data-direction={direction} data-size={size}>
-            {originalPrice.toLocaleString('ko-KR')}원
+            {originalPrice}원
           </p>
         )}
         {stock > 0 && (
@@ -112,7 +118,7 @@ export default function Card({
               {discountRate}%
             </p>
             <p className={cx('price')} data-direction={direction} data-size={size}>
-              {price.toLocaleString('ko-KR')}원
+              {price}원
             </p>
           </div>
         )}

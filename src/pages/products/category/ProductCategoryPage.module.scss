@@ -15,6 +15,13 @@
     }
   }
 
+  .productTypeBox {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 1.6rem 0 2rem;
+  }
+
   .sortBox {
     display: flex;
     width: 100%;

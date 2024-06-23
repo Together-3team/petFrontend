@@ -23,6 +23,8 @@ export default function OrderDetail() {
     },
   });
 
+  const purchaseProducts = purchaseDetailData?.data?.purchaseProducts || [];
+
   console.log(purchaseDetailData);
 
   const orderList =
@@ -108,10 +110,13 @@ export default function OrderDetail() {
         <h3>
           주문 상품 <span>{orderCount}개</span>
         </h3>
-        {purchaseDetailData &&
-          orderList.length > 0 &&
-          orderList.map((order: ProductInfo) => (
-            <OrderCard key={order.productId} productInfo={order} tagText={getTagText(order.status)} />
+        {purchaseProducts.length > 0 &&
+          purchaseProducts.map((order: ProductInfo) => (
+            <OrderCard
+              key={order.productId}
+              productInfo={{ ...order, stock: 3, option: order.combinationName }}
+              tagText={getTagText(order.status)}
+            />
           ))}
       </div>
       <div className={styles.orderDetailBottom}>
