@@ -23,7 +23,7 @@ export default function OrderDetail() {
     },
   });
 
-  const { purchaseProducts } = purchaseDetailData?.data;
+  const purchaseProducts = purchaseDetailData?.data?.purchaseProducts || [];
 
   console.log(purchaseDetailData);
 
