@@ -119,7 +119,7 @@ export default function Review() {
       </div>
       <>
         {reviewWrite ? (
-          reviewableData ? (
+          reviewableData && reviewableData.data.length > 0 ? (
             <div className={styles.reviewCardList}>
               {reviewableData.data.map((purchase: ProductInfo) => (
                 <ReviewCard
@@ -148,33 +148,4 @@ export default function Review() {
       </>
     </div>
   );
-}
-
-{
-  /*
-<>
-        {reviewWrite ? (
-          purchaseData?.data[0].purchaseProducts.length > 0 ? (
-            <div className={styles.reviewCardList}>
-              {reviewableList.map((purchase: ProductInfo) => (
-                <ReviewCard key={purchase.productId} productInfo={purchase} onClick={handleClickWriteReview} />
-              ))}
-            </div>
-          ) : (
-            <div className={styles.noReview}>지금은 리뷰를 작성해야 할 상품이 없어요.</div>
-          )
-        ) : purchaseData?.data[0].purchaseProducts.length > 0 ? (
-          <div className={styles.reviewCardList}>
-            {reviewableList.map((purchase: ProductInfo) => (
-              <WroteReviewCard
-                href={`/my/review/${reviewId || purchaseProductId}`}
-                key={purchase.productId}
-                productInfo={purchase}
-              />
-            ))}
-          </div>
-        ) : (
-          <div className={styles.noReview}>아직 내가 쓴 리뷰가 없어요.</div>
-        )}
-      </>*/
 }
