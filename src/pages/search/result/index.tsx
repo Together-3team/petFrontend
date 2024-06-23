@@ -76,7 +76,7 @@ export default function SearchResultPage({ keyword, orderBy }: ProductCategoryPa
     setKeywords(prev => {
       const oldIndex = prev.findIndex(_keyword => _keyword.text === search);
       const newKeywords = oldIndex >= 0 ? [...prev.slice(0, oldIndex), ...prev.slice(oldIndex + 1)] : prev;
-      if (prev.length > 50) {
+      if (prev.length > 10) {
         prev.pop();
       }
       return [newKeyword, ...newKeywords];
