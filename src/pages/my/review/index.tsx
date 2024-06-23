@@ -82,11 +82,9 @@ export default function Review() {
     })
   );
 
-  const purchaseProductId = purchaseData?.data.flatMap((item: PurchaseDataProps) =>
-    item.purchaseProducts.map((item: ProductInfo) => {
-      return item.id;
-    })
-  );
+  const purchaseProductId = purchaseData?.data.flatMap((item: PurchaseDataProps) => {
+    return item.id;
+  });
 
   function handleClickWriteReview() {
     router.push({
