@@ -16,6 +16,7 @@ import Header from '@/components/common/Layout/Header';
 import { useRouter } from 'next/router';
 import CardSliderRecommended from '@/components/common/Card/CardSlider/Recommended';
 import { CartData } from '@/types/apis/product';
+import { setCartData } from '@/queries/cartQueries';
 
 export default function Cart() {
   const BOTTOM_BOX_ID = 'bottomBox';
@@ -186,9 +187,7 @@ export default function Cart() {
   // 버튼 클릭 (주문하기)
   function handleOrderButtonClick() {
     const selectedProducts = products.filter(product => product.isChecked);
-    // selectedProducts를 useQuery로 관리해서 결제페이지에서 사용
-    sessionStorage.setItem('cartData', JSON.stringify(selectedProducts));
-    console.log('Cart data saved to sessionStorage:', selectedProducts);
+    setCartData(queryClient, selectedProducts);
     router.push('/payment');
   }
 
