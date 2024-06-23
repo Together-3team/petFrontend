@@ -176,7 +176,7 @@ export default function Payment({ defaultDelivery }: { defaultDelivery: Delivery
             size="large"
             backgroundColor="$color-pink-main"
             onClick={handlePayment}
-            disabled={!checkboxChecked || !delivery || !deliveryMessage}>
+            disabled={!checkboxChecked || !delivery}>
             {totalPrice}원 주문하기
           </Button>
         </div>
