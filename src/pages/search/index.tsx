@@ -28,6 +28,7 @@ export async function getServerSideProps() {
 
 export default function SearchPage() {
   const [keywords, setKeywords] = useState<Keyword[]>([]);
+  const [isMounted, setIsMounted] = useState(false);
   const { register, handleSubmit } = useForm({
     resolver: yupResolver(searchSchema),
   });
@@ -74,6 +75,10 @@ export default function SearchPage() {
     localStorage.setItem('keywords', JSON.stringify(keywords));
   }, [keywords]);
 
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   return (
     <div className={styles.layout}>
       <Header.Root className={styles.header}>
@@ -89,9 +94,11 @@ export default function SearchPage() {
           <div className={styles.divider} />
         </>
       )}
-      <div className={styles.recommendedBox}>
-        <CardSliderRecommended title="이런 상품 찾고 있나요?" />
-      </div>
+      {isMounted && (
+        <div className={styles.recommendedBox}>
+          <CardSliderRecommended title="이런 상품 찾고 있나요?" />
+        </div>
+      )}
       <FloatingBox>
         <NavBottom />
       </FloatingBox>
