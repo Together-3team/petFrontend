@@ -7,6 +7,7 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 interface CardProps {
   productTitle: string;
   option: string;
+  optionCost: number;
   productCost: number;
   originalCost: number;
   isChecked: boolean;
@@ -20,6 +21,7 @@ interface CardProps {
 export default function Card({
   productTitle,
   option,
+  optionCost,
   productCost,
   originalCost,
   isChecked,
@@ -65,7 +67,10 @@ export default function Card({
           <Image className={styles.productImg} src={imageUrl} width={56} height={56} alt="productImg" />
           <div>
             <div className={styles.productTitle}>{productTitle}</div>
-            <div className={styles.option}>{option}</div>
+            <div className={styles.optionContainer}>
+              <div className={styles.option}>{option}</div>
+              <div className={styles.optionCost}>(+{optionCost}원)</div>
+            </div>
             <div className={styles.moneyContainerRight}>
               <div className={styles.productCost}>{formattedOriginalCost}원</div>
               <div className={styles.realPrice}>

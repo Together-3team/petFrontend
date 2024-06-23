@@ -24,6 +24,7 @@
     "@tanstack/react-query-devtools": "^5.40.0",
     "@tosspayments/payment-sdk": "^1.7.1",
     "@tosspayments/payment-widget-sdk": "^0.10.2",
+    "@types/socket.io-client": "^3.0.0",
     "axios": "^1.7.2",
     "classnames": "^2.5.1",
     "dotenv": "^16.4.5",

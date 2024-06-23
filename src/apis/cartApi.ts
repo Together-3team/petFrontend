@@ -27,6 +27,7 @@ export async function fetchCartProducts(): Promise<Product[]> {
       id: item.id,
       productTitle: item.optionCombination.product.title,
       option: item.optionCombination.combinationName,
+      optionCost: item.optionCombination.combinationPrice,
       productCost: item.optionCombination.product.price,
       originalCost: item.optionCombination.product.originalPrice,
       combinationPrice: item.optionCombination.combinationPrice,

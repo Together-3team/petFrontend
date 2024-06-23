@@ -20,6 +20,7 @@ export interface Product {
   id: number;
   productTitle: string;
   option: string;
+  optionCost: number;
   productCost: number;
   originalCost: number;
   combinationPrice: number;
@@ -237,6 +238,7 @@ export default function Cart() {
                 key={product.id}
                 productTitle={product.productTitle}
                 option={product.option}
+                optionCost={product.optionCost}
                 productCost={product.productCost}
                 originalCost={product.originalCost}
                 isChecked={product.isChecked}
