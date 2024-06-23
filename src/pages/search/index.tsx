@@ -82,10 +82,12 @@ export default function SearchPage() {
         </form>
       </Header.Root>
       {keywords.length > 0 && (
-        <div className={styles.keywordsBox}>
-          <SearchKeywords keywords={keywords} onRemove={handleRemoveKeyword} />
+        <>
+          <div className={styles.keywordsBox}>
+            <SearchKeywords keywords={keywords} onRemove={handleRemoveKeyword} />
+          </div>
           <div className={styles.divider} />
-        </div>
+        </>
       )}
       <div className={styles.recommendedBox}>
         <CardSliderRecommended title="이런 상품 찾고 있나요?" />
