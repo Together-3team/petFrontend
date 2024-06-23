@@ -1,4 +1,5 @@
 import { ChangeEvent, useState } from 'react';
+import { useRouter } from 'next/router';
 import useToast from '@/hooks/useToast';
 import Header from '@/components/common/Layout/Header';
 import BackButton from '@/components/common/Button/BackButton';
@@ -7,11 +8,10 @@ import StarRating from '@/components/common/review/StarRating';
 import Textarea from '@/components/common/review/Textarea';
 import { postReview } from '../../../../apis/myReviewAPI';
 import styles from './WritePage.module.scss';
-// import { useLocation } from 'react-router-dom';
 
 export default function WritePage() {
-  // const location = useLocation();
-  // const { productId, purchaseProductId } = location.state;
+  const router = useRouter();
+  const { productId, purchaseProductId } = router.query;
 
   const [rating, setRating] = useState(0);
   const [description, setDescriprion] = useState('');
@@ -23,8 +23,8 @@ export default function WritePage() {
 
   const handleSaveReview = async () => {
     const reviewData = {
-      productId: 0,
-      purchaseProductId: 0,
+      productId: Number(productId),
+      purchaseProductId: Number(purchaseProductId),
       rating,
       description,
       reviewImages: '',
