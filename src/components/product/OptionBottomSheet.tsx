@@ -82,7 +82,7 @@ interface OrdersResponseData {
   id: number;
 }
 
-interface PostOrdersResponseData {
+export interface PostOrdersResponseData {
   quantity: number;
   optionCombination: {
     id: number;
@@ -102,7 +102,7 @@ interface OptionBottomSheetProps {
   type: 'cartPurchase' | 'purchaseOnly';
 }
 
-interface PostItem {
+export interface PostItem {
   optionCombinationId: number;
   quantity: number;
 }
@@ -212,6 +212,20 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type }: 
     });
   };
 
+  const handleBuyButtonClick = async () => {};
+
+  const handleCartButtonClick = async () => {
+    try {
+      const response = await httpClient().get('selected-products/orders');
+      console.log('주문 목록: ', response);
+      await httpClient().put('selected-products/orders-to-carts');
+      const res = await httpClient().get('selected-products/carts');
+      console.log('장바구니 목록: ', res);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     const handleSelectedOptionsObject = async () => {
       console.log(selectedOptions);
@@ -242,6 +256,7 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type }: 
           'selected-products/orders',
           postItem
         );
+        console.log('주문 목록ㄱㄱㄱㄱㄱㄱㄱ ', response);
         setOrdersIdObject(prev => ({ ...prev, [selectedIds]: response.id }));
         setCountChanged(false);
       }
@@ -338,7 +353,8 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type }: 
               <div>
                 {Object.keys(selectedOptionsObject).map((objectKey, i) => {
                   const selectedIds = objectKey.split(',');
-                  const { combinationPrice, selectedCombinationName } = calculateCombinationPriceAndName(selectedIds);
+                  const { combinationId, combinationPrice, selectedCombinationName } =
+                    calculateCombinationPriceAndName(selectedIds);
                   return (
                     <div key={i} className={cx('chosenBox')}>
                       <div className={cx('selectedCombinationName')}> {selectedCombinationName} </div>
@@ -350,6 +366,8 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type }: 
                         setSelectedOptionsObject={setSelectedOptionsObject}
                         objectKey={objectKey}
                         setCountChanged={setCountChanged}
+                        combinationId={combinationId}
+                        ordersId={ordersIdObject[objectKey]}
                       />
                       <div>
                         <p>정가 {`${(originalPrice + combinationPrice) * selectedOptionsObject[objectKey]}`}원</p>
@@ -392,12 +410,12 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type }: 
       {type === 'cartPurchase' && !productOptionsOn && (
         <div className={cx('buttons')}>
           <div className={cx('button')}>
-            <Button size="large" backgroundColor="$color-white-pink">
+            <Button size="large" backgroundColor="$color-white-pink" onClick={handleCartButtonClick}>
               장바구니
             </Button>
           </div>
           <div className={cx('button')}>
-            <Button size="large" backgroundColor="$color-pink-main">
+            <Button size="large" backgroundColor="$color-pink-main" onClick={handleBuyButtonClick}>
               바로구매
             </Button>
           </div>
