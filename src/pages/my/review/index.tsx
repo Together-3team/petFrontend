@@ -58,6 +58,7 @@ export default function Review() {
 
   console.log(reviewableData?.data);
   console.log(wroteReviews);
+  console.log(purchaseData);
 
   //TODO: 리뷰 작성 후 테스트 때 적용
   const myReviewList =
@@ -83,6 +84,8 @@ export default function Review() {
     router.push({
       pathname: `/my/review/write`,
       query: {
+        reviewableData: reviewableData && reviewableData.data,
+        purchaseData: purchaseData && purchaseData.data,
         productId: purchaseData && purchaseData.data[0].id,
         purchaseProductId: purchaseData && purchaseData.data[0].purchaseProducts[0].productId,
       },

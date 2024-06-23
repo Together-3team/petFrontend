@@ -11,7 +11,7 @@ import styles from './WritePage.module.scss';
 
 export default function WritePage() {
   const router = useRouter();
-  const { productId, purchaseProductId } = router.query;
+  const { productId, purchaseProductId, reviewableData, purchaseData } = router.query;
 
   const [rating, setRating] = useState(0);
   const [description, setDescriprion] = useState('');
@@ -20,6 +20,8 @@ export default function WritePage() {
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setDescriprion(event.target.value);
   };
+
+  console.log(reviewableData);
 
   const handleSaveReview = async () => {
     const reviewData = {
