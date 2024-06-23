@@ -15,23 +15,11 @@ import { deleteAllProducts, deleteProductById, fetchCartProducts, updateProductQ
 import Header from '@/components/common/Layout/Header';
 import { useRouter } from 'next/router';
 import CardSliderRecommended from '@/components/common/Card/CardSlider/Recommended';
-
-export interface Product {
-  id: number;
-  productTitle: string;
-  option: string;
-  optionCost: number;
-  productCost: number;
-  originalCost: number;
-  combinationPrice: number;
-  productNumber: number;
-  imageUrl: string;
-  isChecked: boolean;
-}
+import { CartData } from '@/types/apis/product';
 
 export default function Cart() {
   const BOTTOM_BOX_ID = 'bottomBox';
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<CartData[]>([]);
   const [selectAll, setSelectAll] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState<{ type: 'individual' | 'bulk'; id?: number } | null>(null);
@@ -61,7 +49,7 @@ export default function Cart() {
         }))
       );
     }
-  }, [productsData]);
+  }, [productsData, products]);
 
   // 상품 전체 DELETE
   async function handleDeleteAllProducts() {
@@ -198,6 +186,7 @@ export default function Cart() {
   // 버튼 클릭 (주문하기)
   function handleOrderButtonClick() {
     const selectedProducts = products.filter(product => product.isChecked);
+    // selectedProducts를 useQuery로 관리해서 결제페이지에서 사용
     sessionStorage.setItem('cartData', JSON.stringify(selectedProducts));
     console.log('Cart data saved to sessionStorage:', selectedProducts);
     router.push('/payment');

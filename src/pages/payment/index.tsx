@@ -10,7 +10,7 @@ import Header from '@/components/common/Layout/Header';
 import BottomModal from '@/components/common/Modal/Base/BottomModal';
 import Input from '@/components/common/Input';
 import BackButton from '@/components/common/Button/BackButton';
-import { Product } from '@/pages/cart';
+
 import clock from '@/assets/images/clock.png';
 import Image from 'next/image';
 import { GetServerSidePropsContext } from 'next';
@@ -18,6 +18,7 @@ import { DeliveryInfo } from '@/types/components/delivery';
 import { httpClient } from '@/apis/httpClient';
 import OrderDeliveryCard from '@/components/order/OrderDeliveryCard';
 import { useRouter } from 'next/router';
+import { Product } from '@/types/apis/product';
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const accessToken = context.req.cookies['accessToken'];
@@ -87,6 +88,8 @@ export default function Payment({ defaultDelivery }: { defaultDelivery: Delivery
   };
 
   useEffect(() => {
+    // react query로 받아오도록 수정
+    //
     const cartData = sessionStorage.getItem('cartData');
     if (cartData) {
       const parsedProducts = JSON.parse(cartData) as Product[];
