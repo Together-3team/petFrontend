@@ -34,7 +34,7 @@ export default function CardListZzim({ className }: CardListZzimProps) {
           <div className={styles.divider} />
           <ul className={styles.list}>
             {products?.map((product, index) => (
-              <li key={index}>
+              <li key={index} className={styles.item}>
                 <Card
                   productInfo={{
                     ...product,
@@ -43,7 +43,7 @@ export default function CardListZzim({ className }: CardListZzimProps) {
                     reviewCount: product.reviewCount,
                     starRating: product.averageRating,
                   }}
-                  size="large"
+                  size="extraLarge"
                   isZzim
                 />
               </li>

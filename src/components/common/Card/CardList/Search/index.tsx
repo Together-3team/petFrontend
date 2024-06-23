@@ -79,7 +79,7 @@ export default function CardListSearch({ className, orderBy = '0', keyword }: Ca
         <ul className={styles.list}>
           {productsPages.map(productsPage =>
             productsPage.data.map(product => (
-              <li key={product.id}>
+              <li key={product.id} className={styles.item}>
                 <Card
                   key={product.id}
                   productInfo={{

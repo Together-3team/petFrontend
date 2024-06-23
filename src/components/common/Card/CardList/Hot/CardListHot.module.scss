@@ -11,6 +11,10 @@
     place-items: center;
   }
 
+  .item {
+    justify-self: center;
+  }
+
   .sortBox {
     display: flex;
     flex-direction: column;

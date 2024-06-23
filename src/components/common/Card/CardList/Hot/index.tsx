@@ -71,7 +71,7 @@ export default function CardListHot({ className, petType = '0', orderBy = '0' }:
       <ul className={styles.list}>
         {productsPages.map(productsPage =>
           productsPage.data.map(product => (
-            <li key={product.id}>
+            <li key={product.id} className={styles.item}>
               <Card
                 key={product.id}
                 productInfo={{
