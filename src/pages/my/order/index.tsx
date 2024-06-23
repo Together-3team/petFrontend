@@ -130,8 +130,9 @@ export default function Order() {
                     filteredPurchaseProductsData.map((purchase: ProductInfo) => (
                       <OrderCard
                         key={purchase.id}
-                        productInfo={{ ...purchase, stock: 3, option: purchase.combinationName }}
                         href="/my/order"
+                        productInfo={{ ...purchase, stock: 3, option: purchase.combinationName }}
+                        status={purchase.status as number}
                         onClick={() => handleCancelPurchase(item.id)}
                         tagText={getTagText(purchase.status)}
                       />

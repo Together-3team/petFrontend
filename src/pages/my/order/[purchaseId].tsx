@@ -114,6 +114,7 @@ export default function OrderDetail() {
           purchaseProducts.map((order: ProductInfo) => (
             <OrderCard
               key={order.productId}
+              status={order.status as number}
               productInfo={{ ...order, stock: 3, option: order.combinationName }}
               tagText={getTagText(order.status)}
               onClick={() => {}}
