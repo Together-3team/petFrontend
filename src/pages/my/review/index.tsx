@@ -76,9 +76,17 @@ export default function Review() {
       }))
     );
 
-  const purchaseProductId = purchaseData?.data.map((item: PurchaseDataProps) => {
-    return item.id;
-  });
+  const purchaseId = purchaseData?.data.flatMap((item: PurchaseDataProps) =>
+    item.purchaseProducts.map((item: ProductInfo) => {
+      return item.productId;
+    })
+  );
+
+  const purchaseProductId = purchaseData?.data.flatMap((item: PurchaseDataProps) =>
+    item.purchaseProducts.map((item: ProductInfo) => {
+      return item.id;
+    })
+  );
 
   function handleClickWriteReview() {
     router.push({
@@ -86,8 +94,8 @@ export default function Review() {
       query: {
         reviewableData: reviewableData && reviewableData.data,
         purchaseData: purchaseData && purchaseData.data,
-        productId: purchaseData && purchaseData.data[0].id,
-        purchaseProductId: purchaseData && purchaseData.data[0].purchaseProducts[0].productId,
+        productId: purchaseId,
+        purchaseProductId: purchaseProductId,
       },
     });
   }
