@@ -24,8 +24,10 @@ export interface ProductReview {
   rating: number;
   reviewImages: string;
   description: string;
+  createdAt: string;
   reviewerName: string;
   reviewerProfileImage: string;
+  optionCombination: string;
 }
 
 export interface Product {
