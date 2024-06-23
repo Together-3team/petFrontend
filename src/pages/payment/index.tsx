@@ -59,7 +59,7 @@ export default function Payment({ defaultDelivery }: { defaultDelivery: Delivery
 
   console.log(PAYMENT_SECRET_KEY);
 
-  const clientKey = 'test_ck_kYG57Eba3G2wwAjdoxB68pWDOxmA';
+  const clientKey = `${process.env.NEXT_PUBLIC_TOSS_PAYMENTS_SECRET_KEY}`;
   const orderId = nanoid(); // 주문 ID
 
   const handlePayment = async () => {
