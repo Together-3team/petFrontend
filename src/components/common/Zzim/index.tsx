@@ -5,6 +5,7 @@ import { getLikeStatus, likeProduct, unlikeProduct } from '@/apis/zzim';
 import Sole from '@/assets/svgs/sole.svg';
 import RedSole from '@/assets/svgs/sole-red.svg';
 import GraySole from '@/assets/svgs/sole-gray.svg';
+import { zzimsQueries } from '@/apis/product/queries';
 import styles from './Zzim.module.scss';
 
 interface Zzim {
@@ -54,6 +55,7 @@ export default function Zzim({ className, color, productId }: Zzim) {
       queryClient.invalidateQueries({
         queryKey: ['likeStatus', productId],
       });
+      zzimsQueries.invalidateQueries();
     },
   });
 

@@ -8,25 +8,13 @@
   }
 
   .header {
-    padding: 2rem 1.6rem 0;
-
-    &[data-visible='hidden'] {
-      transform: translateY(-6.8rem);
-    }
+    padding: 2rem 1.6rem 0 2.4rem;
   }
 
-  .productTypeBox {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    padding: 1.6rem 0 2rem;
-  }
+  .title {
+    @include font-headline2;
 
-  .sortBox {
-    display: flex;
-    width: 100%;
-    padding: 0.8rem 1.6rem;
-    justify-content: flex-end;
+    color: $color-black;
   }
 
   .divider {
@@ -36,7 +24,7 @@
   }
 
   .contents {
-    min-height: 100vh;
+    min-height: calc(100vh - 21.6rem);
     padding: 2rem 0;
   }
 

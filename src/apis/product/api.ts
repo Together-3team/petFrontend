@@ -1,4 +1,4 @@
-import { ProductsQueryDto, ProductsRdo } from '@/types/apis/product.types';
+import { ProductRdo, ProductsQueryDto, ProductsRdo } from '@/types/apis/product.types';
 import { httpClient } from '@/apis/httpClient';
 import getProductsSearchParams from '@/utils/getProductsSearchParams';
 
@@ -20,5 +20,10 @@ export async function getProductsHot(params: ProductsQueryDto) {
   const searchParams = getProductsSearchParams(params);
 
   const products = await httpClient().get<ProductsRdo>(`/products/hot?${searchParams}`);
+  return products;
+}
+
+export async function getZzims() {
+  const products = await httpClient().get<ProductRdo[]>(`/zzims`);
   return products;
 }

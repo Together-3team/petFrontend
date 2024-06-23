@@ -1,7 +1,7 @@
 import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query';
 
 import { FilterQuery, ProductsQueryDto } from '@/types/apis/product.types';
-import { getProducts, getProductsHot, getProductsRecommended } from './api';
+import { getProducts, getProductsHot, getProductsRecommended, getZzims } from './api';
 import { queryClient } from '@/utils/queryClient';
 
 export const keys = {
@@ -21,6 +21,7 @@ export const keys = {
   productsHotByFilter: (params: ProductsQueryDto) => [...keys.productsHot(), 'byFilter', params],
   productsHotInfinity: () => [...keys.productsHot(), 'infinityQuery'],
   productsHotInfinityByFilter: (params: FilterQuery) => [...keys.productsHotInfinity(), 'byFilter', params],
+  zzims: () => ['zzims'],
 };
 
 export const productsQueries = {
@@ -113,5 +114,24 @@ export const infiniteProductsHotQueries = {
   },
   prefetchQuery: (params: ProductsQueryDto) => {
     queryClient.prefetchQuery(infiniteProductsHotQueries.queryOptions(params));
+  },
+};
+
+export const zzimsQueries = {
+  queryKey: () => keys.zzims(),
+  queryOptions: () => {
+    return queryOptions({
+      queryKey: zzimsQueries.queryKey(),
+      queryFn: () => getZzims(),
+    });
+  },
+  prefetchQuery: () => {
+    queryClient.prefetchQuery(zzimsQueries.queryOptions());
+  },
+  removeQueries: () => {
+    queryClient.removeQueries({ queryKey: zzimsQueries.queryKey() });
+  },
+  invalidateQueries: () => {
+    queryClient.invalidateQueries({ queryKey: zzimsQueries.queryKey() });
   },
 };
