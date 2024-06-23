@@ -1,18 +1,36 @@
-import React, { useState } from 'react';
+import React, { SetStateAction, useEffect, useState } from 'react';
 import Minus from '@/assets/svgs/btn-minus.svg';
 import Plus from '@/assets/svgs/btn-plus.svg';
 import styles from './NumberInput.module.scss';
 
-export default function NumberInput({ initialAmount }: { initialAmount: number }) {
-  const [count, setCount] = useState(initialAmount);
+interface NumberInput {
+  selectedOptionsObject: { [key: string]: number };
+  setSelectedOptionsObject: React.Dispatch<React.SetStateAction<{ [key: string]: number }>>;
+  objectKey: string;
+  setCountChanged: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function NumberInput({
+  selectedOptionsObject,
+  setSelectedOptionsObject,
+  objectKey,
+  setCountChanged,
+}: NumberInput) {
+  const [count, setCount] = useState(selectedOptionsObject[objectKey]);
 
   const increment = () => {
-    setCount(prevCount => prevCount + 1); // 이전 상태를 기반으로 +1 증가
+    const newCount = count + 1;
+    console.log(objectKey);
+    setSelectedOptionsObject(prev => ({ ...prev, [objectKey]: newCount }));
+    setCountChanged(true);
   };
 
   const decrement = () => {
     if (count > 0) {
-      setCount(prevCount => prevCount - 1); // 이전 상태를 기반으로 -1 감소 (0 미만으로 내려가지 않음)
+      const newCount = count - 1;
+      setCount(newCount);
+      setSelectedOptionsObject(prev => ({ ...prev, [objectKey]: newCount }));
+      setCountChanged(true);
     }
   };
 

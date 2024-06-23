@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import styles from './Dropdown.module.scss';
-import { useState, useId } from 'react';
+import { useState, useId, useEffect } from 'react';
 import DropDownItem from './DropDownItem';
 import { UseFormRegisterReturn } from 'react-hook-form';
 import arrow from '@/assets/images/arrow-down.jpg';
@@ -20,42 +20,39 @@ type TDropdownProps = {
   setValue?: any;
   placeholder: string;
   onClick: (value: any) => void;
+  index: number;
+  dropdownOn: boolean[];
+  setDropdownOn: React.Dispatch<React.SetStateAction<boolean[]>>;
 };
 
-export function ProductDropdown({ placeholder, data, register, setValue, onClick }: TDropdownProps) {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+export function ProductDropdown({
+  placeholder,
+  data,
+  index,
+  dropdownOn,
+  setDropdownOn,
+  register,
+  setValue,
+  onClick,
+}: TDropdownProps) {
   const [isSelectData, setIsSelectData] = useState<TIsSelect>({
     isClick: false,
     value: '',
     label: '',
   });
-  const uniqueId = useId();
-  // useEffect(() => {
-  //   document.addEventListener('click', handleDropdownClick);
 
-  //   return () => {
-  //     document.removeEventListener('click', handleDropdownClick);
-  //   };
-  // }, []);
-
-  const handleDropdownClick = (e: any): void => {
-    e.stopPropagation();
-    // const target = e.target as HTMLElement;
-    // const datasetState = target.dataset.state;
-    // if (datasetState === `Dropdown${uniqueId}`) {
-    //   setIsOpen(prev => !prev);
-    //   return;
-    // }
-    // setIsOpen(false);
-    setIsOpen(prev => !prev);
-  };
+  console.log(dropdownOn);
 
   const handleDropdownOn = (e: any): void => {
     e.stopPropagation();
-    setIsOpen(true);
+    setDropdownOn(prev => {
+      const updatedDropdownOn = [...prev];
+      updatedDropdownOn[index] = true;
+      return updatedDropdownOn;
+    });
   };
 
-  const handleItemClick = (data: any): void => {
+  const handleItemClick = (data: any, index: number): void => {
     const value = data.value;
     setIsSelectData({
       isClick: true,
@@ -63,7 +60,12 @@ export function ProductDropdown({ placeholder, data, register, setValue, onClick
       label: data.label,
     });
     onClick(data?.value);
-    setIsOpen(false);
+    setDropdownOn(prev => {
+      const updatedDropdownOn = [...prev];
+      updatedDropdownOn[index] = false;
+      updatedDropdownOn[index + 1] = true;
+      return updatedDropdownOn;
+    });
   };
 
   return (
@@ -75,10 +77,10 @@ export function ProductDropdown({ placeholder, data, register, setValue, onClick
           <Image src={arrow.src} width="12" height="12" alt="아래를 가르키는 화살표 이미지" priority />
         </div>
       </div>
-      {isOpen && (
-        <ul className={isOpen ? styles.dropdown : styles.hidden}>
-          {data.map((option, index) => (
-            <li key={index} className={styles.list} onClick={() => handleItemClick(option)}>
+      {dropdownOn[index] && (
+        <ul className={dropdownOn[index] ? styles.dropdown : styles.hidden}>
+          {data.map((option, i) => (
+            <li key={i} className={styles.list} onClick={() => handleItemClick(option, index)}>
               <DropDownItem data={option} />
             </li>
           ))}

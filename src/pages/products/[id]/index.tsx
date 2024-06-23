@@ -20,6 +20,8 @@ import Zzim from '@/components/common/Zzim';
 import Button from '@/components/common/Button';
 import BottomModal from '@/components/common/Modal/Base/BottomModal';
 import useAuth from '@/hooks/useAuth';
+import { useEffect } from 'react';
+import { httpClient } from '@/apis/httpClient';
 
 const cx = classNames.bind(styles);
 
@@ -56,6 +58,24 @@ export default function ProductDetailPage({ product }: { product: Product }) {
   const handleLoginButtonClick = () => {
     router.replace({ pathname: '/my', query: { prevPath: router.asPath } });
   };
+
+  //페이지에서 벗어나면 주문 목록 초기화
+  useEffect(() => {
+    const handleUrlChange = async () => {
+      try {
+        // await axiosInstance.delete('/selected-products/orders');
+        await httpClient().delete('/selected-products/orders');
+        console.log('주문 목록 초기화 요청을 보냈습니다.');
+      } catch (error) {
+        console.error('요청 중 오류가 발생했습니다:', error);
+      }
+    };
+    router.events.on('routeChangeStart', handleUrlChange);
+
+    return () => {
+      router.events.off('routeChangeStart', handleUrlChange);
+    };
+  }, [router.events]);
 
   return (
     <>

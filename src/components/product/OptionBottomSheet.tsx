@@ -57,6 +57,28 @@ interface ResponseData {
   reviews: Review[];
 }
 
+interface OrdersProduct {
+  thumbNailImage: string;
+  title: string;
+  originalPrice: number;
+  price: number;
+}
+
+interface OrdersOptionCombination {
+  id: number;
+  optionCombination: string;
+  combinationPrice: number;
+  combinationName: string;
+  amount: number;
+  product: OrdersProduct;
+}
+
+interface OrdersResponseData {
+  quantity: number;
+  optionCombination: OrdersOptionCombination;
+  id: number;
+}
+
 interface OptionBottomSheetProps {
   isOpen: boolean;
   onClose: () => void;
@@ -75,6 +97,10 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type }: 
   const [originalPrice, setOriginalPrice] = useState(0);
   const [placeholderList, setPlaceholderList] = useState<string[]>([]);
   const [price, setPrice] = useState(0);
+  const [totalAmountOfOptions, setTotalAmountOfOptions] = useState(0);
+  const [totalPriceOfOptions, setTotalPriceOfOptions] = useState(0);
+  const [totalOriginalPriceOfOptions, setTotalOriginalPriceOfOptions] = useState(0);
+  const [countChanged, setCountChanged] = useState(false);
 
   useEffect(() => {
     const fetchProductOption = async () => {
@@ -94,6 +120,23 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type }: 
 
     fetchProductOption();
   }, [productId]);
+
+  useEffect(() => {
+    const getOrders = async () => {
+      try {
+        const response = await httpClient().get<OrdersResponseData[]>('selected-products/orders');
+        for (let combo of response) {
+          console.log(combo.optionCombination.optionCombination);
+          setSelectedOptionsObject(prev => ({ ...prev, [combo.optionCombination.id]: combo.quantity }));
+          setSelectedOptions(combo.optionCombination.optionCombination.split(','));
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getOrders();
+  }, []);
 
   const formatOptions = (data: { id: number; optionValue: string }[]) => {
     return data.map(item => ({
@@ -121,6 +164,7 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type }: 
       );
       return {
         selectedIds,
+        combinationId: combination ? combination.id : 0,
         combinationPrice: combination ? combination.combinationPrice : 0,
         selectedCombinationName: combination ? combination.combinationName : '',
       };
@@ -129,33 +173,84 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type }: 
   );
 
   useEffect(() => {
-    const { selectedIds } = calculateCombinationPriceAndName(selectedOptions);
-    if (selectedOptions.every(option => option !== '') && selectedIds !== '') {
-      if (selectedOptionsObject[selectedIds] !== undefined) {
-        console.log('p');
-        setSelectedOptionsObject(prev => ({
-          ...prev,
-          [selectedIds]: prev[selectedIds] + 1,
-        }));
-      } else {
-        setSelectedOptionsObject(prev => ({ ...prev, [selectedIds]: 1 }));
+    const handleSelectedOptionsObject = async () => {
+      const { selectedIds, combinationId } = calculateCombinationPriceAndName(selectedOptions);
+      console.log('jjj', selectedIds);
+      if (
+        (selectedOptions.every(option => option !== '') && selectedIds !== '') ||
+        (countChanged === true && selectedIds !== '')
+      ) {
+        if (selectedOptionsObject[selectedIds] !== undefined) {
+          setSelectedOptionsObject(prev => ({
+            ...prev,
+            [selectedIds]: prev[selectedIds] + 1,
+          }));
+        } else {
+          setSelectedOptionsObject(prev => ({ ...prev, [selectedIds]: 1 }));
+        }
+        setProductOptionsOn(false);
+        setSelectedOptions(new Array(productOptions.length).fill(''));
+        const postItem = {
+          optionCombinationId: combinationId,
+          quantity: 1,
+        };
+        await httpClient().post('selected-products/orders', JSON.stringify(postItem));
+        setCountChanged(false);
       }
-      setProductOptionsOn(false);
-      setSelectedOptions(new Array(productOptions.length).fill(''));
-    }
-  }, [selectedOptions, productOptions.length, selectedOptionsObject, calculateCombinationPriceAndName]);
+    };
+
+    handleSelectedOptionsObject();
+  }, [selectedOptions, productOptions.length, selectedOptionsObject, calculateCombinationPriceAndName, countChanged]);
 
   useEffect(() => {
     if (isOpen) {
+      if (Object.keys(selectedOptionsObject).length !== 0) {
+        setProductOptionsOn(false);
+        return;
+      }
       setProductOptionsOn(true);
-      setSelectedOptionsObject({});
     }
-  }, [isOpen]);
+  }, [isOpen, selectedOptionsObject]);
 
   useEffect(() => {
     console.log(selectedOptionsObject);
   }, [selectedOptionsObject]);
 
+  useEffect(() => {
+    let totalAmountOfOptions = 0;
+    let totalPriceOfOptions = 0;
+    let totalOriginalPriceOfOptions = 0;
+
+    for (const key of Object.keys(selectedOptionsObject)) {
+      const selectedIds = key.split(',');
+      const { combinationPrice } = calculateCombinationPriceAndName(selectedIds);
+      totalAmountOfOptions += Number(selectedOptionsObject[key]);
+      totalPriceOfOptions += combinationPrice + price;
+      totalOriginalPriceOfOptions += combinationPrice + originalPrice;
+    }
+    setTotalAmountOfOptions(totalAmountOfOptions);
+    setTotalPriceOfOptions(totalPriceOfOptions);
+    setTotalOriginalPriceOfOptions(totalOriginalPriceOfOptions);
+  }, [selectedOptionsObject, calculateCombinationPriceAndName, price, originalPrice]);
+
+  useEffect(() => {
+    const handleBeforeUnload = async () => {
+      setSelectedOptionsObject({});
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
+
+  const [dropdownOn, setDropdownOn] = useState(Array.from({ length: productOptions.length }, (v, i) => i === 0));
+  useEffect(() => {
+    // productOptions가 업데이트될 때마다 dropdownOn을 다시 설정
+    const initialDropdownOn = Array.from({ length: productOptions.length }, (v, i) => i === 0);
+    setDropdownOn(initialDropdownOn);
+  }, [productOptions]);
   return (
     <BottomSheet isOpen={isOpen} onClose={onClose}>
       {productOptionsOn ? (
@@ -163,6 +258,9 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type }: 
           {productOptions.map((options, index) => (
             <ProductDropdown
               key={index}
+              index={index}
+              dropdownOn={dropdownOn}
+              setDropdownOn={setDropdownOn}
               data={formatOptions(options)}
               placeholder={`${placeholderList[index]}`}
               onClick={(value: string) => handleOptionChange(index, value)}
@@ -182,8 +280,12 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type }: 
               return (
                 <div key={i} className={cx('chosenBox')}>
                   <div className={cx('selectedCombinationName')}> {selectedCombinationName} </div>
-                  {selectedOptionsObject[objectKey]}개
-                  <NumberInput initialAmount={selectedOptionsObject[objectKey]} />
+                  <NumberInput
+                    selectedOptionsObject={selectedOptionsObject}
+                    setSelectedOptionsObject={setSelectedOptionsObject}
+                    objectKey={objectKey}
+                    setCountChanged={setCountChanged}
+                  />
                   <div>
                     <p>정가 {`${originalPrice + combinationPrice}`}원</p>
                     <p>할인가 {`${price + combinationPrice}`}원</p>
@@ -192,6 +294,10 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type }: 
               );
             })}
           </div>
+          <div></div>
+          <p>총 {totalAmountOfOptions}개 상품금액</p>
+          <p>정가 {totalOriginalPriceOfOptions}</p>
+          <p>할인가 {totalPriceOfOptions}</p>
         </>
       )}
     </BottomSheet>
