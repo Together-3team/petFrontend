@@ -32,15 +32,4 @@
     min-height: 100vh;
     padding: 2rem 0;
   }
-
-  .floatingActionBox {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 0.8rem;
-    position: absolute;
-    bottom: 9.6rem;
-    right: 1.6rem;
-    z-index: $z-index-floating-action;
-  }
 }
