@@ -16,6 +16,7 @@ import PetToggleButton from '@/components/common/Button/PetToggle';
 import ScrollTopButton from '@/components/common/Button/ScrollTop';
 import ProductTypeButton from '@/components/common/Button/ProductType';
 import CardListBasic from '@/components/common/Card/CardList/Basic';
+import FloatingActionBox from '@/components/common/Layout/Footer/FloatingActionBox';
 
 const SORT_OPTIONS = [
   { name: '최신순', value: '0' },
@@ -99,7 +100,7 @@ export default function ProductCategoryPage({ petType, productType, orderBy }: P
       <GitHubBox />
       <FloatingBox id={BOTTOM_BOX_ID}>
         <NavBottom />
-        <div className={styles.floatingActionBox}>
+        <FloatingActionBox>
           <ScrollTopButton />
           <PetToggleButton
             initialPetType={petType}
@@ -113,7 +114,7 @@ export default function ProductCategoryPage({ petType, productType, orderBy }: P
               });
             }}
           />
-        </div>
+        </FloatingActionBox>
       </FloatingBox>
     </div>
   );

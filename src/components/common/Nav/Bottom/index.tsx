@@ -23,7 +23,7 @@ const MENUS = [
     id: 'search',
     title: '검색 페이지',
     url: '/search',
-    matchedUrl: ['/search'],
+    matchedUrl: ['/search', '/search/result'],
     Icon: <SearchIcon />,
   },
   {

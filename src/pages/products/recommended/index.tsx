@@ -15,6 +15,7 @@ import useToast from '@/hooks/useToast';
 import PetToggleButton from '@/components/common/Button/PetToggle';
 import ScrollTopButton from '@/components/common/Button/ScrollTop';
 import CardListRecommended from '@/components/common/Card/CardList/Recommended';
+import FloatingActionBox from '@/components/common/Layout/Footer/FloatingActionBox';
 
 const SORT_OPTIONS = [
   { name: '최신순', value: '0' },
@@ -82,7 +83,7 @@ export default function ProductRecommendedPage({ petType, orderBy }: ProductReco
       <GitHubBox />
       <FloatingBox id={BOTTOM_BOX_ID}>
         <NavBottom />
-        <div className={styles.floatingActionBox}>
+        <FloatingActionBox>
           <ScrollTopButton />
           <PetToggleButton
             initialPetType={petType}
@@ -96,7 +97,7 @@ export default function ProductRecommendedPage({ petType, orderBy }: ProductReco
               });
             }}
           />
-        </div>
+        </FloatingActionBox>
       </FloatingBox>
     </div>
   );
