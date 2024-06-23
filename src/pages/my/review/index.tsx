@@ -14,6 +14,23 @@ import styles from './Review.module.scss';
 
 const cx = classNames.bind(styles);
 
+export interface PurchaseData {
+  status?: number;
+  id?: number;
+  createdAt?: string;
+  title?: string;
+  combinationName?: string;
+  quantity?: number;
+  originalPrice?: number;
+  price?: number;
+  combinationPrice?: number;
+  thumbNailImage?: string;
+  deliveryCompany?: string;
+  trackingNumber?: string;
+  productId: string | number;
+  review?: null | any;
+}
+
 export interface PurchaseDataProps {
   id: number;
   createdAt: string;
@@ -56,25 +73,25 @@ export default function Review() {
       }))
     );
 
-  console.log(reviewableData?.data);
-  console.log(wroteReviews);
-  console.log(purchaseData);
+  // console.log(reviewableData?.data);
+  // console.log(wroteReviews);
+  // console.log(purchaseData);
 
   //TODO: 리뷰 작성 후 테스트 때 적용
-  const myReviewList =
-    wroteReviews &&
-    wroteReviews.data.map((item: PurchaseDataProps) =>
-      item.purchaseProducts.map((product: ProductInfo) => ({
-        productId: product.productId,
-        title: product.title,
-        thumbNailImage: product.thumbNailImage,
-        originalPrice: product.originalPrice,
-        price: product.price,
-        option: product.combinationName,
-        quantity: product.quantity,
-        stock: 1,
-      }))
-    );
+  // const myReviewList =
+  //   wroteReviews &&
+  // wroteReviews.data.map((item: PurchaseDataProps) =>
+  //   item.purchaseProducts.map((product: ProductInfo) => ({
+  //     productId: product.productId,
+  //     title: product.title,
+  //     thumbNailImage: product.thumbNailImage,
+  //     originalPrice: product.originalPrice,
+  //     price: product.price,
+  //     option: product.combinationName,
+  //     quantity: product.quantity,
+  //     stock: 1,
+  //   }))
+  // );
 
   const purchaseId = purchaseData?.data.flatMap((item: PurchaseDataProps) =>
     item.purchaseProducts.map((item: ProductInfo) => {
@@ -86,16 +103,31 @@ export default function Review() {
     return item.id;
   });
 
-  function handleClickWriteReview() {
-    router.push({
-      pathname: `/my/review/write`,
-      query: {
-        reviewableData: reviewableData && reviewableData.data,
-        purchaseData: purchaseData && purchaseData.data,
-        productId: purchaseId,
-        purchaseProductId: purchaseProductId,
-      },
-    });
+  function handleClickWriteReview(purchase: PurchaseData) {
+    return () => {
+      router.push({
+        pathname: `/my/review/write`,
+        query: {
+          id: purchase.id,
+          title: purchase.title,
+          combinationName: purchase.combinationName,
+          quantity: purchase.quantity,
+          thumbNailImage: purchase.thumbNailImage,
+          productId: purchase.productId,
+        },
+      });
+    };
+    // router.push({
+    //   pathname: `/my/review/write`,
+    //   query: {
+    //     reviewableData: reviewableData && reviewableData.data,
+    //     purchaseData: purchaseData && purchaseData.data,
+    //     productId: purchaseId,
+    //     purchaseProductId: purchaseProductId,
+    //     // purchaseData: purchase,
+    //   },
+    // });
+    // console.log(purchase);
   }
 
   function handleClickWrite() {
@@ -134,7 +166,7 @@ export default function Review() {
                 <ReviewCard
                   key={purchase.productId}
                   productInfo={{ ...purchase, stock: 3, option: purchase.combinationName }}
-                  onClick={handleClickWriteReview}
+                  onClick={handleClickWriteReview(purchase)}
                 />
               ))}
             </div>

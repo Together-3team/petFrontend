@@ -13,7 +13,14 @@ import { useQuery } from '@tanstack/react-query';
 
 export default function WritePage() {
   const router = useRouter();
-  const { purchaseProductId } = router.query;
+  const { id, title, combinationName, quantity, thumbNailImage, productId } = router.query;
+
+  const purchaseInfo = {
+    title: title as string,
+    combinationName: combinationName as string,
+    quantity: parseInt(quantity as string, 10), // quantity를 숫자로 변환
+    thumbNailImage: thumbNailImage as string,
+  };
 
   const [rating, setRating] = useState(0);
   const [description, setDescription] = useState('');
@@ -23,20 +30,22 @@ export default function WritePage() {
     setDescription(event.target.value);
   };
 
-  const { data: purchaseDetailData } = useQuery({
-    queryKey: ['purchaseDetail', purchaseProductId],
-    queryFn: async () => {
-      const response = purchaseApi.getDetailPurchase(Number(purchaseProductId));
-      return response;
-    },
-  });
-  console.log(purchaseProductId);
-  console.log(purchaseDetailData);
+  // const { data: purchaseDetailData } = useQuery({
+  //   queryKey: ['purchaseDetail', purchaseProductId],
+  //   queryFn: async () => {
+  //     const response = purchaseApi.getDetailPurchase(Number(purchaseProductId));
+  //     return response;
+  //   },
+  // });
+
+  console.log(id);
+
+  // console.log(purchaseDetailData);
 
   const handleSaveReview = async () => {
     const reviewData = {
       productId: Number(),
-      purchaseProductId: Number(purchaseProductId),
+      purchaseProductId: id ? +id : 0,
       rating,
       description,
       reviewImages: '',
@@ -45,7 +54,7 @@ export default function WritePage() {
     try {
       const response = await postReview(reviewData);
       console.log(response);
-      window.location.href = '/my/review/reviewId';
+      window.location.href = '/my/review';
     } catch (error: any) {
       console.log(error);
 
