@@ -18,13 +18,7 @@ export default function My() {
 
   return (
     <>
-      <div className={styles.floatingBox}>
-        <PetToggleButton
-          categories={CATEGORIES}
-          initialActiveCategory={CATEGORIES[0]}
-          onClick={category => console.log(category)}
-        />
-      </div>
+      <div className={styles.floatingBox}></div>
       <div className={cx('my')}>
         <Header.Root>
           <Header.Box>

@@ -1,11 +1,11 @@
 .zzimButton {
-  z-index: 10;
   position: absolute;
   width: 3.2rem;
   height: 3.2rem;
   padding: 0;
   border: none;
   background: none;
+  z-index: $z-index-zzim;
 }
 
 .soleImg,

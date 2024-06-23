@@ -9,6 +9,7 @@ const FilterQuerySchema = object({
   petType: string().optional(),
   productType: string().optional(),
   orderBy: string().optional(),
+  keyword: string().optional(),
 });
 
 const ProductsQueryDtoSchema = PageQueryDtoSchema.concat(FilterQuerySchema);

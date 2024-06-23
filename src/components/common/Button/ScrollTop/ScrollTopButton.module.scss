@@ -1,2 +1,14 @@
-.button {
+@layer components {
+  .button {
+    @include modal-shadow;
+
+    background-color: rgba(0, 0, 0, 0.55);
+    border: none;
+    border-radius: 10rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 4.4rem;
+    height: 4.4rem;
+  }
 }
