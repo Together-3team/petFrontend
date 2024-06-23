@@ -46,7 +46,13 @@ export const infiniteProductsQueries = {
       initialPageParam: 1,
       getNextPageParam: (lastPage, allPages, lastPageParam) => {
         const { page, pageSize, totalCount } = lastPage;
-        return Math.ceil(totalCount / pageSize) !== page ? lastPageParam + 1 : undefined;
+        const totalPage = Math.ceil(totalCount / pageSize);
+
+        if (totalPage < 1) {
+          return undefined;
+        }
+
+        return totalPage !== page ? lastPageParam + 1 : undefined;
       },
     });
   },
@@ -77,7 +83,13 @@ export const infiniteProductsRecommendedQueries = {
       initialPageParam: 1,
       getNextPageParam: (lastPage, allPages, lastPageParam) => {
         const { page, pageSize, totalCount } = lastPage;
-        return Math.ceil(totalCount / pageSize) !== page ? lastPageParam + 1 : undefined;
+        const totalPage = Math.ceil(totalCount / pageSize);
+
+        if (totalPage < 1) {
+          return undefined;
+        }
+
+        return totalPage !== page ? lastPageParam + 1 : undefined;
       },
     });
   },
@@ -108,7 +120,13 @@ export const infiniteProductsHotQueries = {
       initialPageParam: 1,
       getNextPageParam: (lastPage, allPages, lastPageParam) => {
         const { page, pageSize, totalCount } = lastPage;
-        return Math.ceil(totalCount / pageSize) !== page ? lastPageParam + 1 : undefined;
+        const totalPage = Math.ceil(totalCount / pageSize);
+
+        if (totalPage < 1) {
+          return undefined;
+        }
+
+        return totalPage !== page ? lastPageParam + 1 : undefined;
       },
     });
   },
