@@ -58,7 +58,7 @@ export default function Card({
             className={styles.checkbox}
             onChange={onCheck}
           />
-          <FontAwesomeIcon icon={faXmark} onClick={onRemove} />
+          <FontAwesomeIcon icon={faXmark} className={styles.faXmark} onClick={onRemove} />
         </div>
         <div className={styles.productExplain}>
           <Image className={styles.productImg} src={imageUrl} width={56} height={56} alt="productImg" />
