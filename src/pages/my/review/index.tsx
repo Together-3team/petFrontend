@@ -58,6 +58,8 @@ export default function Review() {
     queryFn: getWroteReviewList,
   });
 
+  console.log(wroteReviews?.data);
+
   const reviewableList =
     purchaseData &&
     purchaseData.data.map((item: PurchaseDataProps) =>
@@ -130,6 +132,23 @@ export default function Review() {
     // console.log(purchase);
   }
 
+  function handleClickReviewDetail(review: any) {
+    console.log(review);
+    return () => {
+      router.push({
+        pathname: `/my/review/${review.id}`,
+        query: {
+          id: review.id,
+          rating: review.rating,
+          reviewImages: review.reviewImages,
+          description: review.description,
+          isDeleted: review.isDeleted,
+          createdAt: review.rcreatedAt,
+        },
+      });
+    };
+  }
+
   function handleClickWrite() {
     setReviewWrite(true);
     setMyReview(false);
@@ -175,11 +194,12 @@ export default function Review() {
           )
         ) : wroteReviews && wroteReviews.data.length > 0 ? (
           <div className={styles.reviewCardList}>
-            {wroteReviews.data?.map((review: ProductInfo) => (
+            {wroteReviews.data?.map((review: any) => (
               <WroteReviewCard
-                href={`/my/review/${reviewId || purchaseProductId}`}
+                href={`/my/review/${review.review.id}`}
                 key={review.productId}
                 productInfo={review}
+                onClick={handleClickReviewDetail(review.review)}
               />
             ))}
           </div>
