@@ -15,11 +15,13 @@ import useModal from '@/hooks/useModal';
 import BottomModal from '../Modal/Base/BottomModal';
 import Button from '../Button';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 
 interface Zzim {
   className?: string;
   color: 'gray' | 'white';
   productId: number;
+  initialIsZzimed?: boolean;
 }
 
 interface ProductUserInfo {
@@ -30,18 +32,14 @@ interface ProductUserInfo {
 const cx = classNames.bind(styles);
 
 //className에서 zzim 위치 조정
-export default function Zzim({ className, color, productId }: Zzim) {
+export default function Zzim({ className, color, productId, initialIsZzimed }: Zzim) {
   const queryClient = useQueryClient();
   const { showToast } = useToast();
   const { isLogin } = useAuth();
   const { modalOpen, handleModalOpen, handleModalClose } = useModal();
   const router = useRouter();
 
-  const { data: isProductLikedByCurrentUser } = useQuery({
-    queryKey: ['likeStatus', productId],
-    queryFn: () => getLikeStatus(productId),
-    enabled: isLogin,
-  });
+  const [isZzimed, setIsZzimed] = useState(initialIsZzimed);
 
   const likesMutation = useMutation({
     mutationFn: async ({ productId, userAction }: ProductUserInfo) => {
@@ -53,16 +51,17 @@ export default function Zzim({ className, color, productId }: Zzim) {
     },
     onMutate: async ({ productId, userAction }) => {
       await queryClient.cancelQueries({ queryKey: ['likeStatus', productId] });
-      await queryClient.cancelQueries({ queryKey: ['likeCount', productId] });
 
       const prevLikeStatus = queryClient.getQueryData(['likeStatus', productId]);
 
       queryClient.setQueryData(['likeStatus', productId], () => userAction === 'LIKE_PRODUCT');
+      setIsZzimed(userAction === 'LIKE_PRODUCT');
 
       return { prevLikeStatus };
     },
     onError: (error, { productId }, context) => {
       queryClient.setQueryData(['likeStatus', productId], context?.prevLikeStatus);
+      setIsZzimed(context?.prevLikeStatus as boolean | undefined);
       if (!isAxiosError(error)) {
         // `AxiosError`가 아닌 경우
         showToast({
@@ -121,9 +120,9 @@ export default function Zzim({ className, color, productId }: Zzim) {
         onClick={e => {
           e.stopPropagation();
           e.preventDefault();
-          handleZzimButtonClick(isProductLikedByCurrentUser ? 'UNLIKE_PRODUCT' : 'LIKE_PRODUCT');
+          handleZzimButtonClick(isZzimed ? 'UNLIKE_PRODUCT' : 'LIKE_PRODUCT');
         }}>
-        {isProductLikedByCurrentUser ? (
+        {isZzimed ? (
           <RedSole className={cx('redSoleImg')} viewBox="0 0 35 35" />
         ) : color === 'white' ? (
           <Sole className={cx('soleImg')} viewBox="0 0 35 35" />

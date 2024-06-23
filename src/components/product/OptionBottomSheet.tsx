@@ -9,6 +9,7 @@ import arrow from '@/assets/images/arrow-down.jpg';
 import NumberInput from './NumberInput';
 import Button from '../common/Button';
 import { useRouter } from 'next/router';
+import X from '@/assets/svgs/btn-x.svg';
 
 const cx = classNames.bind(styles);
 
@@ -81,11 +82,29 @@ interface OrdersResponseData {
   id: number;
 }
 
+interface PostOrdersResponseData {
+  quantity: number;
+  optionCombination: {
+    id: number;
+    optionCombination: string;
+    combinationPrice: number;
+    combinationName: string;
+    amount: number;
+    product: Product;
+  };
+  id: number;
+}
+
 interface OptionBottomSheetProps {
   isOpen: boolean;
   onClose: () => void;
   productId: number;
   type: 'cartPurchase' | 'purchaseOnly';
+}
+
+interface PostItem {
+  optionCombinationId: number;
+  quantity: number;
 }
 
 export default function OptionBottomSheet({ isOpen, onClose, productId, type }: OptionBottomSheetProps) {
@@ -104,6 +123,7 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type }: 
   const [totalOriginalPriceOfOptions, setTotalOriginalPriceOfOptions] = useState(0);
   const [countChanged, setCountChanged] = useState(false);
   const [dropdownOn, setDropdownOn] = useState(Array.from({ length: productOptions.length }, (v, i) => i === 0));
+  const [ordersIdObject, setOrdersIdObject] = useState<{ [key: string]: number }>({});
   const router = useRouter();
 
   useEffect(() => {
@@ -154,6 +174,7 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type }: 
     // productOptions가 업데이트될 때마다 dropdownOn을 다시 설정
     const initialDropdownOn = Array.from({ length: productOptions.length }, (v, i) => i === 0);
     setDropdownOn(initialDropdownOn);
+    setCountChanged(false);
   };
 
   const handleOptionChange = (index: number, value: string) => {
@@ -178,6 +199,18 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type }: 
     },
     [optionCombinations]
   );
+
+  const handleXButtonClick = async (objectKey: string) => {
+    try {
+      await httpClient().delete(`selected-products/${ordersIdObject[objectKey]}`);
+    } catch (err) {
+      console.log(err);
+    }
+    setSelectedOptionsObject(prev => {
+      const { [objectKey]: _, ...newObject } = prev;
+      return newObject;
+    });
+  };
 
   useEffect(() => {
     const handleSelectedOptionsObject = async () => {
@@ -204,8 +237,12 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type }: 
           optionCombinationId: combinationId,
           quantity: 1,
         };
-        console.log(postItem);
-        await httpClient().post('selected-products/orders', postItem);
+        console.log('aaaaaaaaaa ', postItem);
+        const response = await httpClient().post<PostOrdersResponseData, PostItem>(
+          'selected-products/orders',
+          postItem
+        );
+        setOrdersIdObject(prev => ({ ...prev, [selectedIds]: response.id }));
         setCountChanged(false);
       }
     };
@@ -246,9 +283,14 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type }: 
 
   //페이지에서 벗어나면 selectedOptionsObject 초기화
   useEffect(() => {
-    const handleBeforeUnload = () => {
+    const handleBeforeUnload = async () => {
       setSelectedOptionsObject({});
       setCountChanged(false);
+      try {
+        await httpClient().delete('selected-products/orders');
+      } catch (err) {
+        console.log(err);
+      }
     };
 
     window.addEventListener('beforeunload', handleBeforeUnload);
@@ -300,6 +342,9 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type }: 
                   return (
                     <div key={i} className={cx('chosenBox')}>
                       <div className={cx('selectedCombinationName')}> {selectedCombinationName} </div>
+                      <button type="button" className={cx('xButton')} onClick={() => handleXButtonClick(objectKey)}>
+                        <X />
+                      </button>
                       <NumberInput
                         selectedOptionsObject={selectedOptionsObject}
                         setSelectedOptionsObject={setSelectedOptionsObject}
@@ -337,13 +382,14 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type }: 
           )}
         </>
       )}
-      {type !== 'cartPurchase' ? (
+      {type !== 'cartPurchase' && !productOptionsOn && (
         <div>
           <Button size="large" backgroundColor="$color-pink-main">
             바로구매
           </Button>
         </div>
-      ) : (
+      )}
+      {type === 'cartPurchase' && !productOptionsOn && (
         <div className={cx('buttons')}>
           <div className={cx('button')}>
             <Button size="large" backgroundColor="$color-white-pink">

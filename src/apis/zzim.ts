@@ -73,13 +73,13 @@ export const likeProduct = async (productId: number) => {
 };
 
 export const unlikeProduct = async (productId: number) => {
-  const response = await axiosInstance.get('/zzims');
-  const data = response.data;
-  const zzimedProduct = data.find((data: Zzim) => {
-    return data.product_id === productId;
-  });
+  // const response = await axiosInstance.get('/zzims');
+  // const data = response.data;
+  // const zzimedProduct = data.find((data: Zzim) => {
+  //   return data.product_id === productId;
+  // });
 
-  const deleteResponse = await axiosInstance.delete(`/zzims/${zzimedProduct.zzim_id}`);
+  const deleteResponse = await axiosInstance.delete(`/zzims/${productId}`);
 
   if (!(deleteResponse.status >= 200 && deleteResponse.status < 300)) {
     throw new Error('상품 찜 해제하기에 실패했습니다.');

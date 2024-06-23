@@ -102,7 +102,7 @@ export default function ProductDetailPage({ product }: { product: Product }) {
       </div>
       <div className={cx('fixedCta')}>
         <div className={cx('zzim')}>
-          <Zzim color="gray" productId={productId} />
+          <Zzim color="gray" productId={productId} initialIsZzimed={product ? product.isZzimed : undefined} />
         </div>
         <div className={cx('button')}>
           <Button
