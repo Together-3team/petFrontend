@@ -50,7 +50,7 @@ export default function TeamPage() {
         <Header.Root>
           <Header.Box>
             <Header.Left>
-              <BackButton />
+              <BackButton href={`/products/${productId}`} />
             </Header.Left>
             <Header.Center className={styles.pageTitle}>페이지 전체보기</Header.Center>
           </Header.Box>
