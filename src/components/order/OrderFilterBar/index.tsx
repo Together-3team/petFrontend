@@ -7,13 +7,13 @@ import scrollToTargetX from '@/utils/scrollToTargetX';
 
 const cx = classNames.bind(styles);
 
-interface OrderFilterBarProps {
+interface OrderFilterButtonsProps {
   id: number;
   title: string;
   isActive: boolean;
 }
 
-const buttonIds: OrderFilterBarProps[] = [
+const buttonIds: OrderFilterButtonsProps[] = [
   { id: 0, title: '전체', isActive: true },
   { id: 1, title: '공동구매 대기', isActive: true },
   { id: 2, title: '공동구매 완료', isActive: true },
@@ -24,16 +24,28 @@ const buttonIds: OrderFilterBarProps[] = [
   { id: 7, title: '취소/환불', isActive: true },
 ];
 
-export default function OrderFilterBar() {
+interface OrderFilterBarProps {
+  onFilterChange: (filterId: number) => void;
+}
+
+export default function OrderFilterBar({ onFilterChange }: OrderFilterBarProps) {
   const dragScrollProps = useDragScroll<HTMLDivElement>();
-  const targetRef = useRef<HTMLDivElement>(null);
-  const [activeButton, setActiveButton] = useState<OrderFilterBarProps | null>(
+  const [activeButton, setActiveButton] = useState<OrderFilterButtonsProps | null>(
     buttonIds.find(item => item.id === 0) || null
   );
 
-  function handleButtonClick() {
-    scrollToTargetX(dragScrollProps.ref, targetRef);
-  }
+  const targetRef = useRef<HTMLButtonElement | null>(null);
+
+  const handleButtonClick = useCallback(
+    (item: OrderFilterButtonsProps) => {
+      setActiveButton(item);
+      onFilterChange(item.id);
+      if (targetRef.current) {
+        targetRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    },
+    [onFilterChange]
+  );
 
   return (
     <div className={styles.container} {...dragScrollProps}>
@@ -42,13 +54,11 @@ export default function OrderFilterBar() {
           key={item.id}
           ref={el => {
             if (el && item.isActive && activeButton?.id === item.id) {
+              targetRef.current = el;
             }
           }}
-          className={cx('textChip', { clickedChip: activeButton?.id === item.id && activeButton === item })}
-          onClick={() => {
-            setActiveButton(item);
-            handleButtonClick();
-          }}>
+          className={cx('textChip', { clickedChip: activeButton?.id === item.id })}
+          onClick={() => handleButtonClick(item)}>
           {item.title}
         </button>
       ))}
