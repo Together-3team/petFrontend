@@ -79,7 +79,7 @@ export default function HomePageTEST() {
         </Header.Box>
         <NavTop />
       </Header.Root>
-      <BannerCarousel items={BANNER_IMAGES} />
+      <BannerCarousel />
       <div className={styles.contents}>
         <p>
           Ad occaecat officia dolor nulla labore. Eu qui in elit exercitation in nostrud non. Sint sit consequat aliquip
