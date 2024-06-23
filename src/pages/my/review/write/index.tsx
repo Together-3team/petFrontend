@@ -8,8 +8,6 @@ import StarRating from '@/components/common/review/StarRating';
 import Textarea from '@/components/common/review/Textarea';
 import { postReview } from '../../../../apis/myReviewAPI';
 import styles from './WritePage.module.scss';
-import purchaseApi from '@/apis/purchase/api';
-import { useQuery } from '@tanstack/react-query';
 
 export default function WritePage() {
   const router = useRouter();
@@ -18,7 +16,7 @@ export default function WritePage() {
   const purchaseInfo = {
     title: title as string,
     combinationName: combinationName as string,
-    quantity: parseInt(quantity as string, 10), // quantity를 숫자로 변환
+    quantity: parseInt(quantity as string, 10),
     thumbNailImage: thumbNailImage as string,
   };
 
@@ -30,21 +28,9 @@ export default function WritePage() {
     setDescription(event.target.value);
   };
 
-  // const { data: purchaseDetailData } = useQuery({
-  //   queryKey: ['purchaseDetail', purchaseProductId],
-  //   queryFn: async () => {
-  //     const response = purchaseApi.getDetailPurchase(Number(purchaseProductId));
-  //     return response;
-  //   },
-  // });
-
-  console.log(id);
-
-  // console.log(purchaseDetailData);
-
   const handleSaveReview = async () => {
     const reviewData = {
-      productId: Number(),
+      productId: productId ? +productId : 0,
       purchaseProductId: id ? +id : 0,
       rating,
       description,
@@ -89,7 +75,7 @@ export default function WritePage() {
         </Header.Box>
       </Header.Root>
       <div>
-        <ReviewProductDataCard />
+        <ReviewProductDataCard purchaseInfo={purchaseInfo} />
         <div className={styles.ratingBox}>
           <p className={styles.ratingQuestion}>전반적으로 어떠셨나요?</p>
           <StarRating editable rating={rating} onRate={setRating} />
