@@ -5,14 +5,19 @@ import Autoplay from 'embla-carousel-autoplay';
 import styles from './BannerCarousel.module.scss';
 import { useSelectedSnapDisplay } from '@/hooks/useSelectedSnapDisplay';
 
-interface BannerCarouselProps {
-  items: {
-    src: string;
-    alt: string;
-  }[];
-}
+import promo1 from '@/assets/images/promo1.png';
+import promo2 from '@/assets/images/promo2.png';
+import promo3 from '@/assets/images/promo3.png';
+import promo4 from '@/assets/images/promo4.png';
 
-export default function BannerCarousel({ items }: BannerCarouselProps) {
+const BANNER_IMAGES = [
+  { src: promo1.src, alt: '배너1' },
+  { src: promo2.src, alt: '배너2' },
+  { src: promo3.src, alt: '배너3' },
+  { src: promo4.src, alt: '배너4' },
+];
+
+export default function BannerCarousel() {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
     Autoplay({ playOnInit: true, delay: 2500, stopOnInteraction: false, stopOnMouseEnter: true }),
   ]);
@@ -22,7 +27,7 @@ export default function BannerCarousel({ items }: BannerCarouselProps) {
   return (
     <div className={styles.container} ref={emblaRef}>
       <div className={styles.carousel}>
-        {items.map((item, index) => (
+        {BANNER_IMAGES.map((item, index) => (
           <div key={index} className={styles.slide}>
             <Image src={item.src} alt={item.alt} fill />
           </div>
