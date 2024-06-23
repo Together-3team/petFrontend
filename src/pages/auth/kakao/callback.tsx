@@ -12,7 +12,9 @@ export default function KakaoCallback() {
   const [cookies, setCookie, removeCookies] = useCookies(['accessToken', 'refreshToken']);
 
   async function getKakaoAuth(): Promise<KakaoAuthResponse> {
-    const response = await authAxiosInstance.get(`/auth/kakao/callback?code=${code}`);
+    const isLocal = window.location.origin.includes('localhost') ? true : false;
+    const response = await authAxiosInstance.get(`/auth/kakao/callback?code=${code}&local=${isLocal}`);
+    console.log(isLocal);
     return response.data;
   }
 

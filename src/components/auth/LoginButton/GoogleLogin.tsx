@@ -7,11 +7,19 @@ const cx = classNames.bind(styles);
 
 export default function GoogleLogin() {
   return (
-    <a href={API_BASE_URL + '/auth/google'}>
-      <div className={cx('googleButton')}>
-        <GoogleLogo />
-        <span>Google로 계속하기</span>
-      </div>
-    </a>
+    <>
+      <a href={API_BASE_URL + '/auth/google/server'}>
+        <div className={cx('googleButton')}>
+          <GoogleLogo />
+          <span>Google로 계속하기(서버)</span>
+        </div>
+      </a>
+      <a href={API_BASE_URL + '/auth/google/local'}>
+        <div className={cx('googleButton')}>
+          <GoogleLogo />
+          <span>Google로 계속하기(로컬)</span>
+        </div>
+      </a>
+    </>
   );
 }

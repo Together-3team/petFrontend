@@ -12,7 +12,8 @@ export default function GoogleCallback() {
   const [cookies, setCookie, removeCookies] = useCookies(['accessToken', 'refreshToken']);
 
   async function getGoogleAuth(): Promise<GoogleAuthResponse> {
-    const response = await authAxiosInstance.get(`/auth/google/callback?code=${code}`);
+    const isLocal = window.location.origin.includes('localhost') ? true : false;
+    const response = await authAxiosInstance.get(`/auth/google/callback?code=${code}&local=${isLocal}`);
     return response.data;
   }
 
