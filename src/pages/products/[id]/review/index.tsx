@@ -75,7 +75,7 @@ export default function ReviewPage({ sort }: ReviewPageProps) {
       <Header.Root>
         <Header.Box>
           <Header.Left>
-            <BackButton />
+            <BackButton href={`/products/${productId}`} />
           </Header.Left>
           <Header.Center className={styles.pageTitle}>
             리뷰 전체보기 <span className={styles.totalReview}>{reviewData.length}</span>

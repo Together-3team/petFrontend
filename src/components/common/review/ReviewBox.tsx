@@ -16,7 +16,9 @@ export default function ReviewBox({ reviewData, className }: any) {
       <div className={styles.userInfo}>
         <ProfileImgBadge
           size={'small'}
-          profileImage={reviewData.reviewerName === '탈퇴한 사용자입니다' ? '' : reviewData.reviewerProfileImage}
+          profileImage={
+            reviewData.reviewerName === '탈퇴한 사용자입니다' ? '' : reviewData.reviewerProfileImage.split('?')[0]
+          }
         />
         <div className={styles.userInfoDetail}>
           <div className={styles.nicknameAndDate}>
