@@ -87,6 +87,7 @@ export default function Order() {
   //   mutation;
   // }
   if (!purchaseData) return <Loading />;
+  if (!purchaseData || (purchaseData.data && purchaseData.data.length === 0)) return <Empty />;
   return (
     <div className={styles.orderLayout}>
       <Header.Root>
@@ -97,10 +98,12 @@ export default function Order() {
           <h1>주문내역</h1>
         </Header.Box>
       </Header.Root>
-      <OrderFilterBar onFilterChange={handleFilterChange} />
       <div className={styles.orderList}>
+        <OrderFilterBar onFilterChange={handleFilterChange} />
         {filteredPurchaseProductsData.length <= 0 && <div className={styles.noOrder}>해당 상품이 없습니다.</div>}
-        {purchaseData && purchaseData.data && purchaseData.data.length > 0 ? (
+        {purchaseData &&
+          purchaseData.data &&
+          purchaseData.data.length > 0 &&
           purchaseData.data
             .sort(
               (a: PurchaseDataProps, b: PurchaseDataProps): number =>
@@ -138,10 +141,7 @@ export default function Order() {
                   )}
                 </div>
               </div>
-            ))
-        ) : (
-          <Empty />
-        )}
+            ))}
       </div>
     </div>
   );
