@@ -1,4 +1,8 @@
 import { dehydrate } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 import styles from './SearchPage.module.scss';
 import Header from '@/components/common/Layout/Header';
@@ -8,11 +12,9 @@ import CardSliderRecommended from '@/components/common/Card/CardSlider/Recommend
 import { productsRecommendedQueries } from '@/apis/product/queries';
 import { queryClient } from '@/utils/queryClient';
 import SearchInput from '@/components/common/Input/SearchInput';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { SearchFormValues, searchSchema } from '@/utils/searchSchema';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { Keyword } from '@/types/components/search.types';
+import SearchKeywords from '@/components/search/SearchKeywords';
 
 export async function getServerSideProps() {
   await productsRecommendedQueries.prefetchQuery({ page: 1, pageSize: 8 });
@@ -22,11 +24,6 @@ export async function getServerSideProps() {
       dehydratedState: dehydrate(queryClient),
     },
   };
-}
-
-interface Keyword {
-  id: number;
-  text: string;
 }
 
 export default function SearchPage() {
@@ -47,6 +44,9 @@ export default function SearchPage() {
     setKeywords(prev => {
       const oldIndex = prev.findIndex(_keyword => _keyword.text === search);
       const newKeywords = oldIndex >= 0 ? [...prev.slice(0, oldIndex), ...prev.slice(oldIndex + 1)] : prev;
+      if (prev.length > 50) {
+        prev.pop();
+      }
       return [newKeyword, ...newKeywords];
     });
 
@@ -77,16 +77,19 @@ export default function SearchPage() {
   return (
     <div className={styles.layout}>
       <Header.Root className={styles.header}>
-        <form onSubmit={handleSubmit(handleSearch)}>
+        <form onSubmit={handleSubmit(handleSearch)} className={styles.searchBox}>
           <SearchInput placeholder="우리집 할미견 치아건강 책임질 효소치약" {...register('search')} />
         </form>
       </Header.Root>
+      {keywords.length > 0 && (
+        <div className={styles.keywordsBox}>
+          <SearchKeywords keywords={keywords} onRemove={handleRemoveKeyword} />
+          <div className={styles.divider} />
+        </div>
+      )}
       <div className={styles.recommendedBox}>
         <CardSliderRecommended title="이런 상품 찾고 있나요?" />
       </div>
-      {keywords.map(keyword => (
-        <p key={keyword.id}>{keyword.text}</p>
-      ))}
       <FloatingBox>
         <NavBottom />
       </FloatingBox>
