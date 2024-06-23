@@ -1,6 +1,5 @@
 import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
-import { dehydrate } from '@tanstack/react-query';
 
 import styles from './ProductRecommendedPage.module.scss';
 import Header from '@/components/common/Layout/Header';
