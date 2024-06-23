@@ -1,8 +1,7 @@
 import Card, { ProductInfo } from '../../common/Card';
-import Button from '../../common/Button';
+import OrderCardButton from './OrderCardButton';
 
 import styles from './OrderCard.module.scss';
-import OrderCardButton from './OrderCardButton';
 
 interface OrderCardProps {
   productInfo: ProductInfo;

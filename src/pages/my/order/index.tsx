@@ -125,9 +125,9 @@ export default function Order() {
                   </div>
                 )}
                 <div className={styles.orderCards}>
-                  {filteredPurchaseProductsData &&
-                    filteredPurchaseProductsData.length > 0 &&
-                    filteredPurchaseProductsData.map((purchase: ProductInfo) => (
+                  {item.purchaseProducts
+                    .filter((product: ProductInfo) => (filterId === 0 ? true : product.status === filterId - 1))
+                    .map((purchase: ProductInfo) => (
                       <OrderCard
                         key={purchase.id}
                         href="/my/order"
