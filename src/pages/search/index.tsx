@@ -37,6 +37,13 @@ export default function SearchPage() {
   const handleSearch = (data: SearchFormValues) => {
     const { search } = data;
 
+    if (!search) {
+      router.replace({
+        pathname: '/search/result',
+      });
+      return;
+    }
+
     const newKeyword = {
       id: Date.now(),
       text: search,
@@ -83,7 +90,7 @@ export default function SearchPage() {
     <div className={styles.layout}>
       <Header.Root className={styles.header}>
         <form onSubmit={handleSubmit(handleSearch)} className={styles.searchBox}>
-          <SearchInput placeholder="우리집 할미견 치아건강 책임질 효소치약" {...register('search')} />
+          <SearchInput autoFocus {...register('search')} placeholder="우리집 할미견 치아건강 책임질 효소치약" />
         </form>
       </Header.Root>
       {keywords.length > 0 && (

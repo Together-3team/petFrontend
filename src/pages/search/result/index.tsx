@@ -13,11 +13,12 @@ import NavBottom from '@/components/common/Nav/Bottom';
 import SortButton from '@/components/common/Button/Sort';
 import useToast from '@/hooks/useToast';
 import ScrollTopButton from '@/components/common/Button/ScrollTop';
-import CardListBasic from '@/components/common/Card/CardList/Basic';
 import SearchInput from '@/components/common/Input/SearchInput';
 import { Keyword } from '@/types/components/search.types';
 import { SearchFormValues, searchSchema } from '@/utils/searchSchema';
 import BackButton from '@/components/common/Button/BackButton';
+import CardListSearch from '@/components/common/Card/CardList/Search';
+import FloatingActionBox from '@/components/common/Layout/Footer/FloatingActionBox';
 
 const SORT_OPTIONS = [
   { name: '최신순', value: '0' },
@@ -59,6 +60,13 @@ export default function SearchResultPage({ keyword, orderBy }: ProductCategoryPa
 
   const handleSearch = (data: SearchFormValues) => {
     const { search } = data;
+
+    if (!search) {
+      router.replace({
+        pathname: '/search/result',
+      });
+      return;
+    }
 
     const newKeyword = {
       id: Date.now(),
@@ -127,14 +135,14 @@ export default function SearchResultPage({ keyword, orderBy }: ProductCategoryPa
       </div>
       <div className={styles.divider} />
       <div className={styles.contents}>
-        <CardListBasic keyword={keyword} orderBy={orderBy} />
+        <CardListSearch keyword={keyword} orderBy={orderBy} />
       </div>
       <GitHubBox />
       <FloatingBox id={BOTTOM_BOX_ID}>
         <NavBottom />
-        <div className={styles.floatingActionBox}>
+        <FloatingActionBox>
           <ScrollTopButton />
-        </div>
+        </FloatingActionBox>
       </FloatingBox>
     </div>
   );
