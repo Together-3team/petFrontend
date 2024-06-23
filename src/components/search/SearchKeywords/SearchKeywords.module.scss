@@ -12,9 +12,11 @@
     height: 3.2rem;
   }
 
-  .link {
+  .keyword {
     @include font-body4;
 
+    background-color: transparent;
+    border: none;
     color: $color-black;
     display: flex;
     align-items: center;
