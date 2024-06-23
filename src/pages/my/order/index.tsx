@@ -62,17 +62,85 @@ export default function Order() {
 
   console.log(filteredPurchaseProductsData);
 
-  // const { mutateAsync: mutation } = useMutation({
-  //   mutationKey: ['changePurchaseStatus'],
-  //   mutationFn: async ({ id, body }: { id: number; body: number }) => {
-  //     const response = await purchaseApi.putPaymentStatus(id, body);
-  //     return response;
-  //   },
-  // });
+  const { mutateAsync: mutation } = useMutation({
+    mutationKey: ['changePurchaseStatus'],
+    mutationFn: async ({ id, body }: { id: number; body: number }) => {
+      const response = await purchaseApi.putPaymentStatus(id, body);
+      return response;
+    },
+  });
 
-  // function handleClick() {
-  //   mutation;
+  async function handleExchangeOrRefund(purchaseId: number) {
+    try {
+      await mutation({ id: purchaseId, body: 6 });
+      showToast({ status: 'success', message: '교환/환불을 진행 중입니다.' });
+    } catch (error) {
+      showToast({ status: 'error', message: '오류가 발생했습니다. 다시 한 번 시도해 주세요.' });
+      console.error('Error handling exchange/refund:', error);
+    }
+  }
+
+  function handleCheckDeliver() {
+    showToast({ status: 'success', message: '배송 조회를 진행 중입니다.' });
+  }
+
+  function handleWriteReview() {
+    router.push({
+      pathname: `/my/review/write`,
+      query: purchaseData?.data.id,
+    });
+  }
+
+  const purchaseId = purchaseData?.data.map((item: PurchaseDataProps) => {
+    return item.id;
+  });
+
+  const firstButton = [
+    {
+      id: 1,
+      name: '주문 취소',
+      disabled: false,
+      onClick: () => handleCancelPurchase(purchaseId),
+    },
+    { id: 2, name: '교환/환불', disabled: false, onClick: () => handleExchangeOrRefund(purchaseId) },
+    { id: 3, name: '교환/환불', disabled: false, onClick: () => handleExchangeOrRefund(purchaseId) },
+    { id: 4, name: '배송 조회', disabled: false, onClick: () => handleCheckDeliver() },
+  ];
+
+  const secondButton = [
+    { id: 1, name: '배송 조회', disabled: true, onClick: () => handleCheckDeliver() },
+    { id: 2, name: '배송 조회', disabled: false, onClick: () => handleCheckDeliver() },
+    { id: 3, name: '배송 조회', disabled: false, onClick: () => handleCheckDeliver() },
+    { id: 4, name: '교환/환불', disabled: true, onClick: () => handleExchangeOrRefund(purchaseId) },
+  ];
+
+  const thirdButton = [
+    { id: 1, name: '리뷰 쓰기', disabled: true, onClick: () => handleWriteReview() },
+    { id: 2, name: '리뷰 쓰기', disabled: true, onClick: () => handleWriteReview() },
+    { id: 3, name: '리뷰 쓰기', disabled: false, onClick: () => handleWriteReview() },
+    { id: 4, name: '리뷰 쓰기', disabled: true, onClick: () => handleWriteReview() },
+  ];
+
+  // function handleClick(id: number) {
+  //   if (id === 1 && orderCardButtons[0]) {
+  //     //주문 취소 로직
+  //     handleCancelPurchase(purchaseData?.data.id);
+  //   }
+
+  //   if ((id === 2 && orderCardButtons[0]) || (id === 3 && orderCardButtons[0])) {
+  //     //교환 환불 로직
+  //     handleExchangeOrRefund(purchaseData?.data.id);
+  //   }
+
+  //   if ((id === 4 && orderCardButtons[0]) || (id !== 4 && orderCardButtons[1])) {
+  //     //배송 조회 로직
+  //   }
+
+  //   if (id !== 0 && orderCardButtons[2]) {
+  //     //리뷰 쓰기 로직
+  //   }
   // }
+
   if (!purchaseData) return <Loading />;
   if (!purchaseData || (purchaseData.data && purchaseData.data.length === 0)) return <Empty />;
   return (
@@ -120,13 +188,13 @@ export default function Order() {
                     <div className={styles.orderCards}>
                       {item.purchaseProducts
                         .filter((product: ProductInfo) => (filterId === 0 ? true : product.status === filterId - 1))
-                        .map((purchase: ProductInfo) => (
+                        .map((purchase: ProductInfo, index) => (
                           <OrderCard
                             key={purchase.id}
-                            href="/my/order"
+                            href={`/my/order/${purchase.id}`}
                             productInfo={{ ...purchase, stock: 3, option: purchase.combinationName }}
                             status={purchase.status as number}
-                            onClick={() => handleCancelPurchase(item.id)}
+                            buttons={[firstButton, secondButton, thirdButton]}
                             tagText={getTagText(purchase.status)}
                           />
                         ))}

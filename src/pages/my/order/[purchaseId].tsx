@@ -117,7 +117,6 @@ export default function OrderDetail() {
               status={order.status as number}
               productInfo={{ ...order, stock: 3, option: order.combinationName }}
               tagText={getTagText(order.status)}
-              onClick={() => {}}
             />
           ))}
       </div>
@@ -131,14 +130,14 @@ export default function OrderDetail() {
             productCount={orderCount}
           />
         </div>
-        <div className={styles.paymentMethod}>
+        {/* <div className={styles.paymentMethod}>
           <div className={styles.rectangle} />
           <div className={styles.paymentMethodTitle}>
             <h3>결제 수단</h3>
             <hr className={styles.updownBorder} />
           </div>
           <span>토스페이</span>
-        </div>
+        </div> */}
       </div>
     </div>
   );
