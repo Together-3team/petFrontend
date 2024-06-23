@@ -9,10 +9,6 @@
 
   .header {
     padding: 2rem 1.6rem 0;
-
-    // &[data-visible='hidden'] {
-    //   transform: translateY(-6.8rem);
-    // }
   }
 
   .headerBox {
@@ -41,7 +37,7 @@
   }
 
   .contents {
-    min-height: 100vh;
+    min-height: calc(100vh - 26.6rem);
     padding: 2rem 0;
   }
 }
