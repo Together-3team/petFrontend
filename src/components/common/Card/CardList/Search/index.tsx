@@ -24,6 +24,7 @@ export default function CardListSearch({ className, orderBy = '0', keyword }: Ca
     hasNextPage,
     fetchNextPage,
     isFetchingNextPage,
+    isLoading,
   } = useInfiniteQuery({
     ...infiniteProductsSearchQueries.queryOptions({ page: 1, pageSize: PAGE_SIZE, orderBy, keyword }),
   });
@@ -39,7 +40,9 @@ export default function CardListSearch({ className, orderBy = '0', keyword }: Ca
     }
   });
 
-  console.log('productsPages: ', productsPages);
+  if (isLoading) {
+    return null;
+  }
 
   return (
     <div className={cx('container', className)}>
@@ -58,7 +61,7 @@ export default function CardListSearch({ className, orderBy = '0', keyword }: Ca
                     starRating: product.averageRating,
                   }}
                   size="extraLarge"
-                  // isZzim
+                  isZzim
                 />
               </li>
             ))
