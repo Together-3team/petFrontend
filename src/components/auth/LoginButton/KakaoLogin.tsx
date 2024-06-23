@@ -7,11 +7,13 @@ const cx = classNames.bind(styles);
 
 export default function KakaoLogin() {
   return (
-    <a href={API_BASE_URL + '/auth/kakao'}>
-      <div className={cx('kakaoButton')}>
-        <KakaoLogo />
-        <span>카카오로 계속하기</span>
-      </div>
-    </a>
+    <>
+      <a href={API_BASE_URL + `/auth/kakao/${process.env.NEXT_PUBLIC_AUTH_END}`}>
+        <div className={cx('kakaoButton')}>
+          <KakaoLogo />
+          <span>카카오로 계속하기</span>
+        </div>
+      </a>
+    </>
   );
 }

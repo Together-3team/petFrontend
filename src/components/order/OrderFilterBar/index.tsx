@@ -15,8 +15,7 @@ interface OrderFilterButtonsProps {
 
 const buttonIds: OrderFilterButtonsProps[] = [
   { id: 0, title: '전체', isActive: true },
-  { id: 1, title: '공동구매 대기', isActive: true },
-  { id: 2, title: '공동구매 완료', isActive: true },
+  { id: 1, title: '주문 대기', isActive: true },
   { id: 3, title: '주문 완료', isActive: true },
   { id: 4, title: '배송 준비', isActive: true },
   { id: 5, title: '배송 중', isActive: true },
