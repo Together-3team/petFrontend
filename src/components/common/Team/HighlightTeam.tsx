@@ -1,29 +1,24 @@
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import Link from 'next/link';
+import { io } from 'socket.io-client';
 import TeamDataCard from './TeamDataCard';
 import { httpClient } from '@/apis/httpClient';
+import { GroupBuyingData } from '@/types/apis/groupBuying';
 import styles from './HighlightTeam.module.scss';
 
-interface GroupUser {
-  nickname: string;
+interface HighlightTeamProps {
+  productId: number;
 }
 
-interface GroupBuyingData {
-  id: number;
-  status: number;
-  groupUsers: GroupUser[];
-}
-
-export default function HighlightTeam({ productId }: any) {
-  const router = useRouter();
-
+export default function HighlightTeam({ productId }: HighlightTeamProps) {
   const [teamData, setTeamData] = useState<GroupBuyingData[]>([]);
+
+  const socket = io(`${process.env.NEXT_PUBLIC_API_BASE_URL}`);
 
   useEffect(() => {
     const fetchGroupBuyingData = async () => {
       try {
         const response = await httpClient().get<GroupBuyingData[]>(`group-buying/${productId}`);
-        console.log(response.slice(0, 3));
         setTeamData(response.slice(0, 3));
       } catch (error) {
         console.log(error);
@@ -31,16 +26,19 @@ export default function HighlightTeam({ productId }: any) {
     };
 
     fetchGroupBuyingData();
-  }, []);
 
-  const handleAllTeamPageLick = () => {
-    router.push({
-      pathname: `/team`,
-      query: {
-        productId: productId,
-      },
+    // 소켓 이벤트 처리
+    socket.emit('subscribeToProduct', productId);
+    socket.on('productUpdate', update => {
+      console.log(update);
+      fetchGroupBuyingData();
     });
-  };
+
+    return () => {
+      socket.emit('unsubscribeFromProduct', productId);
+      socket.off('productUpdate');
+    };
+  }, [productId]);
 
   return (
     <section className={styles.highlightTeamLayout}>
@@ -55,9 +53,9 @@ export default function HighlightTeam({ productId }: any) {
               <TeamDataCard key={data.id} data={data} />
             ))}
           </div>
-          <button className={styles.allTeamLinkBtn} onClick={handleAllTeamPageLick}>
+          <Link className={styles.allTeamLinkBtn} href={`${productId}/team`}>
             참여자 전체보기
-          </button>
+          </Link>
         </>
       ) : (
         <div className={styles.noTeamBox}>

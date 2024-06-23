@@ -1,57 +1,31 @@
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import RatingBox from './RatingBox';
 import ReviewBox from './ReviewBox';
-import styles from './HighlightReview.module.scss';
-import { useEffect, useState } from 'react';
 import { httpClient } from '@/apis/httpClient';
 import { Product, ProductReview } from '@/types/product';
+import styles from './HighlightReview.module.scss';
 
-const testData = [
-  {
-    id: 1,
-    nickname: '서리핑1',
-    option: '소고기맛/선물포장',
-    quantity: 3,
-    rating: 4,
-    description:
-      '설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워',
-    createdAt: '2024-05-24T14:35:22.000Z',
-  },
-  {
-    id: 2,
-    nickname: '서리핑2',
-    option: '닭고기맛/선물포장',
-    quantity: 5,
-    rating: 1,
-    description:
-      '설이는 정말 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워',
-    createdAt: '2024-05-24T14:35:22.000Z',
-  },
-  {
-    id: 3,
-    nickname: '서리핑3',
-    option: '소고기맛',
-    quantity: 2,
-    rating: 3,
-    description:
-      '정말 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워 설이는 귀여워',
-    createdAt: '2024-05-24T14:35:22.000Z',
-  },
-];
+interface HighlightReviewProps {
+  productId: number;
+}
 
-const rating = 4.5;
-const totalReviewer = 180;
-
-export default function HighlightReview({ productId }: any) {
+export default function HighlightReview({ productId }: HighlightReviewProps) {
   const [reviewData, setReviewData] = useState<ProductReview[]>([]);
   const [averageRating, setAverageRating] = useState<string>('');
+  const [reviewCount, setReviewCount] = useState<number>(0);
 
   useEffect(() => {
     const fetchReviewData = async () => {
       try {
         const response = await httpClient().get<Product>(`products/detail/${productId}`);
-        console.log(response);
-        setReviewData(response.reviews);
+
+        const sortedReviews = response.reviews.sort(
+          (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+
+        setReviewData(sortedReviews.slice(0, 3));
+        setReviewCount(response.reviews.length);
         setAverageRating(response.averageRating.toFixed(1));
       } catch (error) {
         console.log(error);
@@ -67,15 +41,15 @@ export default function HighlightReview({ productId }: any) {
         <>
           <div className={styles.sectionTitleBox}>
             <p className={styles.sectionTitle}>리뷰</p>
-            <p className={styles.totalReview}>{reviewData.length}</p>
+            <p className={styles.totalReview}>{reviewCount}</p>
           </div>
-          <RatingBox rating={averageRating} totalReviewer={reviewData.length} className={styles.ratingBoxStyle} />
+          <RatingBox rating={averageRating} totalReviewer={reviewCount} className={styles.ratingBoxStyle} />
           <div className={styles.reviewContainer}>
             {reviewData.map(data => (
               <ReviewBox key={data.id} reviewData={data} className={styles.reviewBoxStyle} />
             ))}
           </div>
-          <Link href="/test/review" className={styles.allReviewLinkBtn}>
+          <Link href={`${productId}/review`} className={styles.allReviewLinkBtn}>
             리뷰 전체보기
           </Link>
         </>
