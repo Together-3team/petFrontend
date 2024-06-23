@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useCookies } from 'react-cookie';
 import styles from './Cart.module.scss';
 import Card from '@/components/cart/Card';
 import TotalPay from '@/components/cart/TotalPay';
@@ -36,6 +37,13 @@ export default function Cart() {
   const queryClient = useQueryClient();
   const { showToast } = useToast(BOTTOM_BOX_ID);
   const router = useRouter();
+  const [cookies, setCookie, removeCookies] = useCookies(['accessToken']);
+
+  useEffect(() => {
+    if (!cookies.accessToken) {
+      router.push('/my');
+    }
+  }, [cookies, router]);
 
   // 상품 목록 GET
   const { data: productsData, refetch: refetchProducts } = useQuery({

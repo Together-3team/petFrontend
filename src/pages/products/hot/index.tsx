@@ -1,8 +1,7 @@
 import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
-import { dehydrate } from '@tanstack/react-query';
 
-import styles from './ProductRecommendedPage.module.scss';
+import styles from './ProductHotPage.module.scss';
 import Header from '@/components/common/Layout/Header';
 import LogoFull from '@/components/common/Icon/LogoFull';
 import SearchButton from '@/components/common/Button/Search';
@@ -15,7 +14,7 @@ import SortButton from '@/components/common/Button/Sort';
 import useToast from '@/hooks/useToast';
 import PetToggleButton from '@/components/common/Button/PetToggle';
 import ScrollTopButton from '@/components/common/Button/ScrollTop';
-import CardListRecommended from '@/components/common/Card/CardList/Recommended';
+import CardListHot from '@/components/common/Card/CardList/Hot';
 
 const SORT_OPTIONS = [
   { name: '최신순', value: '0' },
@@ -38,12 +37,12 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   };
 }
 
-interface ProductRecommendedPageProps {
+interface ProductHotPageProps {
   petType: string;
   orderBy: string;
 }
 
-export default function ProductRecommendedPage({ petType, orderBy }: ProductRecommendedPageProps) {
+export default function ProductHotPage({ petType, orderBy }: ProductHotPageProps) {
   const router = useRouter();
   const { showToast, setPortalId } = useToast(BOTTOM_BOX_ID);
 
@@ -67,7 +66,7 @@ export default function ProductRecommendedPage({ petType, orderBy }: ProductReco
           initialOptionValue={orderBy}
           onClick={value => {
             router.replace({
-              pathname: '/products/recommended',
+              pathname: '/products/hot',
               query: {
                 ...router.query,
                 orderBy: value,
@@ -78,7 +77,7 @@ export default function ProductRecommendedPage({ petType, orderBy }: ProductReco
       </div>
       <div className={styles.divider} />
       <div className={styles.contents}>
-        <CardListRecommended petType={petType} orderBy={orderBy} />
+        <CardListHot petType={petType} orderBy={orderBy} />
       </div>
       <GitHubBox />
       <FloatingBox id={BOTTOM_BOX_ID}>
@@ -89,7 +88,7 @@ export default function ProductRecommendedPage({ petType, orderBy }: ProductReco
             initialPetType={petType}
             onClick={petType => {
               router.replace({
-                pathname: '/products/recommended',
+                pathname: '/products/hot',
                 query: {
                   ...router.query,
                   petType: petType.value,

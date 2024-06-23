@@ -72,7 +72,7 @@ export const infiniteProductsRecommendedQueries = {
   queryOptions: (params: ProductsQueryDto) => {
     return infiniteQueryOptions({
       queryKey: infiniteProductsRecommendedQueries.queryKey(params),
-      queryFn: ({ pageParam }) => getProducts({ ...params, page: pageParam }),
+      queryFn: ({ pageParam }) => getProductsRecommended({ ...params, page: pageParam }),
       initialPageParam: 1,
       getNextPageParam: (lastPage, allPages, lastPageParam) => {
         const { page, pageSize, totalCount } = lastPage;
@@ -103,7 +103,7 @@ export const infiniteProductsHotQueries = {
   queryOptions: (params: ProductsQueryDto) => {
     return infiniteQueryOptions({
       queryKey: infiniteProductsHotQueries.queryKey(params),
-      queryFn: ({ pageParam }) => getProducts({ ...params, page: pageParam }),
+      queryFn: ({ pageParam }) => getProductsHot({ ...params, page: pageParam }),
       initialPageParam: 1,
       getNextPageParam: (lastPage, allPages, lastPageParam) => {
         const { page, pageSize, totalCount } = lastPage;
