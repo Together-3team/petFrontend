@@ -116,6 +116,7 @@ export default function OrderDetail() {
               key={order.productId}
               productInfo={{ ...order, stock: 3, option: order.combinationName }}
               tagText={getTagText(order.status)}
+              onClick={() => {}}
             />
           ))}
       </div>
