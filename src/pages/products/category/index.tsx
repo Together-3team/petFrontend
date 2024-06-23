@@ -78,26 +78,7 @@ export default function ProductCategoryPage({ petType, productType, orderBy }: P
           }
         />
       </div>
-      <div className={styles.sortBox}>
-        <SortButton
-          options={SORT_OPTIONS}
-          initialOptionValue={orderBy}
-          onClick={value => {
-            router.replace({
-              pathname: '/products/category',
-              query: {
-                ...router.query,
-                orderBy: value,
-              },
-            });
-          }}
-        />
-      </div>
-      <div className={styles.divider} />
-      <div className={styles.contents}>
-        <CardListBasic petType={petType} productType={productType} orderBy={orderBy} />
-      </div>
-      <GitHubBox />
+      <CardListBasic petType={petType} productType={productType} orderBy={orderBy} />
       <FloatingBox id={BOTTOM_BOX_ID}>
         <NavBottom />
         <FloatingActionBox>

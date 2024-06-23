@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import classNames from 'classnames/bind';
 
@@ -6,6 +7,7 @@ import Card from '@/components/common/Card';
 import { infiniteProductsQueries } from '@/apis/product/queries';
 import useIntersect from '@/hooks/useIntersect';
 import CardPlaceholder from '@/components/common/Card/CardPlaceholder';
+import SortButton from '@/components/common/Button/Sort';
 
 interface CardListBasicProps {
   className?: string;
@@ -17,6 +19,14 @@ interface CardListBasicProps {
 
 const cx = classNames.bind(styles);
 
+const SORT_OPTIONS = [
+  { name: '최신순', value: '0' },
+  { name: '별점 높은 순', value: '1' },
+  { name: '별점 낮은 순', value: '2' },
+  { name: '가격 높은 순', value: '3' },
+  { name: '가격 낮은 순', value: '4' },
+];
+
 const PAGE_SIZE = 8;
 
 export default function CardListBasic({
@@ -26,6 +36,7 @@ export default function CardListBasic({
   orderBy = '0',
   keyword,
 }: CardListBasicProps) {
+  const router = useRouter();
   const {
     data: productsData,
     hasNextPage,
@@ -37,6 +48,7 @@ export default function CardListBasic({
 
   const productsPages = productsData?.pages ?? [];
   const hasTargetRef = !isFetchingNextPage && hasNextPage;
+  const productsCount = productsPages[0]?.totalCount || 0;
 
   const targetRef = useIntersect(async (entry, observer) => {
     observer.unobserve(entry.target);
@@ -47,6 +59,23 @@ export default function CardListBasic({
 
   return (
     <div className={cx('container', className)}>
+      <div className={styles.sortBox}>
+        <SortButton
+          options={SORT_OPTIONS}
+          initialOptionValue={orderBy}
+          onClick={value => {
+            router.replace({
+              pathname: '/products/category',
+              query: {
+                ...router.query,
+                orderBy: value,
+              },
+            });
+          }}
+        />
+        <p className={styles.productsCount}>{productsCount}개 상품</p>
+      </div>
+      <div className={styles.divider} />
       <ul className={styles.list}>
         {productsPages.map(productsPage =>
           productsPage.data.map(product => (
