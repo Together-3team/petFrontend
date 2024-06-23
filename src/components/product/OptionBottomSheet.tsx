@@ -8,6 +8,7 @@ import Image from 'next/image';
 import arrow from '@/assets/images/arrow-down.jpg';
 import NumberInput from './NumberInput';
 import Button from '../common/Button';
+import { useRouter } from 'next/router';
 
 const cx = classNames.bind(styles);
 
@@ -103,6 +104,7 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type }: 
   const [totalOriginalPriceOfOptions, setTotalOriginalPriceOfOptions] = useState(0);
   const [countChanged, setCountChanged] = useState(false);
   const [dropdownOn, setDropdownOn] = useState(Array.from({ length: productOptions.length }, (v, i) => i === 0));
+  const router = useRouter();
 
   useEffect(() => {
     const fetchProductOption = async () => {
@@ -179,8 +181,11 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type }: 
 
   useEffect(() => {
     const handleSelectedOptionsObject = async () => {
+      console.log(selectedOptions);
       const { selectedIds, combinationId } = calculateCombinationPriceAndName(selectedOptions);
-      console.log('jjj', selectedIds);
+      console.log(selectedIds);
+      console.log(selectedOptions.every(option => option !== '') && selectedIds !== '');
+      console.log(countChanged === true && selectedIds !== '');
       if (
         (selectedOptions.every(option => option !== '') && selectedIds !== '') ||
         (countChanged === true && selectedIds !== '')
@@ -199,7 +204,8 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type }: 
           optionCombinationId: combinationId,
           quantity: 1,
         };
-        await httpClient().post('selected-products/orders', JSON.stringify(postItem));
+        console.log(postItem);
+        await httpClient().post('selected-products/orders', postItem);
         setCountChanged(false);
       }
     };
@@ -230,17 +236,19 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type }: 
       const selectedIds = key.split(',');
       const { combinationPrice } = calculateCombinationPriceAndName(selectedIds);
       totalAmountOfOptions += Number(selectedOptionsObject[key]);
-      totalPriceOfOptions += combinationPrice + price;
-      totalOriginalPriceOfOptions += combinationPrice + originalPrice;
+      totalPriceOfOptions += (combinationPrice + price) * Number(selectedOptionsObject[key]);
+      totalOriginalPriceOfOptions += (combinationPrice + originalPrice) * Number(selectedOptionsObject[key]);
     }
     setTotalAmountOfOptions(totalAmountOfOptions);
     setTotalPriceOfOptions(totalPriceOfOptions);
     setTotalOriginalPriceOfOptions(totalOriginalPriceOfOptions);
   }, [selectedOptionsObject, calculateCombinationPriceAndName, price, originalPrice]);
 
+  //페이지에서 벗어나면 selectedOptionsObject 초기화
   useEffect(() => {
-    const handleBeforeUnload = async () => {
+    const handleBeforeUnload = () => {
       setSelectedOptionsObject({});
+      setCountChanged(false);
     };
 
     window.addEventListener('beforeunload', handleBeforeUnload);
@@ -248,13 +256,19 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type }: 
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
-  }, []);
+  }, [router.events]);
 
   useEffect(() => {
     // productOptions가 업데이트될 때마다 dropdownOn을 다시 설정
     const initialDropdownOn = Array.from({ length: productOptions.length }, (v, i) => i === 0);
     setDropdownOn(initialDropdownOn);
   }, [productOptions]);
+  useEffect(() => {
+    if (productOptions.length === 0) {
+      setProductOptionsOn(false);
+    }
+  }, [productOptions]);
+
   return (
     <BottomSheet isOpen={isOpen} onClose={onClose}>
       {productOptionsOn ? (
@@ -273,35 +287,54 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type }: 
         </div>
       ) : (
         <>
-          <div className={cx('selectOption')} onClick={handleProductOptionsOn}>
-            <div>옵션 선택</div>
-            <Image src={arrow.src} width="12" height="12" alt="아래를 가르키는 화살표 이미지" priority />
-          </div>
-          <div>
-            {Object.keys(selectedOptionsObject).map((objectKey, i) => {
-              const selectedIds = objectKey.split(',');
-              const { combinationPrice, selectedCombinationName } = calculateCombinationPriceAndName(selectedIds);
-              return (
-                <div key={i} className={cx('chosenBox')}>
-                  <div className={cx('selectedCombinationName')}> {selectedCombinationName} </div>
-                  <NumberInput
-                    selectedOptionsObject={selectedOptionsObject}
-                    setSelectedOptionsObject={setSelectedOptionsObject}
-                    objectKey={objectKey}
-                    setCountChanged={setCountChanged}
-                  />
-                  <div>
-                    <p>정가 {`${originalPrice + combinationPrice}`}원</p>
-                    <p>할인가 {`${price + combinationPrice}`}원</p>
-                  </div>
+          {productOptions.length !== 0 ? (
+            <>
+              <div className={cx('selectOption')} onClick={handleProductOptionsOn}>
+                <div>옵션 선택</div>
+                <Image src={arrow.src} width="12" height="12" alt="아래를 가르키는 화살표 이미지" priority />
+              </div>
+              <div>
+                {Object.keys(selectedOptionsObject).map((objectKey, i) => {
+                  const selectedIds = objectKey.split(',');
+                  const { combinationPrice, selectedCombinationName } = calculateCombinationPriceAndName(selectedIds);
+                  return (
+                    <div key={i} className={cx('chosenBox')}>
+                      <div className={cx('selectedCombinationName')}> {selectedCombinationName} </div>
+                      <NumberInput
+                        selectedOptionsObject={selectedOptionsObject}
+                        setSelectedOptionsObject={setSelectedOptionsObject}
+                        objectKey={objectKey}
+                        setCountChanged={setCountChanged}
+                      />
+                      <div>
+                        <p>정가 {`${(originalPrice + combinationPrice) * selectedOptionsObject[objectKey]}`}원</p>
+                        <p>할인가 {`${(price + combinationPrice) * selectedOptionsObject[objectKey]}`}원</p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+              <div className={cx('divider')}></div>
+              <p>총 {totalAmountOfOptions}개 상품금액</p>
+              <p>정가 {totalOriginalPriceOfOptions}</p>
+              <p>할인가 {totalPriceOfOptions}</p>
+            </>
+          ) : (
+            <div>
+              <div className={cx('chosenBox')}>
+                <div className={cx('selectedCombinationName')}> 수량 선택 </div>
+                <NumberInput setCountChanged={setCountChanged} />
+                <div>
+                  <p>정가 {`${originalPrice}`}원</p>
+                  <p>할인가 {`${price}`}원</p>
                 </div>
-              );
-            })}
-          </div>
-          <div className={cx('divider')}></div>
-          <p>총 {totalAmountOfOptions}개 상품금액</p>
-          <p>정가 {totalOriginalPriceOfOptions}</p>
-          <p>할인가 {totalPriceOfOptions}</p>
+              </div>
+              <div className={cx('divider')}></div>
+              <p>총 {totalAmountOfOptions}개 상품금액</p>
+              <p>정가 {totalOriginalPriceOfOptions}</p>
+              <p>할인가 {totalPriceOfOptions}</p>
+            </div>
+          )}
         </>
       )}
       {type !== 'cartPurchase' ? (

@@ -4,9 +4,9 @@ import Plus from '@/assets/svgs/btn-plus.svg';
 import styles from './NumberInput.module.scss';
 
 interface NumberInput {
-  selectedOptionsObject: { [key: string]: number };
-  setSelectedOptionsObject: React.Dispatch<React.SetStateAction<{ [key: string]: number }>>;
-  objectKey: string;
+  selectedOptionsObject?: { [key: string]: number };
+  setSelectedOptionsObject?: React.Dispatch<React.SetStateAction<{ [key: string]: number }>>;
+  objectKey?: string;
   setCountChanged: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -16,21 +16,22 @@ export default function NumberInput({
   objectKey,
   setCountChanged,
 }: NumberInput) {
-  const [count, setCount] = useState(selectedOptionsObject[objectKey]);
+  const [count, setCount] = useState(objectKey && selectedOptionsObject ? selectedOptionsObject[objectKey] : 1);
 
   const increment = () => {
     const newCount = count + 1;
-    console.log(objectKey);
-    setSelectedOptionsObject(prev => ({ ...prev, [objectKey]: newCount }));
+    objectKey && setSelectedOptionsObject && setSelectedOptionsObject(prev => ({ ...prev, [objectKey]: newCount }));
     setCountChanged(true);
+    setCount(count + 1);
   };
 
   const decrement = () => {
     if (count > 0) {
       const newCount = count - 1;
       setCount(newCount);
-      setSelectedOptionsObject(prev => ({ ...prev, [objectKey]: newCount }));
+      objectKey && setSelectedOptionsObject && setSelectedOptionsObject(prev => ({ ...prev, [objectKey]: newCount }));
       setCountChanged(true);
+      setCount(count - 1);
     }
   };
 
