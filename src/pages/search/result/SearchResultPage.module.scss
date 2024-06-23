@@ -9,17 +9,18 @@
 
   .header {
     padding: 2rem 1.6rem 0;
-
-    &[data-visible='hidden'] {
-      transform: translateY(-6.8rem);
-    }
   }
 
-  .productTypeBox {
-    display: flex;
-    justify-content: space-between;
+  .headerBox {
+    grid-template-columns: auto 1fr auto;
+  }
+
+  .headerCenter {
     width: 100%;
-    padding: 1.6rem 1.6rem 2rem;
+  }
+
+  .searchBox {
+    width: 100%;
   }
 
   .sortBox {
@@ -36,7 +37,7 @@
   }
 
   .contents {
-    min-height: 100vh;
+    min-height: calc(100vh - 26.6rem);
     padding: 2rem 0;
   }
 }

@@ -4,32 +4,31 @@
     flex-direction: column;
     align-items: center;
     padding-bottom: 8rem;
-    min-height: 100vh;
+    padding-top: 2rem;
+  }
+
+  .searchBox {
+    padding: 0.8rem 0;
   }
 
   .header {
-    padding: 2rem 1.6rem 0;
-
-    &[data-visible='hidden'] {
-      transform: translateY(-6.8rem);
-    }
+    padding: 0 1.6rem;
   }
 
-  .sortBox {
-    display: flex;
+  .recommendedBox {
+    margin-top: 3.2rem;
+    width: 100%;
+  }
+
+  .keywordsBox {
     width: 100%;
     padding: 0.8rem 1.6rem;
-    justify-content: flex-end;
   }
 
   .divider {
     background-color: $color-gray-50;
     width: 100%;
     height: 0.8rem;
-  }
-
-  .contents {
-    min-height: 100vh;
-    padding: 2rem 0;
+    margin: 0.8rem 0;
   }
 }

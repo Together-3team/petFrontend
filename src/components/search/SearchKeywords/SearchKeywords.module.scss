@@ -1,0 +1,37 @@
+@layer components {
+  .list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    height: 3.2rem;
+  }
+
+  .keyword {
+    @include font-body4;
+
+    background-color: transparent;
+    border: none;
+    color: $color-black;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    flex-grow: 1;
+  }
+
+  .cancelButton {
+    background-color: transparent;
+    border: none;
+    padding: 0.8rem;
+  }
+
+  .divider {
+    margin: 0.8rem 0;
+    border: 0.1rem solid $color-gray-100;
+  }
+}

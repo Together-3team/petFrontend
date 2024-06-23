@@ -8,22 +8,34 @@ import StarRating from '@/components/common/review/StarRating';
 import Textarea from '@/components/common/review/Textarea';
 import { postReview } from '../../../../apis/myReviewAPI';
 import styles from './WritePage.module.scss';
+import purchaseApi from '@/apis/purchase/api';
+import { useQuery } from '@tanstack/react-query';
 
 export default function WritePage() {
   const router = useRouter();
-  const { productId, purchaseProductId } = router.query;
+  const { purchaseProductId } = router.query;
 
   const [rating, setRating] = useState(0);
-  const [description, setDescriprion] = useState('');
+  const [description, setDescription] = useState('');
   const { showToast } = useToast();
 
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    setDescriprion(event.target.value);
+    setDescription(event.target.value);
   };
+
+  const { data: purchaseDetailData } = useQuery({
+    queryKey: ['purchaseDetail', purchaseProductId],
+    queryFn: async () => {
+      const response = purchaseApi.getDetailPurchase(Number(purchaseProductId));
+      return response;
+    },
+  });
+  console.log(purchaseProductId);
+  console.log(purchaseDetailData);
 
   const handleSaveReview = async () => {
     const reviewData = {
-      productId: Number(productId),
+      productId: Number(),
       purchaseProductId: Number(purchaseProductId),
       rating,
       description,
