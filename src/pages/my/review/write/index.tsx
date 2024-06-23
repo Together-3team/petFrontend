@@ -1,4 +1,5 @@
 import { ChangeEvent, useState } from 'react';
+import { useRouter } from 'next/router';
 import useToast from '@/hooks/useToast';
 import Header from '@/components/common/Layout/Header';
 import BackButton from '@/components/common/Button/BackButton';
@@ -7,24 +8,35 @@ import StarRating from '@/components/common/review/StarRating';
 import Textarea from '@/components/common/review/Textarea';
 import { postReview } from '../../../../apis/myReviewAPI';
 import styles from './WritePage.module.scss';
-// import { useLocation } from 'react-router-dom';
+import purchaseApi from '@/apis/purchase/api';
+import { useQuery } from '@tanstack/react-query';
 
 export default function WritePage() {
-  // const location = useLocation();
-  // const { productId, purchaseProductId } = location.state;
+  const router = useRouter();
+  const { purchaseProductId } = router.query;
 
   const [rating, setRating] = useState(0);
-  const [description, setDescriprion] = useState('');
+  const [description, setDescription] = useState('');
   const { showToast } = useToast();
 
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    setDescriprion(event.target.value);
+    setDescription(event.target.value);
   };
+
+  const { data: purchaseDetailData } = useQuery({
+    queryKey: ['purchaseDetail', purchaseProductId],
+    queryFn: async () => {
+      const response = purchaseApi.getDetailPurchase(Number(purchaseProductId));
+      return response;
+    },
+  });
+  console.log(purchaseProductId);
+  console.log(purchaseDetailData);
 
   const handleSaveReview = async () => {
     const reviewData = {
-      productId: 0,
-      purchaseProductId: 0,
+      productId: Number(),
+      purchaseProductId: Number(purchaseProductId),
       rating,
       description,
       reviewImages: '',

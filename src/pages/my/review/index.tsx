@@ -56,7 +56,9 @@ export default function Review() {
       }))
     );
 
-  console.log(purchaseData?.data);
+  console.log(reviewableData?.data);
+  console.log(wroteReviews);
+  console.log(purchaseData);
 
   //TODO: 리뷰 작성 후 테스트 때 적용
   const myReviewList =
@@ -74,7 +76,13 @@ export default function Review() {
       }))
     );
 
-  const purchaseProductId = purchaseData?.data.map((item: PurchaseDataProps) => {
+  const purchaseId = purchaseData?.data.flatMap((item: PurchaseDataProps) =>
+    item.purchaseProducts.map((item: ProductInfo) => {
+      return item.productId;
+    })
+  );
+
+  const purchaseProductId = purchaseData?.data.flatMap((item: PurchaseDataProps) => {
     return item.id;
   });
 
@@ -82,8 +90,10 @@ export default function Review() {
     router.push({
       pathname: `/my/review/write`,
       query: {
-        productId: purchaseData && purchaseData.data[0].id,
-        purchaseProductId: purchaseData && purchaseData.data[0].purchaseProducts[0].productId,
+        reviewableData: reviewableData && reviewableData.data,
+        purchaseData: purchaseData && purchaseData.data,
+        productId: purchaseId,
+        purchaseProductId: purchaseProductId,
       },
     });
   }
@@ -118,22 +128,26 @@ export default function Review() {
       </div>
       <>
         {reviewWrite ? (
-          purchaseData?.data[0].purchaseProducts.length > 0 ? (
+          reviewableData && reviewableData.data.length > 0 ? (
             <div className={styles.reviewCardList}>
-              {reviewableList.map((purchase: ProductInfo) => (
-                <ReviewCard key={purchase.productId} productInfo={purchase} onClick={handleClickWriteReview} />
+              {reviewableData.data.map((purchase: ProductInfo) => (
+                <ReviewCard
+                  key={purchase.productId}
+                  productInfo={{ ...purchase, stock: 3, option: purchase.combinationName }}
+                  onClick={handleClickWriteReview}
+                />
               ))}
             </div>
           ) : (
             <div className={styles.noReview}>지금은 리뷰를 작성해야 할 상품이 없어요.</div>
           )
-        ) : purchaseData?.data[0].purchaseProducts.length > 0 ? (
+        ) : wroteReviews && wroteReviews.data.length > 0 ? (
           <div className={styles.reviewCardList}>
-            {reviewableList.map((purchase: ProductInfo) => (
+            {wroteReviews.data?.map((review: ProductInfo) => (
               <WroteReviewCard
                 href={`/my/review/${reviewId || purchaseProductId}`}
-                key={purchase.productId}
-                productInfo={purchase}
+                key={review.productId}
+                productInfo={review}
               />
             ))}
           </div>

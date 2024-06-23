@@ -1,5 +1,6 @@
 import { httpClient } from '@/apis/httpClient';
 import axiosInstance from './axiosInstance';
+import { ProductInfo } from '@/components/common/Card';
 
 interface ReviewData {
   productId: number;

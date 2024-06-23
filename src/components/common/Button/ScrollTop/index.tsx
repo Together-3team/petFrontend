@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 
 import styles from './ScrollTopButton.module.scss';
 import ArrowTop from '@/assets/svgs/arrow-top-white.svg';
-import useScrollUpAndDown from '@/hooks/useScrollUpAndDown';
+import useTargetHeightShow from '@/hooks/useTargetHeightShow';
 
 const cx = classNames.bind(styles);
 
@@ -11,8 +11,8 @@ interface ScrollTopButtonProps {
   minHeight?: number;
 }
 
-export default function ScrollTopButton({ className, minHeight = 200 }: ScrollTopButtonProps) {
-  const { isUp } = useScrollUpAndDown(minHeight);
+export default function ScrollTopButton({ className, minHeight }: ScrollTopButtonProps) {
+  const { isShow } = useTargetHeightShow(minHeight);
 
   const handleClick = () => {
     window.scroll({
@@ -23,7 +23,7 @@ export default function ScrollTopButton({ className, minHeight = 200 }: ScrollTo
 
   return (
     <>
-      {!isUp && (
+      {isShow && (
         <button type="button" className={cx('button', className)} onClick={handleClick}>
           <ArrowTop />
         </button>

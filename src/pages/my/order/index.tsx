@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import classNames from 'classnames/bind';
@@ -21,6 +22,7 @@ const cx = classNames.bind(styles);
 export default function Order() {
   const router = useRouter();
   const { showToast } = useToast();
+  const [filterId, setFilterId] = useState<number>(0);
 
   const { data: purchaseData } = useQuery({ queryKey: ['purchase'], queryFn: purchaseApi.getPurchase });
   console.log(purchaseData);
@@ -40,7 +42,13 @@ export default function Order() {
     }))
   );
 
-  console.log(purchaseList);
+  const filteredPurchaseProductsData = purchaseData?.data.flatMap((item: PurchaseDataProps) =>
+    item.purchaseProducts.filter((product: ProductInfo) => (filterId === 0 ? true : product.status === filterId - 1))
+  );
+
+  function handleFilterChange(filterId: number) {
+    setFilterId(filterId);
+  }
 
   function handleMoveOrderDetail({ purchaseId, purchaseDate }: { purchaseId: number; purchaseDate: string }) {
     router.push({
@@ -79,6 +87,7 @@ export default function Order() {
   //   mutation;
   // }
   if (!purchaseData) return <Loading />;
+  if (!purchaseData || (purchaseData.data && purchaseData.data.length === 0)) return <Empty />;
   return (
     <div className={styles.orderLayout}>
       <Header.Root>
@@ -89,43 +98,50 @@ export default function Order() {
           <h1>주문내역</h1>
         </Header.Box>
       </Header.Root>
-      <OrderFilterBar />
       <div className={styles.orderList}>
-        {purchaseData && purchaseData.data && purchaseData.data.length > 0 ? (
-          purchaseData.data.map((item: PurchaseDataProps) => (
-            <div key={item.id}>
-              <div className={styles.orderInfo}>
-                <div className={styles.orderInfoUp}>
-                  <span className={styles.orderDate}>{formatDate(item.createdAt)}</span>
-                  <div
-                    className={styles.orderDetail}
-                    onClick={() => handleMoveOrderDetail({ purchaseId: item.id, purchaseDate: item.createdAt })}>
-                    주문상세
+        <OrderFilterBar onFilterChange={handleFilterChange} />
+        {filteredPurchaseProductsData.length <= 0 && <div className={styles.noOrder}>해당 상품이 없습니다.</div>}
+        {purchaseData &&
+          purchaseData.data &&
+          purchaseData.data.length > 0 &&
+          purchaseData.data
+            .sort(
+              (a: PurchaseDataProps, b: PurchaseDataProps): number =>
+                new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+            )
+            .map((item: PurchaseDataProps) => (
+              <div key={item.id}>
+                {filteredPurchaseProductsData && filteredPurchaseProductsData.length > 0 && (
+                  <div className={styles.orderInfo}>
+                    <div className={styles.orderInfoUp}>
+                      <span className={styles.orderDate}>{formatDate(item.createdAt)}</span>
+                      <div
+                        className={styles.orderDetail}
+                        onClick={() => handleMoveOrderDetail({ purchaseId: item.id, purchaseDate: item.createdAt })}>
+                        주문상세
+                      </div>
+                    </div>
+                    <span className={styles.orderNumber}>주문번호 No. {item.id}</span>
                   </div>
-                </div>
-                <span className={styles.orderNumber}>주문번호 No. {item.id}</span>
-              </div>
-              <div className={styles.orderCards}>
-                {item.purchaseProducts && item.purchaseProducts.length > 0 ? (
-                  item.purchaseProducts.map((purchase: ProductInfo) => (
-                    <OrderCard
-                      key={purchase.id}
-                      productInfo={{ ...purchase, stock: 1, option: purchase.combinationName }}
-                      href="/my/order"
-                      onClick={() => handleCancelPurchase(item.id)}
-                      tagText={getTagText(purchase.status)}
-                    />
-                  ))
-                ) : (
-                  <div>주문한 상품이 없습니다.</div>
                 )}
-                <div className={styles.rectangle} />
+                <div className={styles.orderCards}>
+                  {filteredPurchaseProductsData &&
+                    filteredPurchaseProductsData.length > 0 &&
+                    filteredPurchaseProductsData.map((purchase: ProductInfo) => (
+                      <OrderCard
+                        key={purchase.id}
+                        productInfo={{ ...purchase, stock: 3, option: purchase.combinationName }}
+                        href="/my/order"
+                        onClick={() => handleCancelPurchase(item.id)}
+                        tagText={getTagText(purchase.status)}
+                      />
+                    ))}
+                  {filteredPurchaseProductsData && filteredPurchaseProductsData.length > 0 && (
+                    <div className={styles.rectangle} />
+                  )}
+                </div>
               </div>
-            </div>
-          ))
-        ) : (
-          <Empty />
-        )}
+            ))}
       </div>
     </div>
   );
