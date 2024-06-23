@@ -2,14 +2,14 @@ import { useRouter } from 'next/router';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import classNames from 'classnames/bind';
 
-import styles from './CardListBasic.module.scss';
+import styles from './CardListCategory.module.scss';
 import Card from '@/components/common/Card';
 import { infiniteProductsQueries } from '@/apis/product/queries';
 import useIntersect from '@/hooks/useIntersect';
 import CardPlaceholder from '@/components/common/Card/CardPlaceholder';
 import SortButton from '@/components/common/Button/Sort';
 
-interface CardListBasicProps {
+interface CardListCategoryProps {
   className?: string;
   petType?: string;
   productType?: string;
@@ -29,13 +29,13 @@ const SORT_OPTIONS = [
 
 const PAGE_SIZE = 8;
 
-export default function CardListBasic({
+export default function CardListCategory({
   className,
   petType = '0',
   productType = '0',
   orderBy = '0',
   keyword,
-}: CardListBasicProps) {
+}: CardListCategoryProps) {
   const router = useRouter();
   const {
     data: productsData,
