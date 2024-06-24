@@ -25,22 +25,6 @@ export default function OrderDetail() {
 
   const purchaseProducts = purchaseDetailData?.data?.purchaseProducts || [];
 
-  console.log(purchaseDetailData);
-
-  const orderList =
-    purchaseDetailData &&
-    purchaseDetailData.data.purchaseProducts.map((product: ProductInfo) => ({
-      productId: product.productId,
-      title: product.title,
-      thumbNailImage: product.thumbNailImage,
-      originalPrice: product.originalPrice,
-      price: product.price,
-      option: product.combinationName,
-      quantity: product.quantity,
-      stock: 1,
-      status: product.status,
-    }));
-
   const deliveryInfo = purchaseDetailData && {
     recipient: purchaseDetailData.data.recipient,
     recipientPhoneNumber: purchaseDetailData.data.recipientPhoneNumber,
@@ -49,9 +33,6 @@ export default function OrderDetail() {
     zipCode: purchaseDetailData.data.zipCode,
     message: purchaseDetailData.data.deliveryMessage,
   };
-
-  console.log(orderList);
-  console.log(purchaseDate);
 
   function calculateTotalOriginalPrice() {
     return purchaseDetailData?.data.purchaseProducts.reduce(
@@ -114,9 +95,9 @@ export default function OrderDetail() {
           purchaseProducts.map((order: ProductInfo) => (
             <OrderCard
               key={order.productId}
+              status={order.status as number}
               productInfo={{ ...order, stock: 3, option: order.combinationName }}
               tagText={getTagText(order.status)}
-              onClick={() => {}}
             />
           ))}
       </div>
@@ -130,14 +111,14 @@ export default function OrderDetail() {
             productCount={orderCount}
           />
         </div>
-        <div className={styles.paymentMethod}>
+        {/* <div className={styles.paymentMethod}>
           <div className={styles.rectangle} />
           <div className={styles.paymentMethodTitle}>
             <h3>결제 수단</h3>
             <hr className={styles.updownBorder} />
           </div>
           <span>토스페이</span>
-        </div>
+        </div> */}
       </div>
     </div>
   );
