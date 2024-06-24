@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { QueryClient, dehydrate, useMutation, useQueryClient } from '@tanstack/react-query';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -68,22 +68,22 @@ export default function Info() {
 
   const methods = useForm<PhoneNumberValue>({
     resolver: yupResolver(phoneNumberSchema),
+    mode: 'onBlur',
   });
   const {
     formState: { errors },
   } = methods;
 
-  const { register, handleSubmit } = methods;
+  const { register, handleSubmit, control } = methods;
 
   const onSubmit: SubmitHandler<PhoneNumberValue> = data => {
     const userEditData: UserEditProps = {
       nickname: userData.nickname,
-      phoneNumber: data.phoneNumber,
+      phoneNumber: data.phoneNumber || userData.phoneNumber,
       profileImage: userData.profileImage,
       isSubscribedToPromotions: userData.isSubscribedToPromotions,
       preferredPet: userData.preferredPet,
     };
-    console.log(data);
 
     const params: UserEditParams = {
       id: userData.id,
@@ -133,15 +133,24 @@ export default function Info() {
               background="background"
               placeholder={userData.email}
             />
-            <Input
-              id="phoneNumber"
-              type="tel"
-              size="large"
-              label="연락처"
-              isError={errors.phoneNumber && true}
-              labelStyle={'label'}
-              placeholder="000-0000-0000 형식으로 입력해주세요"
-              defaultValue={userData.phoneNumber}
+            <Controller
+              control={control}
+              render={({ field }) => (
+                <Input
+                  {...field}
+                  id="phoneNumber"
+                  type="tel"
+                  size="large"
+                  label="연락처"
+                  onBlur={() => {
+                    field.onBlur();
+                  }}
+                  isError={errors.phoneNumber && true}
+                  labelStyle={'label'}
+                  placeholder="000-0000-0000 형식으로 입력해주세요"
+                  defaultValue={userData.phoneNumber}
+                />
+              )}
               {...register('phoneNumber')}
             />
             {errors.phoneNumber && <span className={styles.errorText}>{errors.phoneNumber.message}</span>}
