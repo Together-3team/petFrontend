@@ -87,7 +87,7 @@ export default function ProductDetailPage({
   useEffect(() => {
     const handleUrlChange = async () => {
       try {
-        // await axiosInstance.delete('/selected-products/orders');
+        /// await axiosInstance.delete('/selected-products/orders');
         await httpClient().delete('/selected-products/orders');
       } catch (error) {
         console.error('요청 중 오류가 발생했습니다:', error);
