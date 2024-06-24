@@ -16,15 +16,4 @@
 
     color: $color-black;
   }
-
-  .divider {
-    background-color: $color-gray-50;
-    width: 100%;
-    height: 0.8rem;
-  }
-
-  .contents {
-    min-height: calc(100vh - 21.6rem);
-    padding: 2rem 0;
-  }
 }
