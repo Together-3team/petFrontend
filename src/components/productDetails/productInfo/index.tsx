@@ -25,10 +25,14 @@ export default function ProductInfo({ product }: { product: Product }) {
       </div>
       <div className={cx('productInfoContent')}>
         <h1 className={cx('title')}>{title}</h1>
-        <p className={cx('originalPrice')}>{originalPrice}원</p>
+        <p className={cx('originalPrice')}>
+          {originalPrice.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' }).replace('₩', '')}원
+        </p>
         <div style={{ display: 'flex', gap: '4px' }}>
           <span className={cx('discountRate')}>{discountRate}%</span>
-          <span className={cx('price')}>{price}원</span>
+          <span className={cx('price')}>
+            {price.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' }).replace('₩', '')}원
+          </span>
         </div>
         <div className={cx('review')}>
           <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>

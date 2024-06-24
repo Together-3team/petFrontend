@@ -37,7 +37,7 @@ export default function HighlightTeam({ product, showToast }: HighlightTeamProps
   const socket = io(`${process.env.NEXT_PUBLIC_API_BASE_URL}`);
 
   const handleShowAll = () => {
-    router.replace(`${product.id}/team`);
+    router.replace(`/products/${product.id}/team`);
   };
 
   useEffect(() => {
