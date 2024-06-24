@@ -2,12 +2,12 @@ import { useRouter } from 'next/router';
 import LeftArrow from '@/assets/svgs/left-arrow.svg';
 import styles from './BackButtonTemp.module.scss';
 
-interface BackButton {
+interface BackButtonTemp {
   href?: string;
   hasPrevPath?: boolean;
 }
 
-export default function BackButton({ href, hasPrevPath = true }: BackButton) {
+export default function BackButtonTemp({ href, hasPrevPath = true }: BackButtonTemp) {
   const router = useRouter();
   const prevPath = router.query?.prevPath;
 
