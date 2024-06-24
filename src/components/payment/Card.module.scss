@@ -27,7 +27,8 @@
   font-weight: 600;
 }
 
-.option {
+.optionContainer {
+  display: flex;
   font-size: 1.2rem;
   color: $color-gray-500;
   font-weight: 500;

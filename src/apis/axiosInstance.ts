@@ -24,12 +24,6 @@ const onRequest = (config: InternalAxiosRequestConfig) => {
 const onFulfilled = (res: AxiosResponse) => {
   const { method, url } = res.config;
   const { status, statusText } = res;
-
-  if (status === 200) {
-    console.log(`${method} - ${url} success: ${statusText}`);
-  } else {
-    console.log(`${method} - ${url} server error: ${statusText}`);
-  }
   return res;
 };
 
@@ -41,7 +35,6 @@ const onRejected = async (error: AxiosError | Error) => {
 
     if (error.response) {
       const { status } = error.response;
-      console.log(`${method} - ${url} error : ${status}`);
       if (status === 401 && originalRequest && !originalRequest._retry) {
         originalRequest._retry = true;
         try {

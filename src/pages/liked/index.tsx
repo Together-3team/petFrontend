@@ -54,11 +54,7 @@ export default function LikedPage() {
           </Header.Right>
         </Header.Box>
       </Header.Root>
-      <div className={styles.divider} />
-      <div className={styles.contents}>
-        <CardListZzim />
-      </div>
-      <GitHubBox />
+      <CardListZzim />
       <FloatingBox id={BOTTOM_BOX_ID}>
         <NavBottom />
         <FloatingActionBox>

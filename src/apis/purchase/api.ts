@@ -9,21 +9,10 @@ export interface PostPurchaseParams {
 }
 
 export interface PurchaseRdo {
-  id: number;
-  deliveryName: string;
-  recipient: string;
-  recipientPhoneNumber: string;
-  zipCode: number;
-  address: string;
-  detailedAddress: string;
-  deliveryMessage: string;
-  purchaseProducts: [PutProductRdo];
-  orderId: string;
-  paymentKey: string;
   paymentStatus: number;
 }
 
-export interface PutProductsParams {
+export interface PutProductsRdo {
   status: number;
   deliveryCompany: string;
   trackingNumber: string;
@@ -54,11 +43,11 @@ const purchaseApi = {
   post: (body: PostPurchaseParams) => {
     return axiosInstance.post<PurchaseRdo>(`/purchases`, body);
   },
-  putPaymentStatus: (id: number, body: number) => {
+  putPaymentStatus: (id: number, body: PurchaseRdo) => {
     return axiosInstance.put<PurchaseRdo>(`/purchases/${id}`, body);
   },
-  putPurchase: (id: number, body: PutProductsParams) => {
-    return axiosInstance.put<PutProductRdo>(`/purchases/products/${id}`, body);
+  putPurchase: (id: number, body: PutProductsRdo) => {
+    return axiosInstance.put<PutProductsRdo>(`/purchases/products/${id}`, body);
   },
   delete: async (id: number) => {
     const response = await axiosInstance.delete(`/purchases/${id}`);

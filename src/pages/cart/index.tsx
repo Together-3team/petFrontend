@@ -15,22 +15,12 @@ import { deleteAllProducts, deleteProductById, fetchCartProducts, updateProductQ
 import Header from '@/components/common/Layout/Header';
 import { useRouter } from 'next/router';
 import CardSliderRecommended from '@/components/common/Card/CardSlider/Recommended';
-
-export interface Product {
-  id: number;
-  productTitle: string;
-  option: string;
-  productCost: number;
-  originalCost: number;
-  combinationPrice: number;
-  productNumber: number;
-  imageUrl: string;
-  isChecked: boolean;
-}
+import { CartData } from '@/types/apis/product';
+import { setCartData, getCartData } from '@/queries/cartQueries';
 
 export default function Cart() {
   const BOTTOM_BOX_ID = 'bottomBox';
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<CartData[]>([]);
   const [selectAll, setSelectAll] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState<{ type: 'individual' | 'bulk'; id?: number } | null>(null);
@@ -197,13 +187,15 @@ export default function Cart() {
   // 버튼 클릭 (주문하기)
   function handleOrderButtonClick() {
     const selectedProducts = products.filter(product => product.isChecked);
-    sessionStorage.setItem('cartData', JSON.stringify(selectedProducts));
-    console.log('Cart data saved to sessionStorage:', selectedProducts);
+    setCartData(queryClient, selectedProducts);
     router.push('/payment');
   }
 
   const totalOriginalPrice = calculateTotalOriginalPrice();
   const totalPrice = calculateTotalPrice();
+  const discountAmount = totalOriginalPrice - totalPrice;
+  const formattedTotalPrice = totalPrice.toLocaleString('ko-KR');
+  const formattedDiscountAmount = discountAmount.toLocaleString('ko-KR');
   const productCount = products.filter(product => product.isChecked).length; // 전체 상품 수
 
   return (
@@ -237,6 +229,7 @@ export default function Cart() {
                 key={product.id}
                 productTitle={product.productTitle}
                 option={product.option}
+                combinationPrice={product.combinationPrice}
                 productCost={product.productCost}
                 originalCost={product.originalCost}
                 isChecked={product.isChecked}
@@ -276,10 +269,10 @@ export default function Cart() {
             backgroundColor="$color-pink-main"
             onClick={handleOrderButtonClick}
             disabled={totalPrice === 0}>
-            {totalPrice}원 주문하기
+            {formattedTotalPrice}원 주문하기
           </Button>
           <div className={styles.howMuchMinus}>
-            지금 구매하면 <span className={styles.pink}>-{totalOriginalPrice - totalPrice}원&nbsp;</span>할인돼요
+            지금 구매하면 <span className={styles.pink}>-{formattedDiscountAmount}원&nbsp;</span>할인돼요
           </div>
         </div>
       </FloatingBox>

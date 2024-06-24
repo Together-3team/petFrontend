@@ -1,5 +1,5 @@
+import { CartData } from '@/types/apis/product';
 import { httpClient } from './httpClient';
-import { Product } from '@/pages/cart';
 
 interface ProductResponse {
   id: number;
@@ -19,7 +19,7 @@ interface ProductResponse {
 }
 
 // 상품목록 GET
-export async function fetchCartProducts(): Promise<Product[]> {
+export async function fetchCartProducts(): Promise<CartData[]> {
   try {
     const response = await httpClient().get<ProductResponse[]>('/selected-products/carts');
     console.log(response);

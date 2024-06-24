@@ -1,9 +1,7 @@
 export default function getTagText(status: number | undefined) {
   switch (status) {
     case 0:
-      return '공동구매 대기';
-    case 1:
-      return '공동구매 완료';
+      return '주문 대기';
     case 2:
       return '주문 완료';
     case 3:

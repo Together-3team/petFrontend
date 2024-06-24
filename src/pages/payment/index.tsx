@@ -10,7 +10,6 @@ import Header from '@/components/common/Layout/Header';
 import BottomModal from '@/components/common/Modal/Base/BottomModal';
 import Input from '@/components/common/Input';
 import BackButton from '@/components/common/Button/BackButton';
-import { Product } from '@/pages/cart';
 import clock from '@/assets/images/clock.png';
 import Image from 'next/image';
 import { GetServerSidePropsContext } from 'next';
@@ -18,6 +17,10 @@ import { DeliveryInfo } from '@/types/components/delivery';
 import { httpClient } from '@/apis/httpClient';
 import OrderDeliveryCard from '@/components/order/OrderDeliveryCard';
 import { useRouter } from 'next/router';
+import { Product } from '@/types/apis/product';
+import { getCartData } from '@/queries/cartQueries';
+import { useQuery } from '@tanstack/react-query';
+import { queryClient } from '@/utils/queryClient';
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const accessToken = context.req.cookies['accessToken'];
@@ -49,18 +52,30 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
 export default function Payment({ defaultDelivery }: { defaultDelivery: DeliveryInfo | undefined }) {
   const [checkboxChecked, setCheckboxChecked] = useState(false);
-  const [price, setPrice] = useState(0); // 기본 가격 설정
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deliveryMessage, setDeliveryMessage] = useState('');
   const [products, setProducts] = useState<Product[]>([]);
-  const PAYMENT_SECRET_KEY = process.env.NEXT_PUBLIC_TOSS_PAYMENTS_SECRET_KEY;
   const [delivery, setDelivery] = useState(defaultDelivery);
   const router = useRouter();
-
-  console.log(PAYMENT_SECRET_KEY);
+  const { data: selectedProducts } = useQuery({
+    queryKey: ['cartData'],
+    queryFn: () => getCartData(queryClient),
+  });
 
   const clientKey = `${process.env.NEXT_PUBLIC_TOSS_PAYMENTS_SECRET_KEY}`;
   const orderId = nanoid(); // 주문 ID
+
+  useEffect(() => {
+    if (selectedProducts) {
+      setProducts(selectedProducts);
+    }
+  }, [selectedProducts]);
+
+  useEffect(() => {
+    if (!selectedProducts || selectedProducts.length === 0) {
+      router.push('/cart');
+    }
+  }, [selectedProducts, router]);
 
   const handlePayment = async () => {
     const firstProductTitle = products?.[0]?.productTitle || '';
@@ -86,26 +101,22 @@ export default function Payment({ defaultDelivery }: { defaultDelivery: Delivery
     });
   };
 
-  useEffect(() => {
-    const cartData = sessionStorage.getItem('cartData');
-    if (cartData) {
-      const parsedProducts = JSON.parse(cartData) as Product[];
-      setProducts(parsedProducts);
-      const calculatedPrice = parsedProducts.reduce(
-        (total, product) =>
-          total + product.productCost * product.productNumber + product.combinationPrice * product.productNumber,
-        0
-      );
-      setPrice(calculatedPrice);
-    }
-  }, []);
+  const totalPrice =
+    selectedProducts?.reduce((total, product) => {
+      return total + product.productCost * product.productNumber + product.combinationPrice * product.productNumber;
+    }, 0) ?? 0;
 
   function calculateTotalOriginalPrice() {
-    return products ? products.reduce((total, product) => total + product.originalCost * product.productNumber, 0) : 0;
+    return products
+      ? products.reduce(
+          (total, product) =>
+            total + product.originalCost * product.productNumber + product.combinationPrice * product.productNumber,
+          0
+        )
+      : 0;
   }
 
   const totalOriginalPrice = calculateTotalOriginalPrice();
-  const totalPrice = price;
   const productCount = products ? products.length : 0;
 
   useEffect(() => {
@@ -152,6 +163,7 @@ export default function Payment({ defaultDelivery }: { defaultDelivery: Delivery
           key={product.id}
           productTitle={product.productTitle}
           option={product.option}
+          combinationPrice={product.combinationPrice}
           productCost={product.productCost}
           originalCost={product.originalCost}
           productNumber={product.productNumber}
@@ -176,7 +188,7 @@ export default function Payment({ defaultDelivery }: { defaultDelivery: Delivery
             size="large"
             backgroundColor="$color-pink-main"
             onClick={handlePayment}
-            disabled={!checkboxChecked || !delivery || !deliveryMessage}>
+            disabled={!checkboxChecked || !delivery}>
             {totalPrice}원 주문하기
           </Button>
         </div>
