@@ -21,19 +21,19 @@ export default function TotalPay({ totalPrice, totalOriginalPrice, title, produc
         <div className={styles.individualCost}>
           <div className={`${styles.pricePair} ${styles.gray}`}>
             <div>원가</div>
-            <div>{formattedTotalOriginalPrice}원</div>
+            <div className={styles.priceBold}>{formattedTotalOriginalPrice}원</div>
           </div>
           <div className={styles.pricePair}>
             <div>할인 금액</div>
-            <div>-{formattedDiscountAmount}원</div>
+            <div className={styles.priceBold}>-{formattedDiscountAmount}원</div>
           </div>
           <div className={`${styles.pricePair} ${styles.pink}`}>
             <div>결제 금액</div>
-            <div>{formattedTotalPrice}원</div>
+            <div className={styles.priceBold}>{formattedTotalPrice}원</div>
           </div>
           <div className={styles.pricePair}>
             <div>배송비</div>
-            <div>무료배송</div>
+            <div className={styles.priceBold}>무료배송</div>
           </div>
         </div>
         <div className={styles.line}></div>
