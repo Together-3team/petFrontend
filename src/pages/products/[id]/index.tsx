@@ -32,6 +32,7 @@ const cx = classNames.bind(styles);
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const productId = context.params?.id;
   const open = context.query.open || null;
+  const groupId = context.query.groupid || null;
   let product;
   try {
     const res = await axiosInstance.get(`/products/detail/${productId}`);
@@ -45,11 +46,20 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     props: {
       product,
       open,
+      groupId,
     },
   };
 }
 
-export default function ProductDetailPage({ product, open }: { product: Product; open: string }) {
+export default function ProductDetailPage({
+  product,
+  open,
+  groupId,
+}: {
+  product: Product;
+  open: string;
+  groupId: number;
+}) {
   // const { modalOpen, handleModalOpen, handleModalClose } = useModal();
   const [isOpen, setIsOpen] = useState(!!open);
   const {
@@ -146,6 +156,7 @@ export default function ProductDetailPage({ product, open }: { product: Product;
         product={product}
         type={bottomSheetType}
         showToast={showToast}
+        groupBuyingId={groupId}
       />
       <LoginModal isOpen={secondModalOpen} onClose={handleSecondModalClose} />
     </div>

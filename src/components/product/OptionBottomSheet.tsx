@@ -11,11 +11,12 @@ import NumberInput from './NumberInput';
 import Button from '../common/Button';
 import { queryClient } from '@/utils/queryClient';
 import { ToastParameters } from '@/types/components/toast';
-import { Product as QueryProduct } from '@/types/apis/product';
+import { ProductWithSelectedProductId, Product as QueryProduct } from '@/types/apis/product';
 import { Product as ProductType } from '@/types/product';
 import X from '@/assets/svgs/btn-x.svg';
 import styles from './OptionBottomSheet.module.scss';
 import { cartQueries } from '@/apis/cart/queries';
+import { useQuery } from '@tanstack/react-query';
 
 const cx = classNames.bind(styles);
 
@@ -115,6 +116,11 @@ interface OptionBottomSheetProps {
   groupBuyingId?: number;
 }
 
+// const fetchOrders = async () => {
+//   const response = await axios.get('/selected-products/orders');
+//   return response.data;
+// };
+
 export default function OptionBottomSheet({
   isOpen,
   onClose,
@@ -180,6 +186,17 @@ export default function OptionBottomSheet({
     getOrders();
   }, []);
 
+  // const { data, error, isLoading, isError } = useQuery('orders', fetchOrders);
+
+  // useEffect(() => {
+  //   if (data) {
+  //     data.forEach((combo) => {
+  //       setSelectedOptionsObject((prev) => ({ [combo.optionCombination.id]: combo.quantity, ...prev }));
+  //       setSelectedOptions(combo.optionCombination.optionCombination.split(','));
+  //     });
+  //   }
+  // }, [data]);
+
   const formatOptions = (data: { id: number; optionValue: string }[]) => {
     return data.map(item => ({
       value: String(item.id),
@@ -231,11 +248,12 @@ export default function OptionBottomSheet({
   };
 
   const handleBuyButtonClick = async () => {
-    let productList: QueryProduct[] = [];
+    let productList: ProductWithSelectedProductId[] = [];
+    // {'1,2': 4, '2,4':5}
     for (let key of Object.keys(selectedOptionsObject)) {
       const selectedIds = key.split(',');
       const { combinationPrice, selectedCombinationName } = calculateCombinationPriceAndName(selectedIds);
-      const buyProduct: QueryProduct = {
+      const buyProduct: ProductWithSelectedProductId = {
         id: product.id,
         productTitle: product.title,
         option: selectedCombinationName,
@@ -244,12 +262,14 @@ export default function OptionBottomSheet({
         combinationPrice: combinationPrice,
         productNumber: selectedOptionsObject[key],
         imageUrl: product.thumbNailImage,
+        selectedProductId: ordersIdObject[key],
         ...(groupBuyingId && { groupBuyingId: groupBuyingId }),
       };
       productList.unshift(buyProduct);
     }
     queryClient.setQueryData(['cartData'], productList);
     const response = queryClient.getQueryData(['cartData']);
+    console.log(productList);
     router.push('/payment');
   };
 
@@ -295,6 +315,7 @@ export default function OptionBottomSheet({
           'selected-products/orders',
           postItem
         );
+        // '1,2':451
         setOrdersIdObject(prev => ({ ...prev, [selectedIds]: response.id }));
       }
     };
@@ -349,24 +370,24 @@ export default function OptionBottomSheet({
   ]);
 
   //페이지에서 벗어나면 selectedOptionsObject 초기화
-  useEffect(() => {
-    const handleBeforeUnload = async () => {
-      setSelectedOptionsObject({});
-      setCountChanged(false);
-      setProductOptionsOn(true);
-      try {
-        await httpClient().delete('selected-products/orders');
-      } catch (err) {
-        console.log(err);
-      }
-    };
+  // useEffect(() => {
+  //   const handleBeforeUnload = async () => {
+  //     setSelectedOptionsObject({});
+  //     setCountChanged(false);
+  //     setProductOptionsOn(true);
+  //     try {
+  //       await httpClient().delete('selected-products/orders');
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   };
 
-    window.addEventListener('beforeunload', handleBeforeUnload);
+  //   window.addEventListener('beforeunload', handleBeforeUnload);
 
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
-  }, [router.events]);
+  //   return () => {
+  //     window.removeEventListener('beforeunload', handleBeforeUnload);
+  //   };
+  // }, [router.events]);
 
   useEffect(() => {
     // productOptions가 업데이트될 때마다 dropdownOn을 다시 설정

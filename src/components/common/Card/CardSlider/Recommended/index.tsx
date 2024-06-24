@@ -8,6 +8,7 @@ import Card from '@/components/common/Card';
 import CardPlaceholder from '@/components/common/Card/CardPlaceholder';
 import { productsRecommendedQueries } from '@/apis/product/queries';
 import useAuth from '@/hooks/useAuth';
+import { useEffect } from 'react';
 
 interface CardSliderRecommendedProps {
   title: string;
@@ -40,6 +41,9 @@ export default function CardSliderRecommended({ title }: CardSliderRecommendedPr
     ...productsRecommendedQueries.queryOptions({ page: 1, pageSize: 8 }),
   });
 
+  useEffect(() => {
+    console.log(products);
+  }, [products]);
   return (
     <CardSlider.Root>
       <CardSlider.Header>
