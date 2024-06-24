@@ -8,12 +8,11 @@ import { useCookies } from 'react-cookie';
 import { yupResolver } from '@hookform/resolvers/yup';
 import classNames from 'classnames/bind';
 import signupFormSchema from '@/utils/signupFormSchema';
-import { ChangeEvent } from 'react';
 import Input from '@/components/common/Input';
 import Button from '@/components/common/Button';
 import UserAgreement from './UserAgreement';
 import authApi from '@/apis/authApi';
-import CheckNickname from '@/utils/checkNickname';
+import checkNickname from '@/utils/checkNickname';
 
 import styles from './SignupForm.module.scss';
 
@@ -55,30 +54,32 @@ export default function SignupForm() {
     mode: 'onBlur',
   });
   const {
-    formState: { errors },
+    formState: { isValid, errors },
+    setError,
   } = methods;
   const { register, handleSubmit, control } = methods;
   const onSubmit = (data: FormValues) => {
     console.log(data);
     mutation.mutate(data);
   };
-  console.log(errors);
 
   return (
     <FormProvider {...methods}>
       <form className={cx('signupForm')} onSubmit={handleSubmit(onSubmit)}>
         <div className={cx('inputArea')}>
-          <Input
-            id="email"
-            type="email"
-            size="large"
-            label="이메일"
-            labelStyle={'label'}
-            placeholder={email as string}
-            background="background"
-            readOnly
-            {...register}
-          />
+          <div>
+            <Input
+              id="email"
+              type="email"
+              size="large"
+              label="이메일"
+              labelStyle={'label'}
+              placeholder={email as string}
+              background="background"
+              readOnly
+              {...register}
+            />
+          </div>
           <div>
             <Controller
               control={control}
@@ -90,9 +91,9 @@ export default function SignupForm() {
                   size="large"
                   label="닉네임"
                   isError={errors.nickname && true}
-                  onBlur={async (e: ChangeEvent<HTMLInputElement>) => {
+                  onBlur={async e => {
                     field.onBlur();
-                    await CheckNickname(e);
+                    await checkNickname(e.target.value);
                   }}
                   labelStyle={'label'}
                   placeholder="2~8자의 한글, 영어, 숫자를 입력해주세요"
@@ -108,7 +109,7 @@ export default function SignupForm() {
               type="tel"
               size="large"
               label="연락처"
-              isError={errors.phoneNumber && true}
+              isError={!!errors.phoneNumber}
               labelStyle={'label'}
               placeholder="000-0000-0000 형식으로 입력해주세요"
               {...register('phoneNumber')}
@@ -130,15 +131,15 @@ export default function SignupForm() {
         </div>
         <div className={cx('buttonArea')}>
           <div className={cx('ageCheck')}>
-            <div className={cx('ageCheckInput')}>
+            <label className={cx('ageCheckInput')}>
               <input id="ageCheck" type="checkbox" className={cx('checkBox')} {...register('ageCheck')} />
               <span className={cx('ageCheckText')}>본인은 만 14세 이상입니다.</span>
               {errors.ageCheck && (
                 <span className={cx('errorText', 'ageCheckErrorText')}>{errors.ageCheck.message}</span>
               )}
-            </div>
+            </label>
           </div>
-          <Button type="submit" size="large" backgroundColor="$color-pink-main">
+          <Button type="submit" size="large" backgroundColor="$color-pink-main" disabled={!isValid}>
             가입하기
           </Button>
         </div>

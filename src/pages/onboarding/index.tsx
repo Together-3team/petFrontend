@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { GetServerSidePropsContext } from 'next';
-import { QueryClient, dehydrate, useMutation } from '@tanstack/react-query';
+import { QueryClient, dehydrate, useMutation, useQueryClient } from '@tanstack/react-query';
 import { FieldValues, FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import useAuth from '@/hooks/useAuth';
 import { UserEditParams, UserEditProps, fetchMyData, userApi } from '@/apis/userApi';
@@ -16,8 +16,8 @@ import styles from './Onboarding.module.scss';
 
 export default function Onboarding() {
   const { userData } = useAuth();
-
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const [dogChecked, setDogChecked] = useState(false);
   const [catChecked, setCatChecked] = useState(false);
@@ -30,6 +30,9 @@ export default function Onboarding() {
     },
     onSuccess: data => {
       console.log(data);
+      queryClient.invalidateQueries({
+        queryKey: ['user'],
+      });
     },
     onError: error => {
       console.error('반려동물 선택 실패', error);

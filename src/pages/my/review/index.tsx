@@ -113,7 +113,7 @@ export default function Review() {
       <Header.Root>
         <Header.Box>
           <Header.Left>
-            <BackButton />
+            <BackButton href="/my" />
           </Header.Left>
           <h1>내 리뷰</h1>
         </Header.Box>
