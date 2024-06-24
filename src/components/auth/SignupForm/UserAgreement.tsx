@@ -1,6 +1,6 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useEffect } from 'react';
 import Link from 'next/link';
-import { useFormContext } from 'react-hook-form';
+import { useFormContext, useWatch } from 'react-hook-form';
 import classNames from 'classnames/bind';
 import { FormValues } from '.';
 import CheckOnly from '@/components/common/CheckOnly';
@@ -9,7 +9,10 @@ import styles from './UserAgreement.module.scss';
 const cx = classNames.bind(styles);
 
 export default function UserAgreement() {
-  const { reset } = useFormContext<FormValues>();
+  const { reset, control } = useFormContext<FormValues>();
+
+  const values = useWatch({ control });
+  const { serviceAgreement, privatePolicy, isSubscribedToPromotions } = values;
 
   function handleSelectAll(e: ChangeEvent<HTMLInputElement>) {
     const isChecked = e.target.checked;
@@ -20,17 +23,22 @@ export default function UserAgreement() {
         privatePolicy: isChecked,
         isSubscribedToPromotions: isChecked,
       }),
-      { keepDefaultValues: true }
+      { keepDefaultValues: true, keepErrors: true }
     );
   }
 
   return (
     <div className={cx('userAgreement')}>
       <span className={cx('agreementTitle')}>이용약관</span>
-      <div className={cx('allAgreement')}>
-        <input type="checkbox" className={cx('checkBox')} onChange={handleSelectAll} />
+      <label className={cx('allAgreement')}>
+        <input
+          type="checkbox"
+          className={cx('checkBox')}
+          onChange={handleSelectAll}
+          checked={serviceAgreement && privatePolicy && isSubscribedToPromotions}
+        />
         <span className={cx('allAgreementText')}>전체 동의</span>
-      </div>
+      </label>
       <div>
         <div className={cx('agreementBox')}>
           <div className={cx('agreement')}>
