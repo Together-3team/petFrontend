@@ -24,6 +24,7 @@ export interface ProductInfo {
   combinationName?: string;
   status?: number;
   paymentStatus?: number;
+  isZzimed?: boolean;
 }
 
 interface CardProps {
@@ -58,6 +59,7 @@ export default function Card({
     quantity,
     option,
     stock,
+    isZzimed,
   } = productInfo;
 
   const discountRate = Math.ceil((1 - price / originalPrice) * 100);
@@ -91,7 +93,7 @@ export default function Card({
           }
           onError={handleImgError}
         />
-        {isZzim && <Zzim className={cx('zzim')} color="white" productId={productId} />}
+        {isZzim && <Zzim className={cx('zzim')} color="white" initialIsZzimed={isZzimed} productId={productId} />}
       </div>
       <div className={cx('cardContent')} data-direction={direction} data-size={size}>
         {size === 'miniImage' && tagText && (

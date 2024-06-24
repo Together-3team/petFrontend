@@ -13,3 +13,7 @@ export interface Product {
 export interface CartData extends Product {
   isChecked: boolean;
 }
+
+export interface ProductWithSelectedProductId extends Product {
+  selectedProductId: number;
+}
