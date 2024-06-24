@@ -157,7 +157,7 @@ export default function Profile() {
         <form className={styles.profileForm} onSubmit={handleSubmit(onSubmit)}>
           <div className={styles.formField}>
             <div className={styles.profileImageBox}>
-              <div className={styles.profileImage}>
+              <div className={styles.profileImage} onClick={handleClickOpen}>
                 <ProfileImgBadge
                   size="large"
                   profileImage={profileImageUrl ? profileImageUrl.split('?')[0] : userData.profileImage.split('?')[0]}
