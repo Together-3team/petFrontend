@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import classNames from 'classnames/bind';
-import purchaseApi from '@/apis/purchase/api';
+import purchaseApi, { PutProductsRdo } from '@/apis/purchase/api';
 import formatDate from '@/utils/formatDate';
 import Loading from '@/components/common/Loading';
 import useToast from '@/hooks/useToast';
@@ -26,7 +26,6 @@ export default function Order() {
 
   const { data: purchaseData } = useQuery({ queryKey: ['purchase'], queryFn: purchaseApi.getPurchase });
   console.log(purchaseData);
-
   const filteredPurchaseProductsData = purchaseData?.data.flatMap((item: PurchaseDataProps) =>
     item.purchaseProducts.filter((product: ProductInfo) => (filterId === 0 ? true : product.status === filterId - 1))
   );
@@ -50,9 +49,24 @@ export default function Order() {
     },
   });
 
-  async function handleCancelPurchase(id: number) {
+  const { mutateAsync: mutation } = useMutation({
+    mutationKey: ['changePurchaseStatus'],
+    mutationFn: async ({ id, body }: { id: number; body: PutProductsRdo }) => {
+      const response = await purchaseApi.putPurchase(id, body);
+      return response;
+    },
+  });
+
+  async function handleCancelPurchase(purchaseId: number) {
     try {
-      await cancelMutation.mutateAsync(id);
+      await mutation({
+        id: purchaseId,
+        body: {
+          status: 6,
+          deliveryCompany: 'string',
+          trackingNumber: 'string',
+        },
+      });
       showToast({ status: 'success', message: '해당 상품 주문을 취소했습니다.' });
     } catch (error) {
       showToast({ status: 'error', message: '오류가 발생했습니다. 다시 한 번 시도해 주세요.' });
@@ -60,19 +74,16 @@ export default function Order() {
     }
   }
 
-  console.log(filteredPurchaseProductsData);
-
-  const { mutateAsync: mutation } = useMutation({
-    mutationKey: ['changePurchaseStatus'],
-    mutationFn: async ({ id, body }: { id: number; body: number }) => {
-      const response = await purchaseApi.putPaymentStatus(id, body);
-      return response;
-    },
-  });
-
   async function handleExchangeOrRefund(purchaseId: number) {
     try {
-      await mutation({ id: purchaseId, body: 6 });
+      await mutation({
+        id: purchaseId,
+        body: {
+          status: 6,
+          deliveryCompany: '우체국 택배',
+          trackingNumber: '111',
+        },
+      });
       showToast({ status: 'success', message: '교환/환불을 진행 중입니다.' });
     } catch (error) {
       showToast({ status: 'error', message: '오류가 발생했습니다. 다시 한 번 시도해 주세요.' });
@@ -91,11 +102,7 @@ export default function Order() {
     });
   }
 
-  const purchaseId = purchaseData?.data.map((item: PurchaseDataProps) => {
-    return item.id;
-  });
-
-  const firstButton = [
+  const firstButton = (purchaseId: number) => [
     {
       id: 1,
       name: '주문 취소',
@@ -104,17 +111,17 @@ export default function Order() {
     },
     { id: 2, name: '교환/환불', disabled: false, onClick: () => handleExchangeOrRefund(purchaseId) },
     { id: 3, name: '교환/환불', disabled: false, onClick: () => handleExchangeOrRefund(purchaseId) },
-    { id: 4, name: '배송 조회', disabled: false, onClick: () => handleCheckDeliver() },
+    { id: 4, name: '배송 조회', disabled: false, onClick: handleCheckDeliver },
   ];
 
-  const secondButton = [
-    { id: 1, name: '배송 조회', disabled: true, onClick: () => handleCheckDeliver() },
-    { id: 2, name: '배송 조회', disabled: false, onClick: () => handleCheckDeliver() },
-    { id: 3, name: '배송 조회', disabled: false, onClick: () => handleCheckDeliver() },
+  const secondButton = (purchaseId: number) => [
+    { id: 1, name: '배송 조회', disabled: true, onClick: handleCheckDeliver },
+    { id: 2, name: '배송 조회', disabled: false, onClick: handleCheckDeliver },
+    { id: 3, name: '배송 조회', disabled: false, onClick: handleCheckDeliver },
     { id: 4, name: '교환/환불', disabled: true, onClick: () => handleExchangeOrRefund(purchaseId) },
   ];
 
-  const thirdButton = [
+  const thirdButton = (purchaseId: number) => [
     { id: 1, name: '리뷰 쓰기', disabled: true, onClick: () => handleWriteReview() },
     { id: 2, name: '리뷰 쓰기', disabled: true, onClick: () => handleWriteReview() },
     { id: 3, name: '리뷰 쓰기', disabled: false, onClick: () => handleWriteReview() },
@@ -194,7 +201,11 @@ export default function Order() {
                             href={`/my/order/${purchase.id}`}
                             productInfo={{ ...purchase, stock: 3, option: purchase.combinationName }}
                             status={purchase.status as number}
-                            buttons={[firstButton, secondButton, thirdButton]}
+                            buttons={[
+                              firstButton(purchase.id as number),
+                              secondButton(purchase.id as number),
+                              thirdButton(purchase.id as number),
+                            ]}
                             tagText={getTagText(purchase.status)}
                           />
                         ))}
