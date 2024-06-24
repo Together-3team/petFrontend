@@ -518,7 +518,7 @@ export default function OptionBottomSheet({
         </>
       )}
       {type !== 'cartPurchase' && !productOptionsOn && (
-        <div>
+        <div className={cx('purchaseOnlyButton')}>
           <Button size="large" backgroundColor="$color-pink-main" onClick={handleBuyButtonClick}>
             바로구매
           </Button>
