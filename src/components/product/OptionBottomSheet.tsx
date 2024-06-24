@@ -11,7 +11,7 @@ import NumberInput from './NumberInput';
 import Button from '../common/Button';
 import { queryClient } from '@/utils/queryClient';
 import { ToastParameters } from '@/types/components/toast';
-import { ProductWithSelectedProductId, Product as QueryProduct } from '@/types/apis/product';
+import { Product as QueryProduct } from '@/types/apis/product';
 import { Product as ProductType } from '@/types/product';
 import X from '@/assets/svgs/btn-x.svg';
 import styles from './OptionBottomSheet.module.scss';
@@ -248,12 +248,12 @@ export default function OptionBottomSheet({
   };
 
   const handleBuyButtonClick = async () => {
-    let productList: ProductWithSelectedProductId[] = [];
+    let productList: QueryProduct[] = [];
     // {'1,2': 4, '2,4':5}
     for (let key of Object.keys(selectedOptionsObject)) {
       const selectedIds = key.split(',');
       const { combinationPrice, selectedCombinationName } = calculateCombinationPriceAndName(selectedIds);
-      const buyProduct: ProductWithSelectedProductId = {
+      const buyProduct: QueryProduct = {
         id: product.id,
         productTitle: product.title,
         option: selectedCombinationName,
@@ -265,6 +265,7 @@ export default function OptionBottomSheet({
         selectedProductId: ordersIdObject[key],
         ...(groupBuyingId && { groupBuyingId: groupBuyingId }),
       };
+      console.log(ordersIdObject);
       productList.unshift(buyProduct);
     }
     queryClient.setQueryData(['cartData'], productList);
@@ -318,6 +319,7 @@ export default function OptionBottomSheet({
         );
         // '1,2':451
         setOrdersIdObject(prev => ({ ...prev, [selectedIds]: response.id }));
+        console.log(response);
       }
     };
 

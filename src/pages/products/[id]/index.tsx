@@ -84,21 +84,21 @@ export default function ProductDetailPage({
   }, []);
 
   //페이지에서 벗어나면 주문 목록 초기화
-  useEffect(() => {
-    const handleUrlChange = async () => {
-      try {
-        // await axiosInstance.delete('/selected-products/orders');
-        await httpClient().delete('/selected-products/orders');
-      } catch (error) {
-        console.error('요청 중 오류가 발생했습니다:', error);
-      }
-    };
-    router.events.on('routeChangeStart', handleUrlChange);
+  // useEffect(() => {
+  //   const handleUrlChange = async () => {
+  //     try {
+  //       // await axiosInstance.delete('/selected-products/orders');
+  //       await httpClient().delete('/selected-products/orders');
+  //     } catch (error) {
+  //       console.error('요청 중 오류가 발생했습니다:', error);
+  //     }
+  //   };
+  //   router.events.on('routeChangeStart', handleUrlChange);
 
-    return () => {
-      router.events.off('routeChangeStart', handleUrlChange);
-    };
-  }, [router.events]);
+  //   return () => {
+  //     router.events.off('routeChangeStart', handleUrlChange);
+  //   };
+  // }, [router.events]);
 
   return (
     <div className={cx('layout')}>

@@ -17,7 +17,7 @@ import { DeliveryInfo } from '@/types/components/delivery';
 import { httpClient } from '@/apis/httpClient';
 import OrderDeliveryCard from '@/components/order/OrderDeliveryCard';
 import { useRouter } from 'next/router';
-import { Product } from '@/types/apis/product';
+import { CartData, Product } from '@/types/apis/product';
 import { getCartData } from '@/queries/cartQueries';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Product as QueryProduct } from '@/types/apis/product';
@@ -85,7 +85,16 @@ export default function Payment({ defaultDelivery }: { defaultDelivery: Delivery
     const remainingProductCount = (products?.length || 0) - 1;
     const orderName =
       remainingProductCount > 0 ? `${firstProductTitle} 외 ${remainingProductCount}건` : firstProductTitle;
-    const selectedProductIds = products.map(product => product.id).join(',');
+    const selectedProductIds = products
+      .map(product => {
+        console.log(product);
+        if (product.selectedProductId) {
+          return product.selectedProductId;
+        }
+        return product.id;
+      })
+      .join(',');
+    console.log(selectedProductIds);
     const deliveryMessageValue = deliveryMessage;
     sessionStorage.setItem('deliveryMessage', deliveryMessageValue);
     sessionStorage.setItem('selectedProductIds', selectedProductIds);

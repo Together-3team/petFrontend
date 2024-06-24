@@ -7,13 +7,10 @@ export interface Product {
   combinationPrice: number;
   productNumber: number;
   imageUrl: string;
+  selectedProductId: number;
   groupBuyingId?: number;
 }
 
 export interface CartData extends Product {
   isChecked: boolean;
-}
-
-export interface ProductWithSelectedProductId extends Product {
-  selectedProductId: number;
 }

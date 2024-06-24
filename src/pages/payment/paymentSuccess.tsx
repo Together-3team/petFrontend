@@ -35,7 +35,7 @@ export default function PaymentSuccess() {
             orderId: orderId as string,
             paymentKey: paymentKey as string,
             amount: amountValue,
-            selectedProductIds: selectedProductIds,
+            selectedProductIds,
             groupBuyingId: gbiValue,
             deliveryId: deliveryIdValue,
           };
