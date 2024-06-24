@@ -1,6 +1,10 @@
 @layer components {
-  .container {
+  .layout {
     width: 100%;
+  }
+
+  .container {
+    padding: 0 1.6rem;
   }
 
   .list {
@@ -8,5 +12,37 @@
     grid-template-columns: repeat(2, 1fr);
     row-gap: 2rem;
     column-gap: 1.6rem;
+    justify-content: center;
+  }
+
+  .item {
+    justify-self: center;
+  }
+
+  .divider {
+    background-color: $color-gray-50;
+    width: 100%;
+    height: 0.8rem;
+    margin-top: 0.8rem;
+    margin-bottom: 2rem;
+  }
+
+  .notFoundContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 2.4rem;
+  }
+
+  .notFoundBox {
+    @include font-body5;
+
+    background-color: $color-gray-50;
+    color: $color-gray-400;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 16rem;
+    margin: 0.8rem 0;
   }
 }
