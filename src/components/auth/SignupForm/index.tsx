@@ -68,17 +68,19 @@ export default function SignupForm() {
     <FormProvider {...methods}>
       <form className={cx('signupForm')} onSubmit={handleSubmit(onSubmit)}>
         <div className={cx('inputArea')}>
-          <Input
-            id="email"
-            type="email"
-            size="large"
-            label="이메일"
-            labelStyle={'label'}
-            placeholder={email as string}
-            background="background"
-            readOnly
-            {...register}
-          />
+          <div>
+            <Input
+              id="email"
+              type="email"
+              size="large"
+              label="이메일"
+              labelStyle={'label'}
+              placeholder={email as string}
+              background="background"
+              readOnly
+              {...register}
+            />
+          </div>
           <div>
             <Controller
               control={control}
