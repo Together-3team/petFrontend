@@ -31,7 +31,14 @@ export default function ProductCarousel({ images }: ProductCarouselProps) {
         <div className={styles.carousel}>
           {items.map((item, index) => (
             <div key={index} className={styles.slide}>
-              <Image src={item} alt={'productImages'} fill />
+              <Image
+                src={item}
+                alt={'productImages'}
+                fill
+                style={{ objectFit: 'cover' }}
+                sizes="(max-width: 430px) 100vw, 430px"
+                priority
+              />
             </div>
           ))}
         </div>

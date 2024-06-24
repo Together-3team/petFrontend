@@ -4,7 +4,6 @@ import styles from './Cart.module.scss';
 import Card from '@/components/cart/Card';
 import TotalPay from '@/components/cart/TotalPay';
 import Button from '@/components/common/Button';
-import BackButton from '@/components/common/Button/BackButton';
 import BottomModal from '@/components/common/Modal/Base/BottomModal';
 import FloatingBox from '@/components/common/Layout/Footer/FloatingBox';
 import useToast from '@/hooks/useToast';
@@ -17,6 +16,8 @@ import { useRouter } from 'next/router';
 import CardSliderRecommended from '@/components/common/Card/CardSlider/Recommended';
 import { CartData } from '@/types/apis/product';
 import { setCartData, getCartData } from '@/queries/cartQueries';
+import BackButtonTemp from '@/components/common/Button/BackButtonTemp';
+import { cartQueries } from '@/apis/cart/queries';
 
 export default function Cart() {
   const BOTTOM_BOX_ID = 'bottomBox';
@@ -107,6 +108,8 @@ export default function Cart() {
         status: 'error',
         message: '상품 삭제에 실패했습니다',
       });
+    } finally {
+      cartQueries.invalidateQueries();
     }
   }
 
@@ -203,7 +206,7 @@ export default function Cart() {
       <Header.Root className={styles.headerRoot}>
         <Header.Box>
           <Header.Left>
-            <BackButton />
+            <BackButtonTemp />
           </Header.Left>
           <Header.Center className={styles.headerName}>장바구니</Header.Center>
         </Header.Box>

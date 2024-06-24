@@ -1,20 +1,19 @@
-import Image from 'next/image';
 import classNames from 'classnames/bind';
-import styles from './ProductInfo.module.scss';
-import { useEffect, useState } from 'react';
+
 import StarRating from '@/components/common/review/StarRating';
 import Tag from '@/components/common/Tag';
-import BannerCarousel from '@/components/common/Carousel/Banner';
 import ProductCarousel from '@/components/common/Carousel/Product';
-import Delivery from '@/assets/svgs/delivery.svg';
 import getFutureDate from '@/utils/getFutureDate';
 import { Product } from '@/types/product';
+import Delivery from '@/assets/svgs/delivery.svg';
+import styles from './ProductInfo.module.scss';
 
 const cx = classNames.bind(styles);
 
 export default function ProductInfo({ product }: { product: Product }) {
   const { detail, title, originalPrice, price, averageRating, reviewCount, totalAmount } = product;
   let productImages: string[] = [];
+
   const discountRate = Math.ceil((1 - price / originalPrice) * 100);
   const futureDate = getFutureDate(3);
   return (
@@ -24,15 +23,19 @@ export default function ProductInfo({ product }: { product: Product }) {
       </div>
       <div className={cx('productInfoContent')}>
         <h1 className={cx('title')}>{title}</h1>
-        <p className={cx('originalPrice')}>{originalPrice}원</p>
+        <p className={cx('originalPrice')}>
+          {originalPrice.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' }).replace('₩', '')}원
+        </p>
         <div style={{ display: 'flex', gap: '4px' }}>
           <span className={cx('discountRate')}>{discountRate}%</span>
-          <span className={cx('price')}>{price}원</span>
+          <span className={cx('price')}>
+            {price.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' }).replace('₩', '')}원
+          </span>
         </div>
         <div className={cx('review')}>
           <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
-            <StarRating rating={averageRating} />
-            <span className={cx('reviewRating')}>{averageRating}</span>
+            <StarRating rating={Math.round(averageRating)} />
+            <span className={cx('reviewRating')}>{Math.round(averageRating * 10) / 10}</span>
           </div>
           <span className={cx('reviewCount')}>리뷰 {reviewCount}개</span>
         </div>

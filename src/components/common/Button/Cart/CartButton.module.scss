@@ -1,9 +1,12 @@
 @layer components {
   .container {
+    background-color: transparent;
+    border: none;
     position: relative;
     display: inline-flex;
     justify-content: center;
     align-items: center;
+    padding: 0;
   }
 
   .count {

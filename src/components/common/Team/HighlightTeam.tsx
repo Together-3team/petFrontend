@@ -1,24 +1,48 @@
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { io } from 'socket.io-client';
+
 import TeamDataCard from './TeamDataCard';
 import { httpClient } from '@/apis/httpClient';
 import { GroupBuyingData } from '@/types/apis/groupBuying';
+import useAuth from '@/hooks/useAuth';
+import useModal from '@/hooks/useModal';
+import LoginModal from '../Modal/LoginModal';
+import OptionBottomSheet from '@/components/product/OptionBottomSheet';
+import { Product } from '@/types/product';
+import { ToastParameters } from '@/types/components/toast';
 import styles from './HighlightTeam.module.scss';
 
 interface HighlightTeamProps {
-  productId: number;
+  product: Product;
+  showToast: (toast: ToastParameters) => void;
 }
 
-export default function HighlightTeam({ productId }: HighlightTeamProps) {
+export default function HighlightTeam({ product, showToast }: HighlightTeamProps) {
   const [teamData, setTeamData] = useState<GroupBuyingData[]>([]);
-
+  const { isLogin } = useAuth();
+  const { modalOpen, handleModalOpen, handleModalClose } = useModal();
+  const {
+    modalOpen: secondModalOpen,
+    handleModalOpen: handleSecondModalOpen,
+    handleModalClose: handleSecondModalClose,
+  } = useModal();
+  // const {
+  //   modalOpen: thirdModalOpen,
+  //   handleModalOpen: handleThirdModalOpen,
+  //   handleModalClose: handleThirdModalClose,
+  // } = useModal();
+  const router = useRouter();
   const socket = io(`${process.env.NEXT_PUBLIC_API_BASE_URL}`);
+
+  const handleShowAll = () => {
+    router.replace(`/products/${product.id}/team`);
+  };
 
   useEffect(() => {
     const fetchGroupBuyingData = async () => {
       try {
-        const response = await httpClient().get<GroupBuyingData[]>(`group-buying/${productId}`);
+        const response = await httpClient().get<GroupBuyingData[]>(`group-buying/${product.id}`);
         setTeamData(response.slice(0, 3));
       } catch (error) {
         console.log(error);
@@ -28,17 +52,17 @@ export default function HighlightTeam({ productId }: HighlightTeamProps) {
     fetchGroupBuyingData();
 
     // 소켓 이벤트 처리
-    socket.emit('subscribeToProduct', productId);
+    socket.emit('subscribeToProduct', product.id);
     socket.on('productUpdate', update => {
       console.log(update);
       fetchGroupBuyingData();
     });
 
     return () => {
-      socket.emit('unsubscribeFromProduct', productId);
+      socket.emit('unsubscribeFromProduct', product.id);
       socket.off('productUpdate');
     };
-  }, [productId]);
+  }, [product.id]);
 
   return (
     <section className={styles.highlightTeamLayout}>
@@ -50,19 +74,32 @@ export default function HighlightTeam({ productId }: HighlightTeamProps) {
         <>
           <div className={styles.teamBox}>
             {teamData.map(data => (
-              <TeamDataCard key={data.id} data={data} />
+              <TeamDataCard key={data.id} data={data} product={product} />
             ))}
           </div>
-          <Link className={styles.allTeamLinkBtn} href={`${productId}/team`}>
+          <button type="button" className={styles.allTeamLinkBtn} onClick={handleShowAll}>
             참여자 전체보기
-          </Link>
+          </button>
         </>
       ) : (
         <div className={styles.noTeamBox}>
           <p className={styles.noTeamText}>아직 생성된 공동구매가 없어요</p>
-          <button className={styles.participationBtn}>내가 먼저 주문하기</button>
+          <button
+            type="button"
+            className={styles.participationBtn}
+            onClick={isLogin ? handleSecondModalOpen : handleModalOpen}>
+            내가 먼저 주문하기
+          </button>
         </div>
       )}
+      <LoginModal isOpen={modalOpen} onClose={handleModalClose} />
+      <OptionBottomSheet
+        isOpen={secondModalOpen}
+        onClose={handleSecondModalClose}
+        product={product}
+        type="cartPurchase"
+        showToast={showToast}
+      />
     </section>
   );
 }

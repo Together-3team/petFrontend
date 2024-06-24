@@ -43,7 +43,7 @@ export async function fetchCartProducts(): Promise<CartData[]> {
 // 상품 전체 DELETE
 export async function deleteAllProducts() {
   try {
-    await httpClient().delete(`/selected-products/orders`);
+    await httpClient().delete(`/selected-products/carts`);
     console.log(`Products all deleted successfully`);
   } catch (error) {
     console.error(`Failed to delete: `, error);

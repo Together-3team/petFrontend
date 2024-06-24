@@ -30,6 +30,25 @@ interface Info {
   createdAt: Date;
 }
 
+interface Zzim {
+  zzim_id: number;
+  zzim_createdAt: Date;
+  zzim_userId: number;
+  zzim_productId: number;
+  product_id: number;
+  product_title: string;
+  product_originalPrice: number;
+  product_price: number;
+  product_thumbNailImage: string;
+  product_isDeleted: number;
+  product_petType: number;
+  product_productType: number;
+  product_createdAt: Date;
+  product_updatedAt: Date;
+  product_detailId: number;
+  product_categoryId: null;
+}
+
 export const getLikeStatus = async (productId: number) => {
   const response = await axiosInstance.get(`/zzims`);
   if (response.status === 200) {
@@ -54,9 +73,15 @@ export const likeProduct = async (productId: number) => {
 };
 
 export const unlikeProduct = async (productId: number) => {
-  const response = await axiosInstance.delete(`/zzims/${productId}`);
+  // const response = await axiosInstance.get('/zzims');
+  // const data = response.data;
+  // const zzimedProduct = data.find((data: Zzim) => {
+  //   return data.product_id === productId;
+  // });
 
-  if (!(response.status >= 200 && response.status < 300)) {
+  const deleteResponse = await axiosInstance.delete(`/zzims/${productId}`);
+
+  if (!(deleteResponse.status >= 200 && deleteResponse.status < 300)) {
     throw new Error('상품 찜 해제하기에 실패했습니다.');
   }
 };

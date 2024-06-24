@@ -1,0 +1,50 @@
+.input {
+  display: flex;
+}
+
+.leftButton,
+.rightButton {
+  display: flex;
+  width: 2.4rem;
+  height: 2.4rem;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background: $color-gray-50;
+  padding: 0;
+}
+
+.leftButton {
+  border-top-left-radius: 0.6rem;
+  border-bottom-left-radius: 0.6rem;
+}
+
+.rightButton {
+  border-top-right-radius: 0.6rem;
+  border-bottom-right-radius: 0.6rem;
+}
+
+.icon {
+  width: 100%;
+  height: 100%;
+}
+
+.number {
+  display: flex;
+  width: 3.2rem;
+  height: 2.4rem;
+  padding: 0.8rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.8rem;
+  border-radius: 0.6rem;
+  border: 0.1rem solid $color-gray-300;
+  background: white;
+}
+
+.numberBackground {
+  background: $color-gray-50;
+  width: 3.2rem;
+  height: 2.4rem;
+}

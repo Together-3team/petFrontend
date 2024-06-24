@@ -9,13 +9,13 @@ import useAuth from '@/hooks/useAuth';
 import { cartQueries } from '@/apis/cart/queries';
 import { useEffect } from 'react';
 
-interface CartButtonProps extends Partial<LinkProps> {
+interface CartButtonProps {
   className?: string;
 }
 
 const cx = classNames.bind(styles);
 
-export default function CartButton({ className, ...rest }: CartButtonProps) {
+export default function CartButton({ className }: CartButtonProps) {
   const router = useRouter();
   const { isLogin } = useAuth();
   const { data: cart } = useQuery({
@@ -25,6 +25,11 @@ export default function CartButton({ className, ...rest }: CartButtonProps) {
 
   const cartCount = cart?.length || 0;
 
+  const handleClick = () => {
+    cartQueries.invalidateQueries();
+    router.push('/cart');
+  };
+
   useEffect(() => {
     if (!isLogin) {
       cartQueries.removeQueries();
@@ -32,18 +37,9 @@ export default function CartButton({ className, ...rest }: CartButtonProps) {
   }, [isLogin]);
 
   return (
-    <Link
-      href={{
-        pathname: '/cart',
-        query: {
-          prevPath: router.asPath,
-        },
-      }}
-      as="/cart"
-      className={cx('container', className)}
-      {...rest}>
+    <button type="button" className={cx('container', className)} onClick={handleClick}>
       <span className={styles.count}>{cartCount}</span>
       <CartIcon />
-    </Link>
+    </button>
   );
 }
