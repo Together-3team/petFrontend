@@ -226,7 +226,7 @@ export default function Cart() {
                 key={product.id}
                 productTitle={product.productTitle}
                 option={product.option}
-                optionCost={product.optionCost}
+                combinationPrice={product.combinationPrice}
                 productCost={product.productCost}
                 originalCost={product.originalCost}
                 isChecked={product.isChecked}
