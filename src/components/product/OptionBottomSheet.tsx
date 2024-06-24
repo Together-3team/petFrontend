@@ -238,7 +238,6 @@ export default function OptionBottomSheet({
         id: product.id,
         productTitle: product.title,
         option: selectedCombinationName,
-        optionCost: 0,
         productCost: product.price,
         originalCost: product.originalPrice,
         combinationPrice: combinationPrice,

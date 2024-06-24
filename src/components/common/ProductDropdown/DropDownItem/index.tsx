@@ -10,7 +10,6 @@ type TItemProps = {
 
 function DropDownItem({ data }: TItemProps) {
   const { label } = data;
-  console.log(data);
   return (
     <div className={styles.wrap}>
       <div className={`${styles.box}`}>
