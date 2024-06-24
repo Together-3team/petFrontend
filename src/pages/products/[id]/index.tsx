@@ -23,6 +23,7 @@ import useAuth from '@/hooks/useAuth';
 import { useEffect } from 'react';
 import { httpClient } from '@/apis/httpClient';
 import useToast from '@/hooks/useToast';
+import FloatingBox from '@/components/common/Layout/Footer/FloatingBox';
 
 const cx = classNames.bind(styles);
 
@@ -102,19 +103,22 @@ export default function ProductDetailPage({ product }: { product: Product }) {
         </div>
         <OrderPolicy productId={productId} />
       </div>
-      <div className={cx('fixedCta')} id="fixedCta">
-        <div className={cx('zzim')}>
-          <Zzim color="gray" productId={productId} initialIsZzimed={product ? product.isZzimed : undefined} />
+
+      <FloatingBox id="fixedCta">
+        <div className={cx('fixedCta')}>
+          <div className={cx('zzim')}>
+            <Zzim color="gray" productId={productId} initialIsZzimed={product ? product.isZzimed : undefined} />
+          </div>
+          <div className={cx('button')}>
+            <Button
+              size="large"
+              backgroundColor="$color-pink-main"
+              onClick={isLogin ? handleModalOpen : handleSecondModalOpen}>
+              구매하기
+            </Button>
+          </div>
         </div>
-        <div className={cx('button')}>
-          <Button
-            size="large"
-            backgroundColor="$color-pink-main"
-            onClick={isLogin ? handleModalOpen : handleSecondModalOpen}>
-            구매하기
-          </Button>
-        </div>
-      </div>
+      </FloatingBox>
       {/* <OptionBottomSheet isOpen={modalOpen} onClose={handleModalClose} productId={productId} type="purchaseOnly" /> */}
       <OptionBottomSheet
         isOpen={modalOpen}
