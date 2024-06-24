@@ -16,7 +16,7 @@ import Header from '@/components/common/Layout/Header';
 import { useRouter } from 'next/router';
 import CardSliderRecommended from '@/components/common/Card/CardSlider/Recommended';
 import { CartData } from '@/types/apis/product';
-import { setCartData } from '@/queries/cartQueries';
+import { setCartData, getCartData } from '@/queries/cartQueries';
 
 export default function Cart() {
   const BOTTOM_BOX_ID = 'bottomBox';
@@ -50,7 +50,7 @@ export default function Cart() {
         }))
       );
     }
-  }, [productsData, products]);
+  }, [productsData]);
 
   // 상품 전체 DELETE
   async function handleDeleteAllProducts() {
@@ -193,6 +193,9 @@ export default function Cart() {
 
   const totalOriginalPrice = calculateTotalOriginalPrice();
   const totalPrice = calculateTotalPrice();
+  const discountAmount = totalOriginalPrice - totalPrice;
+  const formattedTotalPrice = totalPrice.toLocaleString('ko-KR');
+  const formattedDiscountAmount = discountAmount.toLocaleString('ko-KR');
   const productCount = products.filter(product => product.isChecked).length; // 전체 상품 수
 
   return (
@@ -226,7 +229,7 @@ export default function Cart() {
                 key={product.id}
                 productTitle={product.productTitle}
                 option={product.option}
-                optionCost={product.optionCost}
+                combinationPrice={product.combinationPrice}
                 productCost={product.productCost}
                 originalCost={product.originalCost}
                 isChecked={product.isChecked}
@@ -266,10 +269,10 @@ export default function Cart() {
             backgroundColor="$color-pink-main"
             onClick={handleOrderButtonClick}
             disabled={totalPrice === 0}>
-            {totalPrice}원 주문하기
+            {formattedTotalPrice}원 주문하기
           </Button>
           <div className={styles.howMuchMinus}>
-            지금 구매하면 <span className={styles.pink}>-{totalOriginalPrice - totalPrice}원&nbsp;</span>할인돼요
+            지금 구매하면 <span className={styles.pink}>-{formattedDiscountAmount}원&nbsp;</span>할인돼요
           </div>
         </div>
       </FloatingBox>

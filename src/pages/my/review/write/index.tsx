@@ -8,12 +8,17 @@ import StarRating from '@/components/common/review/StarRating';
 import Textarea from '@/components/common/review/Textarea';
 import { postReview } from '../../../../apis/myReviewAPI';
 import styles from './WritePage.module.scss';
-import purchaseApi from '@/apis/purchase/api';
-import { useQuery } from '@tanstack/react-query';
 
 export default function WritePage() {
   const router = useRouter();
-  const { purchaseProductId } = router.query;
+  const { id, title, combinationName, quantity, thumbNailImage, productId } = router.query;
+
+  const purchaseInfo = {
+    title: title as string,
+    combinationName: combinationName as string,
+    quantity: parseInt(quantity as string, 10),
+    thumbNailImage: thumbNailImage as string,
+  };
 
   const [rating, setRating] = useState(0);
   const [description, setDescription] = useState('');
@@ -23,20 +28,10 @@ export default function WritePage() {
     setDescription(event.target.value);
   };
 
-  const { data: purchaseDetailData } = useQuery({
-    queryKey: ['purchaseDetail', purchaseProductId],
-    queryFn: async () => {
-      const response = purchaseApi.getDetailPurchase(Number(purchaseProductId));
-      return response;
-    },
-  });
-  console.log(purchaseProductId);
-  console.log(purchaseDetailData);
-
   const handleSaveReview = async () => {
     const reviewData = {
-      productId: Number(),
-      purchaseProductId: Number(purchaseProductId),
+      productId: productId ? +productId : 0,
+      purchaseProductId: id ? +id : 0,
       rating,
       description,
       reviewImages: '',
@@ -45,7 +40,7 @@ export default function WritePage() {
     try {
       const response = await postReview(reviewData);
       console.log(response);
-      window.location.href = '/my/review/reviewId';
+      window.location.href = '/my/review';
     } catch (error: any) {
       console.log(error);
 
@@ -79,27 +74,29 @@ export default function WritePage() {
           <Header.Center className={styles.pageTitle}>리뷰 작성</Header.Center>
         </Header.Box>
       </Header.Root>
-      <div>
-        <ReviewProductDataCard />
-        <div className={styles.ratingBox}>
-          <p className={styles.ratingQuestion}>전반적으로 어떠셨나요?</p>
-          <StarRating editable rating={rating} onRate={setRating} />
+      {purchaseInfo && (
+        <div>
+          <ReviewProductDataCard purchaseInfo={purchaseInfo} />
+          <div className={styles.ratingBox}>
+            <p className={styles.ratingQuestion}>전반적으로 어떠셨나요?</p>
+            <StarRating editable rating={rating} onRate={setRating} />
+          </div>
+          <div className={styles.textareaBox}>
+            <p className={styles.descriptionQuestion}>
+              구체적으로 어떤 점이 좋았는지, 또는 어떤 점이 아쉬웠는지 작성해 주세요.
+            </p>
+            <Textarea
+              className={styles.textareaStyle}
+              placeholder={'리뷰를 작성해 주세요.'}
+              value={description}
+              onChange={handleChange}
+            />
+          </div>
+          <button className={styles.reviewSaveBtn} disabled={isBtnDisabled} onClick={handleSaveReview}>
+            저장
+          </button>
         </div>
-        <div className={styles.textareaBox}>
-          <p className={styles.descriptionQuestion}>
-            구체적으로 어떤 점이 좋았는지, 또는 어떤 점이 아쉬웠는지 작성해 주세요.
-          </p>
-          <Textarea
-            className={styles.textareaStyle}
-            placeholder={'리뷰를 작성해 주세요.'}
-            value={description}
-            onChange={handleChange}
-          />
-        </div>
-        <button className={styles.reviewSaveBtn} disabled={isBtnDisabled} onClick={handleSaveReview}>
-          저장
-        </button>
-      </div>
+      )}
     </div>
   );
 }
