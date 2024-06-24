@@ -49,6 +49,7 @@ export default function Card({
 
   const formattedOriginalCost = originalCost.toLocaleString('ko-KR');
   const formattedProductCost = productCost.toLocaleString('ko-KR');
+  const formattedOptionCost = optionCost.toLocaleString('ko-KR');
 
   return (
     <>
@@ -69,7 +70,7 @@ export default function Card({
             <div className={styles.productTitle}>{productTitle}</div>
             <div className={styles.optionContainer}>
               <div className={styles.option}>{option}</div>
-              <div className={styles.optionCost}>(+{optionCost}원)</div>
+              <div className={styles.optionCost}>(+{formattedOptionCost}원)</div>
             </div>
             <div className={styles.moneyContainerRight}>
               <div className={styles.productCost}>{formattedOriginalCost}원</div>
