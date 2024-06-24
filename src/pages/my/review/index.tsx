@@ -44,7 +44,6 @@ export default function Review() {
   const [myReview, setMyReview] = useState(false);
 
   const router = useRouter();
-  const { reviewId } = router.query;
 
   const { data: purchaseData } = useQuery({ queryKey: ['purchase'], queryFn: purchaseApi.getPurchase });
 
@@ -59,36 +58,22 @@ export default function Review() {
     queryFn: getWroteReviewList,
   });
 
-  const reviewableList =
-    purchaseData &&
-    purchaseData.data.map((item: PurchaseDataProps) =>
-      item.purchaseProducts.map((product: ProductInfo) => ({
-        productId: product.productId,
-        title: product.title,
-        thumbNailImage: product.thumbNailImage,
-        originalPrice: product.originalPrice,
-        price: product.price,
-        option: product.combinationName,
-        quantity: product.quantity,
-        stock: 1,
-      }))
-    );
-
+  console.log(wroteReviews);
   //TODO: 리뷰 작성 후 테스트 때 적용
   // const myReviewList =
-  //   wroteReviews &&
-  // wroteReviews.data.map((item: PurchaseDataProps) =>
-  //   item.purchaseProducts.map((product: ProductInfo) => ({
-  //     productId: product.productId,
-  //     title: product.title,
-  //     thumbNailImage: product.thumbNailImage,
-  //     originalPrice: product.originalPrice,
-  //     price: product.price,
-  //     option: product.combinationName,
-  //     quantity: product.quantity,
-  //     stock: 1,
-  //   }))
-  // );
+  //   wroteReviews?.data.length > 0 &&
+  //   wroteReviews?.data.map((item: PurchaseDataProps) =>
+  //     item.purchaseProducts.map((product: ProductInfo) => ({
+  //       productId: product.productId,
+  //       title: product.title,
+  //       thumbNailImage: product.thumbNailImage,
+  //       originalPrice: product.originalPrice,
+  //       price: product.price,
+  //       option: product.combinationName,
+  //       quantity: product.quantity,
+  //       stock: 1,
+  //     }))
+  //   );
 
   const purchaseId = purchaseData?.data.flatMap((item: PurchaseDataProps) =>
     item.purchaseProducts.map((item: ProductInfo) => {
@@ -180,7 +165,7 @@ export default function Review() {
               <WroteReviewCard
                 href={`/my/review/${review.review.id}`}
                 key={review.productId}
-                productInfo={review}
+                productInfo={{ ...review, stock: 3, option: review.combinationName }}
                 onClick={handleClickReviewDetail(review.review)}
               />
             ))}

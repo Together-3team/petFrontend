@@ -64,11 +64,7 @@ export default function Order() {
     queryFn: getWroteReviewList,
   });
 
-  console.log(wroteReviews);
-  console.log(wroteReviews?.data.map((item: PurchaseData) => item.review.id));
-
   const reviewableId = wroteReviews?.data.map((item: PurchaseData) => item.id);
-  console.log(reviewableId);
 
   const { mutateAsync: mutation } = useMutation({
     mutationKey: ['changePurchaseStatus'],
@@ -97,7 +93,6 @@ export default function Order() {
       console.error('Error cancel purchase:', error);
     }
   }
-  console.log(purchaseData);
 
   async function handleExchangeOrRefund(purchaseId: number) {
     try {
