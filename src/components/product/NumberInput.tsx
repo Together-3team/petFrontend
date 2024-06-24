@@ -6,9 +6,9 @@ import { httpClient } from '@/apis/httpClient';
 import { PostItem, PostOrdersResponseData } from './OptionBottomSheet';
 
 interface NumberInput {
-  selectedOptionsObject?: { [key: string]: number };
-  setSelectedOptionsObject?: React.Dispatch<React.SetStateAction<{ [key: string]: number }>>;
-  objectKey?: string;
+  selectedOptionsObject: { [key: string]: number };
+  setSelectedOptionsObject: React.Dispatch<React.SetStateAction<{ [key: string]: number }>>;
+  objectKey: string;
   setCountChanged: React.Dispatch<React.SetStateAction<boolean>>;
   combinationId: number;
   ordersId?: number;
@@ -31,11 +31,11 @@ export default function NumberInput({
   countWithNoOption,
   setCountWithNoOption,
 }: NumberInput) {
-  const [count, setCount] = useState(objectKey && selectedOptionsObject ? selectedOptionsObject[objectKey] : 1);
+  const [count, setCount] = useState(selectedOptionsObject[objectKey] || 1);
 
   const increment = async () => {
     const newCount = count + 1;
-    objectKey && setSelectedOptionsObject && setSelectedOptionsObject(prev => ({ ...prev, [objectKey]: newCount }));
+    setSelectedOptionsObject(prev => ({ ...prev, [objectKey]: newCount }));
     setCountChanged(true);
     setCount(count + 1);
     countWithNoOption && setCountWithNoOption && setCountWithNoOption(newCount);

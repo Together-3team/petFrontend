@@ -123,7 +123,7 @@ export default function ProductDetailPage({ product }: { product: Product }) {
       <OptionBottomSheet
         isOpen={modalOpen}
         onClose={handleModalClose}
-        productId={productId}
+        product={product}
         type="cartPurchase"
         showToast={showToast}
       />

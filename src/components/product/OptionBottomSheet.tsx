@@ -12,6 +12,9 @@ import { useRouter } from 'next/router';
 import X from '@/assets/svgs/btn-x.svg';
 import useToast from '@/hooks/useToast';
 import { ToastParameters } from '@/types/components/toast';
+import { Product as QueryProduct } from '@/types/apis/product';
+import { Product as ProductType } from '@/types/product';
+import { queryClient } from '@/utils/queryClient';
 
 const cx = classNames.bind(styles);
 
@@ -105,12 +108,20 @@ export interface PostItem {
 interface OptionBottomSheetProps {
   isOpen: boolean;
   onClose: () => void;
-  productId: number;
+  product: ProductType;
   type: 'cartPurchase' | 'purchaseOnly';
   showToast: (toast: ToastParameters) => void;
+  groupBuyingId?: number;
 }
 
-export default function OptionBottomSheet({ isOpen, onClose, productId, type, showToast }: OptionBottomSheetProps) {
+export default function OptionBottomSheet({
+  isOpen,
+  onClose,
+  product,
+  type,
+  showToast,
+  groupBuyingId,
+}: OptionBottomSheetProps) {
   const [productOptions, setProductOptions] = useState<Option[][]>([]);
   const [productOptionsOn, setProductOptionsOn] = useState(true);
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
@@ -133,7 +144,7 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type, sh
   useEffect(() => {
     const fetchProductOption = async () => {
       try {
-        const response = await httpClient().get<ResponseData>(`products/detail/${productId}`);
+        const response = await httpClient().get<ResponseData>(`products/detail/${product.id}`);
         const optionsArray = Object.values(response.options);
         setPlaceholderList(Object.keys(response.options));
         setProductOptions(optionsArray);
@@ -147,7 +158,7 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type, sh
     };
 
     fetchProductOption();
-  }, [productId]);
+  }, [product?.id]);
 
   useEffect(() => {
     const getOrders = async () => {
@@ -216,7 +227,30 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type, sh
     });
   };
 
-  const handleBuyButtonClick = async () => {};
+  const handleBuyButtonClick = async () => {
+    let productList: QueryProduct[] = [];
+    for (let key of Object.keys(selectedOptionsObject)) {
+      const selectedIds = key.split(',');
+      const { combinationPrice, selectedCombinationName } = calculateCombinationPriceAndName(selectedIds);
+      const buyProduct: QueryProduct = {
+        id: product.id,
+        productTitle: product.title,
+        option: selectedCombinationName,
+        optionCost: 0,
+        productCost: product.price,
+        originalCost: product.originalPrice,
+        combinationPrice: combinationPrice,
+        productNumber: selectedOptionsObject[key],
+        imageUrl: product.thumbNailImage,
+        ...(groupBuyingId && { groupBuyingId: groupBuyingId }),
+      };
+      productList.unshift(buyProduct);
+    }
+    queryClient.setQueryData(['cartData'], productList);
+    const response = queryClient.getQueryData(['cartData']);
+    console.log('nnnnnnnnn ', response);
+    router.push('/payment');
+  };
 
   const handleCartButtonClick = async () => {
     try {
@@ -409,11 +443,13 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type, sh
               <div className={cx('chosenBox')}>
                 <div className={cx('selectedCombinationName')}> 수량 선택 </div>
                 <NumberInput
+                  selectedOptionsObject={selectedOptionsObject}
+                  setSelectedOptionsObject={setSelectedOptionsObject}
                   setCountChanged={setCountChanged}
                   combinationId={optionCombinations[0]?.id}
                   setOrdersIdObject={setOrdersIdObject}
                   ordersIdObject={ordersIdObject}
-                  objectKey="1"
+                  objectKey={optionCombinations[0].optionCombination}
                   countWithNoOption={countWithNoOption}
                   setCountWithNoOption={setCountWithNoOption}
                 />
