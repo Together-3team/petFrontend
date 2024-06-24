@@ -10,11 +10,13 @@ interface NumberInput {
   setSelectedOptionsObject?: React.Dispatch<React.SetStateAction<{ [key: string]: number }>>;
   objectKey?: string;
   setCountChanged: React.Dispatch<React.SetStateAction<boolean>>;
-  combinationId?: number;
+  combinationId: number;
   ordersId?: number;
-  //옵션이 없을 때 count
+  //옵션이 하나일 때
+  ordersIdObject?: { [key: string]: number };
+  setOrdersIdObject?: React.Dispatch<SetStateAction<{ [key: string]: number }>>;
   countWithNoOption?: number;
-  setCountWithNoOption?: React.Dispatch<SetStateAction<number>>;
+  setCountWithNoOption?: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export default function NumberInput({
@@ -24,6 +26,10 @@ export default function NumberInput({
   setCountChanged,
   combinationId,
   ordersId,
+  ordersIdObject,
+  setOrdersIdObject,
+  countWithNoOption,
+  setCountWithNoOption,
 }: NumberInput) {
   const [count, setCount] = useState(objectKey && selectedOptionsObject ? selectedOptionsObject[objectKey] : 1);
 
@@ -32,14 +38,24 @@ export default function NumberInput({
     objectKey && setSelectedOptionsObject && setSelectedOptionsObject(prev => ({ ...prev, [objectKey]: newCount }));
     setCountChanged(true);
     setCount(count + 1);
+    countWithNoOption && setCountWithNoOption && setCountWithNoOption(newCount);
     if (combinationId) {
-      const postItem = {
+      let postItem = {
         optionCombinationId: combinationId,
         quantity: 1,
       };
+      if (count === 1) {
+        postItem = {
+          optionCombinationId: combinationId,
+          quantity: 2,
+        };
+      }
       console.log('bbbbbbb ', postItem);
       const response = await httpClient().post<PostOrdersResponseData, PostItem>('selected-products/orders', postItem);
       console.log(response);
+      if (ordersIdObject && objectKey === '1' && setOrdersIdObject) {
+        setOrdersIdObject({ [objectKey]: response.id });
+      }
     }
   };
 
@@ -47,16 +63,22 @@ export default function NumberInput({
     if (count > 1) {
       const newCount = count - 1;
       setCount(newCount);
+      countWithNoOption && setCountWithNoOption && setCountWithNoOption(newCount);
+      //옵션이 여러개일 때
       objectKey && setSelectedOptionsObject && setSelectedOptionsObject(prev => ({ ...prev, [objectKey]: newCount }));
+      //옵션이 한 개일 때
+      if (ordersIdObject && objectKey === '1' && setOrdersIdObject) {
+        setOrdersIdObject({ [objectKey]: newCount });
+      }
       setCountChanged(true);
       setCount(count - 1);
-      if (combinationId && ordersId) {
+      if ((combinationId && ordersId) || ordersIdObject) {
         const putItem = {
           status: 1,
           quantity: newCount,
         };
         console.log('cccccc ', putItem);
-        const response = await httpClient().put(`/selected-products/${ordersId}`, putItem);
+        const response = await httpClient().put(`/selected-products/${ordersId || ordersIdObject?.['1']}`, putItem);
         console.log(response);
       }
     }

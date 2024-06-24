@@ -220,12 +220,12 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type, sh
 
   const handleCartButtonClick = async () => {
     try {
-      await httpClient().delete('selected-products/orders');
       const response = await httpClient().get('selected-products/orders');
       console.log('주문 목록: ', response);
       await httpClient().put('selected-products/orders-to-carts');
       const res = await httpClient().get('selected-products/carts');
       console.log('장바구니 목록: ', res);
+      await httpClient().delete('selected-products/orders');
     } catch (err) {
       console.log(err);
     }
@@ -254,6 +254,8 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type, sh
         }
         setProductOptionsOn(false);
         setSelectedOptions(new Array(productOptions.length).fill(''));
+        setCountChanged(false);
+        if (combinationId === 0) return;
         const postItem = {
           optionCombinationId: combinationId,
           quantity: 1,
@@ -265,7 +267,6 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type, sh
         );
         console.log('주문 목록ㄱㄱㄱㄱㄱㄱㄱ ', response);
         setOrdersIdObject(prev => ({ ...prev, [selectedIds]: response.id }));
-        setCountChanged(false);
       }
     };
 
@@ -278,7 +279,7 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type, sh
         setProductOptionsOn(false);
         return;
       }
-      if (productOptions.length === 0) {
+      if (productOptions.length < 2) {
         setProductOptionsOn(false);
         return;
       }
@@ -294,18 +295,33 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type, sh
     let totalAmountOfOptions = 0;
     let totalPriceOfOptions = 0;
     let totalOriginalPriceOfOptions = 0;
+    if (productOptions.length > 1) {
+      for (const key of Object.keys(selectedOptionsObject)) {
+        const selectedIds = key.split(',');
+        const { combinationPrice } = calculateCombinationPriceAndName(selectedIds);
+        totalAmountOfOptions += Number(selectedOptionsObject[key]);
+        totalPriceOfOptions += (combinationPrice + price) * Number(selectedOptionsObject[key]);
+        totalOriginalPriceOfOptions += (combinationPrice + originalPrice) * Number(selectedOptionsObject[key]);
+      }
 
-    for (const key of Object.keys(selectedOptionsObject)) {
-      const selectedIds = key.split(',');
-      const { combinationPrice } = calculateCombinationPriceAndName(selectedIds);
-      totalAmountOfOptions += Number(selectedOptionsObject[key]);
-      totalPriceOfOptions += (combinationPrice + price) * Number(selectedOptionsObject[key]);
-      totalOriginalPriceOfOptions += (combinationPrice + originalPrice) * Number(selectedOptionsObject[key]);
+      setTotalAmountOfOptions(totalAmountOfOptions);
+      setTotalPriceOfOptions(totalPriceOfOptions);
+      setTotalOriginalPriceOfOptions(totalOriginalPriceOfOptions);
     }
-    setTotalAmountOfOptions(totalAmountOfOptions);
-    setTotalPriceOfOptions(totalPriceOfOptions);
-    setTotalOriginalPriceOfOptions(totalOriginalPriceOfOptions);
-  }, [selectedOptionsObject, calculateCombinationPriceAndName, price, originalPrice]);
+    if (productOptions.length < 2) {
+      setTotalAmountOfOptions(countWithNoOption);
+      setTotalPriceOfOptions(price * countWithNoOption);
+      setTotalOriginalPriceOfOptions(originalPrice * countWithNoOption);
+    }
+  }, [
+    selectedOptionsObject,
+    calculateCombinationPriceAndName,
+    price,
+    originalPrice,
+    productOptions,
+    ordersIdObject,
+    countWithNoOption,
+  ]);
 
   //페이지에서 벗어나면 selectedOptionsObject 초기화
   useEffect(() => {
@@ -350,7 +366,7 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type, sh
         </div>
       ) : (
         <>
-          {productOptions.length !== 0 ? (
+          {productOptions.length > 1 ? (
             <>
               <div className={cx('selectOption')} onClick={handleProductOptionsOn}>
                 <div>옵션 선택</div>
@@ -394,12 +410,16 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type, sh
                 <div className={cx('selectedCombinationName')}> 수량 선택 </div>
                 <NumberInput
                   setCountChanged={setCountChanged}
+                  combinationId={optionCombinations[0]?.id}
+                  setOrdersIdObject={setOrdersIdObject}
+                  ordersIdObject={ordersIdObject}
+                  objectKey="1"
                   countWithNoOption={countWithNoOption}
                   setCountWithNoOption={setCountWithNoOption}
                 />
                 <div>
-                  <p>정가 {`${originalPrice}`}원</p>
-                  <p>할인가 {`${price}`}원</p>
+                  <p>정가 {totalOriginalPriceOfOptions}원</p>
+                  <p>할인가 {totalPriceOfOptions}원</p>
                 </div>
               </div>
               <div className={cx('divider')}></div>
@@ -412,7 +432,7 @@ export default function OptionBottomSheet({ isOpen, onClose, productId, type, sh
       )}
       {type !== 'cartPurchase' && !productOptionsOn && (
         <div>
-          <Button size="large" backgroundColor="$color-pink-main">
+          <Button size="large" backgroundColor="$color-pink-main" onClick={handleBuyButtonClick}>
             바로구매
           </Button>
         </div>
