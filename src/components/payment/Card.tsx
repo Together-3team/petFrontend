@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
 import styles from './Card.module.scss';
 import Image, { StaticImageData } from 'next/image';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
 interface CardProps {
   productTitle: string;
   option: string;
+  combinationPrice: number;
   productCost: number;
   originalCost: number;
   productNumber: number;
@@ -17,14 +15,17 @@ interface CardProps {
 export default function Card({
   productTitle,
   option,
+  combinationPrice,
   productCost,
   originalCost,
-  productNumber: initialProductNumber,
+  productNumber,
   imageUrl,
   isLast,
 }: CardProps) {
   const discountAmount = originalCost - productCost;
   const discountRate = (discountAmount / originalCost) * 100;
+  const totalOriginalCost = (originalCost * productNumber + combinationPrice * productNumber).toLocaleString('ko-KR');
+  const totalProductCost = (productCost * productNumber + combinationPrice * productNumber).toLocaleString('ko-KR');
 
   return (
     <div className={styles.bigContainer}>
@@ -32,12 +33,16 @@ export default function Card({
         <Image className={styles.productImg} width={56} height={56} src={imageUrl} alt="productImg" />
         <div>
           <div className={styles.productTitle}>{productTitle}</div>
-          <div className={styles.option}>{option}</div>
+          <div className={styles.optionContainer}>
+            <div>{option}</div>
+            <div>(+{combinationPrice}원)</div>
+            <div>&nbsp;| {productNumber}개</div>
+          </div>
           <div className={styles.moneyContainerRight}>
-            <div className={styles.productCost}>{originalCost}원</div>
+            <div className={styles.productCost}>{totalOriginalCost}원</div>
             <div className={styles.realPrice}>
               <div className={styles.discountRate}>{discountRate.toFixed(0)}%</div>
-              <div className={styles.realMoney}>{productCost}원</div>
+              <div className={styles.realMoney}>{totalProductCost}원</div>
             </div>
           </div>
         </div>
