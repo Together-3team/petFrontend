@@ -15,6 +15,7 @@ import { Product as QueryProduct } from '@/types/apis/product';
 import { Product as ProductType } from '@/types/product';
 import X from '@/assets/svgs/btn-x.svg';
 import styles from './OptionBottomSheet.module.scss';
+import { cartQueries } from '@/apis/cart/queries';
 
 const cx = classNames.bind(styles);
 
@@ -168,7 +169,7 @@ export default function OptionBottomSheet({
       try {
         const response = await httpClient().get<OrdersResponseData[]>('selected-products/orders');
         for (let combo of response) {
-          setSelectedOptionsObject(prev => ({ ...prev, [combo.optionCombination.id]: combo.quantity }));
+          setSelectedOptionsObject(prev => ({ [combo.optionCombination.id]: combo.quantity, ...prev }));
           setSelectedOptions(combo.optionCombination.optionCombination.split(','));
         }
       } catch (error) {
@@ -255,11 +256,15 @@ export default function OptionBottomSheet({
   const handleCartButtonClick = async () => {
     try {
       const response = await httpClient().get('selected-products/orders');
+      console.log(response);
       await httpClient().put('selected-products/orders-to-carts');
       const res = await httpClient().get('selected-products/carts');
+      console.log(res);
       await httpClient().delete('selected-products/orders');
     } catch (err) {
       console.log(err);
+    } finally {
+      cartQueries.invalidateQueries();
     }
     setSelectedOptionsObject({});
     setCountChanged(false);
@@ -292,6 +297,7 @@ export default function OptionBottomSheet({
           'selected-products/orders',
           postItem
         );
+        console.log(response);
         setOrdersIdObject(prev => ({ ...prev, [selectedIds]: response.id }));
       }
     };
@@ -370,6 +376,10 @@ export default function OptionBottomSheet({
     const initialDropdownOn = Array.from({ length: productOptions.length }, (v, i) => i === 0);
     setDropdownOn(initialDropdownOn);
   }, [productOptions]);
+
+  useEffect(() => {
+    console.log(selectedOptionsObject);
+  }, [selectedOptionsObject]);
 
   return (
     <BottomSheet isOpen={isOpen} onClose={onClose}>

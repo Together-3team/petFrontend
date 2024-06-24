@@ -17,6 +17,7 @@ import CardSliderRecommended from '@/components/common/Card/CardSlider/Recommend
 import { CartData } from '@/types/apis/product';
 import { setCartData, getCartData } from '@/queries/cartQueries';
 import BackButtonTemp from '@/components/common/Button/BackButtonTemp';
+import { cartQueries } from '@/apis/cart/queries';
 
 export default function Cart() {
   const BOTTOM_BOX_ID = 'bottomBox';
@@ -107,6 +108,8 @@ export default function Cart() {
         status: 'error',
         message: '상품 삭제에 실패했습니다',
       });
+    } finally {
+      cartQueries.invalidateQueries();
     }
   }
 

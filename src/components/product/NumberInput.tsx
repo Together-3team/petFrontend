@@ -37,20 +37,15 @@ export default function NumberInput({
     const newCount = count + 1;
     setSelectedOptionsObject(prev => ({ ...prev, [objectKey]: newCount }));
     setCountChanged(true);
-    setCount(count + 1);
+    setCount(newCount);
     countWithNoOption && setCountWithNoOption && setCountWithNoOption(newCount);
     if (combinationId) {
       let postItem = {
         optionCombinationId: combinationId,
         quantity: 1,
       };
-      if (count === 1) {
-        postItem = {
-          optionCombinationId: combinationId,
-          quantity: 2,
-        };
-      }
       const response = await httpClient().post<PostOrdersResponseData, PostItem>('selected-products/orders', postItem);
+      console.log(response);
       if (ordersIdObject && setOrdersIdObject) {
         setOrdersIdObject({ [objectKey]: response.id });
       }
