@@ -1,13 +1,6 @@
 import { httpClient } from '@/apis/httpClient';
 import axiosInstance from './axiosInstance';
-
-interface ReviewData {
-  productId: number;
-  purchaseProductId: number;
-  rating: number;
-  description: string;
-  reviewImages: string;
-}
+import { ReviewData } from '@/types/review';
 
 // 리뷰 작성
 export async function postReview(data: ReviewData) {

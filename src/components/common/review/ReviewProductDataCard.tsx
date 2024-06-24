@@ -1,13 +1,7 @@
 import Image from 'next/image';
 import defaultImg from '@/assets/images/rectangle.png';
+import { PurchaseInfo } from '@/types/review';
 import styles from './ReviewProductDataCard.module.scss';
-
-interface PurchaseInfo {
-  combinationName: string;
-  quantity: number;
-  thumbNailImage?: string;
-  title: string;
-}
 
 interface ReviewProductDataCardProps {
   purchaseInfo: PurchaseInfo;

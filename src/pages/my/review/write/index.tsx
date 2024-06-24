@@ -74,27 +74,29 @@ export default function WritePage() {
           <Header.Center className={styles.pageTitle}>리뷰 작성</Header.Center>
         </Header.Box>
       </Header.Root>
-      <div>
-        <ReviewProductDataCard purchaseInfo={purchaseInfo} />
-        <div className={styles.ratingBox}>
-          <p className={styles.ratingQuestion}>전반적으로 어떠셨나요?</p>
-          <StarRating editable rating={rating} onRate={setRating} />
+      {purchaseInfo && (
+        <div>
+          <ReviewProductDataCard purchaseInfo={purchaseInfo} />
+          <div className={styles.ratingBox}>
+            <p className={styles.ratingQuestion}>전반적으로 어떠셨나요?</p>
+            <StarRating editable rating={rating} onRate={setRating} />
+          </div>
+          <div className={styles.textareaBox}>
+            <p className={styles.descriptionQuestion}>
+              구체적으로 어떤 점이 좋았는지, 또는 어떤 점이 아쉬웠는지 작성해 주세요.
+            </p>
+            <Textarea
+              className={styles.textareaStyle}
+              placeholder={'리뷰를 작성해 주세요.'}
+              value={description}
+              onChange={handleChange}
+            />
+          </div>
+          <button className={styles.reviewSaveBtn} disabled={isBtnDisabled} onClick={handleSaveReview}>
+            저장
+          </button>
         </div>
-        <div className={styles.textareaBox}>
-          <p className={styles.descriptionQuestion}>
-            구체적으로 어떤 점이 좋았는지, 또는 어떤 점이 아쉬웠는지 작성해 주세요.
-          </p>
-          <Textarea
-            className={styles.textareaStyle}
-            placeholder={'리뷰를 작성해 주세요.'}
-            value={description}
-            onChange={handleChange}
-          />
-        </div>
-        <button className={styles.reviewSaveBtn} disabled={isBtnDisabled} onClick={handleSaveReview}>
-          저장
-        </button>
-      </div>
+      )}
     </div>
   );
 }

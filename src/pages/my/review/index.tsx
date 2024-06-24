@@ -9,6 +9,7 @@ import ReviewCard from '@/components/review/ReviewCard';
 import { ProductInfo } from '@/components/common/Card';
 import Header from '@/components/common/Layout/Header';
 import WroteReviewCard from '@/components/review/WroteReviewCard';
+import { WroteReview } from '@/types/review';
 
 import styles from './Review.module.scss';
 
@@ -115,8 +116,7 @@ export default function Review() {
     };
   }
 
-  function handleClickReviewDetail(review: any) {
-    console.log(review.id);
+  function handleClickReviewDetail(review: WroteReview) {
     return () => {
       router.push(
         {
@@ -140,6 +140,7 @@ export default function Review() {
     setReviewWrite(false);
   }
 
+  console.log(wroteReviews?.data);
   return (
     <div className={styles.reviewLayout}>
       <Header.Root>
