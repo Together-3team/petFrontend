@@ -33,11 +33,13 @@ export default function Card({
         <Image className={styles.productImg} width={56} height={56} src={imageUrl} alt="productImg" />
         <div>
           <div className={styles.productTitle}>{productTitle}</div>
-          <div className={styles.optionContainer}>
-            <div>{option}</div>
-            <div>(+{combinationPrice}원)</div>
-            <div>&nbsp;| {productNumber}개</div>
-          </div>
+          {option !== '기본' && (
+            <div className={styles.optionContainer}>
+              <div>{option}</div>
+              <div>(+{combinationPrice}원)</div>
+              <div>&nbsp;| {productNumber}개</div>
+            </div>
+          )}
           <div className={styles.moneyContainerRight}>
             <div className={styles.productCost}>{totalOriginalCost}원</div>
             <div className={styles.realPrice}>
