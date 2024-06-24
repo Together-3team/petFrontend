@@ -21,22 +21,4 @@
     width: 100%;
     padding: 1.6rem 1.6rem 2rem;
   }
-
-  .sortBox {
-    display: flex;
-    width: 100%;
-    padding: 0.8rem 1.6rem;
-    justify-content: flex-end;
-  }
-
-  .divider {
-    background-color: $color-gray-50;
-    width: 100%;
-    height: 0.8rem;
-  }
-
-  .contents {
-    min-height: 100vh;
-    padding: 2rem 0;
-  }
 }
