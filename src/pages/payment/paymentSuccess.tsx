@@ -4,11 +4,17 @@ import styles from './PaymentSuccess.module.scss';
 import Lottie from 'react-lottie-player';
 import check from '@/assets/lotties/check.json';
 import { completePayment } from '@/apis/paymentApi';
+import { useQueryClient } from '@tanstack/react-query';
 
 export default function PaymentSuccess() {
   const router = useRouter();
-  const { paymentKey, orderId, amount } = router.query;
+  const { paymentKey, orderId, amount, gbi } = router.query;
+  console.log(gbi);
+  console.log(router.query);
+  const queryClient = useQueryClient();
 
+  const productList = queryClient.getQueryData(['cartData']);
+  console.log(productList);
   useEffect(() => {
     const deliveryMessage = sessionStorage.getItem('deliveryMessage') || '';
     const selectedProductIds = sessionStorage.getItem('selectedProductIds') || '';
@@ -17,9 +23,11 @@ export default function PaymentSuccess() {
     console.log(selectedProductIds);
     const amountValue: number = parseFloat(amount as string);
     const deliveryIdValue: number = parseInt(deliveryId, 10);
+    const gbiValue: number = parseInt(gbi as string, 10);
     console.log(deliveryIdValue);
 
     const sendPaymentData = async () => {
+      console.log(router.query);
       if (paymentKey && orderId && amount) {
         try {
           const postData = {
@@ -27,8 +35,8 @@ export default function PaymentSuccess() {
             orderId: orderId as string,
             paymentKey: paymentKey as string,
             amount: amountValue,
-            selectedProductIds: selectedProductIds,
-            groupBuyingId: undefined,
+            selectedProductIds,
+            groupBuyingId: gbiValue,
             deliveryId: deliveryIdValue,
           };
           const response = await completePayment(postData);

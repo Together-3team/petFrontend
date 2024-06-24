@@ -17,10 +17,10 @@ import { DeliveryInfo } from '@/types/components/delivery';
 import { httpClient } from '@/apis/httpClient';
 import OrderDeliveryCard from '@/components/order/OrderDeliveryCard';
 import { useRouter } from 'next/router';
-import { Product } from '@/types/apis/product';
+import { CartData, Product } from '@/types/apis/product';
 import { getCartData } from '@/queries/cartQueries';
-import { useQuery } from '@tanstack/react-query';
-import { queryClient } from '@/utils/queryClient';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { Product as QueryProduct } from '@/types/apis/product';
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const accessToken = context.req.cookies['accessToken'];
@@ -57,11 +57,14 @@ export default function Payment({ defaultDelivery }: { defaultDelivery: Delivery
   const [products, setProducts] = useState<Product[]>([]);
   const [delivery, setDelivery] = useState(defaultDelivery);
   const router = useRouter();
+  const queryClient = useQueryClient();
+  const productList: QueryProduct[] = queryClient.getQueryData(['cartData']) || [];
+  console.log(productList);
   const { data: selectedProducts } = useQuery({
     queryKey: ['cartData'],
     queryFn: () => getCartData(queryClient),
   });
-
+  const groupBuyingId = productList[0].groupBuyingId ? productList[0].groupBuyingId : '';
   const clientKey = `${process.env.NEXT_PUBLIC_TOSS_PAYMENTS_SECRET_KEY}`;
   const orderId = nanoid(); // 주문 ID
 
@@ -82,7 +85,16 @@ export default function Payment({ defaultDelivery }: { defaultDelivery: Delivery
     const remainingProductCount = (products?.length || 0) - 1;
     const orderName =
       remainingProductCount > 0 ? `${firstProductTitle} 외 ${remainingProductCount}건` : firstProductTitle;
-    const selectedProductIds = products.map(product => product.id).join(',');
+    const selectedProductIds = products
+      .map(product => {
+        console.log(product);
+        if (product.selectedProductId) {
+          return product.selectedProductId;
+        }
+        return product.id;
+      })
+      .join(',');
+    console.log(selectedProductIds);
     const deliveryMessageValue = deliveryMessage;
     sessionStorage.setItem('deliveryMessage', deliveryMessageValue);
     sessionStorage.setItem('selectedProductIds', selectedProductIds);
@@ -93,7 +105,7 @@ export default function Payment({ defaultDelivery }: { defaultDelivery: Delivery
       amount: totalPrice,
       orderId: orderId,
       orderName: orderName,
-      successUrl: `${window.location.origin}/payment/paymentSuccess`,
+      successUrl: `${window.location.origin}/payment/paymentSuccess?gbi=${groupBuyingId}`,
       failUrl: `${window.location.origin}/payment/fail`,
     });
   };

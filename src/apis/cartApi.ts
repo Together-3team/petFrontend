@@ -32,6 +32,7 @@ export async function fetchCartProducts(): Promise<CartData[]> {
       combinationPrice: item.optionCombination.combinationPrice,
       productNumber: item.quantity,
       imageUrl: item.optionCombination.product.thumbNailImage,
+      selectedProductId: undefined,
       isChecked: true,
     }));
   } catch (error) {
