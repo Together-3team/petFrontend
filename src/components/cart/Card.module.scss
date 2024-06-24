@@ -13,6 +13,10 @@
   accent-color: $color-pink-main;
 }
 
+.faXmark {
+  cursor: pointer;
+}
+
 .productExplain {
   display: flex;
   margin: 1rem 1.5rem;
@@ -24,10 +28,12 @@
   font-weight: 600;
 }
 
-.option {
+.optionContainer {
   font-size: 1.2rem;
-  color: $color-gray-500;
+  display: flex;
   font-weight: 500;
+  gap: 0.5rem;
+  color: $color-gray-500;
 }
 
 .moneyContainerRight {

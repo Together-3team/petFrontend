@@ -7,7 +7,7 @@ import useScrollUpAndDown from '@/hooks/useScrollUpAndDown';
 const cx = classNames.bind(styles);
 
 export default function HeaderRoot({ children, className, ...rest }: ComponentPropsWithoutRef<'header'>) {
-  const { isUp } = useScrollUpAndDown(150);
+  const { isUp } = useScrollUpAndDown();
 
   return (
     <header className={cx('header', className)} data-visible={isUp ? 'show' : 'hidden'} {...rest}>

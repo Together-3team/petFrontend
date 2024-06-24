@@ -27,15 +27,15 @@ export default function CardListRecommended({ className, petType = '0', orderBy 
     ...infiniteProductsRecommendedQueries.queryOptions({ page: 1, pageSize: PAGE_SIZE, petType, orderBy }),
   });
 
+  const productsPages = productsData?.pages ?? [];
+  const hasTargetRef = !isFetchingNextPage && hasNextPage;
+
   const targetRef = useIntersect(async (entry, observer) => {
     observer.unobserve(entry.target);
-    if (hasNextPage) {
+    if (hasTargetRef) {
       fetchNextPage();
     }
   });
-
-  const productsPages = productsData?.pages ?? [];
-  const hasTargetRef = !isFetchingNextPage && hasNextPage;
 
   return (
     <div className={cx('container', className)}>
