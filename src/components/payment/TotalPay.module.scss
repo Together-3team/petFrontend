@@ -24,6 +24,10 @@
   margin-top: 2.4rem;
 }
 
+.priceBold {
+  @include font-body1;
+}
+
 .line {
   width: 100%;
   height: 0.15rem;
