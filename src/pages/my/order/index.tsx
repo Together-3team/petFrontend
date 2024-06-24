@@ -12,10 +12,11 @@ import BackButton from '@/components/common/Button/BackButton';
 import { ProductInfo } from '@/components/common/Card';
 import OrderFilterBar from '@/components/order/OrderFilterBar';
 import OrderCard from '@/components/order/OrderCard';
-import { PurchaseDataProps } from '@/pages/my/review';
+import { PurchaseData, PurchaseDataProps } from '@/pages/my/review';
 import Empty from '@/components/order/Empty';
 
 import styles from './Order.module.scss';
+import { getReviewableData, getWroteReviewList } from '@/apis/myReviewAPI';
 
 const cx = classNames.bind(styles);
 
@@ -35,12 +36,39 @@ export default function Order() {
     setFilterId(filterId);
   }
 
+  function handleClickWriteReview(purchase: PurchaseData) {
+    return () => {
+      router.push({
+        pathname: `/my/review/write`,
+        query: {
+          id: purchase.id,
+          title: purchase.title,
+          combinationName: purchase.combinationName,
+          quantity: purchase.quantity,
+          thumbNailImage: purchase.thumbNailImage,
+          productId: purchase.productId,
+        },
+      });
+    };
+  }
+
   function handleMoveOrderDetail({ purchaseId, purchaseDate }: { purchaseId: number; purchaseDate: string }) {
     router.push({
       pathname: `/my/order/${purchaseId}`,
       query: { purchaseId, purchaseDate },
     });
   }
+
+  const { data: wroteReviews } = useQuery({
+    queryKey: ['wroteReviews'],
+    queryFn: getWroteReviewList,
+  });
+
+  console.log(wroteReviews);
+  console.log(wroteReviews?.data.map((item: PurchaseData) => item.review.id));
+
+  const reviewableId = wroteReviews?.data.map((item: PurchaseData) => item.id);
+  console.log(reviewableId);
 
   const { mutateAsync: mutation } = useMutation({
     mutationKey: ['changePurchaseStatus'],
@@ -69,6 +97,7 @@ export default function Order() {
       console.error('Error cancel purchase:', error);
     }
   }
+  console.log(purchaseData);
 
   async function handleExchangeOrRefund(purchaseId: number) {
     try {
@@ -91,11 +120,20 @@ export default function Order() {
     showToast({ status: 'success', message: '배송 조회를 진행 중입니다.' });
   }
 
-  function handleWriteReview() {
-    router.push({
-      pathname: `/my/review/write`,
-      query: purchaseData?.data.id,
-    });
+  function handleWriteReview(purchase: PurchaseData) {
+    return () => {
+      router.push({
+        pathname: `/my/review/write`,
+        query: {
+          id: purchase.id,
+          title: purchase.title,
+          combinationName: purchase.combinationName,
+          quantity: purchase.quantity,
+          thumbNailImage: purchase.thumbNailImage,
+          productId: purchase.productId,
+        },
+      });
+    };
   }
 
   const firstButton = (purchaseId: number) => [
@@ -117,12 +155,23 @@ export default function Order() {
     { id: 4, name: '교환/환불', disabled: true, onClick: () => handleExchangeOrRefund(purchaseId) },
   ];
 
-  const thirdButton = (purchaseId: number) => [
-    { id: 1, name: '리뷰 쓰기', disabled: true, onClick: () => handleWriteReview() },
-    { id: 2, name: '리뷰 쓰기', disabled: true, onClick: () => handleWriteReview() },
-    { id: 3, name: '리뷰 쓰기', disabled: false, onClick: () => handleWriteReview() },
-    { id: 4, name: '리뷰 쓰기', disabled: true, onClick: () => handleWriteReview() },
+  const thirdButton = (purchase: PurchaseData) => [
+    {
+      id: 1,
+      name: '리뷰 쓰기',
+      disabled: true,
+      onClick: handleWriteReview(purchase),
+    },
+    { id: 2, name: '리뷰 쓰기', disabled: true, onClick: handleWriteReview(purchase) },
+    {
+      id: 3,
+      name: reviewableId.length > 0 && reviewableId.includes(purchase.id) ? '리뷰 쓰기' : '리뷰 작성 완료',
+      disabled: reviewableId.length > 0 && reviewableId.includes(purchase.id) ? false : true,
+      onClick: handleWriteReview(purchase),
+    },
+    { id: 4, name: '리뷰 쓰기', disabled: true, onClick: handleWriteReview(purchase) },
   ];
+
   if (!purchaseData) return <Loading />;
   if (!purchaseData || (purchaseData.data && purchaseData.data.length === 0)) return <Empty />;
   return (
@@ -170,7 +219,7 @@ export default function Order() {
                     <div className={styles.orderCards}>
                       {item.purchaseProducts
                         .filter((product: ProductInfo) => (filterId === 0 ? true : product.status === filterId - 1))
-                        .map((purchase: ProductInfo, index) => (
+                        .map((purchase: ProductInfo) => (
                           <OrderCard
                             key={purchase.id}
                             href={`/my/order/${purchase.id}`}
@@ -179,7 +228,7 @@ export default function Order() {
                             buttons={[
                               firstButton(purchase.id as number),
                               secondButton(purchase.id as number),
-                              thirdButton(purchase.id as number),
+                              thirdButton(purchase),
                             ]}
                             tagText={getTagText(purchase.status)}
                           />
