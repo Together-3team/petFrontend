@@ -1,6 +1,6 @@
 import { useState, useRef, ChangeEvent } from 'react';
 import { useForm, SubmitHandler, FormProvider, FieldValues, Controller } from 'react-hook-form';
-import { QueryClient, dehydrate, useMutation } from '@tanstack/react-query';
+import { QueryClient, dehydrate, useMutation, useQueryClient } from '@tanstack/react-query';
 import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
 import * as Yup from 'yup';
@@ -24,6 +24,8 @@ export type ProfileValue = Yup.InferType<typeof nicknameSchema>;
 export default function Profile() {
   const { userData } = useAuth();
   const router = useRouter();
+  const queryClient = useQueryClient();
+
   const [profileImage, setProfileImage] = useState<File>();
   const [profileImageUrl, setProfileImageUrl] = useState<string | null>(userData.profileImage || null);
 
@@ -38,19 +40,28 @@ export default function Profile() {
     },
     onSuccess: data => {
       console.log(data);
-      router.push({
-        pathname: '/my',
-        query: {
-          status: 'success',
-        },
+      queryClient.invalidateQueries({
+        queryKey: ['user'],
       });
+      router.push(
+        {
+          pathname: '/my',
+          query: {
+            status: 'success',
+          },
+        },
+        '/my'
+      );
     },
     onError: error => {
       console.error('회원 정보 수정 실패', error);
-      router.push({
-        pathname: '/my',
-        query: { status: 'error' },
-      });
+      router.push(
+        {
+          pathname: '/my',
+          query: { status: 'error' },
+        },
+        '/my'
+      );
     },
   });
 
@@ -138,7 +149,7 @@ export default function Profile() {
         <Header.Root>
           <Header.Box>
             <Header.Left>
-              <BackButton />
+              <BackButton href="/my" />
             </Header.Left>
             <h1>프로필 수정</h1>
           </Header.Box>
@@ -146,7 +157,7 @@ export default function Profile() {
         <form className={styles.profileForm} onSubmit={handleSubmit(onSubmit)}>
           <div className={styles.formField}>
             <div className={styles.profileImageBox}>
-              <div className={styles.profileImage}>
+              <div className={styles.profileImage} onClick={handleClickOpen}>
                 <ProfileImgBadge
                   size="large"
                   profileImage={profileImageUrl ? profileImageUrl.split('?')[0] : userData.profileImage.split('?')[0]}
@@ -170,7 +181,7 @@ export default function Profile() {
                   isError={errors.nickname && true}
                   onBlur={async (e: ChangeEvent<HTMLInputElement>) => {
                     field.onBlur();
-                    await CheckNickname(e);
+                    await CheckNickname(e.target.value);
                   }}
                   labelStyle={'label'}
                   placeholder="2~8자의 한글, 영어, 숫자를 입력해주세요"

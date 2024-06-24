@@ -93,18 +93,20 @@ export default function SearchPage() {
           <SearchInput autoFocus {...register('search')} placeholder="우리집 할미견 치아건강 책임질 효소치약" />
         </form>
       </Header.Root>
-      {keywords.length > 0 && (
-        <>
-          <div className={styles.keywordsBox}>
-            <SearchKeywords keywords={keywords} onRemove={handleRemoveKeyword} />
-          </div>
-          <div className={styles.divider} />
-        </>
-      )}
       {isMounted && (
-        <div className={styles.recommendedBox}>
-          <CardSliderRecommended title="이런 상품 찾고 있나요?" />
-        </div>
+        <>
+          {keywords.length > 0 && (
+            <>
+              <div className={styles.keywordsBox}>
+                <SearchKeywords keywords={keywords} onRemove={handleRemoveKeyword} />
+              </div>
+              <div className={styles.divider} />
+            </>
+          )}
+          <div className={styles.recommendedBox}>
+            <CardSliderRecommended title="이런 상품 찾고 있나요?" />
+          </div>
+        </>
       )}
       <FloatingBox>
         <NavBottom />

@@ -40,6 +40,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
         <input
           id="input"
           ref={ref}
+          onBlur={onBlur}
           className={cx(border, { error: isError }, size, background)}
           autoComplete={autoComplete}
           {...rest}
