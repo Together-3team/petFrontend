@@ -2,7 +2,6 @@ export interface Product {
   id: number;
   productTitle: string;
   option: string;
-  optionCost: number;
   productCost: number;
   originalCost: number;
   combinationPrice: number;

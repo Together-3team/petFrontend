@@ -52,7 +52,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
 export default function Payment({ defaultDelivery }: { defaultDelivery: DeliveryInfo | undefined }) {
   const [checkboxChecked, setCheckboxChecked] = useState(false);
-  const [price, setPrice] = useState(0); // 기본 가격 설정
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deliveryMessage, setDeliveryMessage] = useState('');
   const [products, setProducts] = useState<Product[]>([]);
@@ -106,21 +105,6 @@ export default function Payment({ defaultDelivery }: { defaultDelivery: Delivery
     selectedProducts?.reduce((total, product) => {
       return total + product.productCost * product.productNumber + product.combinationPrice * product.productNumber;
     }, 0) ?? 0;
-  // useEffect(() => {
-  //   // react query로 받아오도록 수정
-  //   //
-  //   const cartData = sessionStorage.getItem('cartData');
-  //   if (cartData) {
-  //     const parsedProducts = JSON.parse(cartData) as Product[];
-  //     setProducts(parsedProducts);
-  //     const calculatedPrice = parsedProducts.reduce(
-  //       (total, product) =>
-  //         total + product.productCost * product.productNumber + product.combinationPrice * product.productNumber,
-  //       0
-  //     );
-  //     setPrice(calculatedPrice);
-  //   }
-  // }, []);
 
   function calculateTotalOriginalPrice() {
     return products
@@ -179,6 +163,7 @@ export default function Payment({ defaultDelivery }: { defaultDelivery: Delivery
           key={product.id}
           productTitle={product.productTitle}
           option={product.option}
+          combinationPrice={product.combinationPrice}
           productCost={product.productCost}
           originalCost={product.originalCost}
           productNumber={product.productNumber}
