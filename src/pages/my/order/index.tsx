@@ -160,8 +160,8 @@ export default function Order() {
     { id: 2, name: '리뷰 쓰기', disabled: true, onClick: handleWriteReview(purchase) },
     {
       id: 3,
-      name: reviewableId.length > 0 && reviewableId.includes(purchase.id) ? '리뷰 쓰기' : '리뷰 작성 완료',
-      disabled: reviewableId.length > 0 && reviewableId.includes(purchase.id) ? false : true,
+      name: reviewableId?.length > 0 && reviewableId.includes(purchase.id) ? '리뷰 쓰기' : '리뷰 작성 완료',
+      disabled: reviewableId?.length > 0 && reviewableId.includes(purchase.id) ? false : true,
       onClick: handleWriteReview(purchase),
     },
     { id: 4, name: '리뷰 쓰기', disabled: true, onClick: handleWriteReview(purchase) },

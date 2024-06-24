@@ -58,23 +58,6 @@ export default function Review() {
     queryFn: getWroteReviewList,
   });
 
-  console.log(wroteReviews);
-  //TODO: 리뷰 작성 후 테스트 때 적용
-  // const myReviewList =
-  //   wroteReviews?.data.length > 0 &&
-  //   wroteReviews?.data.map((item: PurchaseDataProps) =>
-  //     item.purchaseProducts.map((product: ProductInfo) => ({
-  //       productId: product.productId,
-  //       title: product.title,
-  //       thumbNailImage: product.thumbNailImage,
-  //       originalPrice: product.originalPrice,
-  //       price: product.price,
-  //       option: product.combinationName,
-  //       quantity: product.quantity,
-  //       stock: 1,
-  //     }))
-  //   );
-
   const purchaseId = purchaseData?.data.flatMap((item: PurchaseDataProps) =>
     item.purchaseProducts.map((item: ProductInfo) => {
       return item.productId;
@@ -125,7 +108,6 @@ export default function Review() {
     setReviewWrite(false);
   }
 
-  console.log(wroteReviews?.data);
   return (
     <div className={styles.reviewLayout}>
       <Header.Root>
