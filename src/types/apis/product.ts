@@ -7,7 +7,7 @@ export interface Product {
   combinationPrice: number;
   productNumber: number;
   imageUrl: string;
-  selectedProductId: number;
+  selectedProductId: number | undefined;
   groupBuyingId?: number;
 }
 
