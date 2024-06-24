@@ -255,11 +255,9 @@ export default function OptionBottomSheet({
 
   const handleCartButtonClick = async () => {
     try {
-      const response = await httpClient().get('selected-products/orders');
-      console.log(response);
+      // const response = await httpClient().get('selected-products/orders');
       await httpClient().put('selected-products/orders-to-carts');
-      const res = await httpClient().get('selected-products/carts');
-      console.log(res);
+      // const res = await httpClient().get('selected-products/carts');
       await httpClient().delete('selected-products/orders');
     } catch (err) {
       console.log(err);
@@ -297,8 +295,6 @@ export default function OptionBottomSheet({
           'selected-products/orders',
           postItem
         );
-        console.log('bbbbbbbbbbbbbbbbb');
-        console.log(response);
         setOrdersIdObject(prev => ({ ...prev, [selectedIds]: response.id }));
       }
     };
@@ -377,10 +373,6 @@ export default function OptionBottomSheet({
     const initialDropdownOn = Array.from({ length: productOptions.length }, (v, i) => i === 0);
     setDropdownOn(initialDropdownOn);
   }, [productOptions]);
-
-  useEffect(() => {
-    console.log(selectedOptionsObject);
-  }, [selectedOptionsObject]);
 
   return (
     <BottomSheet isOpen={isOpen} onClose={onClose}>

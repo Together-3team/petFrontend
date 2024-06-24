@@ -31,12 +31,9 @@ export default function NumberInput({
   countWithNoOption,
   setCountWithNoOption,
 }: NumberInput) {
-  console.log(selectedOptionsObject[objectKey]);
   const [count, setCount] = useState(selectedOptionsObject[objectKey] || 1);
 
   const increment = async () => {
-    const res = await httpClient().get('selected-products/orders');
-    console.log('res: ', res);
     const newCount = count + 1;
     setSelectedOptionsObject(prev => ({ ...prev, [objectKey]: newCount }));
     setCountChanged(true);
@@ -47,9 +44,7 @@ export default function NumberInput({
         optionCombinationId: combinationId,
         quantity: 1,
       };
-      console.log(postItem);
       const response = await httpClient().post<PostOrdersResponseData, PostItem>('selected-products/orders', postItem);
-      console.log(response);
       if (ordersIdObject && setOrdersIdObject) {
         setOrdersIdObject({ [objectKey]: response.id });
       }
@@ -81,7 +76,7 @@ export default function NumberInput({
 
   useEffect(() => {
     const setCount1 = async () => {
-      if (count === 1) {
+      if (count === 1 && countWithNoOption) {
         countWithNoOption && setCountWithNoOption && setCountWithNoOption(count);
         //옵션이 한 개일 때
         if (ordersIdObject && setOrdersIdObject) {
