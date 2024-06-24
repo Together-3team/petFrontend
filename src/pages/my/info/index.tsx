@@ -79,7 +79,7 @@ export default function Info() {
   const onSubmit: SubmitHandler<PhoneNumberValue> = data => {
     const userEditData: UserEditProps = {
       nickname: userData.nickname,
-      phoneNumber: data.phoneNumber,
+      phoneNumber: data.phoneNumber || userData.phoneNumber,
       profileImage: userData.profileImage,
       isSubscribedToPromotions: userData.isSubscribedToPromotions,
       preferredPet: userData.preferredPet,
