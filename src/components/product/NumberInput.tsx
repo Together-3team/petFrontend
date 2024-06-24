@@ -1,4 +1,4 @@
-import React, { SetStateAction, useState } from 'react';
+import React, { SetStateAction, useEffect, useState } from 'react';
 import Minus from '@/assets/svgs/btn-minus.svg';
 import Plus from '@/assets/svgs/btn-plus.svg';
 import styles from './NumberInput.module.scss';
@@ -51,7 +51,7 @@ export default function NumberInput({
         };
       }
       const response = await httpClient().post<PostOrdersResponseData, PostItem>('selected-products/orders', postItem);
-      if (ordersIdObject && objectKey === '1' && setOrdersIdObject) {
+      if (ordersIdObject && setOrdersIdObject) {
         setOrdersIdObject({ [objectKey]: response.id });
       }
     }
@@ -65,8 +65,8 @@ export default function NumberInput({
       //옵션이 여러개일 때
       objectKey && setSelectedOptionsObject && setSelectedOptionsObject(prev => ({ ...prev, [objectKey]: newCount }));
       //옵션이 한 개일 때
-      if (ordersIdObject && objectKey === '1' && setOrdersIdObject) {
-        setOrdersIdObject({ [objectKey]: newCount });
+      if (ordersIdObject && setOrdersIdObject) {
+        setSelectedOptionsObject({ [objectKey]: newCount });
       }
       setCountChanged(true);
       setCount(count - 1);
@@ -75,10 +75,40 @@ export default function NumberInput({
           status: 1,
           quantity: newCount,
         };
-        const response = await httpClient().put(`/selected-products/${ordersId || ordersIdObject?.['1']}`, putItem);
+        await httpClient().put(`/selected-products/${ordersId || ordersIdObject?.['1']}`, putItem);
       }
     }
   };
+
+  useEffect(() => {
+    const setCount1 = async () => {
+      if (count === 1) {
+        countWithNoOption && setCountWithNoOption && setCountWithNoOption(count);
+        //옵션이 한 개일 때
+        if (ordersIdObject && setOrdersIdObject) {
+          setSelectedOptionsObject({ [objectKey]: count });
+        }
+        if ((combinationId && ordersId) || ordersIdObject) {
+          const postItem = {
+            optionCombinationId: combinationId,
+            quantity: count,
+          };
+          await httpClient().post('/selected-products/orders', postItem);
+        }
+      }
+    };
+    setCount1();
+  }, [
+    combinationId,
+    count,
+    countWithNoOption,
+    objectKey,
+    ordersId,
+    ordersIdObject,
+    setCountWithNoOption,
+    setOrdersIdObject,
+    setSelectedOptionsObject,
+  ]);
 
   return (
     <div className={styles.input}>
