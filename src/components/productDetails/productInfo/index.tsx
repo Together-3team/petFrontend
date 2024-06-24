@@ -32,8 +32,8 @@ export default function ProductInfo({ product }: { product: Product }) {
         </div>
         <div className={cx('review')}>
           <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
-            <StarRating rating={averageRating} />
-            <span className={cx('reviewRating')}>{averageRating}</span>
+            <StarRating rating={Math.round(averageRating)} />
+            <span className={cx('reviewRating')}>{Math.round(averageRating * 10) / 10}</span>
           </div>
           <span className={cx('reviewCount')}>리뷰 {reviewCount}개</span>
         </div>

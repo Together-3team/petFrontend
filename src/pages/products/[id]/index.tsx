@@ -31,7 +31,8 @@ import LoginModal from '@/components/common/Modal/LoginModal';
 const cx = classNames.bind(styles);
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const productId = context.params?.['id'];
+  const productId = context.params?.id;
+  const open = context.query.open || null;
   let product;
   try {
     const res = await axiosInstance.get(`/products/detail/${productId}`);
@@ -44,19 +45,21 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   return {
     props: {
       product,
+      open,
     },
   };
 }
 
-export default function ProductDetailPage({ product }: { product: Product }) {
-  const { modalOpen, handleModalOpen, handleModalClose } = useModal();
+export default function ProductDetailPage({ product, open }: { product: Product; open: string }) {
+  // const { modalOpen, handleModalOpen, handleModalClose } = useModal();
+  const [isOpen, setIsOpen] = useState(!!open);
   const {
     modalOpen: secondModalOpen,
     handleModalOpen: handleSecondModalOpen,
     handleModalClose: handleSecondModalClose,
   } = useModal();
   const router = useRouter();
-  const { id, open } = router.query;
+  const { id } = router.query;
   const productId = Number(id);
   const { isLogin } = useAuth();
   const { showToast } = useToast('fixedCta');
@@ -64,7 +67,8 @@ export default function ProductDetailPage({ product }: { product: Product }) {
 
   useEffect(() => {
     if (open === 'true') {
-      handleModalOpen();
+      // handleModalOpen();
+      setIsOpen(true);
       setBottomSheetType('purchaseOnly');
     }
     //일부러 빈 배열을 넣음.
@@ -127,7 +131,7 @@ export default function ProductDetailPage({ product }: { product: Product }) {
               onClick={
                 isLogin
                   ? () => {
-                      handleModalOpen();
+                      setIsOpen(true);
                       setBottomSheetType('cartPurchase');
                     }
                   : handleSecondModalOpen
@@ -139,8 +143,8 @@ export default function ProductDetailPage({ product }: { product: Product }) {
       </FloatingBox>
       {/* <OptionBottomSheet isOpen={modalOpen} onClose={handleModalClose} productId={productId} type="purchaseOnly" /> */}
       <OptionBottomSheet
-        isOpen={modalOpen}
-        onClose={handleModalClose}
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
         product={product}
         type={bottomSheetType}
         showToast={showToast}

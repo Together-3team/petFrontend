@@ -140,6 +140,7 @@ export default function OptionBottomSheet({
   const [ordersIdObject, setOrdersIdObject] = useState<{ [key: string]: number }>({});
   const [countWithNoOption, setCountWithNoOption] = useState(1);
   const router = useRouter();
+  const [loadingState, setLoadingState] = useState(0);
 
   useEffect(() => {
     const fetchProductOption = async () => {
@@ -154,6 +155,8 @@ export default function OptionBottomSheet({
         setPrice(response.price);
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoadingState(1);
       }
     };
 
@@ -313,13 +316,13 @@ export default function OptionBottomSheet({
         setProductOptionsOn(false);
         return;
       }
-      if (productOptions.length < 2) {
+      if (productOptions.length < 2 && loadingState === 1) {
         setProductOptionsOn(false);
         return;
       }
       setProductOptionsOn(true);
     }
-  }, [isOpen, selectedOptionsObject, productOptions]);
+  }, [isOpen, selectedOptionsObject, productOptions, loadingState]);
 
   useEffect(() => {
     console.log(selectedOptionsObject);
@@ -362,6 +365,7 @@ export default function OptionBottomSheet({
     const handleBeforeUnload = async () => {
       setSelectedOptionsObject({});
       setCountChanged(false);
+      setProductOptionsOn(true);
       try {
         await httpClient().delete('selected-products/orders');
       } catch (err) {
@@ -401,67 +405,128 @@ export default function OptionBottomSheet({
       ) : (
         <>
           {productOptions.length > 1 ? (
-            <>
+            <div className={cx('content')}>
               <div className={cx('selectOption')} onClick={handleProductOptionsOn}>
                 <div>옵션 선택</div>
                 <Image src={arrow.src} width="12" height="12" alt="아래를 가르키는 화살표 이미지" priority />
               </div>
-              <div>
+              <div className={cx('chosenBoxes')}>
                 {Object.keys(selectedOptionsObject).map((objectKey, i) => {
                   const selectedIds = objectKey.split(',');
                   const { combinationId, combinationPrice, selectedCombinationName } =
                     calculateCombinationPriceAndName(selectedIds);
                   return (
                     <div key={i} className={cx('chosenBox')}>
-                      <div className={cx('selectedCombinationName')}> {selectedCombinationName} </div>
-                      <button type="button" className={cx('xButton')} onClick={() => handleXButtonClick(objectKey)}>
-                        <X />
-                      </button>
-                      <NumberInput
-                        selectedOptionsObject={selectedOptionsObject}
-                        setSelectedOptionsObject={setSelectedOptionsObject}
-                        objectKey={objectKey}
-                        setCountChanged={setCountChanged}
-                        combinationId={combinationId}
-                        ordersId={ordersIdObject[objectKey]}
-                      />
-                      <div>
-                        <p>정가 {`${(originalPrice + combinationPrice) * selectedOptionsObject[objectKey]}`}원</p>
-                        <p>할인가 {`${(price + combinationPrice) * selectedOptionsObject[objectKey]}`}원</p>
+                      <div className={cx('boxLine1')}>
+                        <div className={cx('selectedCombinationName')}> {selectedCombinationName} </div>
+                        <button type="button" className={cx('xButton')} onClick={() => handleXButtonClick(objectKey)}>
+                          <X />
+                        </button>
+                      </div>
+                      <div className={cx('boxLine2')}>
+                        <NumberInput
+                          selectedOptionsObject={selectedOptionsObject}
+                          setSelectedOptionsObject={setSelectedOptionsObject}
+                          objectKey={objectKey}
+                          setCountChanged={setCountChanged}
+                          combinationId={combinationId}
+                          ordersId={ordersIdObject[objectKey]}
+                        />
+                        <div className={cx('boxLine2-2')}>
+                          <p className={cx('originalPrice')}>
+                            {`${((originalPrice + combinationPrice) * selectedOptionsObject[objectKey]).toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' }).replace('₩', '')}`}
+                            원
+                          </p>
+                          <p className={cx('discountRate')}>
+                            {Math.ceil((1 - (price + combinationPrice) / (originalPrice + combinationPrice)) * 100)}%
+                          </p>
+                          <p className={cx('price')}>
+                            {`${((price + combinationPrice) * selectedOptionsObject[objectKey]).toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' }).replace('₩', '')}`}
+                            원
+                          </p>
+                        </div>
                       </div>
                     </div>
                   );
                 })}
               </div>
               <div className={cx('divider')}></div>
-              <p>총 {totalAmountOfOptions}개 상품금액</p>
-              <p>정가 {totalOriginalPriceOfOptions}</p>
-              <p>할인가 {totalPriceOfOptions}</p>
-            </>
+              <div className={cx('summary')}>
+                <div className={cx('amountAndPrice')}>
+                  <p className={cx('amount')}>총 {totalAmountOfOptions}개 상품금액</p>
+                  <p className={cx('originalTotalPrice')}>
+                    정가{' '}
+                    {totalOriginalPriceOfOptions
+                      .toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' })
+                      .replace('₩', '')}
+                  </p>
+                </div>
+                <p className={cx('totalPrice')}>
+                  할인가{' '}
+                  {totalPriceOfOptions.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' }).replace('₩', '')}
+                </p>
+              </div>
+            </div>
           ) : (
-            <div>
+            <div className={cx('content')}>
               <div className={cx('chosenBox')}>
-                <div className={cx('selectedCombinationName')}> 수량 선택 </div>
-                <NumberInput
-                  selectedOptionsObject={selectedOptionsObject}
-                  setSelectedOptionsObject={setSelectedOptionsObject}
-                  setCountChanged={setCountChanged}
-                  combinationId={optionCombinations[0]?.id}
-                  setOrdersIdObject={setOrdersIdObject}
-                  ordersIdObject={ordersIdObject}
-                  objectKey={optionCombinations[0]?.optionCombination}
-                  countWithNoOption={countWithNoOption}
-                  setCountWithNoOption={setCountWithNoOption}
-                />
-                <div>
-                  <p>정가 {totalOriginalPriceOfOptions}원</p>
-                  <p>할인가 {totalPriceOfOptions}원</p>
+                <div className={cx('boxLine1')}>
+                  <div className={cx('selectedCombinationName')}> 수량 선택 </div>
+                </div>
+                <div className={cx('boxLine2')}>
+                  <NumberInput
+                    selectedOptionsObject={selectedOptionsObject}
+                    setSelectedOptionsObject={setSelectedOptionsObject}
+                    setCountChanged={setCountChanged}
+                    combinationId={optionCombinations[0]?.id}
+                    setOrdersIdObject={setOrdersIdObject}
+                    ordersIdObject={ordersIdObject}
+                    objectKey={optionCombinations[0]?.optionCombination}
+                    countWithNoOption={countWithNoOption}
+                    setCountWithNoOption={setCountWithNoOption}
+                  />
+                  <div className={cx('boxLine2-2')}>
+                    <p className={cx('originalPrice')}>
+                      정가
+                      {totalOriginalPriceOfOptions
+                        .toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' })
+                        .replace('₩', '')}
+                      원
+                    </p>
+                    <p className={cx('discountRate')}>
+                      {' '}
+                      {Math.ceil((1 - totalPriceOfOptions / totalOriginalPriceOfOptions) * 100)}%
+                    </p>
+                    <p className={cx('price')}>
+                      할인가
+                      {totalPriceOfOptions
+                        .toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' })
+                        .replace('₩', '')}
+                      원
+                    </p>
+                  </div>
                 </div>
               </div>
               <div className={cx('divider')}></div>
-              <p>총 {totalAmountOfOptions}개 상품금액</p>
-              <p>정가 {totalOriginalPriceOfOptions}</p>
-              <p>할인가 {totalPriceOfOptions}</p>
+              <div>
+                <div className={cx('amountAndPrice')}>
+                  <p className={cx('amount')}>
+                    총{' '}
+                    {totalAmountOfOptions
+                      .toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' })
+                      .replace('₩', '')}
+                    개 상품금액
+                  </p>
+                  <p className={cx('originalTotalPrice')}>
+                    {`정가 ${totalOriginalPriceOfOptions
+                      .toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' })
+                      .replace('₩', '')}원`}
+                  </p>
+                </div>
+                <p className={cx('totalPrice')}>
+                  {`할인가 ${totalPriceOfOptions.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' }).replace('₩', '')}원`}
+                </p>
+              </div>
             </div>
           )}
         </>
