@@ -1,4 +1,4 @@
-import React, { SetStateAction, useEffect, useState } from 'react';
+import React, { SetStateAction, useState } from 'react';
 import Minus from '@/assets/svgs/btn-minus.svg';
 import Plus from '@/assets/svgs/btn-plus.svg';
 import styles from './NumberInput.module.scss';
