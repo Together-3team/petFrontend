@@ -72,6 +72,15 @@
 
   * {
     font-family: 'SUIT Variable';
+    &::-webkit-scrollbar {
+      background-color: transparent;
+      width: 0.4rem;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: $color-gray-500;
+      border-radius: 0.4rem;
+    }
   }
 
   html {

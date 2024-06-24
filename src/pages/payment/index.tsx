@@ -82,11 +82,8 @@ export default function Payment({ defaultDelivery }: { defaultDelivery: Delivery
     const remainingProductCount = (products?.length || 0) - 1;
     const orderName =
       remainingProductCount > 0 ? `${firstProductTitle} 외 ${remainingProductCount}건` : firstProductTitle;
-
     const selectedProductIds = products.map(product => product.id).join(',');
     const deliveryMessageValue = deliveryMessage;
-    console.log(deliveryMessage);
-    console.log(selectedProductIds);
     sessionStorage.setItem('deliveryMessage', deliveryMessageValue);
     sessionStorage.setItem('selectedProductIds', selectedProductIds);
     delivery && sessionStorage.setItem('deliveryId', delivery.id.toString());
@@ -105,6 +102,7 @@ export default function Payment({ defaultDelivery }: { defaultDelivery: Delivery
     selectedProducts?.reduce((total, product) => {
       return total + product.productCost * product.productNumber + product.combinationPrice * product.productNumber;
     }, 0) ?? 0;
+  const formattedTotalPrice = totalPrice.toLocaleString('ko-KR');
 
   function calculateTotalOriginalPrice() {
     return products
@@ -173,8 +171,8 @@ export default function Payment({ defaultDelivery }: { defaultDelivery: Delivery
       ))}
       <div className={styles.rectangle}></div>
       <TotalPay
-        totalPrice={totalPrice}
         title="결제금액"
+        totalPrice={totalPrice}
         totalOriginalPrice={totalOriginalPrice}
         productCount={productCount}
       />
@@ -189,7 +187,7 @@ export default function Payment({ defaultDelivery }: { defaultDelivery: Delivery
             backgroundColor="$color-pink-main"
             onClick={handlePayment}
             disabled={!checkboxChecked || !delivery}>
-            {totalPrice}원 주문하기
+            {formattedTotalPrice}원 주문하기
           </Button>
         </div>
       </div>

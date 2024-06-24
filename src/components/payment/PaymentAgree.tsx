@@ -43,19 +43,38 @@ export default function PaymentAgree({ onCheckboxChange }: PaymentAgreeProps) {
         <div className={styles.checkboxTitle}>
           <input
             type="checkbox"
+            id="checkboxAll"
             className={styles.checkbox}
             checked={checkboxChecked}
             onChange={handleCheckboxChange}
           />
-          <div className={styles.agreeTitle}>주문내용 확인 및 결제 동의</div>
+          <label htmlFor="checkboxAll" className={styles.agreeTitle}>
+            주문내용 확인 및 결제 동의
+          </label>
         </div>
         <div className={styles.contentCheckbox}>
-          <input type="checkbox" className={styles.check} checked={check1Checked} onChange={handleCheck1Change} />
-          <div className={styles.checkContent}>(필수) 개인정보 수집, 이용 동의</div>
+          <input
+            type="checkbox"
+            id="check1"
+            className={styles.check}
+            checked={check1Checked}
+            onChange={handleCheck1Change}
+          />
+          <label htmlFor="check1" className={styles.checkContent}>
+            (필수) 개인정보 수집, 이용 동의
+          </label>
         </div>
         <div className={styles.contentCheckbox}>
-          <input type="checkbox" className={styles.check} checked={check2Checked} onChange={handleCheck2Change} />
-          <div className={styles.checkContent}>(필수) 개인정보 제3자 정보 제공 동의</div>
+          <input
+            type="checkbox"
+            id="check2"
+            className={styles.check}
+            checked={check2Checked}
+            onChange={handleCheck2Change}
+          />
+          <label htmlFor="check2" className={styles.checkContent}>
+            (필수) 개인정보 제3자 정보 제공 동의
+          </label>
         </div>
       </div>
     </>

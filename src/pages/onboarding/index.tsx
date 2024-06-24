@@ -29,7 +29,6 @@ export default function Onboarding() {
       return response;
     },
     onSuccess: data => {
-      console.log(data);
       queryClient.invalidateQueries({
         queryKey: ['user'],
       });
