@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { QueryClient, dehydrate, useMutation } from '@tanstack/react-query';
+import { QueryClient, dehydrate, useMutation, useQueryClient } from '@tanstack/react-query';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useCookies } from 'react-cookie';
@@ -23,6 +23,7 @@ type PhoneNumberValue = Yup.InferType<typeof phoneNumberSchema>;
 
 export default function Info() {
   const { userData } = useAuth();
+  const queryClient = useQueryClient();
   const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken']);
 
   const deleteUsermutation = useMutation({
@@ -40,20 +41,28 @@ export default function Info() {
       return response;
     },
     onSuccess: data => {
-      console.log(data);
-      router.push({
-        pathname: '/my',
-        query: {
-          status: 'success',
-        },
+      queryClient.invalidateQueries({
+        queryKey: ['user'],
       });
+      router.push(
+        {
+          pathname: '/my',
+          query: {
+            status: 'success',
+          },
+        },
+        '/my'
+      );
     },
     onError: error => {
       console.error('회원 정보 수정 실패', error);
-      router.push({
-        pathname: '/my',
-        query: { status: 'error' },
-      });
+      router.push(
+        {
+          pathname: '/my',
+          query: { status: 'error' },
+        },
+        '/my'
+      );
     },
   });
 
@@ -106,7 +115,7 @@ export default function Info() {
       <Header.Root>
         <Header.Box>
           <Header.Left>
-            <BackButton />
+            <BackButton href="/my" />
           </Header.Left>
           <h1>회원 정보</h1>
         </Header.Box>

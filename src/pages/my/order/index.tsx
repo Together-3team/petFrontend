@@ -123,7 +123,6 @@ export default function Order() {
     { id: 3, name: '리뷰 쓰기', disabled: false, onClick: () => handleWriteReview() },
     { id: 4, name: '리뷰 쓰기', disabled: true, onClick: () => handleWriteReview() },
   ];
-
   if (!purchaseData) return <Loading />;
   if (!purchaseData || (purchaseData.data && purchaseData.data.length === 0)) return <Empty />;
   return (
@@ -131,7 +130,7 @@ export default function Order() {
       <Header.Root>
         <Header.Box>
           <Header.Left>
-            <BackButton />
+            <BackButton href="/my" />
           </Header.Left>
           <h1>주문내역</h1>
         </Header.Box>
