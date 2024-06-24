@@ -11,7 +11,7 @@ export default function GoogleLogin() {
       <a href={API_BASE_URL + `/auth/google/${process.env.NEXT_PUBLIC_AUTH_END}`}>
         <div className={cx('googleButton')}>
           <GoogleLogo />
-          <span>카카오로 계속하기</span>
+          <span>구글로 계속하기</span>
         </div>
       </a>
     </>
