@@ -6,26 +6,8 @@ import ReviewProductDataCard from '@/components/common/review/ReviewProductDataC
 import StarRating from '@/components/common/review/StarRating';
 import Textarea from '@/components/common/review/Textarea';
 import { getReviewDetail } from '@/apis/myReviewAPI';
+import { PurchaseInfo, Review } from '@/types/review';
 import styles from './ReviewDetailPage.module.scss';
-
-export interface Review {
-  id: number;
-  rating: number;
-  reviewImages: string;
-  description: string;
-  combinationName: string;
-  title: string;
-  createdAt: any;
-  quantity: string;
-  thumbNailImage: string;
-}
-
-interface PurchaseInfo {
-  title: string;
-  combinationName: string;
-  quantity: number;
-  thumbNailImage: string;
-}
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const reviewId = context.params?.reviewId;
