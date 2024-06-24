@@ -1,3 +1,5 @@
+import classNames from 'classnames/bind';
+
 import styles from './TotalPay.module.scss';
 
 interface TotalPayProps {
@@ -5,9 +7,12 @@ interface TotalPayProps {
   totalOriginalPrice: number;
   productCount: number; // 전체 상품 수
   title: string;
+  inOrder?: boolean;
 }
 
-export default function TotalPay({ totalPrice, totalOriginalPrice, title, productCount }: TotalPayProps) {
+const cx = classNames.bind(styles);
+
+export default function TotalPay({ totalPrice, totalOriginalPrice, title, productCount, inOrder }: TotalPayProps) {
   const discountAmount = (totalOriginalPrice || 0) - (totalPrice || 0);
   const formattedTotalOriginalPrice = (totalOriginalPrice || 0).toLocaleString('ko-KR');
   const formattedTotalPrice = (totalPrice || 0).toLocaleString('ko-KR');
@@ -25,7 +30,7 @@ export default function TotalPay({ totalPrice, totalOriginalPrice, title, produc
           <div>할인 금액</div>
           <div className={styles.priceBold}>-{formattedDiscountAmount}원</div>
         </div>
-        <div className={`${styles.pricePair} ${styles.pink}`}>
+        <div className={cx('pricePair', { pink: !inOrder })}>
           <div>결제 금액</div>
           <div className={styles.priceBold}>{formattedTotalPrice}원</div>
         </div>
@@ -35,7 +40,7 @@ export default function TotalPay({ totalPrice, totalOriginalPrice, title, produc
         </div>
       </div>
       <div className={styles.line}></div>
-      <div className={styles.totalPrice}>
+      <div className={cx('totalPrice', { pink: inOrder })}>
         <div>총 결제 금액</div>
         <div className={styles.totalPriceNum}>{formattedTotalPrice}원</div>
       </div>

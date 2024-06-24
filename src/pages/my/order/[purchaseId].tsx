@@ -109,6 +109,7 @@ export default function OrderDetail() {
             totalPrice={totalPrice}
             totalOriginalPrice={totalOriginalPrice}
             productCount={orderCount}
+            inOrder
           />
         </div>
         {/* <div className={styles.paymentMethod}>
