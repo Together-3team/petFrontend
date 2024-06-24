@@ -93,7 +93,7 @@ export default function Order() {
       <Header.Root>
         <Header.Box>
           <Header.Left>
-            <BackButton />
+            <BackButton href="/my" />
           </Header.Left>
           <h1>주문내역</h1>
         </Header.Box>
@@ -132,7 +132,6 @@ export default function Order() {
                         key={purchase.id}
                         productInfo={{ ...purchase, stock: 3, option: purchase.combinationName }}
                         href="/my/order"
-                        onClick={() => handleCancelPurchase(item.id)}
                         tagText={getTagText(purchase.status)}
                       />
                     ))}
