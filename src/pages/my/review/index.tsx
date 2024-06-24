@@ -58,8 +58,6 @@ export default function Review() {
     queryFn: getWroteReviewList,
   });
 
-  console.log(wroteReviews?.data);
-
   const reviewableList =
     purchaseData &&
     purchaseData.data.map((item: PurchaseDataProps) =>
@@ -74,10 +72,6 @@ export default function Review() {
         stock: 1,
       }))
     );
-
-  // console.log(reviewableData?.data);
-  // console.log(wroteReviews);
-  // console.log(purchaseData);
 
   //TODO: 리뷰 작성 후 테스트 때 적용
   // const myReviewList =
@@ -119,33 +113,20 @@ export default function Review() {
         },
       });
     };
-    // router.push({
-    //   pathname: `/my/review/write`,
-    //   query: {
-    //     reviewableData: reviewableData && reviewableData.data,
-    //     purchaseData: purchaseData && purchaseData.data,
-    //     productId: purchaseId,
-    //     purchaseProductId: purchaseProductId,
-    //     // purchaseData: purchase,
-    //   },
-    // });
-    // console.log(purchase);
   }
 
   function handleClickReviewDetail(review: any) {
-    console.log(review);
+    console.log(review.id);
     return () => {
-      router.push({
-        pathname: `/my/review/${review.id}`,
-        query: {
-          id: review.id,
-          rating: review.rating,
-          reviewImages: review.reviewImages,
-          description: review.description,
-          isDeleted: review.isDeleted,
-          createdAt: review.rcreatedAt,
+      router.push(
+        {
+          pathname: `/my/review/[reviewId]`,
+          query: {
+            id: review.id,
+          },
         },
-      });
+        `/my/review/${review.id}`
+      );
     };
   }
 
