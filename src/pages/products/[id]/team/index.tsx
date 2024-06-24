@@ -25,12 +25,15 @@ export default function TeamPage() {
 
   const socket = io(`${process.env.NEXT_PUBLIC_API_BASE_URL}`);
 
-  const handleJoinButtonClick = () => {
+  const handleJoinButtonClick = (index: number) => {
     if (!isLogin) {
       handleModalOpen();
       return;
     }
-    router.push({ pathname: `/products/${productId}`, query: { open: 'true' } }, `/products/${productId}`);
+    router.push(
+      { pathname: `/products/${productId}`, query: { open: 'true', groupid: teamData[index].id } },
+      `/products/${productId}`
+    );
   };
 
   const handleBackButtonClick = () => {
@@ -76,8 +79,8 @@ export default function TeamPage() {
           </Header.Box>
         </Header.Root>
         <div>
-          {teamData.map(data => (
-            <TeamDataCard key={data.id} data={data} onClick={handleJoinButtonClick} />
+          {teamData.map((data, index) => (
+            <TeamDataCard key={data.id} data={data} onClick={() => handleJoinButtonClick(index)} />
           ))}
         </div>
       </div>
