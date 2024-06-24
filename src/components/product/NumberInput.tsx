@@ -31,9 +31,12 @@ export default function NumberInput({
   countWithNoOption,
   setCountWithNoOption,
 }: NumberInput) {
+  console.log(selectedOptionsObject[objectKey]);
   const [count, setCount] = useState(selectedOptionsObject[objectKey] || 1);
 
   const increment = async () => {
+    const res = await httpClient().get('selected-products/orders');
+    console.log('res: ', res);
     const newCount = count + 1;
     setSelectedOptionsObject(prev => ({ ...prev, [objectKey]: newCount }));
     setCountChanged(true);
@@ -44,6 +47,7 @@ export default function NumberInput({
         optionCombinationId: combinationId,
         quantity: 1,
       };
+      console.log(postItem);
       const response = await httpClient().post<PostOrdersResponseData, PostItem>('selected-products/orders', postItem);
       console.log(response);
       if (ordersIdObject && setOrdersIdObject) {
@@ -98,10 +102,10 @@ export default function NumberInput({
     count,
     countWithNoOption,
     objectKey,
-    ordersId,
-    ordersIdObject,
-    setCountWithNoOption,
-    setOrdersIdObject,
+    //ordersId,
+    //ordersIdObject,
+    //setCountWithNoOption,
+    //setOrdersIdObject,
     setSelectedOptionsObject,
   ]);
 
