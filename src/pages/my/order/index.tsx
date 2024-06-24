@@ -25,22 +25,6 @@ export default function Order() {
   const [filterId, setFilterId] = useState<number>(0);
 
   const { data: purchaseData } = useQuery({ queryKey: ['purchase'], queryFn: purchaseApi.getPurchase });
-  console.log(purchaseData);
-
-  const purchaseList = purchaseData?.data.flatMap((item: PurchaseDataProps) =>
-    item.purchaseProducts.map((product: ProductInfo) => ({
-      productId: product.productId,
-      id: product.id,
-      title: product.title,
-      thumbNailImage: product.thumbNailImage,
-      originalPrice: product.originalPrice,
-      price: product.price,
-      option: product.combinationName,
-      quantity: product.quantity,
-      stock: 1,
-      status: product.status,
-    }))
-  );
 
   const filteredPurchaseProductsData = purchaseData?.data.flatMap((item: PurchaseDataProps) =>
     item.purchaseProducts.filter((product: ProductInfo) => (filterId === 0 ? true : product.status === filterId - 1))
@@ -75,17 +59,6 @@ export default function Order() {
     }
   }
 
-  // const { mutateAsync: mutation } = useMutation({
-  //   mutationKey: ['changePurchaseStatus'],
-  //   mutationFn: async ({ id, body }: { id: number; body: number }) => {
-  //     const response = await purchaseApi.putPaymentStatus(id, body);
-  //     return response;
-  //   },
-  // });
-
-  // function handleClick() {
-  //   mutation;
-  // }
   if (!purchaseData) return <Loading />;
   if (!purchaseData || (purchaseData.data && purchaseData.data.length === 0)) return <Empty />;
   return (
@@ -125,16 +98,16 @@ export default function Order() {
                   </div>
                 )}
                 <div className={styles.orderCards}>
-                  {filteredPurchaseProductsData &&
+                  {/* {filteredPurchaseProductsData &&
                     filteredPurchaseProductsData.length > 0 &&
                     filteredPurchaseProductsData.map((purchase: ProductInfo) => (
-                      <OrderCard
-                        key={purchase.id}
-                        productInfo={{ ...purchase, stock: 3, option: purchase.combinationName }}
-                        href="/my/order"
-                        tagText={getTagText(purchase.status)}
-                      />
-                    ))}
+                      // <OrderCard
+                      //   key={purchase.id}
+                      //   productInfo={{ ...purchase, stock: 3, option: purchase.combinationName }}
+                      //   href="/my/order"
+                      //   tagText={getTagText(purchase.status)}
+                      // />
+                    ))} */}
                   {filteredPurchaseProductsData && filteredPurchaseProductsData.length > 0 && (
                     <div className={styles.rectangle} />
                   )}
