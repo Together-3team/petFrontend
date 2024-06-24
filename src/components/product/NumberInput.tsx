@@ -87,7 +87,13 @@ export default function NumberInput({
             optionCombinationId: combinationId,
             quantity: count,
           };
-          await httpClient().post('/selected-products/orders', postItem);
+          const response = await httpClient().post<PostOrdersResponseData, PostItem>(
+            'selected-products/orders',
+            postItem
+          );
+          if (ordersIdObject && setOrdersIdObject) {
+            setOrdersIdObject({ [objectKey]: response.id });
+          }
         }
       }
     };

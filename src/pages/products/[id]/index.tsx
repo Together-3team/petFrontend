@@ -83,22 +83,18 @@ export default function ProductDetailPage({
     //일부러 빈 배열을 넣음.
   }, []);
 
-  //페이지에서 벗어나면 주문 목록 초기화
+  //페이지 들어오면 주문 목록 초기화
   useEffect(() => {
     const handleUrlChange = async () => {
       try {
-        // await axiosInstance.delete('/selected-products/orders');
+        /// await axiosInstance.delete('/selected-products/orders');
         await httpClient().delete('/selected-products/orders');
       } catch (error) {
         console.error('요청 중 오류가 발생했습니다:', error);
       }
     };
-    router.events.on('routeChangeStart', handleUrlChange);
-
-    return () => {
-      router.events.off('routeChangeStart', handleUrlChange);
-    };
-  }, [router.events]);
+    handleUrlChange();
+  }, []);
 
   return (
     <div className={cx('layout')}>
