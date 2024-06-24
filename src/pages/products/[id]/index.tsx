@@ -24,6 +24,9 @@ import { useEffect } from 'react';
 import { httpClient } from '@/apis/httpClient';
 import useToast from '@/hooks/useToast';
 import FloatingBox from '@/components/common/Layout/Footer/FloatingBox';
+import FloatingActionBox from '@/components/common/Layout/Footer/FloatingActionBox';
+import ScrollTopButton from '@/components/common/Button/ScrollTop';
+import LoginModal from '@/components/common/Modal/LoginModal';
 
 const cx = classNames.bind(styles);
 
@@ -53,14 +56,16 @@ export default function ProductDetailPage({ product }: { product: Product }) {
     handleModalClose: handleSecondModalClose,
   } = useModal();
   const router = useRouter();
-  const { id } = router.query;
+  const { id, open } = router.query;
   const productId = Number(id);
   const { isLogin } = useAuth();
   const { showToast } = useToast('fixedCta');
 
-  const handleLoginButtonClick = () => {
-    router.replace({ pathname: '/my', query: { prevPath: router.asPath } });
-  };
+  // useEffect(() => {
+  //   if (open === 'true') {
+  //     handleModalOpen();
+  //   }
+  // });
 
   //페이지에서 벗어나면 주문 목록 초기화
   useEffect(() => {
@@ -81,7 +86,7 @@ export default function ProductDetailPage({ product }: { product: Product }) {
   }, [router.events]);
 
   return (
-    <>
+    <div className={cx('layout')}>
       <Header.Root className={cx('headerRoot')}>
         <Header.Box>
           <Header.Left>
@@ -94,7 +99,7 @@ export default function ProductDetailPage({ product }: { product: Product }) {
       </Header.Root>
       <div className={cx('contents')}>
         <ProductInfo product={product} />
-        <HighlightTeam productId={productId} />
+        <HighlightTeam product={product} showToast={showToast} />
         <HighlightReview productId={productId} />
         <DetailedDescription descriptionImages={product.detail?.descriptionImages} />
         <div className={cx('cardSlider')}>
@@ -105,6 +110,9 @@ export default function ProductDetailPage({ product }: { product: Product }) {
       </div>
 
       <FloatingBox id="fixedCta">
+        <FloatingActionBox>
+          <ScrollTopButton />
+        </FloatingActionBox>
         <div className={cx('fixedCta')}>
           <div className={cx('zzim')}>
             <Zzim color="gray" productId={productId} initialIsZzimed={product ? product.isZzimed : undefined} />
@@ -127,23 +135,7 @@ export default function ProductDetailPage({ product }: { product: Product }) {
         type="cartPurchase"
         showToast={showToast}
       />
-      <BottomModal isOpen={secondModalOpen} onClose={handleSecondModalClose}>
-        <div className={cx('modalContents')}>
-          <p className={cx('modalTitle')}>
-            로그인이 필요합니다.
-            <br />
-            로그인 페이지로 이동하시겠습니까?
-          </p>
-          <div className={cx('modalButtons')}>
-            <Button size="medium" backgroundColor="$color-white" onClick={handleSecondModalClose}>
-              취소
-            </Button>
-            <Button size="medium" backgroundColor="$color-gray-800" onClick={handleLoginButtonClick}>
-              확인
-            </Button>
-          </div>
-        </div>
-      </BottomModal>
-    </>
+      <LoginModal isOpen={secondModalOpen} onClose={handleSecondModalClose} />
+    </div>
   );
 }

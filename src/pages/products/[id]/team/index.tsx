@@ -4,8 +4,6 @@ import { io } from 'socket.io-client';
 import Header from '@/components/common/Layout/Header';
 import BackButton from '@/components/common/Button/BackButton';
 import TeamDataCard from '@/components/common/Team/TeamDataCard';
-import useModal from '@/hooks/useModal';
-import OptionBottomSheet from '@/components/product/OptionBottomSheet';
 import { httpClient } from '@/apis/httpClient';
 import { GroupBuyingData } from '@/types/apis/groupBuying';
 import styles from './TeamPage.module.scss';
@@ -14,10 +12,13 @@ export default function TeamPage() {
   const router = useRouter();
   const productId = router.query.id;
 
-  const { modalOpen, handleModalOpen, handleModalClose } = useModal();
   const [teamData, setTeamData] = useState<GroupBuyingData[]>([]);
 
   const socket = io(`${process.env.NEXT_PUBLIC_API_BASE_URL}`);
+
+  const handleJoinButtonClick = () => {
+    router.push({ pathname: `/products/${productId}`, query: { open: 'true' } });
+  };
 
   useEffect(() => {
     const fetchGroupBuyingData = async () => {
@@ -57,11 +58,10 @@ export default function TeamPage() {
         </Header.Root>
         <div>
           {teamData.map(data => (
-            <TeamDataCard key={data.id} data={data} onClick={handleModalOpen} />
+            <TeamDataCard key={data.id} data={data} onClick={handleJoinButtonClick} />
           ))}
         </div>
       </div>
-      <OptionBottomSheet isOpen={modalOpen} onClose={handleModalClose} />
     </>
   );
 }

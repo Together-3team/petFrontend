@@ -449,7 +449,7 @@ export default function OptionBottomSheet({
                   combinationId={optionCombinations[0]?.id}
                   setOrdersIdObject={setOrdersIdObject}
                   ordersIdObject={ordersIdObject}
-                  objectKey={optionCombinations[0].optionCombination}
+                  objectKey={optionCombinations[0]?.optionCombination}
                   countWithNoOption={countWithNoOption}
                   setCountWithNoOption={setCountWithNoOption}
                 />
