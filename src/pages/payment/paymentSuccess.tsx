@@ -47,6 +47,15 @@ export default function PaymentSuccess() {
       }
     };
     sendPaymentData();
+    const timer = setTimeout(() => {
+      if (gbi) {
+        router.push('/payment/paymentSuccessByWith');
+      } else {
+        router.push('/payment/paymentSuccessByCart');
+      }
+    }, 2000);
+
+    return () => clearTimeout(timer);
   }, [paymentKey, orderId, amount]);
 
   return (
