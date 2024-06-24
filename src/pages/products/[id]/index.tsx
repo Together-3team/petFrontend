@@ -1,4 +1,5 @@
 import classNames from 'classnames/bind';
+import { useEffect, useState } from 'react';
 import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
 import axiosInstance from '@/apis/authAxiosInstance';
@@ -11,22 +12,20 @@ import BackButton from '@/components/common/Button/BackButton';
 import OrderPolicy from '@/components/productDetails/orderPolicy';
 import CardSliderSimilar from '@/components/common/Card/CardSlider/Similar';
 import { Product } from '@/types/product';
-import styles from './ProductDetail.module.scss';
 import HighlightTeam from '@/components/common/Team/HighlightTeam';
 import HighlightReview from '@/components/common/review/HighlightReview';
 import OptionBottomSheet from '@/components/product/OptionBottomSheet';
 import useModal from '@/hooks/useModal';
 import Zzim from '@/components/common/Zzim';
 import Button from '@/components/common/Button';
-import BottomModal from '@/components/common/Modal/Base/BottomModal';
 import useAuth from '@/hooks/useAuth';
-import { useEffect, useState } from 'react';
 import { httpClient } from '@/apis/httpClient';
 import useToast from '@/hooks/useToast';
 import FloatingBox from '@/components/common/Layout/Footer/FloatingBox';
 import FloatingActionBox from '@/components/common/Layout/Footer/FloatingActionBox';
 import ScrollTopButton from '@/components/common/Button/ScrollTop';
 import LoginModal from '@/components/common/Modal/LoginModal';
+import styles from './ProductDetail.module.scss';
 
 const cx = classNames.bind(styles);
 
@@ -80,7 +79,6 @@ export default function ProductDetailPage({ product, open }: { product: Product;
       try {
         // await axiosInstance.delete('/selected-products/orders');
         await httpClient().delete('/selected-products/orders');
-        console.log('주문 목록 초기화 요청을 보냈습니다.');
       } catch (error) {
         console.error('요청 중 오류가 발생했습니다:', error);
       }

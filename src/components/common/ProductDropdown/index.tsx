@@ -1,9 +1,9 @@
+import { useState } from 'react';
 import Image from 'next/image';
-import styles from './Dropdown.module.scss';
-import { useState, useId, useEffect } from 'react';
 import DropDownItem from './DropDownItem';
 import { UseFormRegisterReturn } from 'react-hook-form';
 import arrow from '@/assets/images/arrow-down.jpg';
+import styles from './Dropdown.module.scss';
 
 type TData = {
   value: string;
@@ -40,8 +40,6 @@ export function ProductDropdown({
     value: '',
     label: '',
   });
-
-  console.log(dropdownOn);
 
   const handleDropdownOn = (e: any): void => {
     e.stopPropagation();

@@ -1,18 +1,17 @@
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { io } from 'socket.io-client';
+
 import TeamDataCard from './TeamDataCard';
 import { httpClient } from '@/apis/httpClient';
 import { GroupBuyingData } from '@/types/apis/groupBuying';
-import styles from './HighlightTeam.module.scss';
 import useAuth from '@/hooks/useAuth';
 import useModal from '@/hooks/useModal';
 import LoginModal from '../Modal/LoginModal';
 import OptionBottomSheet from '@/components/product/OptionBottomSheet';
-import useToast from '@/hooks/useToast';
 import { Product } from '@/types/product';
 import { ToastParameters } from '@/types/components/toast';
-import { useRouter } from 'next/router';
+import styles from './HighlightTeam.module.scss';
 
 interface HighlightTeamProps {
   product: Product;

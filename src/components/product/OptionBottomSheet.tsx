@@ -1,20 +1,20 @@
 import { useCallback, useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
+import { useRouter } from 'next/router';
+import Image from 'next/image';
+
 import BottomSheet from '../common/Modal/Base/BottomSheet';
 import { httpClient } from '@/apis/httpClient';
 import { ProductDropdown } from '../common/ProductDropdown';
-import styles from './OptionBottomSheet.module.scss';
-import Image from 'next/image';
 import arrow from '@/assets/images/arrow-down.jpg';
 import NumberInput from './NumberInput';
 import Button from '../common/Button';
-import { useRouter } from 'next/router';
-import X from '@/assets/svgs/btn-x.svg';
-import useToast from '@/hooks/useToast';
+import { queryClient } from '@/utils/queryClient';
 import { ToastParameters } from '@/types/components/toast';
 import { Product as QueryProduct } from '@/types/apis/product';
 import { Product as ProductType } from '@/types/product';
-import { queryClient } from '@/utils/queryClient';
+import X from '@/assets/svgs/btn-x.svg';
+import styles from './OptionBottomSheet.module.scss';
 
 const cx = classNames.bind(styles);
 
@@ -168,7 +168,6 @@ export default function OptionBottomSheet({
       try {
         const response = await httpClient().get<OrdersResponseData[]>('selected-products/orders');
         for (let combo of response) {
-          console.log(combo.optionCombination.optionCombination);
           setSelectedOptionsObject(prev => ({ ...prev, [combo.optionCombination.id]: combo.quantity }));
           setSelectedOptions(combo.optionCombination.optionCombination.split(','));
         }
@@ -251,17 +250,14 @@ export default function OptionBottomSheet({
     }
     queryClient.setQueryData(['cartData'], productList);
     const response = queryClient.getQueryData(['cartData']);
-    console.log('nnnnnnnnn ', response);
     router.push('/payment');
   };
 
   const handleCartButtonClick = async () => {
     try {
       const response = await httpClient().get('selected-products/orders');
-      console.log('주문 목록: ', response);
       await httpClient().put('selected-products/orders-to-carts');
       const res = await httpClient().get('selected-products/carts');
-      console.log('장바구니 목록: ', res);
       await httpClient().delete('selected-products/orders');
     } catch (err) {
       console.log(err);
@@ -272,11 +268,7 @@ export default function OptionBottomSheet({
 
   useEffect(() => {
     const handleSelectedOptionsObject = async () => {
-      console.log(selectedOptions);
       const { selectedIds, combinationId } = calculateCombinationPriceAndName(selectedOptions);
-      console.log(selectedIds);
-      console.log(selectedOptions.every(option => option !== '') && selectedIds !== '');
-      console.log(countChanged === true && selectedIds !== '');
       if (
         (selectedOptions.every(option => option !== '') && selectedIds !== '') ||
         (countChanged === true && selectedIds !== '')
@@ -297,12 +289,10 @@ export default function OptionBottomSheet({
           optionCombinationId: combinationId,
           quantity: 1,
         };
-        console.log('aaaaaaaaaa ', postItem);
         const response = await httpClient().post<PostOrdersResponseData, PostItem>(
           'selected-products/orders',
           postItem
         );
-        console.log('주문 목록ㄱㄱㄱㄱㄱㄱㄱ ', response);
         setOrdersIdObject(prev => ({ ...prev, [selectedIds]: response.id }));
       }
     };
@@ -323,10 +313,6 @@ export default function OptionBottomSheet({
       setProductOptionsOn(true);
     }
   }, [isOpen, selectedOptionsObject, productOptions, loadingState]);
-
-  useEffect(() => {
-    console.log(selectedOptionsObject);
-  }, [selectedOptionsObject]);
 
   useEffect(() => {
     let totalAmountOfOptions = 0;

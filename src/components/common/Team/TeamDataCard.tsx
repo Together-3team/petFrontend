@@ -1,10 +1,10 @@
 import AmpersandIcon from '@/assets/svgs/ampersand-icon.svg';
-import styles from './TeamDataCard.module.scss';
 import useModal from '@/hooks/useModal';
 import OptionBottomSheet from '@/components/product/OptionBottomSheet';
 import useToast from '@/hooks/useToast';
 import useAuth from '@/hooks/useAuth';
 import LoginModal from '../Modal/LoginModal';
+import styles from './TeamDataCard.module.scss';
 
 export default function TeamDataCard({ data, product, onClick }: any) {
   const { modalOpen, handleModalOpen, handleModalClose } = useModal();

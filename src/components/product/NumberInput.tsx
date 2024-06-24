@@ -50,9 +50,7 @@ export default function NumberInput({
           quantity: 2,
         };
       }
-      console.log('bbbbbbb ', postItem);
       const response = await httpClient().post<PostOrdersResponseData, PostItem>('selected-products/orders', postItem);
-      console.log(response);
       if (ordersIdObject && objectKey === '1' && setOrdersIdObject) {
         setOrdersIdObject({ [objectKey]: response.id });
       }
@@ -77,9 +75,7 @@ export default function NumberInput({
           status: 1,
           quantity: newCount,
         };
-        console.log('cccccc ', putItem);
         const response = await httpClient().put(`/selected-products/${ordersId || ordersIdObject?.['1']}`, putItem);
-        console.log(response);
       }
     }
   };

@@ -1,14 +1,12 @@
-import Image from 'next/image';
 import classNames from 'classnames/bind';
-import styles from './ProductInfo.module.scss';
-import { useEffect, useState } from 'react';
+
 import StarRating from '@/components/common/review/StarRating';
 import Tag from '@/components/common/Tag';
-import BannerCarousel from '@/components/common/Carousel/Banner';
 import ProductCarousel from '@/components/common/Carousel/Product';
-import Delivery from '@/assets/svgs/delivery.svg';
 import getFutureDate from '@/utils/getFutureDate';
 import { Product } from '@/types/product';
+import Delivery from '@/assets/svgs/delivery.svg';
+import styles from './ProductInfo.module.scss';
 
 const cx = classNames.bind(styles);
 
