@@ -64,7 +64,7 @@ export default function Order() {
     queryFn: getWroteReviewList,
   });
 
-  const reviewableId = wroteReviews?.data.map((item: PurchaseData) => item.id);
+  const notReviewableId = wroteReviews?.data.map((item: PurchaseData) => item.id);
 
   const { mutateAsync: mutation } = useMutation({
     mutationKey: ['changePurchaseStatus'],
@@ -116,6 +116,7 @@ export default function Order() {
   }
 
   function handleWriteReview(purchase: PurchaseData) {
+    console.log(purchase);
     return () => {
       router.push({
         pathname: `/my/review/write`,
@@ -125,7 +126,7 @@ export default function Order() {
           combinationName: purchase.combinationName,
           quantity: purchase.quantity,
           thumbNailImage: purchase.thumbNailImage,
-          productId: purchase.productId,
+          productId: 1,
         },
       });
     };
@@ -160,8 +161,8 @@ export default function Order() {
     { id: 2, name: '리뷰 쓰기', disabled: true, onClick: handleWriteReview(purchase) },
     {
       id: 3,
-      name: reviewableId?.length > 0 && reviewableId.includes(purchase.id) ? '리뷰 쓰기' : '리뷰 작성 완료',
-      disabled: reviewableId?.length > 0 && reviewableId.includes(purchase.id) ? false : true,
+      name: notReviewableId?.length > 0 && notReviewableId.includes(purchase.id) ? '리뷰 작성 완료' : '리뷰 쓰기',
+      disabled: notReviewableId?.length > 0 && notReviewableId.includes(purchase.id) ? true : false,
       onClick: handleWriteReview(purchase),
     },
     { id: 4, name: '리뷰 쓰기', disabled: true, onClick: handleWriteReview(purchase) },
@@ -217,7 +218,7 @@ export default function Order() {
                         .map((purchase: ProductInfo) => (
                           <OrderCard
                             key={purchase.id}
-                            href={`/my/order/${purchase.id}`}
+                            href={`/my/order/${item.id}`}
                             productInfo={{ ...purchase, stock: 3, option: purchase.combinationName }}
                             status={purchase.status as number}
                             buttons={[

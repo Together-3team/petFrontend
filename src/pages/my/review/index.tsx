@@ -69,6 +69,7 @@ export default function Review() {
   });
 
   function handleClickWriteReview(purchase: PurchaseData) {
+    console.log(purchase);
     return () => {
       router.push({
         pathname: `/my/review/write`,
