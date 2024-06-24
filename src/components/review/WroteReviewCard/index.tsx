@@ -14,7 +14,9 @@ export default function WroteReviewCard({ href, productInfo, onClick }: WroteRev
     <div className={styles.wroteReviewCardArea} onClick={onClick}>
       <div className={styles.wroteReviewCardLayout}>
         <Card href={href} productInfo={productInfo} direction="row" size="miniImage" />
-        <NextButtonTemp href={href} />
+        <div className={styles.wroteReviewCardButton}>
+          <NextButtonTemp href={href} />
+        </div>
       </div>
       <hr className={styles.updownBorder} />
     </div>

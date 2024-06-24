@@ -16,6 +16,7 @@ import BackButton from '@/components/common/Button/BackButton';
 import Button from '@/components/common/Button';
 import PlusButton from '@/assets/svgs/plus-button.svg';
 import { nicknameSchema } from '@/utils/signupFormSchema';
+import defaultImg from '@/assets/images/rectangle.png';
 
 import styles from './Profile.module.scss';
 
@@ -27,7 +28,7 @@ export default function Profile() {
   const queryClient = useQueryClient();
 
   const [profileImage, setProfileImage] = useState<File>();
-  const [profileImageUrl, setProfileImageUrl] = useState<string | null>(userData.profileImage || null);
+  const [profileImageUrl, setProfileImageUrl] = useState<string | null>(userData.profileImage || defaultImg);
 
   const [dogChecked, setDogChecked] = useState(userData.preferredPet === 1 || userData.preferredPet === 0);
   const [catChecked, setCatChecked] = useState(userData.preferredPet === 2 || userData.preferredPet === 0);
@@ -67,6 +68,7 @@ export default function Profile() {
 
   const methods = useForm<ProfileValue & FieldValues>({
     resolver: yupResolver(nicknameSchema),
+    mode: 'onBlur',
   });
 
   const {

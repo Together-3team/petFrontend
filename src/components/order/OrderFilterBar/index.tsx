@@ -1,9 +1,9 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames/bind';
 import useDragScroll from '@/hooks/useDragScroll';
+import scrollToTargetX from '@/utils/scrollToTargetX';
 
 import styles from './OrderFilterBar.module.scss';
-import scrollToTargetX from '@/utils/scrollToTargetX';
 
 const cx = classNames.bind(styles);
 
@@ -35,16 +35,20 @@ export default function OrderFilterBar({ onFilterChange }: OrderFilterBarProps) 
 
   const targetRef = useRef<HTMLButtonElement | null>(null);
 
+  const [isClicked, setIsClicked] = useState(false);
+
   const handleButtonClick = useCallback(
     (item: OrderFilterButtonsProps) => {
       setActiveButton(item);
       onFilterChange(item.id);
-      if (targetRef.current) {
-        targetRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
+      setIsClicked(prev => !prev);
     },
     [onFilterChange]
   );
+
+  useEffect(() => {
+    scrollToTargetX(dragScrollProps.ref, targetRef);
+  }, [dragScrollProps.ref, isClicked]);
 
   return (
     <div className={styles.container} {...dragScrollProps}>

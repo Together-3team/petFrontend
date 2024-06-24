@@ -30,10 +30,8 @@ const signupFormSchema = Yup.object().shape({
 });
 
 export const phoneNumberSchema = Yup.object({
-  phoneNumber: Yup.string()
-    .matches(/010-\d{3,4}-\d{4}$/, '연락처 입력 형식을 확인해주세요. (000-0000-0000)')
-    .required('연락처를 입력해주세요'),
-}).required();
+  phoneNumber: Yup.string().matches(/010-\d{3,4}-\d{4}$/, '연락처 입력 형식을 확인해주세요. (000-0000-0000)'),
+});
 
 export const nicknameSchema = Yup.object({
   nickname: Yup.string()

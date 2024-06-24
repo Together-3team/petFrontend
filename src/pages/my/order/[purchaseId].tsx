@@ -32,6 +32,7 @@ export default function OrderDetail() {
     detailedAddress: purchaseDetailData.data.detailedAddress,
     zipCode: purchaseDetailData.data.zipCode,
     message: purchaseDetailData.data.deliveryMessage,
+    deliveryName: purchaseDetailData.data.deliveryName,
   };
 
   function calculateTotalOriginalPrice() {
@@ -71,7 +72,7 @@ export default function OrderDetail() {
         <div className={styles.deliveryArea}>
           <h3>배송지</h3>
           <div className={styles.deliveryCard}>
-            <h4>{deliveryInfo?.recipient} 집</h4>
+            <h4>{deliveryInfo?.deliveryName}</h4>
             <span>
               {deliveryInfo?.recipient} · {deliveryInfo?.recipientPhoneNumber}
               <br />
@@ -98,6 +99,7 @@ export default function OrderDetail() {
               status={order.status as number}
               productInfo={{ ...order, stock: 3, option: order.combinationName }}
               tagText={getTagText(order.status)}
+              href={`/my/order/${purchaseId}`}
             />
           ))}
       </div>
@@ -109,6 +111,7 @@ export default function OrderDetail() {
             totalPrice={totalPrice}
             totalOriginalPrice={totalOriginalPrice}
             productCount={orderCount}
+            inOrder
           />
         </div>
         {/* <div className={styles.paymentMethod}>
