@@ -231,6 +231,7 @@ export default function OptionBottomSheet({
   };
 
   const handleBuyButtonClick = async () => {
+    console.log(groupBuyingId);
     let productList: QueryProduct[] = [];
     for (let key of Object.keys(selectedOptionsObject)) {
       const selectedIds = key.split(',');
@@ -250,6 +251,7 @@ export default function OptionBottomSheet({
     }
     queryClient.setQueryData(['cartData'], productList);
     const response = queryClient.getQueryData(['cartData']);
+    console.log(response);
     router.push('/payment');
   };
 
