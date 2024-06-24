@@ -16,7 +16,7 @@ import Header from '@/components/common/Layout/Header';
 import { useRouter } from 'next/router';
 import CardSliderRecommended from '@/components/common/Card/CardSlider/Recommended';
 import { CartData } from '@/types/apis/product';
-import { setCartData } from '@/queries/cartQueries';
+import { setCartData, getCartData } from '@/queries/cartQueries';
 
 export default function Cart() {
   const BOTTOM_BOX_ID = 'bottomBox';

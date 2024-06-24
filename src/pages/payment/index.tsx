@@ -163,6 +163,7 @@ export default function Payment({ defaultDelivery }: { defaultDelivery: Delivery
           key={product.id}
           productTitle={product.productTitle}
           option={product.option}
+          combinationPrice={product.combinationPrice}
           productCost={product.productCost}
           originalCost={product.originalCost}
           productNumber={product.productNumber}
