@@ -21,4 +21,35 @@
     background: $color-gray-100;
     border: 0;
   }
+
+  .cardButton {
+    display: flex;
+    height: 4.4rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.8rem;
+    flex: 1 0 0;
+    border-radius: 0.8rem;
+    border: var(--product-cnt, 1px) solid $color-gray-300;
+    background: $color-white;
+
+    @include font-body1;
+
+    &:disabled {
+      background-color: $color-gray-100;
+      border-color: $color-gray-100;
+      color: $color-gray-400;
+      cursor: default;
+    }
+  }
+
+  .reviewButton {
+    color: $color-pink-main;
+    border-color: $color-pink-main;
+
+    &:disabled {
+      border-color: $color-gray-100;
+    }
+  }
 }

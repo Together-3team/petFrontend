@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import classNames from 'classnames/bind';
-import purchaseApi from '@/apis/purchase/api';
+import purchaseApi, { PutProductsRdo } from '@/apis/purchase/api';
 import formatDate from '@/utils/formatDate';
 import Loading from '@/components/common/Loading';
 import useToast from '@/hooks/useToast';
@@ -22,25 +22,10 @@ const cx = classNames.bind(styles);
 export default function Order() {
   const router = useRouter();
   const { showToast } = useToast();
+  const queryClient = useQueryClient();
   const [filterId, setFilterId] = useState<number>(0);
 
   const { data: purchaseData } = useQuery({ queryKey: ['purchase'], queryFn: purchaseApi.getPurchase });
-  console.log(purchaseData);
-
-  const purchaseList = purchaseData?.data.flatMap((item: PurchaseDataProps) =>
-    item.purchaseProducts.map((product: ProductInfo) => ({
-      productId: product.productId,
-      id: product.id,
-      title: product.title,
-      thumbNailImage: product.thumbNailImage,
-      originalPrice: product.originalPrice,
-      price: product.price,
-      option: product.combinationName,
-      quantity: product.quantity,
-      stock: 1,
-      status: product.status,
-    }))
-  );
 
   const filteredPurchaseProductsData = purchaseData?.data.flatMap((item: PurchaseDataProps) =>
     item.purchaseProducts.filter((product: ProductInfo) => (filterId === 0 ? true : product.status === filterId - 1))
@@ -57,17 +42,27 @@ export default function Order() {
     });
   }
 
-  const cancelMutation = useMutation({
-    mutationKey: ['cancelPurchase'],
-    mutationFn: async (id: number) => {
-      const response = await purchaseApi.delete(id);
-      return response.data;
+  const { mutateAsync: mutation } = useMutation({
+    mutationKey: ['changePurchaseStatus'],
+    mutationFn: async ({ id, body }: { id: number; body: PutProductsRdo }) => {
+      const response = await purchaseApi.putPurchase(id, body);
+      return response;
+    },
+    onSuccess(data) {
+      queryClient.invalidateQueries({ queryKey: ['purchase'] });
     },
   });
 
-  async function handleCancelPurchase(id: number) {
+  async function handleCancelPurchase(purchaseId: number) {
     try {
-      await cancelMutation.mutateAsync(id);
+      await mutation({
+        id: purchaseId,
+        body: {
+          status: 6,
+          deliveryCompany: 'string',
+          trackingNumber: 'string',
+        },
+      });
       showToast({ status: 'success', message: '해당 상품 주문을 취소했습니다.' });
     } catch (error) {
       showToast({ status: 'error', message: '오류가 발생했습니다. 다시 한 번 시도해 주세요.' });
@@ -75,17 +70,60 @@ export default function Order() {
     }
   }
 
-  // const { mutateAsync: mutation } = useMutation({
-  //   mutationKey: ['changePurchaseStatus'],
-  //   mutationFn: async ({ id, body }: { id: number; body: number }) => {
-  //     const response = await purchaseApi.putPaymentStatus(id, body);
-  //     return response;
-  //   },
-  // });
+  async function handleExchangeOrRefund(purchaseId: number) {
+    try {
+      await mutation({
+        id: purchaseId,
+        body: {
+          status: 6,
+          deliveryCompany: '우체국 택배',
+          trackingNumber: '111',
+        },
+      });
+      showToast({ status: 'success', message: '교환/환불을 진행 중입니다.' });
+    } catch (error) {
+      showToast({ status: 'error', message: '오류가 발생했습니다. 다시 한 번 시도해 주세요.' });
+      console.error('Error handling exchange/refund:', error);
+    }
+  }
 
-  // function handleClick() {
-  //   mutation;
-  // }
+  function handleCheckDeliver() {
+    showToast({ status: 'success', message: '배송 조회를 진행 중입니다.' });
+  }
+
+  function handleWriteReview() {
+    router.push({
+      pathname: `/my/review/write`,
+      query: purchaseData?.data.id,
+    });
+  }
+
+  const firstButton = (purchaseId: number) => [
+    {
+      id: 1,
+      name: '주문 취소',
+      disabled: false,
+      onClick: () => handleCancelPurchase(purchaseId),
+    },
+    { id: 2, name: '교환/환불', disabled: false, onClick: () => handleExchangeOrRefund(purchaseId) },
+    { id: 3, name: '교환/환불', disabled: false, onClick: () => handleExchangeOrRefund(purchaseId) },
+    { id: 4, name: '배송 조회', disabled: false, onClick: handleCheckDeliver },
+  ];
+
+  const secondButton = (purchaseId: number) => [
+    { id: 1, name: '배송 조회', disabled: true, onClick: handleCheckDeliver },
+    { id: 2, name: '배송 조회', disabled: false, onClick: handleCheckDeliver },
+    { id: 3, name: '배송 조회', disabled: false, onClick: handleCheckDeliver },
+    { id: 4, name: '교환/환불', disabled: true, onClick: () => handleExchangeOrRefund(purchaseId) },
+  ];
+
+  const thirdButton = (purchaseId: number) => [
+    { id: 1, name: '리뷰 쓰기', disabled: true, onClick: () => handleWriteReview() },
+    { id: 2, name: '리뷰 쓰기', disabled: true, onClick: () => handleWriteReview() },
+    { id: 3, name: '리뷰 쓰기', disabled: false, onClick: () => handleWriteReview() },
+    { id: 4, name: '리뷰 쓰기', disabled: true, onClick: () => handleWriteReview() },
+  ];
+
   if (!purchaseData) return <Loading />;
   if (!purchaseData || (purchaseData.data && purchaseData.data.length === 0)) return <Empty />;
   return (
@@ -109,39 +147,51 @@ export default function Order() {
               (a: PurchaseDataProps, b: PurchaseDataProps): number =>
                 new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
             )
-            .map((item: PurchaseDataProps) => (
-              <div key={item.id}>
-                {filteredPurchaseProductsData && filteredPurchaseProductsData.length > 0 && (
-                  <div className={styles.orderInfo}>
-                    <div className={styles.orderInfoUp}>
-                      <span className={styles.orderDate}>{formatDate(item.createdAt)}</span>
-                      <div
-                        className={styles.orderDetail}
-                        onClick={() => handleMoveOrderDetail({ purchaseId: item.id, purchaseDate: item.createdAt })}>
-                        주문상세
+            .map(
+              (item: PurchaseDataProps) =>
+                item.purchaseProducts.filter((product: ProductInfo) =>
+                  filterId === 0 ? true : product.status === filterId - 1
+                ).length > 0 && (
+                  <div key={item.id}>
+                    {filteredPurchaseProductsData.length > 0 && (
+                      <div className={styles.orderInfo}>
+                        <div className={styles.orderInfoUp}>
+                          <span className={styles.orderDate}>{formatDate(item.createdAt)}</span>
+                          <div
+                            className={styles.orderDetail}
+                            onClick={() =>
+                              handleMoveOrderDetail({ purchaseId: item.id, purchaseDate: item.createdAt })
+                            }>
+                            주문상세
+                          </div>
+                        </div>
+                        <span className={styles.orderNumber}>주문번호 No. {item.id}</span>
                       </div>
+                    )}
+                    <div className={styles.orderCards}>
+                      {item.purchaseProducts
+                        .filter((product: ProductInfo) => (filterId === 0 ? true : product.status === filterId - 1))
+                        .map((purchase: ProductInfo, index) => (
+                          <OrderCard
+                            key={purchase.id}
+                            href={`/my/order/${purchase.id}`}
+                            productInfo={{ ...purchase, stock: 3, option: purchase.combinationName }}
+                            status={purchase.status as number}
+                            buttons={[
+                              firstButton(purchase.id as number),
+                              secondButton(purchase.id as number),
+                              thirdButton(purchase.id as number),
+                            ]}
+                            tagText={getTagText(purchase.status)}
+                          />
+                        ))}
+                      {item.purchaseProducts.filter((product: ProductInfo) =>
+                        filterId === 0 ? true : product.status === filterId - 1
+                      ).length > 0 && <div className={styles.rectangle} />}
                     </div>
-                    <span className={styles.orderNumber}>주문번호 No. {item.id}</span>
                   </div>
-                )}
-                <div className={styles.orderCards}>
-                  {filteredPurchaseProductsData &&
-                    filteredPurchaseProductsData.length > 0 &&
-                    filteredPurchaseProductsData.map((purchase: ProductInfo) => (
-                      <OrderCard
-                        key={purchase.id}
-                        productInfo={{ ...purchase, stock: 3, option: purchase.combinationName }}
-                        href="/my/order"
-                        onClick={() => handleCancelPurchase(item.id)}
-                        tagText={getTagText(purchase.status)}
-                      />
-                    ))}
-                  {filteredPurchaseProductsData && filteredPurchaseProductsData.length > 0 && (
-                    <div className={styles.rectangle} />
-                  )}
-                </div>
-              </div>
-            ))}
+                )
+            )}
       </div>
     </div>
   );

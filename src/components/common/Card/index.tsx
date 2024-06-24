@@ -62,6 +62,9 @@ export default function Card({
 
   const discountRate = Math.ceil((1 - price / originalPrice) * 100);
 
+  const formattedOriginalPrice = originalPrice.toLocaleString('ko-KR');
+  const formattedPrice = price.toLocaleString('ko-KR');
+
   const [imageSrc, setImgSrc] = useState(thumbNailImage);
 
   const handleImgError = () => {
@@ -109,7 +112,7 @@ export default function Card({
         {stock === 0 && <p className={cx('outOfStock')}>품절된 상품이에요</p>}
         {stock > 0 && (
           <p className={cx('originalPrice')} data-direction={direction} data-size={size}>
-            {originalPrice}원
+            {formattedOriginalPrice}원
           </p>
         )}
         {stock > 0 && (
@@ -118,7 +121,7 @@ export default function Card({
               {discountRate}%
             </p>
             <p className={cx('price')} data-direction={direction} data-size={size}>
-              {price}원
+              {formattedPrice}원
             </p>
           </div>
         )}
