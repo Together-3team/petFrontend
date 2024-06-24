@@ -124,26 +124,6 @@ export default function Order() {
     { id: 4, name: '리뷰 쓰기', disabled: true, onClick: () => handleWriteReview() },
   ];
 
-  // function handleClick(id: number) {
-  //   if (id === 1 && orderCardButtons[0]) {
-  //     //주문 취소 로직
-  //     handleCancelPurchase(purchaseData?.data.id);
-  //   }
-
-  //   if ((id === 2 && orderCardButtons[0]) || (id === 3 && orderCardButtons[0])) {
-  //     //교환 환불 로직
-  //     handleExchangeOrRefund(purchaseData?.data.id);
-  //   }
-
-  //   if ((id === 4 && orderCardButtons[0]) || (id !== 4 && orderCardButtons[1])) {
-  //     //배송 조회 로직
-  //   }
-
-  //   if (id !== 0 && orderCardButtons[2]) {
-  //     //리뷰 쓰기 로직
-  //   }
-  // }
-
   if (!purchaseData) return <Loading />;
   if (!purchaseData || (purchaseData.data && purchaseData.data.length === 0)) return <Empty />;
   return (
