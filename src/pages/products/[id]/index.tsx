@@ -20,7 +20,7 @@ import Zzim from '@/components/common/Zzim';
 import Button from '@/components/common/Button';
 import BottomModal from '@/components/common/Modal/Base/BottomModal';
 import useAuth from '@/hooks/useAuth';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { httpClient } from '@/apis/httpClient';
 import useToast from '@/hooks/useToast';
 import FloatingBox from '@/components/common/Layout/Footer/FloatingBox';
@@ -60,12 +60,15 @@ export default function ProductDetailPage({ product }: { product: Product }) {
   const productId = Number(id);
   const { isLogin } = useAuth();
   const { showToast } = useToast('fixedCta');
+  const [bottomSheetType, setBottomSheetType] = useState<'cartPurchase' | 'purchaseOnly'>('cartPurchase');
 
-  // useEffect(() => {
-  //   if (open === 'true') {
-  //     handleModalOpen();
-  //   }
-  // });
+  useEffect(() => {
+    if (open === 'true') {
+      handleModalOpen();
+      setBottomSheetType('purchaseOnly');
+    }
+    //일부러 빈 배열을 넣음.
+  }, []);
 
   //페이지에서 벗어나면 주문 목록 초기화
   useEffect(() => {
@@ -121,7 +124,14 @@ export default function ProductDetailPage({ product }: { product: Product }) {
             <Button
               size="large"
               backgroundColor="$color-pink-main"
-              onClick={isLogin ? handleModalOpen : handleSecondModalOpen}>
+              onClick={
+                isLogin
+                  ? () => {
+                      handleModalOpen();
+                      setBottomSheetType('cartPurchase');
+                    }
+                  : handleSecondModalOpen
+              }>
               구매하기
             </Button>
           </div>
@@ -132,7 +142,7 @@ export default function ProductDetailPage({ product }: { product: Product }) {
         isOpen={modalOpen}
         onClose={handleModalClose}
         product={product}
-        type="cartPurchase"
+        type={bottomSheetType}
         showToast={showToast}
       />
       <LoginModal isOpen={secondModalOpen} onClose={handleSecondModalClose} />

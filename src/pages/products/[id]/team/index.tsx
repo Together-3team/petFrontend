@@ -17,7 +17,7 @@ export default function TeamPage() {
   const socket = io(`${process.env.NEXT_PUBLIC_API_BASE_URL}`);
 
   const handleJoinButtonClick = () => {
-    router.push({ pathname: `/products/${productId}`, query: { open: 'true' } });
+    router.push({ pathname: `/products/${productId}`, query: { open: 'true' } }, `/products/${productId}`);
   };
 
   useEffect(() => {

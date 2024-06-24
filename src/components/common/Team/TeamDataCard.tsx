@@ -41,14 +41,16 @@ export default function TeamDataCard({ data, product, onClick }: any) {
           </div>
         </>
       )}
-      <OptionBottomSheet
-        isOpen={modalOpen}
-        onClose={handleModalClose}
-        product={product}
-        type="purchaseOnly"
-        showToast={showToast}
-        groupBuyingId={data.id}
-      />
+      {!onClick && (
+        <OptionBottomSheet
+          isOpen={modalOpen}
+          onClose={handleModalClose}
+          product={product}
+          type="purchaseOnly"
+          showToast={showToast}
+          groupBuyingId={data.id}
+        />
+      )}
     </div>
   );
 }
