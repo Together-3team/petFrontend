@@ -7,6 +7,7 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 interface CardProps {
   productTitle: string;
   option: string;
+  optionCost: number;
   productCost: number;
   originalCost: number;
   isChecked: boolean;
@@ -20,6 +21,7 @@ interface CardProps {
 export default function Card({
   productTitle,
   option,
+  optionCost,
   productCost,
   originalCost,
   isChecked,
@@ -29,7 +31,6 @@ export default function Card({
   onQuantityChange,
   onRemove,
 }: CardProps) {
-  // 추후 백에서 장바구니에 담은 제품 갯수로 초기화하는 로직 추가
   const [productNumber, setProductNumber] = useState(initialProductNumber);
 
   const discountAmount = originalCost - productCost;
@@ -46,7 +47,9 @@ export default function Card({
     onQuantityChange(newQuantity);
   }
 
-  console.log(imageUrl);
+  const formattedOriginalCost = originalCost.toLocaleString('ko-KR');
+  const formattedProductCost = productCost.toLocaleString('ko-KR');
+
   return (
     <>
       <div className={styles.oneCheckbox}>
@@ -58,18 +61,21 @@ export default function Card({
             className={styles.checkbox}
             onChange={onCheck}
           />
-          <FontAwesomeIcon icon={faXmark} onClick={onRemove} />
+          <FontAwesomeIcon icon={faXmark} className={styles.faXmark} onClick={onRemove} />
         </div>
         <div className={styles.productExplain}>
           <Image className={styles.productImg} src={imageUrl} width={56} height={56} alt="productImg" />
           <div>
             <div className={styles.productTitle}>{productTitle}</div>
-            <div className={styles.option}>{option}</div>
+            <div className={styles.optionContainer}>
+              <div className={styles.option}>{option}</div>
+              <div className={styles.optionCost}>(+{optionCost}원)</div>
+            </div>
             <div className={styles.moneyContainerRight}>
-              <div className={styles.productCost}>{originalCost}원</div>
+              <div className={styles.productCost}>{formattedOriginalCost}원</div>
               <div className={styles.realPrice}>
                 <div className={styles.discountRate}>{discountRate.toFixed(0)}%</div>
-                <div className={styles.realMoney}>{productCost}원</div>
+                <div className={styles.realMoney}>{formattedProductCost}원</div>
               </div>
             </div>
           </div>
