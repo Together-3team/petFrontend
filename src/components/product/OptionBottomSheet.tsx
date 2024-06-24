@@ -116,11 +116,6 @@ interface OptionBottomSheetProps {
   groupBuyingId?: number;
 }
 
-// const fetchOrders = async () => {
-//   const response = await axios.get('/selected-products/orders');
-//   return response.data;
-// };
-
 export default function OptionBottomSheet({
   isOpen,
   onClose,
@@ -185,17 +180,6 @@ export default function OptionBottomSheet({
 
     getOrders();
   }, []);
-
-  // const { data, error, isLoading, isError } = useQuery('orders', fetchOrders);
-
-  // useEffect(() => {
-  //   if (data) {
-  //     data.forEach((combo) => {
-  //       setSelectedOptionsObject((prev) => ({ [combo.optionCombination.id]: combo.quantity, ...prev }));
-  //       setSelectedOptions(combo.optionCombination.optionCombination.split(','));
-  //     });
-  //   }
-  // }, [data]);
 
   const formatOptions = (data: { id: number; optionValue: string }[]) => {
     return data.map(item => ({
