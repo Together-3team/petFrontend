@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import classNames from 'classnames/bind';
 import purchaseApi, { PutProductsRdo } from '@/apis/purchase/api';
@@ -22,10 +22,11 @@ const cx = classNames.bind(styles);
 export default function Order() {
   const router = useRouter();
   const { showToast } = useToast();
+  const queryClient = useQueryClient();
   const [filterId, setFilterId] = useState<number>(0);
 
   const { data: purchaseData } = useQuery({ queryKey: ['purchase'], queryFn: purchaseApi.getPurchase });
-  console.log(purchaseData);
+
   const filteredPurchaseProductsData = purchaseData?.data.flatMap((item: PurchaseDataProps) =>
     item.purchaseProducts.filter((product: ProductInfo) => (filterId === 0 ? true : product.status === filterId - 1))
   );
@@ -41,19 +42,14 @@ export default function Order() {
     });
   }
 
-  const cancelMutation = useMutation({
-    mutationKey: ['cancelPurchase'],
-    mutationFn: async (id: number) => {
-      const response = await purchaseApi.delete(id);
-      return response.data;
-    },
-  });
-
   const { mutateAsync: mutation } = useMutation({
     mutationKey: ['changePurchaseStatus'],
     mutationFn: async ({ id, body }: { id: number; body: PutProductsRdo }) => {
       const response = await purchaseApi.putPurchase(id, body);
       return response;
+    },
+    onSuccess(data) {
+      queryClient.invalidateQueries({ queryKey: ['purchase'] });
     },
   });
 
