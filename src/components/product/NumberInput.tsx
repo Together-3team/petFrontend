@@ -102,10 +102,10 @@ export default function NumberInput({
     count,
     countWithNoOption,
     objectKey,
-    //ordersId,
-    //ordersIdObject,
-    //setCountWithNoOption,
-    //setOrdersIdObject,
+    ordersId,
+    ordersIdObject,
+    setCountWithNoOption,
+    setOrdersIdObject,
     setSelectedOptionsObject,
   ]);
 
