@@ -47,8 +47,8 @@ export default function Card({
     onQuantityChange(newQuantity);
   }
 
-  const formattedOriginalCost = originalCost.toLocaleString('ko-KR');
-  const formattedProductCost = productCost.toLocaleString('ko-KR');
+  const totalOriginalCost = (originalCost * productNumber + combinationPrice * productNumber).toLocaleString('ko-KR');
+  const totalProductCost = (productCost * productNumber + combinationPrice * productNumber).toLocaleString('ko-KR');
   const formattedCombinationPrice = combinationPrice.toLocaleString('ko-KR');
 
   return (
@@ -68,15 +68,17 @@ export default function Card({
           <Image className={styles.productImg} src={imageUrl} width={56} height={56} alt="productImg" />
           <div>
             <div className={styles.productTitle}>{productTitle}</div>
-            <div className={styles.optionContainer}>
-              <div className={styles.option}>{option}</div>
-              <div className={styles.optionCost}>(+{formattedCombinationPrice}원)</div>
-            </div>
+            {option !== '기본' && (
+              <div className={styles.optionContainer}>
+                <div className={styles.option}>{option}</div>
+                <div className={styles.optionCost}>(+{formattedCombinationPrice}원)</div>
+              </div>
+            )}
             <div className={styles.moneyContainerRight}>
-              <div className={styles.productCost}>{formattedOriginalCost}원</div>
+              <div className={styles.productCost}>{totalOriginalCost}원</div>
               <div className={styles.realPrice}>
                 <div className={styles.discountRate}>{discountRate.toFixed(0)}%</div>
-                <div className={styles.realMoney}>{formattedProductCost}원</div>
+                <div className={styles.realMoney}>{totalProductCost}원</div>
               </div>
             </div>
           </div>
@@ -86,7 +88,7 @@ export default function Card({
             <button className={styles.plusminus} onClick={removeProduct}>
               -
             </button>
-            <input className={styles.productNumber} type="number" value={productNumber} readOnly />
+            <input className={styles.productNumber} type="text" value={productNumber} readOnly />
             <button className={styles.plusminus} onClick={addProduct}>
               +
             </button>
