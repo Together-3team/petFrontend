@@ -165,7 +165,7 @@ export default function Profile() {
                   profileImage={profileImageUrl ? profileImageUrl.split('?')[0] : userData.profileImage.split('?')[0]}
                 />
                 <input type="file" ref={hiddenInputRef} onChange={handleImageChange} />
-                <button className={styles.plusButton} type="button" onClick={handleClickOpen}>
+                <button className={styles.plusButton} type="button">
                   <PlusButton />
                 </button>
               </div>
