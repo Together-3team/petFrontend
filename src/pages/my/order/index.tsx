@@ -207,8 +207,8 @@ export default function Order() {
                               ...purchase,
                               stock: 3,
                               option: purchase.combinationName,
-                              originalPrice: purchase.originalPrice * purchase?.quantity,
-                              price: purchase.price * purchase?.quantity,
+                              originalPrice: purchase.originalPrice * (purchase?.quantity || 0),
+                              price: purchase.price * (purchase?.quantity || 0),
                             }}
                             status={purchase.status as number}
                             buttons={[

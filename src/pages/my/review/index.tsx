@@ -138,8 +138,8 @@ export default function Review() {
                     ...purchase,
                     stock: 3,
                     option: purchase.combinationName,
-                    originalPrice: purchase.originalPrice * purchase?.quantity,
-                    price: purchase.price * purchase?.quantity,
+                    originalPrice: purchase.originalPrice * (purchase?.quantity || 0),
+                    price: purchase.price * (purchase?.quantity || 0),
                   }}
                   onClick={handleClickWriteReview(purchase)}
                 />
@@ -158,8 +158,8 @@ export default function Review() {
                   ...review,
                   stock: 3,
                   option: review.combinationName,
-                  originalPrice: review.originalPrice * review?.quantity,
-                  price: review.price * review?.quantity,
+                  originalPrice: review.originalPrice * (review?.quantity || 0),
+                  price: review.price * (review?.quantity || 0),
                 }}
                 onClick={handleClickReviewDetail(review.review)}
               />

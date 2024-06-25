@@ -101,8 +101,8 @@ export default function OrderDetail() {
                 ...order,
                 stock: 3,
                 option: order.combinationName,
-                originalPrice: order.originalPrice * order?.quantity,
-                price: order.price * order?.quantity,
+                originalPrice: order.originalPrice * (order?.quantity || 0),
+                price: order.price * (order?.quantity || 0),
               }}
               tagText={getTagText(order.status)}
               href={`/my/order/${purchaseId}`}
