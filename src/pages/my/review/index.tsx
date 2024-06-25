@@ -57,7 +57,7 @@ export default function Review() {
     queryKey: ['wroteReviews'],
     queryFn: getWroteReviewList,
   });
-
+  console.log(wroteReviews);
   const purchaseId = purchaseData?.data.flatMap((item: PurchaseDataProps) =>
     item.purchaseProducts.map((item: ProductInfo) => {
       return item.productId;
