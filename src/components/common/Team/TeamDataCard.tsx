@@ -31,7 +31,11 @@ export default function TeamDataCard({ data, product, onClick }: any) {
           </>
         ) : (
           <>
-            <p className={styles.creator}>{data.userGroup[0].nickname}</p>
+            {data.userGroup.length && (
+              <p className={styles.creator}>
+                {data.userGroup[0].nickname.length > 0 ? data.userGroup[0].nickname : '익명'}
+              </p>
+            )}
             <div className={styles.timeAndBtn}>
               {/* <div className={styles.timeBox}>
               <p className={styles.closed}>참여 마감</p>
