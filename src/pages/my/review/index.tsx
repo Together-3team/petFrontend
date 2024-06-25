@@ -134,7 +134,13 @@ export default function Review() {
               {reviewableData.data.map((purchase: ProductInfo) => (
                 <ReviewCard
                   key={purchase.productId}
-                  productInfo={{ ...purchase, stock: 3, option: purchase.combinationName }}
+                  productInfo={{
+                    ...purchase,
+                    stock: 3,
+                    option: purchase.combinationName,
+                    originalPrice: purchase.originalPrice * purchase?.quantity,
+                    price: purchase.price * purchase?.quantity,
+                  }}
                   onClick={handleClickWriteReview(purchase)}
                 />
               ))}
@@ -148,7 +154,13 @@ export default function Review() {
               <WroteReviewCard
                 href={`/my/review/${review.review.id}`}
                 key={review.productId}
-                productInfo={{ ...review, stock: 3, option: review.combinationName }}
+                productInfo={{
+                  ...review,
+                  stock: 3,
+                  option: review.combinationName,
+                  originalPrice: review.originalPrice * review?.quantity,
+                  price: review.price * review?.quantity,
+                }}
                 onClick={handleClickReviewDetail(review.review)}
               />
             ))}

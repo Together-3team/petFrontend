@@ -97,7 +97,13 @@ export default function OrderDetail() {
             <OrderCard
               key={order.productId}
               status={order.status as number}
-              productInfo={{ ...order, stock: 3, option: order.combinationName }}
+              productInfo={{
+                ...order,
+                stock: 3,
+                option: order.combinationName,
+                originalPrice: order.originalPrice * order?.quantity,
+                price: order.price * order?.quantity,
+              }}
               tagText={getTagText(order.status)}
               href={`/my/order/${purchaseId}`}
             />
