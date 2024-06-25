@@ -36,22 +36,6 @@ export default function Order() {
     setFilterId(filterId);
   }
 
-  function handleClickWriteReview(purchase: PurchaseData) {
-    return () => {
-      router.push({
-        pathname: `/my/review/write`,
-        query: {
-          id: purchase.id,
-          title: purchase.title,
-          combinationName: purchase.combinationName,
-          quantity: purchase.quantity,
-          thumbNailImage: purchase.thumbNailImage,
-          productId: purchase.productId,
-        },
-      });
-    };
-  }
-
   function handleMoveOrderDetail({ purchaseId, purchaseDate }: { purchaseId: number; purchaseDate: string }) {
     router.push({
       pathname: `/my/order/${purchaseId}`,
@@ -219,7 +203,13 @@ export default function Order() {
                           <OrderCard
                             key={purchase.id}
                             href={`/my/order/${item.id}`}
-                            productInfo={{ ...purchase, stock: 3, option: purchase.combinationName }}
+                            productInfo={{
+                              ...purchase,
+                              stock: 3,
+                              option: purchase.combinationName,
+                              originalPrice: purchase.originalPrice * (purchase?.quantity || 0),
+                              price: purchase.price * (purchase?.quantity || 0),
+                            }}
                             status={purchase.status as number}
                             buttons={[
                               firstButton(purchase.id as number),

@@ -1,13 +1,14 @@
 @layer components {
   .wroteReviewCardArea {
     display: flex;
-    width: 95%;
+    width: 100%;
     flex-direction: column;
     align-items: flex-start;
     gap: 1.2rem;
   }
 
   .wroteReviewCardLayout {
+    width: 100%;
     display: grid;
     grid-template-columns: 8fr 1fr;
     padding: 1.2rem 0.6rem 1.6rem 0.6rem;

@@ -18,6 +18,7 @@ import { phoneNumberSchema } from '@/utils/signupFormSchema';
 import { GetServerSidePropsContext } from 'next';
 
 import styles from './Info.module.scss';
+import { ChangeEvent } from 'react';
 
 type PhoneNumberValue = Yup.InferType<typeof phoneNumberSchema>;
 
@@ -74,7 +75,16 @@ export default function Info() {
     formState: { errors },
   } = methods;
 
-  const { register, handleSubmit, control } = methods;
+  const { register, handleSubmit, control, setValue } = methods;
+
+  function handleChangePhoneNumber(e: ChangeEvent<HTMLInputElement>) {
+    let value = e.target.value.replace(/\D/g, '');
+    if (value.length > 10) value = value.slice(0, 11);
+
+    const formattedValue = value.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+
+    setValue('phoneNumber', formattedValue);
+  }
 
   const onSubmit: SubmitHandler<PhoneNumberValue> = data => {
     const userEditData: UserEditProps = {
@@ -145,10 +155,11 @@ export default function Info() {
                   onBlur={() => {
                     field.onBlur();
                   }}
+                  onChange={handleChangePhoneNumber}
                   isError={errors.phoneNumber && true}
                   labelStyle={'label'}
                   placeholder="000-0000-0000 형식으로 입력해주세요"
-                  defaultValue={userData.phoneNumber}
+                  defaultValue={userData?.phoneNumber}
                 />
               )}
               {...register('phoneNumber')}

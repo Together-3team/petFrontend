@@ -57,7 +57,7 @@ export default function Review() {
     queryKey: ['wroteReviews'],
     queryFn: getWroteReviewList,
   });
-
+  console.log(wroteReviews);
   const purchaseId = purchaseData?.data.flatMap((item: PurchaseDataProps) =>
     item.purchaseProducts.map((item: ProductInfo) => {
       return item.productId;
@@ -134,7 +134,13 @@ export default function Review() {
               {reviewableData.data.map((purchase: ProductInfo) => (
                 <ReviewCard
                   key={purchase.productId}
-                  productInfo={{ ...purchase, stock: 3, option: purchase.combinationName }}
+                  productInfo={{
+                    ...purchase,
+                    stock: 3,
+                    option: purchase.combinationName,
+                    originalPrice: purchase.originalPrice * (purchase?.quantity || 0),
+                    price: purchase.price * (purchase?.quantity || 0),
+                  }}
                   onClick={handleClickWriteReview(purchase)}
                 />
               ))}
@@ -148,7 +154,13 @@ export default function Review() {
               <WroteReviewCard
                 href={`/my/review/${review.review.id}`}
                 key={review.productId}
-                productInfo={{ ...review, stock: 3, option: review.combinationName }}
+                productInfo={{
+                  ...review,
+                  stock: 3,
+                  option: review.combinationName,
+                  originalPrice: review.originalPrice * (review?.quantity || 0),
+                  price: review.price * (review?.quantity || 0),
+                }}
                 onClick={handleClickReviewDetail(review.review)}
               />
             ))}

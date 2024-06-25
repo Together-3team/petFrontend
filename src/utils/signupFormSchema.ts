@@ -13,7 +13,6 @@ const signupFormSchema = Yup.object().shape({
       if (!nickname) return true;
       try {
         const response = await userApi.checkNickname({ nickname });
-        console.log(nickname);
         return !response.data.duplicated;
       } catch (error) {
         console.error('닉네임 중복 검사 오류; ', error);

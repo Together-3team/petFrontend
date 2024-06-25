@@ -15,6 +15,7 @@ import authApi from '@/apis/authApi';
 import checkNickname from '@/utils/checkNickname';
 
 import styles from './SignupForm.module.scss';
+import { ChangeEvent } from 'react';
 
 const cx = classNames.bind(styles);
 
@@ -57,7 +58,16 @@ export default function SignupForm() {
     formState: { isValid, errors },
     setError,
   } = methods;
-  const { register, handleSubmit, control } = methods;
+  const { register, handleSubmit, control, setValue } = methods;
+
+  function handleChangePhoneNumber(e: ChangeEvent<HTMLInputElement>) {
+    let value = e.target.value.replace(/\D/g, ''); // 숫자만 남기기
+    if (value.length > 10) value = value.slice(0, 11); // 11자리까지만 허용
+
+    const formattedValue = value.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'); // 010-1234-5678 형식으로 변환
+
+    setValue('phoneNumber', formattedValue);
+  }
   const onSubmit = (data: FormValues) => {
     console.log(data);
     mutation.mutate(data);
@@ -104,17 +114,27 @@ export default function SignupForm() {
             {errors.nickname && <span className={cx('errorText')}>{errors.nickname.message}</span>}
           </div>
           <div>
-            <Input
-              id="phoneNumber"
-              type="tel"
-              size="large"
-              label="연락처"
-              isError={!!errors.phoneNumber}
-              labelStyle={'label'}
-              placeholder="000-0000-0000 형식으로 입력해주세요"
+            <Controller
+              control={control}
+              render={({ field }) => (
+                <Input
+                  {...field}
+                  id="phoneNumber"
+                  type="tel"
+                  size="large"
+                  label="연락처"
+                  onBlur={() => {
+                    field.onBlur();
+                  }}
+                  onChange={handleChangePhoneNumber}
+                  isError={errors.phoneNumber && true}
+                  labelStyle={'label'}
+                  placeholder="000-0000-0000 형식으로 입력해주세요"
+                />
+              )}
               {...register('phoneNumber')}
             />
-            {errors.phoneNumber && <span className={cx('errorText')}>{errors.phoneNumber.message}</span>}
+            {errors.phoneNumber && <span className={styles.errorText}>{errors.phoneNumber.message}</span>}
           </div>
         </div>
         <div>
