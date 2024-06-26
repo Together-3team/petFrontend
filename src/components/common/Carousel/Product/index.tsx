@@ -1,3 +1,4 @@
+import { SyntheticEvent } from 'react';
 import Image from 'next/image';
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
@@ -11,7 +12,6 @@ import Mascot from '@/assets/svgs/mascot-share-link.svg';
 import IconX from '@/assets/svgs/ic-x.svg';
 import styles from './ProductCarousel.module.scss';
 import rectangleImg from '@/assets/images/rectangle.png';
-import { SyntheticEvent } from 'react';
 
 interface ProductCarouselProps {
   images: string;
