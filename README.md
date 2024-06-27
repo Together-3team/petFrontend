@@ -14,13 +14,13 @@
       <img src="https://github.com/Together-3team/petFrontend/assets/144193370/69f37032-43fc-4b90-b5c1-50b1d221804d" width="150px" height="15%"/>
     </td>
     <td>
-      <img src="https://github.com/12-Pair-Programming/Dang-il/assets/144193370/7afcb86d-35c3-4f09-914c-b636278db0ae" width="150px" height="15%"/>
+      <img src="https://github.com/Together-3team/petFrontend/assets/144193370/c3373bc6-0edb-4d44-832c-708412a9f82c" width="150px" height="15%"/>
     </td>
     <td>
-      <img src="https://github.com/12-Pair-Programming/Dang-il/assets/144193370/59158945-e05f-41d6-b534-43de9bea216b" width="150px" height="15%"/>
+      <img src="https://github.com/Together-3team/petFrontend/assets/144193370/2d575124-02b8-466b-b631-6db1dcbb91ab" width="150px" height="15%"/>
     </td>
     <td>
-      <img src="https://github.com/12-Pair-Programming/Dang-il/assets/144193370/3191450d-34be-4db6-8ac4-076545a533c1" width="150px" height="15%"/>
+      <img src="https://github.com/Together-3team/petFrontend/assets/144193370/7ee39ec8-085a-4bd3-a476-780817f183a5" width="150px" height="15%"/>
     </td>
   </tr>
   <tr>
@@ -49,6 +49,18 @@
         </a>
       </td>
   </tr>
+  <td>
+      <img src="https://github.com/Together-3team/petFrontend/assets/144193370/b02fb05d-18e6-405e-9d5d-a2df5e904dea" width="150px" height="15%"/>
+    </td>
+    <td>
+      <img src="https://github.com/Together-3team/petFrontend/assets/144193370/e71be71c-9871-4e0e-9b01-d4d153b667ff" width="150px" height="15%"/>
+    </td>
+    <td>
+      <img src="https://github.com/Together-3team/petFrontend/assets/144193370/8d41e647-eeb0-4df6-9806-29cd56d9d3ca" width="150px" height="15%"/>
+    </td>
+    <td>
+      <img src="https://github.com/Together-3team/petFrontend/assets/144193370/a9482a03-a4e8-42d0-9da8-7cc049032e4c" width="150px" height="15%"/>
+    </td>
     <tr>
     <td align="center">
       [FE]
