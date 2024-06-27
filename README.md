@@ -1,11 +1,14 @@
-# 코드잇 sprint4기 part4 3팀 (05.18-06.27)
+# 코드잇 sprint4기 part4 3팀
 ## 🐾 반려동물(반려견 & 반려묘) 용품 공동구매 플랫폼 ‘포잉마켓’ 🐾
+- 개발 기간: 2024.05.18 ~ 2024.06.27)
+- 배포 주소: https://pawing-market.vercel.app/
+- 노션 주소: https://url.kr/idipxY
 
 <div align="center">
 <img width="100%" alt="포잉마켓 랜딩 페이지" src="https://github.com/Together-3team/petFrontend/assets/144193370/4beaa558-b7e2-447e-84db-93060fa4371c">
 </div>
 
-## Friendly 12team 팀원 소개
+## Together 3team 팀원 소개
 
 <div align="center">
 <table>
