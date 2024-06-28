@@ -158,7 +158,7 @@
     </td>
   </tr>
   <tr>
-       <td align="center">
+    <td align="center">
       회원가입
     </td>
     <td align="center">
@@ -169,11 +169,10 @@
 <table>
   <tr>
     <td>
-      <img src="https://github.com/Together-3team/petFrontend/assets/144193370/6e7d27f5-4d55-483a-93f1-82c12874816d"
- width="450px" height=auto />
+      <img src="https://github.com/Together-3team/petFrontend/assets/144193370/01eee37f-da16-46cf-b2e8-9c7e34afb570" width="450px" height=auto />
     </td>
     <td>
-      <img src="https://github.com/Together-3team/petFrontend/assets/144193370/9d6183a3-31b6-49b7-b9e7-69ecb3dc5de4" width="450px" height=auto />
+      <img src="https://github.com/Together-3team/petFrontend/assets/144193370/d42c283d-370b-4f1b-bfa8-428befbf795b" width="450px" height=auto />
     </td>
   </tr>
   <tr>
@@ -188,10 +187,10 @@
 <table>
   <tr>
     <td>
-      <img src="https://github.com/Together-3team/petFrontend/assets/144193370/3f7ff12f-ad7f-4810-8d89-2733e6ae8649" width="450px" height=auto />
+      <img src="https://github.com/Together-3team/petFrontend/assets/144193370/c0996b0a-065f-46da-ab09-59c93b192cf7" width="450px" height=auto />
     </td>
     <td>
-      <img src="https://github.com/Together-3team/petFrontend/assets/144193370/1a43c7f7-eac1-46e4-b02a-4cf4fd15ff14" width="450px" height=auto />
+      <img src="https://github.com/Together-3team/petFrontend/assets/144193370/d52ff92f-045b-4d3e-b284-29516adadf53" width="450px" height=auto />
     </td>
   </tr>
   <tr>
@@ -206,10 +205,10 @@
   <table>
   <tr>
     <td>
-      <img src="https://github.com/Together-3team/petFrontend/assets/144193370/01219b3d-fc82-4308-a9cd-e9ad184d1541" width="450px" height=auto />
+      <img src="https://github.com/Together-3team/petFrontend/assets/144193370/d94249c2-3061-49d9-bc1d-f6aff8dff494" width="450px" height=auto />
     </td>
     <td>
-      <img src="https://github.com/Together-3team/petFrontend/assets/144193370/0ba61ece-ae3e-40f9-bb16-67ea0e5d54ea" width="450px" height=auto />
+      <img src="https://github.com/Together-3team/petFrontend/assets/144193370/2701564a-2a3c-4a3d-8b2c-ce2223eec83e" width="450px" height=auto />
     </td>
   </tr>
   <tr>
