@@ -104,12 +104,12 @@
 </div>
 
 ## R&R
-- [FE] 기송은: 상품상세 / 구매 / 찜
-- [FE] 김민영: 공동구매(웹소켓) / 리뷰
+- [FE] 기송은: 상품 상세 / 구매 / 찜 / 배송
+- [FE] 김민영: 공동구매(웹소켓) / 리뷰 / 별점
 - [FE] 백지원: 결제(토스 페이먼츠) / 장바구니
 - [FE] 이서인: 인증&인가(카카오, 구글 OAuth) / 마이
 - [FE] 정봉찬: 레이아웃 / 상품 목록 / CI·CD 구축 / 배포
-- [DESIGN] 백주연: 기획 / UX·UX 디자인
+- [DESIGN] 백주연: 기획 / UI·UX 디자인
 - [BE] 박정훈: OAuth2 인증 / 장바구니·주문 목록 / 구매 내역
 - [BE] 오승준: 공동구매(웹소켓) / 상품 목록 / 결제
 
@@ -151,81 +151,76 @@
 <table>
   <tr>
     <td>
-      <img src="https://github.com/12-Pair-Programming/Dang-il/assets/144193370/02cf29ca-08b3-4f55-aa1f-9a4760a9d5ae" width="450px" height=auto />
+       <img src="https://github.com/Together-3team/petFrontend/assets/144193370/275796be-8193-4c6e-9d4e-58ad016ad611" width="450px" height=auto />
     </td>
     <td>
-      <img src="https://github.com/12-Pair-Programming/Dang-il/assets/144193370/7d06c59a-497c-419a-a530-3f83fd50263e" width="450px" height=auto />
+     <img src="https://github.com/Together-3team/petFrontend/assets/144193370/efd0a436-8b08-4a20-96b3-5ee984b7c0fc" width="450px" height=auto />
     </td>
   </tr>
   <tr>
        <td align="center">
-      랜딩 페이지(공고 리스트) 필터 구현
+      회원가입
     </td>
     <td align="center">
-      알림 모달 무한 스크롤 구현
+      마이 페이지
     </td>
   </tr>
 </table>
 <table>
   <tr>
     <td>
-      <img src="https://github.com/12-Pair-Programming/Dang-il/assets/144193370/a6bf2898-3266-4aa5-98c9-0ff3481e0807"
+      <img src="https://github.com/Together-3team/petFrontend/assets/144193370/6e7d27f5-4d55-483a-93f1-82c12874816d"
  width="450px" height=auto />
     </td>
     <td>
-      <img src="https://github.com/12-Pair-Programming/Dang-il/assets/144193370/23c6d3c1-b874-44a4-a573-02629c49d96c" width="450px" height=auto />
+      <img src="https://github.com/Together-3team/petFrontend/assets/144193370/9d6183a3-31b6-49b7-b9e7-69ecb3dc5de4" width="450px" height=auto />
     </td>
   </tr>
   <tr>
-       <td align="center">
-      로그인 페이지
+    <td align="center">
+      랜딩 페이지
     </td>
     <td align="center">
-      회원가입 페이지
+      제품 상세
     </td>
   </tr>
 </table>
 <table>
   <tr>
     <td>
-      <img src="https://github.com/12-Pair-Programming/Dang-il/assets/144193370/2d7e12af-61e2-460d-9867-4a5a945d45fa" width="450px" height=auto />
+      <img src="https://github.com/Together-3team/petFrontend/assets/144193370/3f7ff12f-ad7f-4810-8d89-2733e6ae8649" width="450px" height=auto />
     </td>
     <td>
-      <img src="https://github.com/12-Pair-Programming/Dang-il/assets/144193370/63f0b6c9-211c-4932-8356-21b33e03dc54" width="450px" height=auto />
+      <img src="https://github.com/Together-3team/petFrontend/assets/144193370/1a43c7f7-eac1-46e4-b02a-4cf4fd15ff14" width="450px" height=auto />
     </td>
   </tr>
   <tr>
        <td align="center">
-      사장님 회원 공고 상세
+      장바구니
     </td>
     <td align="center">
-      알바님 회원 공고 상세
+      찜
     </td>
   </tr>
 </table>
   <table>
   <tr>
     <td>
-      <img src="https://github.com/12-Pair-Programming/Dang-il/assets/144193370/34e834e4-3a5a-4890-b93b-18bd2de8099b" width="450px" height=auto />
+      <img src="https://github.com/Together-3team/petFrontend/assets/144193370/01219b3d-fc82-4308-a9cd-e9ad184d1541" width="450px" height=auto />
     </td>
     <td>
-      <img src="https://github.com/12-Pair-Programming/Dang-il/assets/144193370/0eba51ae-b7a4-4165-8a84-076b2da0489a" width="450px" height=auto />
+      <img src="https://github.com/Together-3team/petFrontend/assets/144193370/0ba61ece-ae3e-40f9-bb16-67ea0e5d54ea" width="450px" height=auto />
     </td>
   </tr>
   <tr>
        <td align="center">
-      사장님 내 가게 페이지
+      공동구매(웹소켓)
     </td>
     <td align="center">
-      알바님 내 프로필 페이지
+    결제
     </td>
   </tr>
 </table>  
 </div>
 
-### 기능 중심 설계 - FSD
-
-### Userflow
-<div align="center">
-<img width="100%" alt="당일 사이트 userflow" src="https://github.com/12-Pair-Programming/Dang-il/assets/144193370/e7c5f30d-715a-4914-a73a-cfcbe93495fd">
-</div>
+### 
