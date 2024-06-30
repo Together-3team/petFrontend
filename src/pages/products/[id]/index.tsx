@@ -33,15 +33,21 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const productId = context.params?.id;
   const open = context.query.open || null;
   const groupId = context.query.groupid || null;
+
+  const accessToken = context.req.cookies['accessToken'];
+
   let product;
   try {
-    const res = await axiosInstance.get(`/products/detail/${productId}`);
-    product = res.data;
+    const res = await httpClient().get(`/products/detail/${productId}`, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+    product = res;
   } catch {
     return {
       notFound: true,
     };
   }
+
   return {
     props: {
       product,
