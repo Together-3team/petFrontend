@@ -89,12 +89,12 @@ export default function Onboarding() {
           </h1>
           <div className={styles.petChoice}>
             <div className={styles.petChoiceBox}>
-              <ImageBox
-                size="petPhoto"
-                src={dogChecked ? selectedDog : unselectedDog}
-                alt={dogChecked ? '선택된 강아지 이미지' : '미선택 강아지 이미지'}
-              />
               <label className={styles.petChoiceLabel}>
+                <ImageBox
+                  size="petPhoto"
+                  src={dogChecked ? selectedDog : unselectedDog}
+                  alt={dogChecked ? '선택된 강아지 이미지' : '미선택 강아지 이미지'}
+                />
                 <input
                   type="checkbox"
                   className={styles.checkboxInput}
@@ -109,12 +109,12 @@ export default function Onboarding() {
               </label>
             </div>
             <div className={styles.petChoiceBox}>
-              <ImageBox
-                size="petPhoto"
-                src={catChecked ? selectedCat : unselectedCat}
-                alt={catChecked ? '선택된 고양이 이미지' : '미선택 고양이 이미지'}
-              />
               <label className={styles.petChoiceLabel}>
+                <ImageBox
+                  size="petPhoto"
+                  src={catChecked ? selectedCat : unselectedCat}
+                  alt={catChecked ? '선택된 고양이 이미지' : '미선택 고양이 이미지'}
+                />
                 <input
                   type="checkbox"
                   className={styles.checkboxInput}
