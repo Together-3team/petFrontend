@@ -33,12 +33,16 @@
     cursor: pointer;
   }
 
+  .profileImage input {
+    display: none;
+  }
+
   .plusButton {
     border: 0;
     background-color: transparent;
     position: absolute;
-    right: 0;
-    bottom: 0;
+    right: -0.5rem;
+    bottom: -0.5rem;
   }
 
   .profileForm {
@@ -95,6 +99,8 @@
     background-color: $color-white;
     color: $color-gray-500;
     border: 0.1rem solid $color-gray-500;
+    cursor: pointer;
+
     @include font-body3;
   }
 
