@@ -16,6 +16,7 @@ import BottomModal from '@/components/common/Modal/Base/BottomModal';
 import sadlyPet from '@/assets/images/sadly-pet.png';
 import ImageBox from '@/components/common/ImageBox';
 import { phoneNumberSchema } from '@/utils/signupFormSchema';
+import insertPhoneNumberHyphen from '@/utils/insertPhoneNumberHypen';
 
 import styles from './Info.module.scss';
 import { ChangeEvent } from 'react';
@@ -77,19 +78,8 @@ export default function Info() {
 
   const { register, handleSubmit, control, setValue } = methods;
 
-  function handleInsertHyphen(e: ChangeEvent<HTMLInputElement>) {
-    let value = e.target.value.replace(/\D/g, '');
-    if (value.length > 10) value = value.slice(0, 11);
-
-    let formattedValue = value;
-
-    if (value.length > 3 && value.length <= 7) {
-      formattedValue = value.replace(/(\d{3})(\d{1,4})/, '$1-$2');
-    }
-    if (value.length > 7) {
-      formattedValue = value.replace(/(\d{3})(\d{4})(\d{1,4})/, '$1-$2-$3');
-    }
-
+  function handleChangePhoneNumber(e: ChangeEvent<HTMLInputElement>) {
+    const formattedValue = insertPhoneNumberHyphen(e.target.value);
     setValue('phoneNumber', formattedValue);
   }
 
@@ -162,7 +152,7 @@ export default function Info() {
                   onBlur={() => {
                     field.onBlur();
                   }}
-                  onChange={handleInsertHyphen}
+                  onChange={handleChangePhoneNumber}
                   isError={errors.phoneNumber && true}
                   labelStyle={'label'}
                   placeholder="010-0000-0000 형식으로 입력해주세요"
