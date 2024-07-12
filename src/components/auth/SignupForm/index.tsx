@@ -127,7 +127,7 @@ export default function SignupForm() {
                   onChange={handleChangePhoneNumber}
                   isError={errors.phoneNumber && true}
                   labelStyle={'label'}
-                  placeholder="000-0000-0000 형식으로 입력해주세요"
+                  placeholder="010-0000-0000 형식으로 입력해주세요"
                 />
               )}
               {...register('phoneNumber')}
