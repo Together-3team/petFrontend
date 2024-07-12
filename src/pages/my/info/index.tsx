@@ -16,7 +16,7 @@ import BottomModal from '@/components/common/Modal/Base/BottomModal';
 import sadlyPet from '@/assets/images/sadly-pet.png';
 import ImageBox from '@/components/common/ImageBox';
 import { phoneNumberSchema } from '@/utils/signupFormSchema';
-import insertPhoneNumberHyphen from '@/utils/insertPhoneNumberHypen';
+import insertPhoneNumberHyphen from '@/utils/insertPhoneNumberHyphen';
 
 import styles from './Info.module.scss';
 import { ChangeEvent } from 'react';
