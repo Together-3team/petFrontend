@@ -1,7 +1,8 @@
-import classNames from 'classnames/bind';
+import { ChangeEvent } from 'react';
 import { useRouter } from 'next/router';
+import classNames from 'classnames/bind';
 import * as Yup from 'yup';
-import { FormProvider, useForm } from 'react-hook-form';
+import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { deliveryFormSchema } from '@/utils/deliveryFormSchema';
@@ -14,6 +15,7 @@ import { GetServerSidePropsContext } from 'next';
 import { DeliveryInfo } from '@/types/components/delivery';
 import { httpClient } from '@/apis/httpClient';
 import { useAddAddressInfo } from '@/hooks/useAddAddressInfo';
+import insertPhoneNumberHyphen from '@/utils/insertPhoneNumberHyphen';
 import styles from './Add.module.scss';
 
 const cx = classNames.bind(styles);
@@ -55,7 +57,7 @@ export default function DeliveryAddPage({ isInitial }: { isInitial: boolean }) {
   const {
     formState: { errors, isValid },
   } = methods;
-  const { register, handleSubmit, setValue } = methods;
+  const { register, handleSubmit, setValue, control } = methods;
   const router = useRouter();
   const prevPath = router.asPath.split('?')[1];
 
@@ -65,6 +67,10 @@ export default function DeliveryAddPage({ isInitial }: { isInitial: boolean }) {
     addAddressInfo({ addressInfo });
   };
 
+  function handleChangePhoneNumber(e: ChangeEvent<HTMLInputElement>) {
+    const formattedValue = insertPhoneNumberHyphen(e.target.value);
+    setValue('recipientPhoneNumber', formattedValue);
+  }
   return (
     <div className={styles.deliveryEditPage}>
       <Header.Root>
@@ -105,14 +111,24 @@ export default function DeliveryAddPage({ isInitial }: { isInitial: boolean }) {
               {errors.recipient && <span className={cx('errorText')}>{errors.recipient.message}</span>}
             </div>
             <div className={cx('inputContainer')}>
-              <Input
-                id="recipientPhoneNumber"
-                type="tel"
-                size="full"
-                label="연락처"
-                isError={errors.recipientPhoneNumber && true}
-                labelStyle={'label'}
-                placeholder="000-0000-0000"
+              <Controller
+                control={control}
+                render={({ field }) => (
+                  <Input
+                    {...field}
+                    id="recipientPhoneNumber"
+                    type="tel"
+                    size="full"
+                    label="연락처"
+                    onBlur={() => {
+                      field.onBlur();
+                    }}
+                    onChange={handleChangePhoneNumber}
+                    isError={errors.recipientPhoneNumber && true}
+                    labelStyle={'label'}
+                    placeholder="010-0000-0000"
+                  />
+                )}
                 {...register('recipientPhoneNumber')}
               />
               {errors.recipientPhoneNumber && (
