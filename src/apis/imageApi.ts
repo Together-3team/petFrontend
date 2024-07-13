@@ -24,6 +24,7 @@ export async function postToGetPresignedUrl(body: PostToGetPresignedUrlParams) {
 export async function putImageToUrl({ image, url }: PutImageToUrlParams) {
   const headers = {
     'Content-Type': image.type,
+    bucketName: 'profile-image-3team',
   };
   await axios.put(url, image, { headers });
 }

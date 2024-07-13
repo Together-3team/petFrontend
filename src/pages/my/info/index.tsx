@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import { GetServerSidePropsContext } from 'next';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { QueryClient, dehydrate, useMutation, useQueryClient } from '@tanstack/react-query';
 import * as Yup from 'yup';
@@ -15,7 +16,7 @@ import BottomModal from '@/components/common/Modal/Base/BottomModal';
 import sadlyPet from '@/assets/images/sadly-pet.png';
 import ImageBox from '@/components/common/ImageBox';
 import { phoneNumberSchema } from '@/utils/signupFormSchema';
-import { GetServerSidePropsContext } from 'next';
+import insertPhoneNumberHyphen from '@/utils/insertPhoneNumberHyphen';
 
 import styles from './Info.module.scss';
 import { ChangeEvent } from 'react';
@@ -78,11 +79,7 @@ export default function Info() {
   const { register, handleSubmit, control, setValue } = methods;
 
   function handleChangePhoneNumber(e: ChangeEvent<HTMLInputElement>) {
-    let value = e.target.value.replace(/\D/g, '');
-    if (value.length > 10) value = value.slice(0, 11);
-
-    const formattedValue = value.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
-
+    const formattedValue = insertPhoneNumberHyphen(e.target.value);
     setValue('phoneNumber', formattedValue);
   }
 
@@ -141,7 +138,7 @@ export default function Info() {
               labelStyle={'label'}
               readOnly
               background="background"
-              placeholder={userData.email}
+              placeholder={userData.email ?? '이메일을 입력해주세요.'}
             />
             <Controller
               control={control}
@@ -158,7 +155,7 @@ export default function Info() {
                   onChange={handleChangePhoneNumber}
                   isError={errors.phoneNumber && true}
                   labelStyle={'label'}
-                  placeholder="000-0000-0000 형식으로 입력해주세요"
+                  placeholder="010-0000-0000 형식으로 입력해주세요"
                   defaultValue={userData?.phoneNumber}
                 />
               )}
