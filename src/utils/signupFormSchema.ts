@@ -1,7 +1,6 @@
 import { userApi } from '@/apis/userApi';
 import * as Yup from 'yup';
 
-// TODO: 닉네임 중복 검사
 const signupFormSchema = Yup.object().shape({
   nickname: Yup.string()
     .trim()
