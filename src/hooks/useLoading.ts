@@ -5,11 +5,21 @@ export default function useLoading() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>;
+
     const start = () => {
-      setIsLoading(true);
+      if (timer) {
+        return;
+      }
+      timer = setTimeout(() => {
+        setIsLoading(true);
+      }, 200);
     };
 
     const end = () => {
+      if (timer) {
+        clearTimeout(timer);
+      }
       setIsLoading(false);
     };
 
