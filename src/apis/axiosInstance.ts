@@ -41,7 +41,9 @@ const onRejected = async (error: AxiosError | Error) => {
           const response = await authApi.postToken({ refreshToken });
           const newAccessToken = response.data.accessToken;
 
-          document.cookie = `accessToken=${newAccessToken}; path=/`;
+          if (!!document) {
+            document.cookie = `accessToken=${newAccessToken}; path=/`;
+          }
 
           originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
           return authAxiosInstance(originalRequest);
