@@ -138,7 +138,7 @@ export default function Info() {
               labelStyle={'label'}
               readOnly
               background="background"
-              placeholder={userData.email ?? '이메일을 입력해주세요.'}
+              placeholder={userData?.email ?? '이메일을 입력해주세요.'}
             />
             <Controller
               control={control}
