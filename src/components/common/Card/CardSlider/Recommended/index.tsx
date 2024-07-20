@@ -41,9 +41,6 @@ export default function CardSliderRecommended({ title }: CardSliderRecommendedPr
     ...productsRecommendedQueries.queryOptions({ page: 1, pageSize: 8 }),
   });
 
-  useEffect(() => {
-    console.log(products);
-  }, [products]);
   return (
     <CardSlider.Root>
       <CardSlider.Header>
