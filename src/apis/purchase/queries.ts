@@ -21,7 +21,7 @@ export const purchaseQueries = {
 
 export const purchaseDetailQueries = {
   getQueryKey: key.purchaseDetail,
-  removeQuery: () => queryClient.removeQueries({ queryKey: purchaseQueries.getQueryKey() }),
+  removeQuery: () => queryClient.removeQueries({ queryKey: purchaseDetailQueries.getQueryKey() }),
   queryOptions: (id: number) => {
     return queryOptions({
       queryKey: [purchaseDetailQueries.getQueryKey(), id],
