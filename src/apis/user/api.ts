@@ -12,7 +12,6 @@ export interface UserResponse {
 
 export async function fetchMyData() {
   const response = await axiosInstance.get(`/users/me`);
-  console.log(response);
   return response.data;
 }
 
