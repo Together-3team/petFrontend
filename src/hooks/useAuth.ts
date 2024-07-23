@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { fetchMyData } from '@/apis/userApi';
+import { myQueries } from '@/apis/user/queries';
 import { useCookies } from 'react-cookie';
 
 export default function useAuth() {
@@ -12,13 +12,13 @@ export default function useAuth() {
     refetch,
     isLoading,
   } = useQuery({
-    queryKey: ['user'],
-    queryFn: fetchMyData,
+    queryKey: myQueries.getQueryKey(),
+    queryFn: myQueries.queryOptions().queryFn,
     enabled: !!accessToken,
   });
 
   if (!cookie) {
-    queryClient.setQueryData(['user'], null);
+    queryClient.setQueryData(myQueries.getQueryKey(), null);
   }
   const isLogin = !!userData && !!accessToken;
 
