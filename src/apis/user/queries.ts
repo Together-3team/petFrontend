@@ -3,6 +3,7 @@ import { UserId, userApi } from './api';
 
 const keys = {
   users: () => ['users'],
+  nickname: () => ['nickname'],
 };
 
 const queryClient = new QueryClient();
@@ -48,6 +49,20 @@ export const userQueries = {
       mutationFn: userData => userApi.delete(id),
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: keys.users() });
+      },
+    });
+  },
+};
+
+export const nicknameQueries = {
+  getQueryKey: keys.nickname,
+  useCheckNickname: () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+      mutationFn: data => userApi.checkNickname(data),
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: nicknameQueries.getQueryKey() });
+        queryClient.invalidateQueries({ queryKey: keys.nickname() });
       },
     });
   },
