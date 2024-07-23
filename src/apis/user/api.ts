@@ -41,17 +41,17 @@ export interface DeleteUserRdo {
 }
 
 export const userApi = {
-  getUserData: ({ id }: UserId) => {
+  getUserData: (id: number) => {
     return axiosInstance.get(`/users/${id}`);
   },
-  put: async <T>(id: UserId, body: T) => {
+  put: async <T>(id: number, body: T) => {
     const response = axiosInstance.put<UserEditRdo>(`/users/${id}`, body);
     return response;
   },
   post: <T>(body: T) => {
     return axiosInstance.post(`/users`, body);
   },
-  delete: async (id: UserId) => {
+  delete: async (id: number) => {
     const response = await axiosInstance.delete<DeleteUserRdo>(`/users/${id}`);
     return response;
   },

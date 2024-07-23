@@ -1,33 +1,45 @@
-import { queryOptions, QueryClient, useQueryClient, useMutation } from '@tanstack/react-query';
-import { UserId, userApi } from './api';
+import { QueryClient, useQueryClient, useMutation, queryOptions } from '@tanstack/react-query';
+import { fetchMyData, userApi } from './api';
 
-const keys = {
-  users: () => ['users'],
+const key = {
+  myData: () => ['myData'],
+  users: (id: number) => ['users', id],
   nickname: () => ['nickname'],
 };
 
 const queryClient = new QueryClient();
 
-export const userQueries = {
-  getQueryKey: keys.users,
-  removeQuery: () => queryClient.removeQueries({ queryKey: userQueries.getQueryKey() }),
-  queryOptions: (id: UserId) => {
-    return queryOptions({
-      queryKey: [userQueries.getQueryKey(), id],
-      queryFn: () => userApi.getUserData(id),
-    });
+export const myQueries = {
+  getQueryKey: () => key.myData(),
+  removeQuery: () => queryClient.removeQueries({ queryKey: myQueries.getQueryKey() }),
+  queryOptions: () => {
+    return {
+      queryKey: myQueries.getQueryKey(),
+      queryFn: () => fetchMyData(),
+    };
   },
-  prefetchQuery: (id: UserId) => {
+};
+
+export const userQueries = {
+  getQueryKey: (id: number) => key.users(id),
+  removeQuery: (id: number) => queryClient.removeQueries({ queryKey: userQueries.getQueryKey(id) }),
+  queryOptions: (id: number) => {
+    return {
+      queryKey: userQueries.getQueryKey(id),
+      queryFn: () => userApi.getUserData(id),
+    };
+  },
+  prefetchQuery: (id: number) => {
     queryClient.prefetchQuery(userQueries.queryOptions(id));
   },
 
-  useEditUserData: (id: UserId) => {
+  useEditUserData: (id: number) => {
     const queryClient = useQueryClient();
     return useMutation({
       mutationFn: userData => userApi.put(id, userData),
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: userQueries.getQueryKey() });
-        queryClient.invalidateQueries({ queryKey: keys.users() });
+        queryClient.invalidateQueries({ queryKey: userQueries.getQueryKey(id) });
+        queryClient.invalidateQueries({ queryKey: key.users(id) });
       },
     });
   },
@@ -37,32 +49,31 @@ export const userQueries = {
     return useMutation({
       mutationFn: userData => userApi.post(userData),
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: userQueries.getQueryKey() });
-        queryClient.invalidateQueries({ queryKey: keys.users() });
+        queryClient.invalidateQueries({ queryKey: key.users(0) });
       },
     });
   },
 
-  useDeleteUserData: (id: UserId) => {
+  useDeleteUserData: (id: number) => {
     const queryClient = useQueryClient();
     return useMutation({
       mutationFn: userData => userApi.delete(id),
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: keys.users() });
+        queryClient.invalidateQueries({ queryKey: key.users(id) });
       },
     });
   },
 };
 
 export const nicknameQueries = {
-  getQueryKey: keys.nickname,
+  getQueryKey: key.nickname,
   useCheckNickname: () => {
     const queryClient = useQueryClient();
     return useMutation({
       mutationFn: data => userApi.checkNickname(data),
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: nicknameQueries.getQueryKey() });
-        queryClient.invalidateQueries({ queryKey: keys.nickname() });
+        queryClient.invalidateQueries({ queryKey: key.nickname() });
       },
     });
   },
