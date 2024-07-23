@@ -18,6 +18,10 @@ export const myQueries = {
       queryFn: () => fetchMyData(),
     };
   },
+  prefetchQuery: async () => {
+    const { queryKey, queryFn } = myQueries.queryOptions();
+    await queryClient.prefetchQuery({ queryKey, queryFn });
+  },
 };
 
 export const userQueries = {
