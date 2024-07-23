@@ -2,13 +2,13 @@ import { queryOptions, QueryClient, useQueryClient, useMutation } from '@tanstac
 import { UserId, userApi } from './api';
 
 const keys = {
-  user: () => ['user'],
+  users: () => ['users'],
 };
 
 const queryClient = new QueryClient();
 
 export const userQueries = {
-  getQueryKey: keys.user,
+  getQueryKey: keys.users,
   removeQuery: () => queryClient.removeQueries({ queryKey: userQueries.getQueryKey() }),
   queryOptions: (id: UserId) => {
     return queryOptions({
@@ -26,7 +26,18 @@ export const userQueries = {
       mutationFn: userData => userApi.put(id, userData),
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: userQueries.getQueryKey() });
-        queryClient.invalidateQueries({ queryKey: keys.user() });
+        queryClient.invalidateQueries({ queryKey: keys.users() });
+      },
+    });
+  },
+
+  usePostUserData: () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+      mutationFn: userData => userApi.post(userData),
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: userQueries.getQueryKey() });
+        queryClient.invalidateQueries({ queryKey: keys.users() });
       },
     });
   },
