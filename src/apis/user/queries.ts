@@ -41,4 +41,14 @@ export const userQueries = {
       },
     });
   },
+
+  useDeleteUserData: (id: UserId) => {
+    const queryClient = useQueryClient();
+    return useMutation({
+      mutationFn: userData => userApi.delete(id),
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: keys.users() });
+      },
+    });
+  },
 };
