@@ -15,7 +15,6 @@ import FloatingBox from '@/components/common/Layout/Footer/FloatingBox';
 import NavBottom from '@/components/common/Nav/Bottom';
 
 import styles from './My.module.scss';
-import { myQueries } from '@/apis/user/queries';
 
 const cx = classNames.bind(styles);
 
@@ -67,10 +66,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   const accessToken = context.req.cookies['accessToken'];
 
-  await queryClient.prefetchQuery({
-    queryKey: [myQueries.getQueryKey(), accessToken],
-    queryFn: myQueries.prefetchQuery,
-  });
+  await queryClient.prefetchQuery({ queryKey: ['user', accessToken], queryFn: fetchMyData });
 
   return {
     props: {

@@ -7,8 +7,9 @@ import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import useAuth from '@/hooks/useAuth';
 import CheckNickname from '@/utils/checkNickname';
+import { myQueries, userQueries } from '@/apis/user/queries';
+import { UserEditParams, UserEditProps } from '@/apis/user/api';
 import { PostToGetPresignedUrlParams, postToGetPresignedUrl, putImageToUrl } from '@/apis/imageApi';
-import { UserEditParams, UserEditProps, fetchMyData, userApi } from '@/apis/userApi';
 import Header from '@/components/common/Layout/Header';
 import ProfileImgBadge from '@/components/common/Badge/ProfileImgBadge';
 import Input from '@/components/common/Input';
@@ -33,38 +34,7 @@ export default function Profile() {
   const [dogChecked, setDogChecked] = useState(userData.preferredPet === 1 || userData.preferredPet === 0);
   const [catChecked, setCatChecked] = useState(userData.preferredPet === 2 || userData.preferredPet === 0);
 
-  const mutation = useMutation({
-    mutationKey: ['userEdit'],
-    mutationFn: async ({ id, userEditData }: UserEditParams) => {
-      const response = await userApi.put(id, userEditData);
-      return response;
-    },
-    onSuccess: data => {
-      console.log(data);
-      queryClient.invalidateQueries({
-        queryKey: ['user'],
-      });
-      router.push(
-        {
-          pathname: '/my',
-          query: {
-            status: 'success',
-          },
-        },
-        '/my'
-      );
-    },
-    onError: error => {
-      console.error('회원 정보 수정 실패', error);
-      router.push(
-        {
-          pathname: '/my',
-          query: { status: 'error' },
-        },
-        '/my'
-      );
-    },
-  });
+  const mutation = userQueries.useEditUserData(userData.id);
 
   const methods = useForm<ProfileValue & FieldValues>({
     resolver: yupResolver(nicknameSchema),
@@ -128,7 +98,33 @@ export default function Profile() {
       userEditData,
     };
 
-    mutation.mutate(params);
+    mutation.mutate(params, {
+      onSuccess: data => {
+        console.log(data);
+        queryClient.invalidateQueries({
+          queryKey: ['myData'],
+        });
+        router.push(
+          {
+            pathname: '/my',
+            query: {
+              status: 'success',
+            },
+          },
+          '/my'
+        );
+      },
+      onError: error => {
+        console.error('회원 정보 수정 실패', error);
+        router.push(
+          {
+            pathname: '/my',
+            query: { status: 'error' },
+          },
+          '/my'
+        );
+      },
+    });
   };
 
   function handleDogCheckboxChange() {
@@ -236,7 +232,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   const accessToken = context.req.cookies['accessToken'];
 
-  await queryClient.prefetchQuery({ queryKey: ['user', accessToken], queryFn: fetchMyData });
+  await queryClient.prefetchQuery({ queryKey: ['myData', accessToken], queryFn: myQueries.queryOptions().queryFn });
 
   return {
     props: {

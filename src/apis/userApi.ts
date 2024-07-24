@@ -31,7 +31,7 @@ export interface UserEditProps {
 export interface UserEditParams {
   data?: UserEditProps;
   userEditData?: UserEditProps;
-  id: UserId;
+  id: number;
 }
 
 export type UserEditRdo = Required<UserEditParams>;
@@ -45,7 +45,7 @@ export const userApi = {
   getUserData: ({ id }: UserId) => {
     return axiosInstance.get(`/users/${id}`);
   },
-  put: async <T>(id: UserId, body: T) => {
+  put: async <T>(id: number, body: T) => {
     const response = axiosInstance.put<UserEditRdo>(`/users/${id}`, body);
     return response;
   },

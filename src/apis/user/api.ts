@@ -30,7 +30,7 @@ export interface UserEditProps {
 export interface UserEditParams {
   data?: UserEditProps;
   userEditData?: UserEditProps;
-  id: UserId;
+  id: number;
 }
 
 export type UserEditRdo = Required<UserEditParams>;

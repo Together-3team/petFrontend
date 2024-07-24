@@ -1,5 +1,5 @@
 import { QueryClient, useQueryClient, useMutation, queryOptions } from '@tanstack/react-query';
-import { fetchMyData, userApi } from './api';
+import { UserEditParams, fetchMyData, userApi } from './api';
 
 const key = {
   myData: () => ['myData'],
@@ -40,7 +40,10 @@ export const userQueries = {
   useEditUserData: (id: number) => {
     const queryClient = useQueryClient();
     return useMutation({
-      mutationFn: userData => userApi.put(id, userData),
+      mutationFn: async ({ id, userEditData }: UserEditParams) => {
+        const response = await userApi.put(id, userEditData);
+        return response;
+      },
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: userQueries.getQueryKey(id) });
         queryClient.invalidateQueries({ queryKey: key.users(id) });
