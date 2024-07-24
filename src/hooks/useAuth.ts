@@ -12,8 +12,7 @@ export default function useAuth() {
     refetch,
     isLoading,
   } = useQuery({
-    queryKey: myQueries.getQueryKey(),
-    queryFn: myQueries.queryOptions().queryFn,
+    ...myQueries.queryOptions(),
     enabled: !!accessToken,
   });
 

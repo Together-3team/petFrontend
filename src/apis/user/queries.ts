@@ -17,6 +17,9 @@ export const myQueries = {
       queryFn: () => fetchMyData(),
     };
   },
+  setQueryDataEmpty: () => {
+    queryClient.setQueryData(myQueries.getQueryKey(), null);
+  },
   prefetchQuery: async () => {
     const { queryKey, queryFn } = myQueries.queryOptions();
     await queryClient.prefetchQuery({ queryKey, queryFn });
