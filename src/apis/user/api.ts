@@ -1,4 +1,4 @@
-import axiosInstance from './axiosInstance';
+import axiosInstance from '@/apis/axiosInstance';
 
 export interface UserResponse {
   id?: number;
@@ -12,7 +12,6 @@ export interface UserResponse {
 
 export async function fetchMyData() {
   const response = await axiosInstance.get(`/users/me`);
-  console.log(response);
   return response.data;
 }
 
@@ -31,7 +30,7 @@ export interface UserEditProps {
 export interface UserEditParams {
   data?: UserEditProps;
   userEditData?: UserEditProps;
-  id: UserId;
+  id: number;
 }
 
 export type UserEditRdo = Required<UserEditParams>;
@@ -42,17 +41,17 @@ export interface DeleteUserRdo {
 }
 
 export const userApi = {
-  getUserData: ({ id }: UserId) => {
+  getUserData: (id: number) => {
     return axiosInstance.get(`/users/${id}`);
   },
-  put: async <T>(id: UserId, body: T) => {
+  put: async <T>(id: number, body: T) => {
     const response = axiosInstance.put<UserEditRdo>(`/users/${id}`, body);
     return response;
   },
   post: <T>(body: T) => {
     return axiosInstance.post(`/users`, body);
   },
-  delete: async (id: UserId) => {
+  delete: async (id: number) => {
     const response = await axiosInstance.delete<DeleteUserRdo>(`/users/${id}`);
     return response;
   },

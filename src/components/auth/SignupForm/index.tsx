@@ -67,7 +67,6 @@ export default function SignupForm() {
   }
 
   const onSubmit = (data: FormValues) => {
-    console.log(data);
     mutation.mutate(data);
   };
 

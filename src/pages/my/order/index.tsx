@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
-import classNames from 'classnames/bind';
-import purchaseApi, { PutProductsRdo } from '@/apis/purchase/api';
+import { purchaseQueries } from '@/apis/purchase/queries';
 import formatDate from '@/utils/formatDate';
 import Loading from '@/components/common/Loading';
 import useToast from '@/hooks/useToast';
@@ -16,17 +15,14 @@ import { PurchaseData, PurchaseDataProps } from '@/pages/my/review';
 import Empty from '@/components/order/Empty';
 
 import styles from './Order.module.scss';
-import { getReviewableData, getWroteReviewList } from '@/apis/myReviewAPI';
-
-const cx = classNames.bind(styles);
+import { getWroteReviewList } from '@/apis/myReviewAPI';
 
 export default function Order() {
   const router = useRouter();
   const { showToast } = useToast();
-  const queryClient = useQueryClient();
   const [filterId, setFilterId] = useState<number>(0);
 
-  const { data: purchaseData } = useQuery({ queryKey: ['purchase'], queryFn: purchaseApi.getPurchase });
+  const { data: purchaseData } = useQuery(purchaseQueries.queryOptions());
 
   const filteredPurchaseProductsData = purchaseData?.data.flatMap((item: PurchaseDataProps) =>
     item.purchaseProducts.filter((product: ProductInfo) => (filterId === 0 ? true : product.status === filterId - 1))
@@ -50,16 +46,7 @@ export default function Order() {
 
   const notReviewableId = wroteReviews?.data.map((item: PurchaseData) => item.id);
 
-  const { mutateAsync: mutation } = useMutation({
-    mutationKey: ['changePurchaseStatus'],
-    mutationFn: async ({ id, body }: { id: number; body: PutProductsRdo }) => {
-      const response = await purchaseApi.putPurchase(id, body);
-      return response;
-    },
-    onSuccess(data) {
-      queryClient.invalidateQueries({ queryKey: ['purchase'] });
-    },
-  });
+  const { mutateAsync: mutation } = purchaseQueries.usePutPurchaseMutation();
 
   async function handleCancelPurchase(purchaseId: number) {
     try {

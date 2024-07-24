@@ -1,8 +1,9 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import { GetServerSidePropsContext } from 'next';
-import { QueryClient, dehydrate } from '@tanstack/react-query';
+import { dehydrate } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
+import { queryClient } from '@/utils/queryClient';
 import axiosInstance from '@/apis/axiosInstance';
 import { isAxiosError } from 'axios';
 
@@ -16,7 +17,7 @@ import { FETCH_ERROR_MESSAGE, SERVER_ERROR_MESSAGE } from '@/constants/errorMess
 import CheckedButton from '@/assets/svgs/btn-radio-checked.svg';
 import UncheckedButton from '@/assets/svgs/btn-radio.svg';
 import LeftArrow from '@/assets/svgs/left-arrow.svg';
-import { fetchMyData } from '@/apis/userApi';
+import { myQueries } from '@/apis/user/queries';
 import styles from './Delivery.module.scss';
 
 const cx = classNames.bind(styles);
@@ -152,8 +153,6 @@ export default function PaymentDeliveryPage() {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const queryClient = new QueryClient();
-
   const accessToken = context.req.cookies['accessToken'];
 
   if (!accessToken) {
@@ -165,7 +164,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     };
   }
 
-  await queryClient.prefetchQuery({ queryKey: ['user', accessToken], queryFn: fetchMyData });
+  await queryClient.prefetchQuery({ queryKey: ['myData', accessToken], queryFn: myQueries.queryOptions().queryFn });
 
   return {
     props: {

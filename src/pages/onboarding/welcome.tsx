@@ -1,8 +1,9 @@
-import { QueryClient, dehydrate } from '@tanstack/react-query';
+import { dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
 import useAuth from '@/hooks/useAuth';
-import { fetchMyData } from '@/apis/userApi';
+import { queryClient } from '@/utils/queryClient';
+import { myQueries } from '@/apis/user/queries';
 import ImageBox from '@/components/common/ImageBox';
 import welcomeDog from '@/assets/images/welcome-dog.png';
 import welcomeCat from '@/assets/images/welcome-cat.png';
@@ -33,11 +34,9 @@ export default function Welcome() {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const queryClient = new QueryClient();
-
   const accessToken = context.req.cookies['accessToken'];
 
-  await queryClient.prefetchQuery({ queryKey: ['user', accessToken], queryFn: fetchMyData });
+  await queryClient.prefetchQuery({ queryKey: ['myData', accessToken], queryFn: myQueries.queryOptions().queryFn });
 
   return {
     props: {

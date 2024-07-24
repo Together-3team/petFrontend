@@ -1,4 +1,4 @@
-import { userApi } from '@/apis/userApi';
+import { userApi } from '@/apis/user/api';
 import * as Yup from 'yup';
 
 const signupFormSchema = Yup.object().shape({

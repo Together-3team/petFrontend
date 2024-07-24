@@ -1,4 +1,4 @@
-import { userApi } from '@/apis/userApi';
+import { userApi } from '@/apis/user/api';
 
 export default async function checkNickname(
   nickname: string,

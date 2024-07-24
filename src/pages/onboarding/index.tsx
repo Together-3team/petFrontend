@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { GetServerSidePropsContext } from 'next';
-import { QueryClient, dehydrate, useMutation, useQueryClient } from '@tanstack/react-query';
+import { dehydrate, useQueryClient } from '@tanstack/react-query';
 import { FieldValues, FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import useAuth from '@/hooks/useAuth';
-import { UserEditParams, UserEditProps, fetchMyData, userApi } from '@/apis/userApi';
+import { queryClient } from '@/utils/queryClient';
+import { UserEditParams, UserEditProps } from '@/apis/user/api';
+import { myQueries, userQueries } from '@/apis/user/queries';
 import selectedDog from '@/assets/images/selected-dog.png';
 import selectedCat from '@/assets/images/selected-cat.png';
 import unselectedCat from '@/assets/images/unselected-cat.png';
@@ -22,21 +24,7 @@ export default function Onboarding() {
   const [dogChecked, setDogChecked] = useState(false);
   const [catChecked, setCatChecked] = useState(false);
 
-  const mutation = useMutation({
-    mutationKey: ['userEdit'],
-    mutationFn: async ({ id, userEditData }: UserEditParams) => {
-      const response = await userApi.put(id, userEditData);
-      return response;
-    },
-    onSuccess: data => {
-      queryClient.invalidateQueries({
-        queryKey: ['user'],
-      });
-    },
-    onError: error => {
-      console.error('반려동물 선택 실패', error);
-    },
-  });
+  const mutation = userQueries.useEditUserMutation(userData.id);
 
   const methods = useForm<FieldValues>();
 
@@ -57,7 +45,16 @@ export default function Onboarding() {
       userEditData,
     };
 
-    mutation.mutate(params);
+    mutation.mutate(params, {
+      onSuccess: data => {
+        queryClient.invalidateQueries({
+          queryKey: ['user'],
+        });
+      },
+      onError: error => {
+        console.error('반려동물 선택 실패', error);
+      },
+    });
   };
 
   function handleDogCheckboxChange() {
@@ -155,11 +152,9 @@ export default function Onboarding() {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const queryClient = new QueryClient();
-
   const accessToken = context.req.cookies['accessToken'];
 
-  await queryClient.prefetchQuery({ queryKey: ['user', accessToken], queryFn: fetchMyData });
+  await queryClient.prefetchQuery({ queryKey: ['myData', accessToken], queryFn: myQueries.queryOptions().queryFn });
 
   return {
     props: {

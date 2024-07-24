@@ -11,7 +11,7 @@ import useToast from '@/hooks/useToast';
 import ScrollTopButton from '@/components/common/Button/ScrollTop';
 import CardListZzim from '@/components/common/Card/CardList/Zzim';
 import { httpClient } from '@/apis/httpClient';
-import { UserResponse } from '@/apis/userApi';
+import { UserResponse } from '@/apis/user/api';
 import { queryClient } from '@/utils/queryClient';
 import { zzimsQueries } from '@/apis/product/queries';
 import FloatingActionBox from '@/components/common/Layout/Footer/FloatingActionBox';

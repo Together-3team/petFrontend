@@ -1,12 +1,11 @@
-import { queryOptions, QueryClient } from '@tanstack/react-query';
-import purchaseApi from './api';
+import { queryOptions, useQueryClient, useMutation } from '@tanstack/react-query';
+import purchaseApi, { PutProductsRdo } from './api';
+import { queryClient } from '@/utils/queryClient';
 
 const key = {
   purchase: () => ['purchase'],
   purchaseDetail: () => ['purchaseDetail'],
 };
-
-const queryClient = new QueryClient();
 
 export const purchaseQueries = {
   getQueryKey: key.purchase,
@@ -17,11 +16,24 @@ export const purchaseQueries = {
       queryFn: () => purchaseApi.getPurchase(),
     });
   },
+
+  usePutPurchaseMutation: () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+      mutationFn: async ({ id, body }: { id: number; body: PutProductsRdo }) => {
+        const response = await purchaseApi.putPurchase(id, body);
+        return response;
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: purchaseQueries.getQueryKey() });
+      },
+    });
+  },
 };
 
 export const purchaseDetailQueries = {
   getQueryKey: key.purchaseDetail,
-  removeQuery: () => queryClient.removeQueries({ queryKey: purchaseQueries.getQueryKey() }),
+  removeQuery: () => queryClient.removeQueries({ queryKey: purchaseDetailQueries.getQueryKey() }),
   queryOptions: (id: number) => {
     return queryOptions({
       queryKey: [purchaseDetailQueries.getQueryKey(), id],
