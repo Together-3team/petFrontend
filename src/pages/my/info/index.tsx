@@ -29,7 +29,7 @@ export default function Info() {
   const queryClient = useQueryClient();
   const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken']);
 
-  const deleteUsermutation = userQueries.useDeleteUserData(userData.id);
+  const deleteUserMutation = userQueries.useDeleteUserData(userData.id);
 
   const mutation = userQueries.useEditUserData(userData.id);
 
@@ -96,7 +96,7 @@ export default function Info() {
 
   async function handleDeleteUser() {
     try {
-      await deleteUsermutation.mutateAsync(userData.id);
+      await deleteUserMutation.mutateAsync(userData.id);
       removeCookie('accessToken', { path: '/' });
       removeCookie('refreshToken', { path: '/' });
       router.push({
