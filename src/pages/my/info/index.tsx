@@ -7,7 +7,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useCookies } from 'react-cookie';
 import useModal from '@/hooks/useModal';
 import useAuth from '@/hooks/useAuth';
-import { UserEditParams, UserId, userApi, UserEditProps, fetchMyData } from '@/apis/userApi';
+import { myQueries, userQueries } from '@/apis/user/queries';
+import { UserEditParams, UserEditProps } from '@/apis/user/api';
 import Header from '@/components/common/Layout/Header';
 import Input from '@/components/common/Input';
 import Button from '@/components/common/Button';
@@ -28,45 +29,9 @@ export default function Info() {
   const queryClient = useQueryClient();
   const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken']);
 
-  const deleteUsermutation = useMutation({
-    mutationKey: ['deleteUser'],
-    mutationFn: async (id: UserId) => {
-      const response = await userApi.delete(id);
-      return response.data;
-    },
-  });
+  const deleteUsermutation = userQueries.useDeleteUserData(userData.id);
 
-  const mutation = useMutation({
-    mutationKey: ['userEdit'],
-    mutationFn: async ({ id, userEditData }: UserEditParams) => {
-      const response = await userApi.put(id, userEditData);
-      return response;
-    },
-    onSuccess: data => {
-      queryClient.invalidateQueries({
-        queryKey: ['user'],
-      });
-      router.push(
-        {
-          pathname: '/my',
-          query: {
-            status: 'success',
-          },
-        },
-        '/my'
-      );
-    },
-    onError: error => {
-      console.error('회원 정보 수정 실패', error);
-      router.push(
-        {
-          pathname: '/my',
-          query: { status: 'error' },
-        },
-        '/my'
-      );
-    },
-  });
+  const mutation = userQueries.useEditUserData(userData.id);
 
   const methods = useForm<PhoneNumberValue>({
     resolver: yupResolver(phoneNumberSchema),
@@ -97,7 +62,32 @@ export default function Info() {
       userEditData,
     };
 
-    mutation.mutate(params);
+    mutation.mutate(params, {
+      onSuccess: data => {
+        queryClient.invalidateQueries({
+          queryKey: ['myData'],
+        });
+        router.push(
+          {
+            pathname: '/my',
+            query: {
+              status: 'success',
+            },
+          },
+          '/my'
+        );
+      },
+      onError: error => {
+        console.error('회원 정보 수정 실패', error);
+        router.push(
+          {
+            pathname: '/my',
+            query: { status: 'error' },
+          },
+          '/my'
+        );
+      },
+    });
   };
 
   const { modalOpen, handleModalOpen, handleModalClose } = useModal();
@@ -198,7 +188,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   const accessToken = context.req.cookies['accessToken'];
 
-  await queryClient.prefetchQuery({ queryKey: ['user', accessToken], queryFn: fetchMyData });
+  await queryClient.prefetchQuery({ queryKey: ['myData', accessToken], queryFn: myQueries.queryOptions().queryFn });
 
   return {
     props: {
