@@ -2,7 +2,7 @@ import { QueryClient, dehydrate, useQuery } from '@tanstack/react-query';
 import { GetServerSidePropsContext } from 'next';
 import { useCookies } from 'react-cookie';
 import useAuth from '@/hooks/useAuth';
-import { fetchMyData } from '@/apis/userApi';
+import { myQueries } from '@/apis/user/queries';
 import ProfileImgBadge from '@/components/common/Badge/ProfileImgBadge';
 import NextButton from '@/components/common/Button/NextButton';
 import NavBottom from '@/components/common/Nav/Bottom';
@@ -54,7 +54,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   const accessToken = context.req.cookies['accessToken'];
 
-  await queryClient.prefetchQuery({ queryKey: ['user', accessToken], queryFn: fetchMyData });
+  await queryClient.prefetchQuery({ queryKey: ['myData', accessToken], queryFn: myQueries.queryOptions().queryFn });
 
   return {
     props: {
