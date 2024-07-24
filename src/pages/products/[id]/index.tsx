@@ -2,7 +2,6 @@ import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
 import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
-import axiosInstance from '@/apis/authAxiosInstance';
 
 import CartButton from '@/components/common/Button/Cart';
 import Header from '@/components/common/Layout/Header';
@@ -38,10 +37,13 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   let product;
   try {
-    const res = await httpClient().get(`/products/detail/${productId}`, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    });
-    product = res;
+    if (accessToken) {
+      product = await httpClient().get(`/products/detail/${productId}`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+    } else {
+      product = await httpClient().get(`/products/detail/${productId}`);
+    }
   } catch {
     return {
       notFound: true,
