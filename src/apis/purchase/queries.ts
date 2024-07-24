@@ -1,5 +1,5 @@
-import { queryOptions, QueryClient } from '@tanstack/react-query';
-import purchaseApi from './api';
+import { queryOptions, QueryClient, useQueryClient, useMutation } from '@tanstack/react-query';
+import purchaseApi, { PutProductsRdo } from './api';
 
 const key = {
   purchase: () => ['purchase'],
@@ -15,6 +15,19 @@ export const purchaseQueries = {
     return queryOptions({
       queryKey: purchaseQueries.getQueryKey(),
       queryFn: () => purchaseApi.getPurchase(),
+    });
+  },
+
+  usePutPurchase: () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+      mutationFn: async ({ id, body }: { id: number; body: PutProductsRdo }) => {
+        const response = await purchaseApi.putPurchase(id, body);
+        return response;
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: purchaseQueries.getQueryKey() });
+      },
     });
   },
 };

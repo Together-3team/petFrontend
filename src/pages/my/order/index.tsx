@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
-import classNames from 'classnames/bind';
-import purchaseApi, { PutProductsRdo } from '@/apis/purchase/api';
+import { purchaseQueries } from '@/apis/purchase/queries';
 import formatDate from '@/utils/formatDate';
 import Loading from '@/components/common/Loading';
 import useToast from '@/hooks/useToast';
@@ -17,14 +16,10 @@ import Empty from '@/components/order/Empty';
 
 import styles from './Order.module.scss';
 import { getWroteReviewList } from '@/apis/myReviewAPI';
-import { purchaseQueries } from '@/apis/purchase/queries';
-
-const cx = classNames.bind(styles);
 
 export default function Order() {
   const router = useRouter();
   const { showToast } = useToast();
-  const queryClient = useQueryClient();
   const [filterId, setFilterId] = useState<number>(0);
 
   const { data: purchaseData } = useQuery(purchaseQueries.queryOptions());
@@ -51,15 +46,7 @@ export default function Order() {
 
   const notReviewableId = wroteReviews?.data.map((item: PurchaseData) => item.id);
 
-  const { mutateAsync: mutation } = useMutation({
-    mutationFn: async ({ id, body }: { id: number; body: PutProductsRdo }) => {
-      const response = await purchaseApi.putPurchase(id, body);
-      return response;
-    },
-    onSuccess(data) {
-      queryClient.invalidateQueries({ queryKey: ['purchase'] });
-    },
-  });
+  const { mutateAsync: mutation } = purchaseQueries.usePutPurchase();
 
   async function handleCancelPurchase(purchaseId: number) {
     try {
