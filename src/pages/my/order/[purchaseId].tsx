@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { useQuery } from '@tanstack/react-query';
-import purchaseApi from '@/apis/purchase/api';
+import { purchaseDetailQueries } from '@/apis/purchase/queries';
 import { ProductInfo } from '@/components/common/Card';
 import BackButton from '@/components/common/Button/BackButton';
 import Header from '@/components/common/Layout/Header';
@@ -15,13 +15,7 @@ export default function OrderDetail() {
   const router = useRouter();
   const { purchaseId, purchaseDate } = router.query;
 
-  const { data: purchaseDetailData } = useQuery({
-    queryKey: ['purchaseDetail', purchaseId],
-    queryFn: async () => {
-      const response = purchaseApi.getDetailPurchase(Number(purchaseId));
-      return response;
-    },
-  });
+  const { data: purchaseDetailData } = useQuery(purchaseDetailQueries.queryOptions(Number(purchaseId)));
 
   const purchaseProducts = purchaseDetailData?.data?.purchaseProducts || [];
 

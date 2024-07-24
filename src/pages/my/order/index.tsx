@@ -16,7 +16,8 @@ import { PurchaseData, PurchaseDataProps } from '@/pages/my/review';
 import Empty from '@/components/order/Empty';
 
 import styles from './Order.module.scss';
-import { getReviewableData, getWroteReviewList } from '@/apis/myReviewAPI';
+import { getWroteReviewList } from '@/apis/myReviewAPI';
+import { purchaseQueries } from '@/apis/purchase/queries';
 
 const cx = classNames.bind(styles);
 
@@ -26,7 +27,7 @@ export default function Order() {
   const queryClient = useQueryClient();
   const [filterId, setFilterId] = useState<number>(0);
 
-  const { data: purchaseData } = useQuery({ queryKey: ['purchase'], queryFn: purchaseApi.getPurchase });
+  const { data: purchaseData } = useQuery(purchaseQueries.queryOptions());
 
   const filteredPurchaseProductsData = purchaseData?.data.flatMap((item: PurchaseDataProps) =>
     item.purchaseProducts.filter((product: ProductInfo) => (filterId === 0 ? true : product.status === filterId - 1))
@@ -51,7 +52,6 @@ export default function Order() {
   const notReviewableId = wroteReviews?.data.map((item: PurchaseData) => item.id);
 
   const { mutateAsync: mutation } = useMutation({
-    mutationKey: ['changePurchaseStatus'],
     mutationFn: async ({ id, body }: { id: number; body: PutProductsRdo }) => {
       const response = await purchaseApi.putPurchase(id, body);
       return response;
