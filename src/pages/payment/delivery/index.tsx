@@ -16,7 +16,7 @@ import { FETCH_ERROR_MESSAGE, SERVER_ERROR_MESSAGE } from '@/constants/errorMess
 import CheckedButton from '@/assets/svgs/btn-radio-checked.svg';
 import UncheckedButton from '@/assets/svgs/btn-radio.svg';
 import LeftArrow from '@/assets/svgs/left-arrow.svg';
-import { fetchMyData } from '@/apis/userApi';
+import { myQueries } from '@/apis/user/queries';
 import styles from './Delivery.module.scss';
 
 const cx = classNames.bind(styles);
@@ -165,7 +165,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     };
   }
 
-  await queryClient.prefetchQuery({ queryKey: ['user', accessToken], queryFn: fetchMyData });
+  await queryClient.prefetchQuery({ queryKey: ['myData', accessToken], queryFn: myQueries.queryOptions().queryFn });
 
   return {
     props: {
