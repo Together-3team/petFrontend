@@ -6,7 +6,7 @@ import { dehydrate, QueryClient } from '@tanstack/react-query';
 import classNames from 'classnames/bind';
 import useAuth from '@/hooks/useAuth';
 import useToast from '@/hooks/useToast';
-import { fetchMyData } from '@/apis/userApi';
+import { myQueries } from '@/apis/user/queries';
 import LoginButton from '@/components/auth/LoginButton';
 import ImageBox from '@/components/common/ImageBox';
 import Pets from '@/assets/images/logout-pets.png';
@@ -66,7 +66,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   const accessToken = context.req.cookies['accessToken'];
 
-  await queryClient.prefetchQuery({ queryKey: ['user', accessToken], queryFn: fetchMyData });
+  await queryClient.prefetchQuery({ queryKey: ['myData', accessToken], queryFn: myQueries.queryOptions().queryFn });
 
   return {
     props: {
