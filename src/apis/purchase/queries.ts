@@ -18,7 +18,7 @@ export const purchaseQueries = {
     });
   },
 
-  usePutPurchase: () => {
+  usePutPurchaseMutation: () => {
     const queryClient = useQueryClient();
     return useMutation({
       mutationFn: async ({ id, body }: { id: number; body: PutProductsRdo }) => {

@@ -34,7 +34,7 @@ export default function Profile() {
   const [dogChecked, setDogChecked] = useState(userData.preferredPet === 1 || userData.preferredPet === 0);
   const [catChecked, setCatChecked] = useState(userData.preferredPet === 2 || userData.preferredPet === 0);
 
-  const mutation = userQueries.useEditUserData(userData.id);
+  const mutation = userQueries.useEditUserMutation(userData.id);
 
   const methods = useForm<ProfileValue & FieldValues>({
     resolver: yupResolver(nicknameSchema),

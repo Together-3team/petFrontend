@@ -46,7 +46,7 @@ export default function Order() {
 
   const notReviewableId = wroteReviews?.data.map((item: PurchaseData) => item.id);
 
-  const { mutateAsync: mutation } = purchaseQueries.usePutPurchase();
+  const { mutateAsync: mutation } = purchaseQueries.usePutPurchaseMutation();
 
   async function handleCancelPurchase(purchaseId: number) {
     try {

@@ -37,7 +37,7 @@ export const userQueries = {
     queryClient.prefetchQuery(userQueries.queryOptions(id));
   },
 
-  useEditUserData: (id: number) => {
+  useEditUserMutation: (id: number) => {
     const queryClient = useQueryClient();
     return useMutation({
       mutationFn: async ({ id, userEditData }: UserEditParams) => {
@@ -51,7 +51,7 @@ export const userQueries = {
     });
   },
 
-  usePostUserData: () => {
+  usePostUserMutation: () => {
     const queryClient = useQueryClient();
     return useMutation({
       mutationFn: userData => userApi.post(userData),
@@ -61,7 +61,7 @@ export const userQueries = {
     });
   },
 
-  useDeleteUserData: (id: number) => {
+  useDeleteUserMutation: (id: number) => {
     const queryClient = useQueryClient();
     return useMutation({
       mutationFn: () => userApi.delete(id),

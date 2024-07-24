@@ -29,9 +29,9 @@ export default function Info() {
   const queryClient = useQueryClient();
   const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken']);
 
-  const deleteUserMutation = userQueries.useDeleteUserData(userData.id);
+  const deleteUserMutation = userQueries.useDeleteUserMutation(userData.id);
 
-  const mutation = userQueries.useEditUserData(userData.id);
+  const mutation = userQueries.useEditUserMutation(userData.id);
 
   const methods = useForm<PhoneNumberValue>({
     resolver: yupResolver(phoneNumberSchema),

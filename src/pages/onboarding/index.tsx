@@ -23,7 +23,7 @@ export default function Onboarding() {
   const [dogChecked, setDogChecked] = useState(false);
   const [catChecked, setCatChecked] = useState(false);
 
-  const mutation = userQueries.useEditUserData(userData.id);
+  const mutation = userQueries.useEditUserMutation(userData.id);
 
   const methods = useForm<FieldValues>();
 
