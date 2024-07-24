@@ -1,11 +1,10 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { myQueries } from '@/apis/user/queries';
 import { useCookies } from 'react-cookie';
 
 export default function useAuth() {
   const [cookie] = useCookies(['accessToken']);
   const { accessToken } = cookie;
-  const queryClient = useQueryClient();
 
   const {
     data: userData,
@@ -17,7 +16,7 @@ export default function useAuth() {
   });
 
   if (!cookie) {
-    queryClient.setQueryData(myQueries.getQueryKey(), null);
+    myQueries.setQueryDataEmpty();
   }
   const isLogin = !!userData && !!accessToken;
 
