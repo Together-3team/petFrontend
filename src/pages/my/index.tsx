@@ -2,7 +2,8 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { GetServerSidePropsContext } from 'next';
 import Link from 'next/link';
-import { dehydrate, QueryClient } from '@tanstack/react-query';
+import { dehydrate } from '@tanstack/react-query';
+import { queryClient } from '@/utils/queryClient';
 import classNames from 'classnames/bind';
 import useAuth from '@/hooks/useAuth';
 import useToast from '@/hooks/useToast';
@@ -62,8 +63,6 @@ export default function MyPage() {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const queryClient = new QueryClient();
-
   const accessToken = context.req.cookies['accessToken'];
 
   await queryClient.prefetchQuery({ queryKey: ['myData', accessToken], queryFn: myQueries.queryOptions().queryFn });

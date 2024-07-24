@@ -1,12 +1,11 @@
-import { queryOptions, QueryClient, useQueryClient, useMutation } from '@tanstack/react-query';
+import { queryOptions, useQueryClient, useMutation } from '@tanstack/react-query';
 import purchaseApi, { PutProductsRdo } from './api';
+import { queryClient } from '@/utils/queryClient';
 
 const key = {
   purchase: () => ['purchase'],
   purchaseDetail: () => ['purchaseDetail'],
 };
-
-const queryClient = new QueryClient();
 
 export const purchaseQueries = {
   getQueryKey: key.purchase,

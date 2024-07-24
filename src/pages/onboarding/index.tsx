@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { GetServerSidePropsContext } from 'next';
-import { QueryClient, dehydrate, useQueryClient } from '@tanstack/react-query';
+import { dehydrate, useQueryClient } from '@tanstack/react-query';
 import { FieldValues, FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import useAuth from '@/hooks/useAuth';
+import { queryClient } from '@/utils/queryClient';
 import { UserEditParams, UserEditProps } from '@/apis/user/api';
 import { myQueries, userQueries } from '@/apis/user/queries';
 import selectedDog from '@/assets/images/selected-dog.png';
@@ -151,8 +152,6 @@ export default function Onboarding() {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const queryClient = new QueryClient();
-
   const accessToken = context.req.cookies['accessToken'];
 
   await queryClient.prefetchQuery({ queryKey: ['myData', accessToken], queryFn: myQueries.queryOptions().queryFn });

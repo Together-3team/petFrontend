@@ -1,10 +1,11 @@
 import { useRouter } from 'next/router';
 import { GetServerSidePropsContext } from 'next';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { QueryClient, dehydrate, useMutation, useQueryClient } from '@tanstack/react-query';
+import { dehydrate, useQueryClient } from '@tanstack/react-query';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useCookies } from 'react-cookie';
+import { queryClient } from '@/utils/queryClient';
 import useModal from '@/hooks/useModal';
 import useAuth from '@/hooks/useAuth';
 import { myQueries, userQueries } from '@/apis/user/queries';
@@ -184,8 +185,6 @@ export default function Info() {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const queryClient = new QueryClient();
-
   const accessToken = context.req.cookies['accessToken'];
 
   await queryClient.prefetchQuery({ queryKey: ['myData', accessToken], queryFn: myQueries.queryOptions().queryFn });

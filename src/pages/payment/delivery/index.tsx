@@ -1,8 +1,9 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import { GetServerSidePropsContext } from 'next';
-import { QueryClient, dehydrate } from '@tanstack/react-query';
+import { dehydrate } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
+import { queryClient } from '@/utils/queryClient';
 import axiosInstance from '@/apis/axiosInstance';
 import { isAxiosError } from 'axios';
 
@@ -152,8 +153,6 @@ export default function PaymentDeliveryPage() {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const queryClient = new QueryClient();
-
   const accessToken = context.req.cookies['accessToken'];
 
   if (!accessToken) {

@@ -1,13 +1,12 @@
-import { QueryClient, useQueryClient, useMutation, queryOptions } from '@tanstack/react-query';
+import { useQueryClient, useMutation, queryOptions } from '@tanstack/react-query';
 import { UserEditParams, fetchMyData, userApi } from './api';
+import { queryClient } from '@/utils/queryClient';
 
 const key = {
   myData: () => ['myData'],
   users: (id: number) => ['users', id],
   nickname: () => ['nickname'],
 };
-
-const queryClient = new QueryClient();
 
 export const myQueries = {
   getQueryKey: () => key.myData(),
