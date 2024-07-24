@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import classNames from 'classnames/bind';
-import purchaseApi from '@/apis/purchase/api';
+import { purchaseQueries } from '@/apis/purchase/queries';
 import { getReviewableData, getWroteReviewList } from '@/apis/myReviewAPI';
 import BackButton from '@/components/common/Button/BackButton';
 import ReviewCard from '@/components/review/ReviewCard';
@@ -45,9 +45,8 @@ export default function Review() {
 
   const router = useRouter();
 
-  const { data: purchaseData } = useQuery({ queryKey: ['purchase'], queryFn: purchaseApi.getPurchase });
+  const { data: purchaseData } = useQuery(purchaseQueries.queryOptions());
 
-  //TODO: 배송 완료 상품 데이터 추가 후 적용
   const { data: reviewableData } = useQuery({
     queryKey: ['reviewable'],
     queryFn: getReviewableData,
