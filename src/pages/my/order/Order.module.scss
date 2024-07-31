@@ -1,6 +1,7 @@
 @layer overrides {
   .orderLayout {
     display: flex;
+    position: relative;
     width: 100%;
     padding: 2rem 1.6rem;
     flex-direction: column;
@@ -98,7 +99,7 @@
 
   .orderDetailBottom {
     width: 100%;
-    height: auto;
+    height: 22.2rem;
   }
 
   .orderDetailHeader {
@@ -162,6 +163,7 @@
 
   .orderListArea {
     width: 100%;
+    height: auto;
     display: flex;
     flex-direction: column;
     padding-top: 1.2rem;
