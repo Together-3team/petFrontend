@@ -105,16 +105,15 @@ export default function OrderDetail() {
       </div>
       <div className={styles.orderDetailBottom}>
         <div className={styles.rectangle} />
-        <div className={styles.orderPriceArea}>
-          <TotalPay
-            title="결제 금액"
-            totalPrice={totalPrice}
-            totalOriginalPrice={totalOriginalPrice}
-            productCount={orderCount}
-            inOrder
-          />
-        </div>
-        {/* <div className={styles.paymentMethod}>
+        <TotalPay
+          title="결제 금액"
+          totalPrice={totalPrice}
+          totalOriginalPrice={totalOriginalPrice}
+          productCount={orderCount}
+          inOrder
+        />
+      </div>
+      {/* <div className={styles.paymentMethod}>
           <div className={styles.rectangle} />
           <div className={styles.paymentMethodTitle}>
             <h3>결제 수단</h3>
@@ -122,7 +121,6 @@ export default function OrderDetail() {
           </div>
           <span>토스페이</span>
         </div> */}
-      </div>
     </div>
   );
 }

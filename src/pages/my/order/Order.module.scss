@@ -67,10 +67,6 @@
     gap: 1.2rem;
   }
 
-  .orderPriceArea {
-    width: 100%;
-  }
-
   .orderDetailLayout {
     display: flex;
     padding: 2rem 1.6rem;
@@ -102,6 +98,7 @@
 
   .orderDetailBottom {
     width: 100%;
+    height: auto;
   }
 
   .orderDetailHeader {
