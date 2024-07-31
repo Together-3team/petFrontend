@@ -27,7 +27,7 @@ export default function BackButton({ href, hasPrevPath = true }: BackButton) {
 
   return (
     <button className={styles.backButton} onClick={handleClick} aria-label="뒤로 가기 버튼">
-      <LeftArrow width={24} height={24} alt="뒤로 가기 버튼" />
+      <LeftArrow width={24} height={24} />
     </button>
   );
 }

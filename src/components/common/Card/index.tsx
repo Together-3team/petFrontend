@@ -82,6 +82,7 @@ export default function Card({
           fill
           blurDataURL={'@/assets/svgs/rectangle.svg'}
           placeholder="blur"
+          quality={75}
           sizes={
             size === 'extraLarge'
               ? '(max-width: 156px) 100vw, 150px'
