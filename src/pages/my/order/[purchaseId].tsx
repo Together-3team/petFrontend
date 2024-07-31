@@ -113,14 +113,6 @@ export default function OrderDetail() {
           inOrder
         />
       </div>
-      {/* <div className={styles.paymentMethod}>
-          <div className={styles.rectangle} />
-          <div className={styles.paymentMethodTitle}>
-            <h3>결제 수단</h3>
-            <hr className={styles.updownBorder} />
-          </div>
-          <span>토스페이</span>
-        </div> */}
     </div>
   );
 }
