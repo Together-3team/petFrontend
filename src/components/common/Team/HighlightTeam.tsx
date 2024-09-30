@@ -77,9 +77,11 @@ export default function HighlightTeam({ product, showToast }: HighlightTeamProps
               <TeamDataCard key={data.id} data={data} product={product} />
             ))}
           </div>
-          <button type="button" className={styles.allTeamLinkBtn} onClick={handleShowAll}>
-            참여자 전체보기
-          </button>
+          {teamData.length > 2 && (
+            <button type="button" className={styles.allTeamLinkBtn} onClick={handleShowAll}>
+              참여자 전체보기
+            </button>
+          )}
         </>
       ) : (
         <div className={styles.noTeamBox}>
