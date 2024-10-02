@@ -31,6 +31,10 @@
 .reviewBoxStyle {
   padding: 1.6rem 0;
   border-top: 0.1rem solid $color-gray-200;
+
+  &:last-child {
+    padding: 1.6rem 0 0;
+  }
 }
 
 .allReviewLinkBtn {
@@ -48,6 +52,7 @@
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  margin-top: 1.6rem;
 }
 
 .noReview {
