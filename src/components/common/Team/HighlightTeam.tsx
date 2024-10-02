@@ -20,6 +20,7 @@ interface HighlightTeamProps {
 
 export default function HighlightTeam({ product, showToast }: HighlightTeamProps) {
   const [teamData, setTeamData] = useState<GroupBuyingData[]>([]);
+  const [hasManyTeams, setHasManyTeams] = useState(false);
   const { isLogin } = useAuth();
   const { modalOpen, handleModalOpen, handleModalClose } = useModal();
   const {
@@ -44,6 +45,10 @@ export default function HighlightTeam({ product, showToast }: HighlightTeamProps
       try {
         const response = await httpClient().get<GroupBuyingData[]>(`group-buying/${product.id}`);
         setTeamData(response.slice(0, 3));
+
+        if (response.length > 3) {
+          setHasManyTeams(true);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -77,7 +82,7 @@ export default function HighlightTeam({ product, showToast }: HighlightTeamProps
               <TeamDataCard key={data.id} data={data} product={product} />
             ))}
           </div>
-          {teamData.length > 2 && (
+          {hasManyTeams && (
             <button type="button" className={styles.allTeamLinkBtn} onClick={handleShowAll}>
               참여자 전체보기
             </button>
