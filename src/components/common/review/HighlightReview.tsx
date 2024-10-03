@@ -27,6 +27,7 @@ export default function HighlightReview({ productId }: HighlightReviewProps) {
         setReviewData(sortedReviews.slice(0, 3));
         setReviewCount(response.reviews.length);
         setAverageRating(response.averageRating.toFixed(1));
+        console.log(reviewData.length);
       } catch (error) {
         console.log(error);
       }
@@ -49,9 +50,11 @@ export default function HighlightReview({ productId }: HighlightReviewProps) {
               <ReviewBox key={data.id} reviewData={data} className={styles.reviewBoxStyle} />
             ))}
           </div>
-          <Link href={`${productId}/review`} className={styles.allReviewLinkBtn}>
-            리뷰 전체보기
-          </Link>
+          {reviewCount > 3 && (
+            <Link href={`${productId}/review`} className={styles.allReviewLinkBtn}>
+              리뷰 전체보기
+            </Link>
+          )}
         </>
       ) : (
         <>

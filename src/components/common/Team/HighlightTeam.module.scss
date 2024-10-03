@@ -34,7 +34,7 @@
   @extend %teamBoxStyle;
 
   padding: 0 1rem;
-  margin: 2.8rem 0 2.4rem;
+  margin-top: 2.8rem;
 }
 
 .participationBtn {
@@ -67,6 +67,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   width: 100%;
+  margin-top: 2.4rem;
 }
 
 .noTeamBox {
